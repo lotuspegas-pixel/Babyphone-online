@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+.cosmos_universe.json
+
+# Node
+node_modules/
+npm-debug.log*
+.env
+
+# Editor / tooling
+.claude/
