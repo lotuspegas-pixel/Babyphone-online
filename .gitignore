@@ -10,3 +10,9 @@ npm-debug.log*
 
 # Editor / tooling
 .claude/
+# Arcana Mirror ships its subagents/skills as part of the deliverable
+!serverless/.claude/
+!serverless/.claude/agents/
+!serverless/.claude/agents/*.md
+!serverless/.claude/skills/
+!serverless/.claude/skills/**
