@@ -44,7 +44,7 @@ requireFile('docs/arcana/06-acceptatiecriteria.md');
 const questionsFile = path.join(root, 'arcana/src/data/arcanaQuestions.ts');
 if (fs.existsSync(questionsFile)) {
   const src = fs.readFileSync(questionsFile, 'utf8');
-  const ids = src.match(/id:\s*'([A-Z]\d{2})'/g) || [];
+  const ids = src.match(/\b(?:likert|fc|scenario|ranking)\(\s*'([A-Z]{1,2}\d{2})'/g) || [];
   const count = ids.length;
   if (count === 120) {
     ok(`arcanaQuestions.ts contains exactly 120 questions`);

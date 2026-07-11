@@ -151,7 +151,7 @@ function generateHiddenInnerWorldSection(result: ArcanaScoreResult): ArcanaRepor
   const top = topSubDimensions(result.subDimensions, HIDDEN_DIMENSIONS, 3);
   const bullets = top.map((id) => {
     const t = TRAIT_CONTENT[id];
-    return `${t.label}: ${t.hiddenNeed}, terwijl ${t.effect.replace('mensen', 'de meeste mensen om je heen')} vaak niet doorheeft hoe sterk dat speelt.`;
+    return `${t.label}: van binnen draait dit om ${t.hiddenNeed}, maar de meeste mensen om je heen merken alleen dat ${t.behavior} — niet hoe sterk dat vanbinnen speelt.`;
   });
   return section(
     'hidden-inner-world',

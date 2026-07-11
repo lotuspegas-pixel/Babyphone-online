@@ -176,6 +176,7 @@ serverless/            SERVERLOZE variant — Luna Unit-ontwerp, géén server n
     app.js             Alle logica (handmatige signalering, opnemen, functies)
     lullaby.js         Slaapliedjes & geluiden
   vendor/              Ingebouwde open-source libs (QR tonen + scannen), offline
+  arcana/              Arcana Mirror — losstaande persoonlijkheidstest-app (Vite+React+TS), zie serverless/arcana/README.md
 test/
   e2e.js               End-to-end test — variant met server
   e2e-serverless.js    End-to-end test — serverloze variant
