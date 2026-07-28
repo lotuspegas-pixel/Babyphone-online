@@ -51,3 +51,35 @@ Reason: AGENTS.md verbiedt Barnum-achtige, voor iedereen passende teksten en eis
 Files affected: arcana/src/data/arcanaTraitContent.ts, arcana/src/lib/arcanaReportGenerator.ts
 Risks: Tekstvariatie is eindig (30 subdimensies × vaste formuleringen); bij zeer grote gebruikersaantallen kunnen twee mensen met vergelijkbare scores gedeeltelijk dezelfde zinnen zien. Dit is inherent aan een deterministisch, niet-AI-gegenereerd systeem en in lijn met de eis "geen externe AI-API".
 Follow-up: rapportteksten verfijnen op basis van echte gebruikersfeedback (zie eindadvies).
+
+## 2026-07-29 — resultaten.md: volledig naslagwerk met alle combinaties
+
+Decision: `docs/arcana/resultaten.md` toegevoegd (~345.000 tekens): leeswijzer, Jungiaans kader, 30 subdimensies per scoreband en per levensdomein, 12 hoofddimensies, 6 stress-archetypes, 10 spanningsvelden, 12 archetype-portretten, alle 144 primair × secundair combinaties, en acht beschouwingen (liefde, haat, pijn, intuïtie, verdriet, tegenslagen, geluk, blijdschap).
+Reason: De gebruiker vroeg om een uitputtend document met alle mogelijke combinaties en hun betekenis, per levensdomein, met Jung als denkkader.
+Files affected: docs/arcana/resultaten.md
+Risks: Het document is groot en zal bij wijziging van de scorelogica moeten meegroeien. De 144 combinaties zijn handgeschreven en niet automatisch afgeleid, dus ze kunnen op termijn afwijken van de archetypeformules.
+Follow-up: bij elke wijziging aan `arcanaArchetypes.ts` of de scorebanden ook resultaten.md controleren.
+
+## 2026-07-29 — Jung als denkkader, expliciet afgebakend
+
+Decision: Jungs begrippen (persona, schaduw, projectie, complex, compensatie, enantiodromie, spanningspaar, transcendente functie, individuatie) worden gebruikt als interpretatiekader. In resultaten.md staat expliciet dat delen van Jungs werk niet empirisch toetsbaar zijn en dat wij hem als taal gebruiken, niet als bewijs. Zijn typologie wordt uitdrukkelijk NIET gereconstrueerd.
+Reason: De gebruiker vroeg om Jung "in alles" toe te passen. AGENTS.md verbiedt tegelijk het kopiëren van MBTI/DISC/Insights (die van Jungs typologie zijn afgeleid) en verbiedt pseudo-spirituele claims. Deze afbakening dient beide eisen: de rijkdom van Jungs begrippen zonder de typologie of de esoterie.
+Files affected: docs/arcana/resultaten.md, arcana/src/data/arcanaTraitContent.ts, arcana/src/data/arcanaArchetypeContent.ts, arcana/src/lib/arcanaReportGenerator.ts
+Risks: Jung blijft omstreden; het rapport benoemt dat zelf, wat de autoriteit van de tekst bewust relativeert.
+Follow-up: geen.
+
+## 2026-07-29 — Personalisatie via intake-scherm en aanspreekvorm
+
+Decision: Nieuw intake-scherm vraagt naam (verplicht voor de persoonlijke toon), aanspreekvorm (je/u) en optionele levensfase. Opgeslagen onder localStorage-sleutel `arcana_profile`. Alle bronteksten blijven in de je-vorm; wie "u" kiest krijgt ze via een grammaticale omzetting in `arcanaVoice.ts`.
+Reason: De gebruiker vroeg dat iedereen na het invullen van hun gegevens een reactie op persoonlijke toon krijgt. Eén bronversie met omzetting voorkomt dat elke tekst dubbel onderhouden moet worden.
+Files affected: arcana/src/components/ArcanaIntake.tsx, arcana/src/lib/arcanaVoice.ts, arcana/src/lib/arcanaStorage.ts, arcana/src/types/arcana.ts, arcana/src/App.tsx
+Risks: De je→u-omzetting is heuristisch: "je" is zowel onderwerp ("je voelt") als bezittelijk ("je grens"). De beslissing valt op basis van een woordenlijst van vervoegde werkwoorden en bijwoorden. Bij nieuwe teksten met ongebruikelijke werkwoorden kan "uw" verschijnen waar "u" hoort. Afgedekt met unit-tests plus een test die het volledige rapport controleert op achtergebleven je/jij/jouw/jezelf.
+Follow-up: bij het toevoegen van nieuwe rapportteksten de u-vorm-test laten meelopen; die faalt zichtbaar bij een gemiste werkwoordsvorm.
+
+## 2026-07-29 — Eigen score gaat vóór het archetypeportret
+
+Decision: Wanneer het algemene archetypeportret botst met een individuele score (bijvoorbeeld The Flame met een hoge behoefte aan stilte), voegt de rapportgenerator een expliciete nuancering toe die zegt dat de eigen score leidend is.
+Reason: Zonder deze controle beweerde het rapport twee tegengestelde dingen in dezelfde sectie, wat regel 4 van AGENTS.md schendt: elke rapportuitspraak moet herleidbaar zijn naar scores.
+Files affected: arcana/src/lib/arcanaReportGenerator.ts (functies `expectationFor` en `reconciliation`), arcana/src/test/arcanaReconciliation.test.ts
+Risks: De verwachting wordt afgeleid uit de archetypeformule en een tabel van tegengestelde subdimensies; die tabel is handmatig en dekt niet elke denkbare spanning.
+Follow-up: tabel `OPPOSITES` uitbreiden zodra er nieuwe tegenstellingen opvallen in echte rapporten.

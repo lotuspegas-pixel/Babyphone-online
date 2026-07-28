@@ -1,0 +1,293 @@
+import type { SubDimensionId } from '../types/arcana';
+
+/**
+ * De acht beschouwingen uit docs/arcana/resultaten.md, in verkorte vorm en
+ * gekoppeld aan scores. Elke regel wordt alleen getoond wanneer de betrokken
+ * subdimensies binnen de opgegeven grenzen vallen, zodat de tekst die iemand
+ * leest herleidbaar is naar de eigen antwoorden en niet op iedereen past.
+ */
+
+export interface ReflectionCondition {
+  id: SubDimensionId;
+  /** Minimale score (inclusief). Standaard 0. */
+  min?: number;
+  /** Maximale score (inclusief). Standaard 100. */
+  max?: number;
+}
+
+export interface ReflectionRule {
+  /** Alle condities moeten gelden voordat deze duiding meetelt. */
+  when: ReflectionCondition[];
+  text: string;
+}
+
+export interface ReflectionTheme {
+  id: string;
+  title: string;
+  /** De kern van de beschouwing; geldt voor iedereen en claimt niets persoonlijks. */
+  essence: string[];
+  /** Score-gebaseerde duidingen. Er worden er hoogstens drie getoond. */
+  rules: ReflectionRule[];
+  /** Wordt alleen gebruikt wanneer geen enkele regel matcht. */
+  fallback: string;
+  question: string;
+}
+
+export const REFLECTION_THEMES: ReflectionTheme[] = [
+  {
+    id: 'liefde',
+    title: 'Over liefde',
+    essence: [
+      'Verliefdheid begint bijna altijd als projectie: je legt op een ander een beeld dat je al lang met je meedraagt. Er komt een dag waarop dat beeld scheurt en de ander eronder tevoorschijn komt. De meeste mensen noemen dat het einde van de liefde. Het is het begin ervan.',
+      'Wij houden van anderen op de manier waarop wij van onszelf houden. De grens van je liefde ligt precies waar de grens van je zelfkennis ligt — en dat is de reden dat elke relatie die vastloopt, met een zekere onbeschoftheid wijst naar de plek waar jouw werk ligt.',
+    ],
+    rules: [
+      {
+        when: [{ id: 'intimacyNeed', min: 65 }, { id: 'trustNeed', min: 65 }],
+        text: 'Je verlangt naar diepte en je hebt tijd nodig voordat je die toelaat. Dat is geen tegenstrijdigheid maar een tempo. Het wordt pas een probleem wanneer je van een ander verwacht dat die het verschil aanvoelt zonder dat je het hebt uitgelegd.',
+      },
+      {
+        when: [{ id: 'peoplePleasing', min: 65 }, { id: 'directness', max: 45 }],
+        text: 'Bij jou verandert liefde makkelijk in dienstbaarheid. Je geeft, past aan en vult in — en op een dag weet de ander niet meer wat jij eigenlijk wilt, omdat je het zelf niet meer weet. Wie nooit iets vraagt, maakt de ander onbedoeld tot iemand die nooit iets geeft.',
+      },
+      {
+        when: [{ id: 'independenceNeed', min: 65 }, { id: 'connectionNeed', min: 65 }],
+        text: 'Je hebt nabijheid nodig en je raakt er benauwd van. Je hebt geen partner nodig die minder vraagt, maar een die het uithoudt wanneer je even weg bent — en je hebt jezelf nodig om te zeggen dat je terugkomt, in plaats van het te laten raden.',
+      },
+      {
+        when: [{ id: 'criticismSensitivity', min: 70 }],
+        text: 'Een terloopse opmerking van iemand die je liefhebt, kan bij jou een gebeurtenis worden die dagen nawerkt. De ander weet dat meestal niet. Dat is geen overgevoeligheid die je moet wegwerken; het is informatie die je mag delen.',
+      },
+      {
+        when: [{ id: 'socialEnergy', min: 65 }, { id: 'intimacyNeed', max: 50 }],
+        text: 'Je maakt makkelijk contact en veel mensen mogen je graag. De vraag die daaronder ligt is of iemand je ook werkelijk kent, of dat je vooral goed gezelschap bent. Breedte is geen vervanging voor diepte, hoe prettig ze ook is.',
+      },
+    ],
+    fallback:
+      'Jouw scores wijzen niet op één dominant patroon in de liefde. Dat betekent meestal dat de context bepaalt hoe je je hecht: bij de een geef je makkelijk, bij de ander houd je af. Let de komende maanden op wie welke versie van jou tevoorschijn haalt.',
+    question: 'Wat vraag je van de mensen van wie je houdt, zonder het ooit hardop te hebben gevraagd?',
+  },
+  {
+    id: 'haat',
+    title: 'Over haat',
+    essence: [
+      'Haat is geen tegenpool van liefde; onverschilligheid is dat. Haat is liefde die geen kant op kan, of erkenning die niet kwam, of een grens die zo vaak is overgestoken dat er alleen nog prikkeldraad ligt.',
+      'Let op het verschil in temperatuur. Afkeer van iemand die kwaad doet is koel en helder. Haat is heet, komt terug, en wil dat de ander het weet. Die hitte komt zelden alleen van buiten: wat we in anderen het diepst verachten, draagt bijna altijd iets van onszelf.',
+    ],
+    rules: [
+      {
+        when: [{ id: 'conflictAvoidance', min: 65 }, { id: 'criticismSensitivity', min: 65 }],
+        text: 'Bij jou blijft wrok het langst zitten, om een eenvoudige reden: je zegt het niet, dus het gaat niet weg. Wat je inslikt verdwijnt niet, het verhuist. Meestal naar een toon die je zelf niet herkent, maanden later, over iets kleins.',
+      },
+      {
+        when: [{ id: 'shadowDefensiveness', min: 65 }],
+        text: 'Bij een aanval wil jij eerst gelijk hebben en voel je pas veel later wat er werkelijk geraakt werd. Die volgorde kost je informatie. De vraag die de deur opent is niet "heb ik gelijk?" maar "waarom raakt dit mij zo hard?".',
+      },
+      {
+        when: [{ id: 'directness', min: 70 }],
+        text: 'Jij blust sneller dan de meeste mensen: je zegt het, het is eruit, en je ligt er niet wakker van. Wees je ervan bewust dat de ander soms wél wakker ligt — jouw opluchting is niet automatisch een gedeelde opluchting.',
+      },
+      {
+        when: [{ id: 'growthReadiness', max: 45 }],
+        text: 'De vraag "welk deel hiervan is van mij?" is op dit moment moeilijk voor je te verdragen. Dat is begrijpelijk en het is ook precies de deur. Je hoeft hem niet vandaag open te doen; het helpt al om te weten waar hij zit.',
+      },
+      {
+        when: [{ id: 'peoplePleasing', min: 65 }, { id: 'selfDoubt', min: 60 }],
+        text: 'Jij hoort waarschijnlijk bij de mensen die zeggen dat ze nooit haten. Kijk daar eens goed naar. Wie zichzelf niet toestaat boos te worden op wie hem beschadigde, wordt vaak boos op zichzelf omdat hij het liet gebeuren. Dat is geen mildheid, dat is haat die de verkeerde kant op wijst.',
+      },
+    ],
+    fallback:
+      'Je scores wijzen niet op een sterk patroon van vastzittende wrok. Dat is een rustiger uitgangspunt dan veel mensen hebben. Het blijft de moeite waard om af en toe te toetsen of je afkeer ergens koel is gebleven, of stiekem is gaan verhitten.',
+    question: 'Aan wie denk je met een hitte die groter is dan wat die persoon nog met je te maken heeft?',
+  },
+  {
+    id: 'pijn',
+    title: 'Over pijn',
+    essence: [
+      'Pijn is niet hetzelfde als lijden. Pijn is wat er gebeurt; lijden is het verhaal dat je erbij vertelt. Dat is geen aansporing om je pijn weg te denken — sommige dingen doen gewoon pijn. Maar de tweede laag, het "dit had niet mogen gebeuren", is soms te herzien. De gebeurtenis niet.',
+      'Pijn die je niet voelt, verdwijnt niet. Hij verhuist: naar je lichaam, naar je kortere lontje, naar de manier waarop je reageert op iets wat er weinig mee te maken heeft. En er bestaat een tegenovergestelde valkuil: je pijn zo omarmen dat hij je identiteit wordt, want dan zou genezen betekenen dat je niet meer weet wie je bent.',
+    ],
+    rules: [
+      {
+        when: [{ id: 'shadowAvoidance', min: 65 }, { id: 'stressWithdrawal', min: 60 }],
+        text: 'Jij gaat eromheen. Dat werkt kort en het wordt duurder: uitstel maakt van een gesprek een confrontatie en van een gevoel een gewoonte. Kies één klein, ongemakkelijk onderwerp en snijd het deze maand aan — niet het grootste, het kleinste.',
+      },
+      {
+        when: [{ id: 'emotionalSensitivity', min: 65 }, { id: 'trustNeed', min: 65 }],
+        text: 'Je voelt veel en je deelt weinig. Dat is de eenzaamste combinatie in dit hele model, en het is er een die van buiten nauwelijks te zien is. Eén mens die het mag weten, is genoeg om het verschil te maken.',
+      },
+      {
+        when: [{ id: 'analyticalThinking', min: 70 }, { id: 'emotionalSensitivity', max: 50 }],
+        text: 'Jij begrijpt je pijn vaak lang voordat je hem voelt. Dat begrip is echt en het is niet hetzelfde als verwerken. Let op het moment waarop je een verklaring geeft terwijl iemand naar een gevoel vroeg.',
+      },
+      {
+        when: [{ id: 'growthReadiness', min: 70 }, { id: 'perfectionism', min: 65 }],
+        text: 'Je bent bereid naar jezelf te kijken, en er zit een risico in dat het een prestatie wordt. Aan jezelf werken kan een manier worden om nooit ergens aan te komen. Soms is niet-werken aan jezelf het werk.',
+      },
+    ],
+    fallback:
+      'Je scores wijzen niet op een uitgesproken vermijdings- of vastklampatroon rond pijn. Dat is gunstig, maar het zegt niets over wat je hebt meegemaakt — alleen iets over hoe je er doorgaans mee omgaat.',
+    question: 'Wat draag je al zo lang dat je vergeten bent dat het gewicht heeft?',
+  },
+  {
+    id: 'intuitie',
+    title: 'Over intuïtie',
+    essence: [
+      'Intuïtie is niet mysterieus, ze is alleen sneller dan je taal. Wat je aanvoelt is meestal waarneming die de bewuste route heeft overgeslagen: een gezicht dat niet meedeed met de woorden, een patroon dat je duizend keer eerder zag zonder het ooit op te schrijven. Je weet het echt; je weet alleen niet hoe.',
+      'Maar intuïtie is geen orakel. Ze wordt vertroebeld door angst en door verlangen. Het verschil met projectie is te leren: intuïtie is kalm en specifiek, projectie is heet en algemeen. Intuïtie zegt dat er iets niet klopte aan wat hij net zei. Projectie zegt dat mensen zoals hij niet deugen.',
+    ],
+    rules: [
+      {
+        when: [{ id: 'intuitiveThinking', min: 65 }, { id: 'analyticalThinking', min: 65 }],
+        text: 'Je voelt het meteen en gelooft het pas als het klopt. Dat kost je tijd die je soms niet had. De werkbare volgorde is: laat je intuïtie de hypothese leveren en je verstand de toetsing doen — niet andersom, want dan komt de hypothese nooit.',
+      },
+      {
+        when: [{ id: 'intuitiveThinking', min: 65 }, { id: 'selfDoubt', min: 65 }],
+        text: 'Dit is de pijnlijkste variant: je wist het wel, maar je durfde het niet. Meestal is dat niet omdat je jezelf onbetrouwbaar vond, maar omdat iemand ooit vroeg hoe je het wist en "ik voel het" onvoldoende bleek. Houd een half jaar bij wat je aanvoelde en wat er daarna gebeurde. Dan heb je bewijs dat niemand je kan afpakken.',
+      },
+      {
+        when: [{ id: 'emotionalSensitivity', min: 70 }],
+        text: 'Je vangt meer op dan de meeste mensen — ook wat er niet is. Hoge gevoeligheid versterkt je signaal én je ruis. Toets daarom vaker dan je nodig acht: vraag na of klopte wat je opving.',
+      },
+      {
+        when: [{ id: 'intuitiveThinking', max: 45 }, { id: 'practicalThinking', min: 60 }],
+        text: 'Jij leest de wereld via wat er gebeurt in plaats van via wat er hangt. Dat is geen gemis maar een ander instrument, en het is in veel situaties het betrouwbaardere. Let alleen op momenten waarop mensen iets zeggen zonder het te zeggen.',
+      },
+    ],
+    fallback:
+      'Je scores wijzen op een gemengde verhouding tussen aanvoelen en beredeneren, waarbij de situatie bepaalt welke het wint. Dat is werkbaar. De valkuil is dat je achteraf niet meer weet op welke van de twee je je keuze baseerde.',
+    question: 'Wanneer wist je het, en hoe lang heb je gedaan alsof je het niet wist?',
+  },
+  {
+    id: 'verdriet',
+    title: 'Over verdriet',
+    essence: [
+      'Verdriet is de prijs van gehechtheid, en er is geen korting. Wat opvalt is hoe slecht wij het toestaan — bij onszelf en bij elkaar. Na twee maanden wordt er gekeken, na een half jaar hoor je dat je verder moet, alsof rouw een reis is met een aankomsttijd. Verdriet gaat niet weg; het wordt draagbaar, wat iets anders is en genoeg.',
+      'Verdriet en somberheid zonder voorwerp zijn niet hetzelfde. Verdriet mist iets in het bijzonder en er zit beweging in: je huilt, je bent boos, je lacht onverwacht om een herinnering. Als alles vlak wordt en niets meer beweegt, is dat geen verdriet meer en is een gesprek met je huisarts op zijn plaats.',
+    ],
+    rules: [
+      {
+        when: [{ id: 'stressWithdrawal', min: 65 }],
+        text: 'In verdriet verdwijn jij, precies wanneer je mensen het hardst nodig hebt. Dat is niet zwak en het is ook niet vrijblijvend. Spreek van tevoren met één iemand af dat die contact opneemt als jij stil wordt — dan hoef je op je slechtste dag niets te vragen.',
+      },
+      {
+        when: [{ id: 'stressAcceleration', min: 65 }],
+        text: 'Jij vlucht in beweging en werk, en je haalt maanden later in wat je oversloeg. Die rekening komt altijd. Plan bewust momenten waarop er niets te doen is, ook al is dat precies wat je op dat moment niet wilt.',
+      },
+      {
+        when: [{ id: 'independenceNeed', min: 70 }],
+        text: 'Je vraagt niet. Dat heeft je vaak goed gediend en het werkt in rouw tegen je, omdat mensen om je heen jouw zelfstandigheid lezen als "het gaat wel". Zij wachten op een signaal dat jij niet van plan bent te geven.',
+      },
+      {
+        when: [{ id: 'peoplePleasing', min: 65 }],
+        text: 'Jij draagt andermans verdriet terwijl je eigen verdriet in de wachtkamer zit. Op een begrafenis ben jij degene die koffie inschenkt. Dat is waardevol, en het is ook een manier om er niet aan toe te komen.',
+      },
+      {
+        when: [{ id: 'emotionalSensitivity', min: 65 }, { id: 'intimacyNeed', min: 65 }],
+        text: 'Je voelt het diep en je kunt het delen. Dat is, ondanks alles wat het je kost, een gelukkige combinatie in zware tijden: verdriet dat genoemd mag worden, hoeft zich niet te verstoppen.',
+      },
+    ],
+    fallback:
+      'Je scores wijzen niet op één dominante manier om met verlies om te gaan. Dat betekent vaak dat je in verschillende situaties verschillend rouwt — bij de ene dood ben je stil, bij de andere druk. Beide zijn van jou.',
+    question: 'Wie mag jou zien huilen, en wanneer heb je dat voor het laatst toegestaan?',
+  },
+  {
+    id: 'tegenslagen',
+    title: 'Over tegenslagen',
+    essence: [
+      'Er is een gedachte die veel schade aanricht en die bemoedigend klinkt: alles gebeurt met een reden. Dat is niet waar. Veel gebeurt zonder reden. Wie gelooft dat de wereld uitdeelt naar verdienste, komt op een dag in de positie dat hij zijn eigen ongeluk moet verklaren — en dan is er nog maar één verdachte over.',
+      'Wat wél waar is: gebeurtenissen hebben geen betekenis, maar mensen maken betekenis. Niet "dit moest zo zijn", maar "dit is wat ik hiermee ga doen". En tegenslag vormt je karakter zelden; ze onthult het. Onder druk verdwijnt je persona als eerste, want je hebt de energie niet meer om hem overeind te houden.',
+    ],
+    rules: [
+      {
+        when: [{ id: 'selfDoubt', min: 65 }],
+        text: 'Jij maakt van elke tegenslag een bewijsstuk tegen jezelf. Daar moet je actief tegen inleggen, want je doet het sneller dan je het merkt. Scheid het deel dat je overkwam van het deel waar je aan meewerkte, en geef de rest terug aan het toeval.',
+      },
+      {
+        when: [{ id: 'controlNeed', min: 70 }],
+        text: 'Voor jou is tegenslag dubbel zwaar: niet alleen het verlies, ook het besef dat je het niet in de hand had. Dat tweede is vaak het zwaarste, en het is het deel waar geen enkele hoeveelheid vooruitdenken tegen helpt.',
+      },
+      {
+        when: [{ id: 'stressFreeze', min: 65 }],
+        text: 'De eerste weken zullen traag zijn. Straf jezelf daar niet extra voor. Kies één kleine stap in plaats van de hele weg — niet omdat dat genoeg is, maar omdat dat het enige is wat op zo\'n moment werkt.',
+      },
+      {
+        when: [{ id: 'growthReadiness', min: 65 }, { id: 'meaningNeed', min: 65 }],
+        text: 'Jij bent iemand die van een slecht jaar iets kan maken. Dat is een echte kracht en er zit een addertje bij: de neiging om te snel naar de les te springen, voordat je het verlies hebt gevoeld. Betekenis geven werkt beter als het niet haastig gebeurt.',
+      },
+      {
+        when: [{ id: 'shadowDefensiveness', min: 65 }, { id: 'growthReadiness', max: 50 }],
+        text: 'Je eerste beweging na een klap is verklaren waarom het niet aan jou lag. Soms klopt dat volledig. Maar die reflex maakt het moeilijk om het deel te vinden dat wél van jou was — en dat deel is het enige dat je kunt meenemen.',
+      },
+    ],
+    fallback:
+      'Je scores wijzen niet op een uitgesproken patroon in hoe je met tegenslag omgaat. Dat maakt de vraag interessanter dan het antwoord: kijk terug op de laatste keer dat iets misging en let op wie je toen werd.',
+    question: 'Welk deel van wat je overkwam was werkelijk van jou — en heb je de rest al teruggegeven aan het toeval?',
+  },
+  {
+    id: 'geluk',
+    title: 'Over geluk',
+    essence: [
+      'Geluk is geen gevoel maar een verhouding. Wie mensen aan het eind van hun leven vraagt wanneer ze gelukkig waren, krijgt zelden pieken te horen. Ze noemen een keuken, een periode waarin het gewoon goed was en ze het niet doorhadden. Geluk is de achtergrond, niet de gebeurtenis.',
+      'De stilste vorm van ongelukkig zijn kent geen drama: een leven dat aan de buitenkant klopt en aan de binnenkant van iemand anders is. Het goede werk, de goede relatie, en een vermoeidheid waar geen slaap tegenop kan. Geluk vraagt vooral dat je niet in strijd leeft met wat je bent.',
+    ],
+    rules: [
+      {
+        when: [{ id: 'meaningNeed', min: 65 }],
+        text: 'Comfort maakt jou niet gelukkig. Je hebt richting nodig, ook wanneer die richting lastig is — en een aangenaam leven zonder richting zal bij jou aanvoelen als iets wat je niet mag benoemen omdat het van buiten zo goed lijkt.',
+      },
+      {
+        when: [{ id: 'recognitionNeed', min: 65 }, { id: 'selfDoubt', min: 65 }],
+        text: 'Dit is de kwetsbaarste constructie in dit model: je geluk ligt grotendeels in andermans handen. Je hebt bevestiging nodig en je gelooft haar niet helemaal wanneer ze komt. De uitweg is niet minder erkenning willen, maar één bron opbouwen die niet van anderen afhangt.',
+      },
+      {
+        when: [{ id: 'autonomyNeed', min: 70 }],
+        text: 'Een gouden kooi blijft voor jou een kooi, hoe goud ook. Dat maakt je moeilijk tevreden te stellen met omstandigheden die anderen benijden, en het is geen ondankbaarheid — het is een correcte meting van wat jij nodig hebt.',
+      },
+      {
+        when: [{ id: 'perfectionism', min: 70 }],
+        text: 'Jij stelt geluk voortdurend uit tot na de volgende voltooiing, en er is altijd een volgende. Dat is geen karakterfout maar een rekenfout: de voorwaarde die je stelt, wordt per definitie nooit bereikt.',
+      },
+      {
+        when: [{ id: 'securityNeed', min: 65 }, { id: 'autonomyNeed', min: 65 }],
+        text: 'Jij hebt een vorm van leven nodig die stabiel is zonder vast te zitten. Die bestaat, maar je zult hem zelf moeten bouwen, want de kant-en-klare varianten kiezen altijd één van de twee.',
+      },
+    ],
+    fallback:
+      'Je scores wijzen niet op één sterke voorwaarde voor je geluk. Dat geeft ruimte en het maakt de vraag lastiger: als niets je duidelijk drijft, is het makkelijker om ergens in te blijven hangen dat net niet klopt.',
+    question: 'Wanneer was je gelukkig zonder het te merken — en wat was er toen aanwezig dat er nu niet is?',
+  },
+  {
+    id: 'blijdschap',
+    title: 'Over blijdschap',
+    essence: [
+      'Geluk is een verhouding over jaren; blijdschap is een gebeurtenis van veertig seconden. Licht dat door een raam valt. Iemand die je naam zegt op de goede toon. Blijdschap heeft geen oorzaak nodig en houdt zich niet aan verdienste — ze overkomt de rouwende net zo goed als de gelukkige.',
+      'Wat blijdschap zo makkelijk mist, is niet het gebrek aan aanleiding maar aandacht. De momenten zijn er wel; wij zijn er niet. En dan het belangrijkste: je hoeft niet eerst genezen te zijn om blij te mogen zijn. De blijdschap ligt niet aan het eind van je groeipad. Ze ligt ernaast, de hele weg.',
+    ],
+    rules: [
+      {
+        when: [{ id: 'perfectionism', min: 65 }, { id: 'controlNeed', min: 65 }],
+        text: 'Bij jou is blijdschap iets geworden wat je verdienen moet: eerst af, dan pas genieten. Dat is precies het misverstand. Probeer het een keer om te draaien en kijk of het werk eronder lijdt. Dat doet het meestal niet.',
+      },
+      {
+        when: [{ id: 'emotionalSensitivity', min: 65 }],
+        text: 'Jij voelt de kleine dingen scherper dan de meeste mensen. Dat werkt beide kanten op, en het betekent dat de goede momenten bij jou ook echt harder aankomen. Dat is geen schrale troost; dat is de rekening die de andere kant opvalt.',
+      },
+      {
+        when: [{ id: 'creativeThinking', min: 65 }],
+        text: 'Jij hebt de makkelijkste toegang van allemaal: maak iets zonder doel en kijk wat er gebeurt. Niet om het af te maken, niet om het te laten zien. De blijdschap zit in het maken, niet in het resultaat — en dat vergeet je zodra er een deadline bij komt.',
+      },
+      {
+        when: [{ id: 'solitudeNeed', min: 65 }],
+        text: 'Jouw blijdschap zit vaker in afwezigheid van gezelschap dan erin. Dat is geen tekort aan gezelligheid. Wie zich uit plichtsbesef in drukte begeeft omdat het hoort, mist beide vormen tegelijk.',
+      },
+      {
+        when: [{ id: 'socialEnergy', min: 65 }],
+        text: 'Jouw blijdschap ontstaat het makkelijkst tussen mensen, in het moment waarop iets aanslaat en de energie omslaat. Zorg dat je zulke momenten niet alleen laat gebeuren wanneer het toevallig uitkomt.',
+      },
+    ],
+    fallback:
+      'Je scores wijzen niet op één plek waar blijdschap bij jou vandaan komt. Dat betekent dat je hem overal kunt tegenkomen, en dat het dus vooral een kwestie van aandacht is en niet van omstandigheden.',
+    question: 'Wanneer heb je voor het laatst iets gedaan wat nergens goed voor was?',
+  },
+];

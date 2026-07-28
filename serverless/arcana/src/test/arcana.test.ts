@@ -5,6 +5,7 @@ import { validateQuestionBank } from '../lib/arcanaValidation';
 import { calculateArcanaResult } from '../lib/arcanaScoringEngine';
 import { generateArcanaReport } from '../lib/arcanaReportGenerator';
 import { generateDummyAnswers, type DummyMode } from '../lib/arcanaDummyAnswers';
+import type { ArcanaProfile } from '../types/arcana';
 
 const DUMMY_MODES: DummyMode[] = [
   'balanced',
@@ -84,19 +85,61 @@ describe('scoring engine', () => {
   });
 });
 
+const TEST_PROFILE: ArcanaProfile = { name: 'Sam', addressForm: 'je', lifePhase: 'van25tot40' };
+
+/** Elke sectie die het rapport volgens de productspecificatie moet bevatten. */
+const REQUIRED_SECTION_IDS = [
+  'hero',
+  'who-you-are',
+  'core-pattern',
+  'seen-by-others',
+  'hidden-inner-world',
+  'alone',
+  'with-others',
+  'work-style',
+  'close-circle',
+  'stress',
+  'at-ease',
+  'strengths',
+  'shadow',
+  'jungian',
+  'relationship',
+  'communication',
+  'tensions',
+  'blind-spots',
+  'who-you-can-become',
+  'what-you-need',
+  'growth-path',
+  'understood-by-others',
+  'understand-yourself',
+  'reflectie-liefde',
+  'reflectie-haat',
+  'reflectie-pijn',
+  'reflectie-intuitie',
+  'reflectie-verdriet',
+  'reflectie-tegenslagen',
+  'reflectie-geluk',
+  'reflectie-blijdschap',
+  'thirty-day-plan',
+  'final-sentence',
+];
+
 describe('report generator', () => {
   for (const mode of DUMMY_MODES) {
     it(`generates a complete, clean report for mode "${mode}"`, () => {
       const answers = generateDummyAnswers(mode);
       const result = calculateArcanaResult(answers);
-      const report = generateArcanaReport(result, '2026-01-01T00:00:00.000Z');
+      const report = generateArcanaReport(result, TEST_PROFILE, '2026-01-01T00:00:00.000Z');
 
-      expect(report.sections.length).toBe(15);
+      const ids = report.sections.map((s) => s.id);
+      for (const required of REQUIRED_SECTION_IDS) {
+        expect(ids).toContain(required);
+      }
+
       for (const s of report.sections) {
         expect(s.title.trim().length).toBeGreaterThan(0);
         expect(s.intro.trim().length).toBeGreaterThan(0);
-        if (s.id === 'final-sentence') continue; // deliberately a single closing line
-        const hasContent = s.paragraphs.length > 0 || s.bullets.length >= 2;
+        const hasContent = s.paragraphs.length > 0 || s.bullets.length >= 1;
         expect(hasContent).toBe(true);
       }
 
@@ -105,6 +148,7 @@ describe('report generator', () => {
         expect(str).not.toMatch(/\bNaN\b/);
         expect(str).not.toMatch(/\bundefined\b/);
         expect(str).not.toMatch(/\bnull\b/);
+        expect(str).not.toMatch(/\{naam\}/);
       }
     });
   }
@@ -112,8 +156,55 @@ describe('report generator', () => {
   it('is deterministic: identical answers produce an identical report', () => {
     const answers = generateDummyAnswers('highSensitivity');
     const result = calculateArcanaResult(answers);
-    const reportA = generateArcanaReport(result, '2026-01-01T00:00:00.000Z');
-    const reportB = generateArcanaReport(result, '2026-01-01T00:00:00.000Z');
+    const reportA = generateArcanaReport(result, TEST_PROFILE, '2026-01-01T00:00:00.000Z');
+    const reportB = generateArcanaReport(result, TEST_PROFILE, '2026-01-01T00:00:00.000Z');
     expect(reportA).toEqual(reportB);
+  });
+
+  it('spreekt de deelnemer op naam aan', () => {
+    const result = calculateArcanaResult(generateDummyAnswers('balanced'));
+    const report = generateArcanaReport(result, TEST_PROFILE, '2026-01-01T00:00:00.000Z');
+    const hero = report.sections.find((s) => s.id === 'hero');
+    expect(hero?.intro).toContain('Sam');
+  });
+
+  it('werkt ook zonder naam, zonder lege aanhef achter te laten', () => {
+    const anon: ArcanaProfile = { name: '', addressForm: 'je', lifePhase: 'onbekend' };
+    const result = calculateArcanaResult(generateDummyAnswers('balanced'));
+    const report = generateArcanaReport(result, anon, '2026-01-01T00:00:00.000Z');
+    for (const str of collectStrings(report)) {
+      expect(str).not.toMatch(/^\s*,/);
+      expect(str).not.toMatch(/\{naam\}/);
+    }
+  });
+
+  it('zet het volledige rapport om naar de u-vorm', () => {
+    const formal: ArcanaProfile = { name: 'Sam', addressForm: 'u', lifePhase: 'onbekend' };
+    const result = calculateArcanaResult(generateDummyAnswers('balanced'));
+    const report = generateArcanaReport(result, formal, '2026-01-01T00:00:00.000Z');
+    for (const s of report.sections) {
+      const text = [s.title, s.intro, ...s.paragraphs, ...s.bullets].join(' ');
+      expect(text).not.toMatch(/\bje\b/i);
+      expect(text).not.toMatch(/\bjij\b/i);
+      expect(text).not.toMatch(/\bjouw\b/i);
+      expect(text).not.toMatch(/\bjezelf\b/i);
+    }
+  });
+
+  it('kiest reflectieduidingen die bij de scores passen', () => {
+    const control = calculateArcanaResult(generateDummyAnswers('highControl'));
+    const freedom = calculateArcanaResult(generateDummyAnswers('highFreedom'));
+    const controlReport = generateArcanaReport(control, TEST_PROFILE, '2026-01-01T00:00:00.000Z');
+    const freedomReport = generateArcanaReport(freedom, TEST_PROFILE, '2026-01-01T00:00:00.000Z');
+
+    const controlLuck = controlReport.sections.find((s) => s.id === 'reflectie-geluk')?.bullets.join(' ');
+    const freedomLuck = freedomReport.sections.find((s) => s.id === 'reflectie-geluk')?.bullets.join(' ');
+    expect(controlLuck).not.toEqual(freedomLuck);
+  });
+
+  it('bewaart het profiel in de rapport-metadata', () => {
+    const result = calculateArcanaResult(generateDummyAnswers('balanced'));
+    const report = generateArcanaReport(result, TEST_PROFILE, '2026-01-01T00:00:00.000Z');
+    expect(report.meta.profile).toEqual(TEST_PROFILE);
   });
 });

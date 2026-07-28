@@ -4,34 +4,45 @@ import { ARCANA_QUESTIONS } from './data/arcanaQuestions';
 import { calculateArcanaResult } from './lib/arcanaScoringEngine';
 import { generateArcanaReport } from './lib/arcanaReportGenerator';
 import {
+  DEFAULT_PROFILE,
   clearArcanaStorage,
   loadAnswers,
   loadCurrentQuestionIndex,
+  loadProfile,
   loadResult,
   saveAnswers,
   saveCompletedAt,
   saveCurrentQuestionIndex,
+  saveProfile,
   saveResult,
   saveStartedAt,
 } from './lib/arcanaStorage';
-import type { ArcanaAnswer, ArcanaAnswerMap, ArcanaReport as ReportType } from './types/arcana';
+import type {
+  ArcanaAnswer,
+  ArcanaAnswerMap,
+  ArcanaProfile,
+  ArcanaReport as ReportType,
+} from './types/arcana';
 import { ArcanaStart } from './components/ArcanaStart';
+import { ArcanaIntake } from './components/ArcanaIntake';
 import { ArcanaTest } from './components/ArcanaTest';
 import { ArcanaResultLoading } from './components/ArcanaResultLoading';
 import { ArcanaReport } from './components/ArcanaReport';
 
-type Screen = 'start' | 'test' | 'loading' | 'report';
+type Screen = 'start' | 'intake' | 'test' | 'loading' | 'report';
 
 function App() {
   const [screen, setScreen] = useState<Screen>('start');
   const [answers, setAnswers] = useState<ArcanaAnswerMap>({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [report, setReport] = useState<ReportType | null>(null);
+  const [profile, setProfile] = useState<ArcanaProfile>({ ...DEFAULT_PROFILE });
 
   useEffect(() => {
     const storedAnswers = loadAnswers();
     const storedResult = loadResult();
     setAnswers(storedAnswers);
+    setProfile(loadProfile());
     setCurrentIndex(Math.min(loadCurrentQuestionIndex(), ARCANA_QUESTIONS.length - 1));
     if (storedResult) {
       setReport(storedResult);
@@ -43,10 +54,19 @@ function App() {
   const hasResult = report !== null;
 
   function handleStart() {
+    const previousProfile = profile;
     clearArcanaStorage();
     setAnswers({});
     setCurrentIndex(0);
     setReport(null);
+    // De naam blijft staan bij opnieuw beginnen; alleen de antwoorden gaan weg.
+    setProfile(previousProfile);
+    setScreen('intake');
+  }
+
+  function handleIntakeConfirm(confirmed: ArcanaProfile) {
+    setProfile(confirmed);
+    saveProfile(confirmed);
     saveStartedAt(new Date().toISOString());
     setScreen('test');
   }
@@ -91,26 +111,40 @@ function App() {
 
   function handleLoadingDone() {
     const result = calculateArcanaResult(answers);
-    const generated = generateArcanaReport(result, new Date().toISOString());
+    const generated = generateArcanaReport(result, profile, new Date().toISOString());
     saveResult(generated);
     setReport(generated);
     setScreen('report');
   }
 
   function handleRestart() {
+    const previousProfile = profile;
     clearArcanaStorage();
     setAnswers({});
     setCurrentIndex(0);
     setReport(null);
+    setProfile(previousProfile);
     setScreen('start');
   }
 
+  /** Wist alles, inclusief de naam: dit is de expliciete privacy-actie. */
   function handleClearAnswers() {
     clearArcanaStorage();
     setAnswers({});
     setCurrentIndex(0);
     setReport(null);
+    setProfile({ ...DEFAULT_PROFILE });
     setScreen('start');
+  }
+
+  if (screen === 'intake') {
+    return (
+      <ArcanaIntake
+        initialProfile={profile}
+        onConfirm={handleIntakeConfirm}
+        onBack={() => setScreen('start')}
+      />
+    );
   }
 
   if (screen === 'test') {

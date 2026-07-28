@@ -216,10 +216,26 @@ export interface ArcanaReportSection {
   bullets: string[];
 }
 
+/** Hoe iemand aangesproken wil worden in het rapport. */
+export type AddressForm = 'je' | 'u';
+
+export type LifePhase = 'onbekend' | 'tot25' | 'van25tot40' | 'van40tot55' | 'vanaf55';
+
+/**
+ * Vrijwillige gegevens die alleen dienen om het rapport persoonlijk te maken.
+ * Blijven, net als de antwoorden, uitsluitend in localStorage.
+ */
+export interface ArcanaProfile {
+  name: string;
+  addressForm: AddressForm;
+  lifePhase: LifePhase;
+}
+
 export interface ArcanaReportMeta {
   generatedAt: string;
   version: string;
   responseQuality: ResponseQuality;
+  profile: ArcanaProfile;
 }
 
 export interface ArcanaReport {

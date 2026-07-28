@@ -23,14 +23,45 @@ Projectstatus: [`../docs/arcana/PROJECT_STATUS.md`](../docs/arcana/PROJECT_STATU
 |---|---|
 | Vragen (120) | [`src/data/arcanaQuestions.ts`](src/data/arcanaQuestions.ts) |
 | Dimensies & spanningsvelden | [`src/data/arcanaDimensions.ts`](src/data/arcanaDimensions.ts) |
-| Archetypes | [`src/data/arcanaArchetypes.ts`](src/data/arcanaArchetypes.ts) |
+| Archetypes (formules + basistekst) | [`src/data/arcanaArchetypes.ts`](src/data/arcanaArchetypes.ts) |
+| Archetype-portretten per levensdomein | [`src/data/arcanaArchetypeContent.ts`](src/data/arcanaArchetypeContent.ts) |
 | Trait-teksten (kracht/schaduw/groeisleutel) | [`src/data/arcanaTraitContent.ts`](src/data/arcanaTraitContent.ts) |
+| Beschouwingen (liefde, pijn, geluk, …) | [`src/data/arcanaReflections.ts`](src/data/arcanaReflections.ts) |
 | Scoring engine | [`src/lib/arcanaScoringEngine.ts`](src/lib/arcanaScoringEngine.ts) |
-| Rapportgenerator | [`src/lib/arcanaReportGenerator.ts`](src/lib/arcanaReportGenerator.ts) |
+| Rapportgenerator (33 secties) | [`src/lib/arcanaReportGenerator.ts`](src/lib/arcanaReportGenerator.ts) |
+| Aanspreekvorm je/u | [`src/lib/arcanaVoice.ts`](src/lib/arcanaVoice.ts) |
 | localStorage-laag | [`src/lib/arcanaStorage.ts`](src/lib/arcanaStorage.ts) |
-| UI-flow (start/test/loading/rapport) | [`src/App.tsx`](src/App.tsx), [`src/components/`](src/components/) |
+| UI-flow (start/intake/test/loading/rapport) | [`src/App.tsx`](src/App.tsx), [`src/components/`](src/components/) |
 | Premium styling + print-CSS | [`src/styles/arcana.css`](src/styles/arcana.css) |
-| Tests | [`src/test/arcana.test.ts`](src/test/arcana.test.ts) |
+| Tests | [`src/test/`](src/test/) |
+
+## Het rapport
+
+Na 120 vragen krijgt de deelnemer een rapport van 33 secties, op naam geschreven:
+
+**Wie je bent** · kernpatroon · wat anderen zien · wat mensen niet zien · hoe je bent
+alleen, met anderen, op werk, met familie en vrienden, onder druk en op je gemak ·
+sterke punten · valkuilen · de Jungiaanse laag (persona, schaduw, projectie) ·
+relatiepatroon · communicatiestijl · spanningsvelden · blinde vlekken · hoe je kunt
+worden · wat je daarvoor nodig hebt · groeipad · hoe anderen jou zouden moeten
+begrijpen · hoe je jezelf beter kunt begrijpen · acht beschouwingen (liefde, haat,
+pijn, intuïtie, verdriet, tegenslagen, geluk, blijdschap) · 30-dagen actieplan ·
+slotzin.
+
+De volledige betekenis van elke score en elke archetype-combinatie staat in
+[`docs/arcana/resultaten.md`](../docs/arcana/resultaten.md) — een naslagwerk van zo'n
+345.000 tekens met alle 144 primair × secundair combinaties.
+
+### Persoonlijke toon
+
+Voordat de test begint vraagt een intake-scherm om een naam (of bijnaam), de
+gewenste aanspreekvorm (`je` of `u`) en optioneel een levensfase. Die gegevens
+blijven in `localStorage` onder de sleutel `arcana_profile` en gaan nergens heen.
+
+Alle bronteksten zijn geschreven in de je-vorm. Kiest iemand voor `u`, dan zet
+[`arcanaVoice.ts`](src/lib/arcanaVoice.ts) het hele rapport grammaticaal om — inclusief
+het onderscheid tussen "je voelt" → "u voelt" en "je grens" → "uw grens". Een test
+controleert het volledige rapport op achtergebleven je/jij/jouw/jezelf.
 
 ## Lokaal starten
 

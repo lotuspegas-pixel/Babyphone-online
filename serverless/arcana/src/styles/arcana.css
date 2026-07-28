@@ -164,6 +164,94 @@
   margin-bottom: 8px;
 }
 
+/* Intake */
+
+.arcana-intake__card {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.arcana-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+  border: none;
+  padding: 0;
+}
+
+.arcana-field--group {
+  margin: 0 0 20px;
+}
+
+.arcana-field__label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--arc-ink);
+  padding: 0;
+}
+
+.arcana-field__input {
+  font-family: var(--arc-font);
+  font-size: 16px;
+  padding: 13px 14px;
+  border-radius: var(--arc-radius-md);
+  border: 1px solid rgba(28, 23, 48, 0.2);
+  background: #fff;
+  color: var(--arc-ink);
+  min-height: 46px;
+  width: 100%;
+}
+
+.arcana-field__input:focus-visible {
+  outline: 2px solid var(--arc-gold);
+  outline-offset: 1px;
+  border-color: var(--arc-gold);
+}
+
+.arcana-field__hint {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--arc-ink-soft);
+}
+
+.arcana-segmented {
+  display: flex;
+  gap: 8px;
+}
+
+.arcana-segmented__option {
+  flex: 1;
+  font-family: var(--arc-font);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 16px;
+  min-height: 46px;
+  border-radius: var(--arc-radius-md);
+  border: 1px solid rgba(28, 23, 48, 0.2);
+  background: #fff;
+  color: var(--arc-ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.arcana-segmented__option:hover {
+  border-color: var(--arc-gold);
+}
+
+.arcana-segmented__option.is-selected {
+  border-color: var(--arc-gold);
+  background: rgba(216, 169, 77, 0.14);
+}
+
+.arcana-intake__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 4px 0 8px;
+}
+
 /* Progress */
 
 .arcana-progress {
@@ -490,6 +578,35 @@
   color: var(--arc-ink-soft);
   font-size: 14.5px;
   line-height: 1.55;
+}
+
+/* Beschouwingen: rustiger, meer als een essay dan als een analyse. */
+.arcana-report-section--reflection {
+  background: linear-gradient(160deg, var(--arc-cream) 0%, var(--arc-cream-soft) 100%);
+  border-left: 3px solid var(--arc-gold);
+}
+
+.arcana-report-section--reflection h3 {
+  font-style: italic;
+}
+
+.arcana-report-section--reflection .arcana-report-section__intro {
+  font-weight: 400;
+  font-size: 16.5px;
+  line-height: 1.7;
+}
+
+.arcana-report-section--reflection .arcana-report-section__bullets {
+  border-top: 1px solid var(--arc-border);
+  padding-top: 14px;
+  margin-top: 4px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.arcana-report-section--reflection .arcana-report-section__bullets li::before {
+  content: '✦ ';
+  color: var(--arc-gold);
 }
 
 .arcana-tension-grid {

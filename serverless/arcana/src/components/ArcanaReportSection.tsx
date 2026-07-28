@@ -5,8 +5,12 @@ interface Props {
 }
 
 export function ArcanaReportSection({ section }: Props) {
+  const isReflection = section.id.startsWith('reflectie-');
   return (
-    <section className="arcana-card arcana-report-section" id={section.id}>
+    <section
+      className={`arcana-card arcana-report-section${isReflection ? ' arcana-report-section--reflection' : ''}`}
+      id={section.id}
+    >
       <h3>{section.title}</h3>
       <p className="arcana-report-section__intro">{section.intro}</p>
       {section.paragraphs.map((p, i) => (

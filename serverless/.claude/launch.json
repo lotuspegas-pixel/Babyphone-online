@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "babyfoon-web (root, node server.js)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", ".."],
+      "port": 3000
+    },
+    {
+      "name": "arcana (vite dev server)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "arcana"],
+      "port": 5173
+    }
+  ]
+}

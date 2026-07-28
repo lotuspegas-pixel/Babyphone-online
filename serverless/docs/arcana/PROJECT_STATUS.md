@@ -2,7 +2,22 @@
 
 ## Current phase
 
-Alle fases (0–7) afgerond.
+Alle fases (0–7) afgerond. Daarna uitgebreid met fase 8: naslagwerk, personalisatie en verdiepte rapportsecties.
+
+### Phase 8 — Resultatendocumentatie en personalisatie
+- [x] docs/arcana/resultaten.md: 30 subdimensies per scoreband en levensdomein
+- [x] resultaten.md: 12 hoofddimensies met leesinstructie
+- [x] resultaten.md: 6 stress-archetypes uitgediept
+- [x] resultaten.md: 10 spanningsvelden uitgediept
+- [x] resultaten.md: 12 archetype-portretten met alle levensdomeinen
+- [x] resultaten.md: alle 144 primair × secundair combinaties
+- [x] resultaten.md: Jungiaans kader (persona, schaduw, projectie, compensatie, individuatie)
+- [x] resultaten.md: acht beschouwingen (liefde, haat, pijn, intuïtie, verdriet, tegenslagen, geluk, blijdschap)
+- [x] Intake-scherm met naam, aanspreekvorm en levensfase
+- [x] localStorage-sleutel arcana_profile
+- [x] Grammaticale omzetting naar de u-vorm met tests
+- [x] Rapport uitgebreid van 15 naar 33 secties
+- [x] Nuancering wanneer archetypeportret en eigen score botsen
 
 ## Phase checklist
 

@@ -1,4 +1,4 @@
-import type { ArcanaAnswerMap, ArcanaReport } from '../types/arcana';
+import type { ArcanaAnswerMap, ArcanaProfile, ArcanaReport } from '../types/arcana';
 
 export const STORAGE_KEYS = {
   answers: 'arcana_answers',
@@ -6,7 +6,14 @@ export const STORAGE_KEYS = {
   result: 'arcana_result',
   startedAt: 'arcana_started_at',
   completedAt: 'arcana_completed_at',
+  profile: 'arcana_profile',
 } as const;
+
+export const DEFAULT_PROFILE: ArcanaProfile = {
+  name: '',
+  addressForm: 'je',
+  lifePhase: 'onbekend',
+};
 
 function hasLocalStorage(): boolean {
   try {
@@ -54,6 +61,20 @@ export function loadResult(): ArcanaReport | null {
 
 export function saveResult(report: ArcanaReport): void {
   writeJson(STORAGE_KEYS.result, report);
+}
+
+export function loadProfile(): ArcanaProfile {
+  const stored = readJson<Partial<ArcanaProfile>>(STORAGE_KEYS.profile);
+  if (!stored) return { ...DEFAULT_PROFILE };
+  return {
+    name: typeof stored.name === 'string' ? stored.name : DEFAULT_PROFILE.name,
+    addressForm: stored.addressForm === 'u' ? 'u' : 'je',
+    lifePhase: stored.lifePhase ?? DEFAULT_PROFILE.lifePhase,
+  };
+}
+
+export function saveProfile(profile: ArcanaProfile): void {
+  writeJson(STORAGE_KEYS.profile, profile);
 }
 
 export function loadStartedAt(): string | null {
