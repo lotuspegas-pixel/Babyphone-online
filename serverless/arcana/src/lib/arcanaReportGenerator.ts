@@ -178,6 +178,19 @@ function section(
   return { id, title, intro, paragraphs, bullets };
 }
 
+/**
+ * De velden in TRAIT_CONTENT staan in hoofdzinsvolgorde ("mensen weten precies waar
+ * ze aan toe zijn"). Het Nederlands vraagt in een bijzin een andere woordvolgorde,
+ * dus zulke fragmenten mogen nooit achter "dat" of "waardoor" geplakt worden. In
+ * plaats daarvan zetten we ze als zelfstandige zin neer.
+ */
+function asSentence(fragment: string): string {
+  const trimmed = fragment.trim();
+  if (trimmed.length === 0) return '';
+  const capitalised = trimmed[0].toUpperCase() + trimmed.slice(1);
+  return /[.!?]$/.test(capitalised) ? capitalised : `${capitalised}.`;
+}
+
 /** Aanhef met naam wanneer die er is, anders een neutrale opening. */
 function addressed(profile: ArcanaProfile, withName: string, withoutName: string): string {
   const name = displayName(profile);
@@ -228,26 +241,30 @@ function generateHeroSection(result: ArcanaScoreResult, profile: ArcanaProfile):
 
 function generateWhoYouAreSection(result: ArcanaScoreResult, profile: ArcanaProfile): ArcanaReportSection {
   const primary = archetypeById(result.primaryArchetype);
-  const content = ARCHETYPE_CONTENT[result.primaryArchetype];
+  const secondary = archetypeById(result.secondaryArchetype);
   const top = topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 3);
+  const [first, second, third] = top;
 
   const bullets = top.map((id) => {
     const t = TRAIT_CONTENT[id];
     return `${t.label} (${result.subDimensions[id].score}/100): ${t.behavior}.`;
   });
 
+  const strongest = TRAIT_CONTENT[first];
+  const strongestScore = result.subDimensions[first].score;
+
   return section(
     'who-you-are',
     'Wie je bent',
     addressed(
       profile,
-      `{naam}, dit is de kern die uit je antwoorden naar voren komt — niet als etiket, maar als het patroon dat het vaakst terugkwam.`,
+      '{naam}, dit is de kern die uit je antwoorden naar voren komt — niet als etiket, maar als het patroon dat het vaakst terugkwam.',
       'Dit is de kern die uit je antwoorden naar voren komt — niet als etiket, maar als het patroon dat het vaakst terugkwam.',
     ),
     [
-      primary.baseText,
-      `Wat voor mens dat maakt, laat zich het best aflezen aan je drie sterkst uitgeslagen eigenschappen. Die bepalen niet alles, maar ze verklaren wel waarom bepaalde situaties je moeiteloos afgaan en andere onevenredig veel van je vragen.`,
-      content.whoYouCanBecome,
+      `Wat voor mens je bent, laat zich scherper aflezen aan je drie sterkst uitgeslagen eigenschappen dan aan één archetype. Bij jou zijn dat ${strongest.label.toLowerCase()}, ${TRAIT_CONTENT[second].label.toLowerCase()} en ${TRAIT_CONTENT[third].label.toLowerCase()}. Die drie samen verklaren waarom bepaalde situaties je moeiteloos afgaan en andere onevenredig veel van je vragen.`,
+      `De sterkste daarvan is ${strongest.label.toLowerCase()} met ${strongestScore}/100. Daaronder zit ${strongest.hiddenNeed} — en dat is het punt waar het interessant wordt, want die behoefte stuurt je ook op momenten waarop je denkt dat je een rationele keuze maakt.`,
+      `Dat patroon wordt in dit rapport samengevat als ${primary.name}, met ${secondary.name} als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.`,
     ],
     bullets,
   );
@@ -292,7 +309,7 @@ function generateSeenByOthersSection(result: ArcanaScoreResult): ArcanaReportSec
   const top = topSubDimensions(result.subDimensions, VISIBLE_DIMENSIONS, 3);
   const bullets = top.map((id) => {
     const t = TRAIT_CONTENT[id];
-    return `${t.label}: ${t.behavior}, waardoor ${t.effect}.`;
+    return `${t.label}: ${t.behavior}. ${asSentence(t.effect)}`;
   });
   return section(
     'seen-by-others',
@@ -309,7 +326,7 @@ function generateHiddenInnerWorldSection(result: ArcanaScoreResult): ArcanaRepor
   const top = topSubDimensions(result.subDimensions, HIDDEN_DIMENSIONS, 3);
   const bullets = top.map((id) => {
     const t = TRAIT_CONTENT[id];
-    return `${t.label}: van binnen draait dit om ${t.hiddenNeed}, maar de meeste mensen om je heen merken alleen dat ${t.behavior} — niet hoe sterk dat vanbinnen speelt.`;
+    return `${t.label}: van binnen draait dit om ${t.hiddenNeed}. Van buiten zien mensen iets anders — ${t.behavior} — en niet hoe sterk dat vanbinnen speelt.`;
   });
   return section(
     'hidden-inner-world',
@@ -449,7 +466,7 @@ function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
     [
       content.underPressure,
       `Concreet vertaalt zich dat naar: ${t.behavior}. De drijfveer eronder is ${t.hiddenNeed} (${s}/100, ${scoreBand(s)}).`,
-      `De valkuil daarbij is dat ${t.pitfall}. Groeisleutel: ${t.growthKey}. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.`,
+      `De valkuil daarbij: ${t.pitfall}. Groeisleutel: ${t.growthKey}. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.`,
     ],
   );
 }
@@ -480,7 +497,7 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
   const bullets = top.map((id) => {
     const t = TRAIT_CONTENT[id];
     const s = result.subDimensions[id].score;
-    return `${t.label} (${s}/100, ${scoreBand(s)}): ${t.behavior}. Dit komt voort uit ${t.hiddenNeed}, en het effect is dat ${t.effect}.`;
+    return `${t.label} (${s}/100, ${scoreBand(s)}): ${t.behavior}. Dit komt voort uit ${t.hiddenNeed}. ${asSentence(t.effect)}`;
   });
   return section(
     'strengths',
@@ -714,7 +731,7 @@ function generateUnderstoodByOthersSection(result: ArcanaScoreResult, profile: A
   const bullets = [
     ...content.howOthersShouldUnderstand,
     ...hidden.map(
-      (id) => `Wat mensen makkelijk missen: ${TRAIT_CONTENT[id].hiddenNeed}. Van buiten zien ze vooral dat ${TRAIT_CONTENT[id].behavior}.`,
+      (id) => `Wat mensen makkelijk missen: ${TRAIT_CONTENT[id].hiddenNeed}. Van buiten zien ze vooral het gedrag — ${TRAIT_CONTENT[id].behavior} — en niet de behoefte eronder.`,
     ),
   ];
 

@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",
+    "sample": "vitest run --dir src/dev --exclude '' ",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -4,7 +4,9 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
-    "types": ["vite/client"],
+    // "node" is nodig voor src/dev/, dat buiten de app-bundel valt en Node-API's
+    // gebruikt om een voorbeeldrapport weg te schrijven (npm run sample).
+    "types": ["vite/client", "node"],
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
 
