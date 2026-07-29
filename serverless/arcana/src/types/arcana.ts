@@ -206,6 +206,12 @@ export interface ArcanaScoreResult {
   stressArchetype: StressArchetypeId;
   tensions: ArcanaTension[];
   responseQuality: ResponseQuality;
+  /**
+   * Stabiele sleutel, afgeleid uit de antwoorden, waarmee de rapportgenerator
+   * kiest tussen gelijkwaardige formuleringen. Zelfde antwoorden → zelfde seed
+   * → zelfde rapport.
+   */
+  variantSeed: number;
 }
 
 export interface ArcanaReportSection {

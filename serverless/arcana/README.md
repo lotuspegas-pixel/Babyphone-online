@@ -27,6 +27,8 @@ Projectstatus: [`../docs/arcana/PROJECT_STATUS.md`](../docs/arcana/PROJECT_STATU
 | Archetype-portretten per levensdomein | [`src/data/arcanaArchetypeContent.ts`](src/data/arcanaArchetypeContent.ts) |
 | Trait-teksten (kracht/schaduw/groeisleutel) | [`src/data/arcanaTraitContent.ts`](src/data/arcanaTraitContent.ts) |
 | Beschouwingen (liefde, pijn, geluk, …) | [`src/data/arcanaReflections.ts`](src/data/arcanaReflections.ts) |
+| Vaste sectieteksten (met varianten) | [`src/data/arcanaSectionPhrasings.ts`](src/data/arcanaSectionPhrasings.ts) |
+| Deterministische variantselectie | [`src/lib/arcanaVariants.ts`](src/lib/arcanaVariants.ts) |
 | Scoring engine | [`src/lib/arcanaScoringEngine.ts`](src/lib/arcanaScoringEngine.ts) |
 | Rapportgenerator (33 secties) | [`src/lib/arcanaReportGenerator.ts`](src/lib/arcanaReportGenerator.ts) |
 | Aanspreekvorm je/u | [`src/lib/arcanaVoice.ts`](src/lib/arcanaVoice.ts) |
@@ -51,6 +53,30 @@ slotzin.
 De volledige betekenis van elke score en elke archetype-combinatie staat in
 [`docs/arcana/resultaten.md`](../docs/arcana/resultaten.md) — een naslagwerk van zo'n
 345.000 tekens met alle 144 primair × secundair combinaties.
+
+### Tekstvarianten zonder AI in de runtime
+
+Elke uitspraak in het rapport heeft meerdere gelijkwaardige formuleringen, vooraf
+geschreven en opgeslagen als statische data. Bij het genereren kiest de app er
+deterministisch één, op basis van een hash over de antwoorden:
+
+```ts
+behavior: [
+  'je kiest liever je eigen route dan een voorgeschreven pad te volgen',
+  'je bepaalt liever zelf hoe iets gebeurt, ook als de uitkomst hetzelfde is',
+  'een opgelegde werkwijze roept weerstand op, los van of hij klopt',
+]
+```
+
+Dezelfde antwoorden geven dezelfde hash en dus hetzelfde rapport — determinisme
+blijft intact. Er komt geen taalmodel aan te pas, niet bij de gebruiker en niet
+op een server. Varianten moeten hetzelfde bewéren; alleen de woorden verschillen.
+
+Meet het effect met:
+
+```bash
+npm run overlap
+```
 
 ### Persoonlijke toon
 

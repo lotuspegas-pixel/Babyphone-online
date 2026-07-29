@@ -83,3 +83,19 @@ Reason: Zonder deze controle beweerde het rapport twee tegengestelde dingen in d
 Files affected: arcana/src/lib/arcanaReportGenerator.ts (functies `expectationFor` en `reconciliation`), arcana/src/test/arcanaReconciliation.test.ts
 Risks: De verwachting wordt afgeleid uit de archetypeformule en een tabel van tegengestelde subdimensies; die tabel is handmatig en dekt niet elke denkbare spanning.
 Follow-up: tabel `OPPOSITES` uitbreiden zodra er nieuwe tegenstellingen opvallen in echte rapporten.
+
+## 2026-07-29 — Tekstvarianten via build-time generatie, niet via runtime-AI
+
+Decision: de rapportteksten krijgen meerdere gelijkwaardige formuleringen per uitspraak, geschreven tijdens de bouw en opgeslagen als statische data. De app kiest er deterministisch één op basis van een hash over de antwoorden (`variantSeed` in `ArcanaScoreResult`). Er komt géén taalmodel in de runtime.
+Reason: een meting op 300 willekeurige invullingen liet zien dat twee rapporten gemiddeld ~50% van hun regels deelden. De alternatieven waren (a) een taalmodel de teksten laten herschrijven bij het genereren, of (b) meer varianten vooraf schrijven. Optie (a) breekt drie regels uit AGENTS.md tegelijk — determinisme (regel 5/6), "geen externe AI-API" (regel 7), en het lokaal blijven van antwoorden (regel 8) — en introduceert het risico op uitspraken die niet uit een score volgen (regel 4). Optie (b) doet dat allemaal niet en kost alleen eenmalig schrijfwerk.
+Files affected: arcana/src/lib/arcanaVariants.ts (nieuw), arcana/src/data/arcanaSectionPhrasings.ts (nieuw), arcana/src/data/arcanaTraitContent.ts, arcana/src/data/arcanaReflections.ts, arcana/src/lib/arcanaReportGenerator.ts, arcana/src/lib/arcanaScoringEngine.ts, arcana/src/types/arcana.ts
+Risks: varianten moeten inhoudelijk gelijkwaardig zijn — een variant die iets anders beweert, breekt de herleidbaarheid naar de score. Dat is niet automatisch te toetsen; de tests bewaken alleen vorm (stijl, u-vorm, duplicaten, determinisme). Bij het toevoegen van nieuwe varianten is inhoudelijke review dus nodig.
+Follow-up: `npm run overlap` draaien na elke uitbreiding om het effect te meten.
+
+## 2026-07-29 — Variantselectie op antwoorden, niet op scores
+
+Decision: de `variantSeed` wordt afgeleid uit de antwoorden zelf (gesorteerd op vraag-id, inclusief antwoordinhoud), niet uit de berekende scores.
+Reason: twee mensen kunnen bijna identieke scores hebben met verschillende antwoorden. Seeden op scores zou hen dezelfde formuleringen geven en precies het probleem laten bestaan dat we oplossen. Seeden op antwoorden geeft spreiding waar scores dat niet doen, en blijft deterministisch.
+Files affected: arcana/src/lib/arcanaVariants.ts (`deriveVariantSeed`)
+Risks: iemand die de test tweemaal exact hetzelfde invult krijgt hetzelfde rapport — dat is bedoeld gedrag (regel 5), maar kan bij hertesten als "er is niets veranderd" voelen.
+Follow-up: geen.

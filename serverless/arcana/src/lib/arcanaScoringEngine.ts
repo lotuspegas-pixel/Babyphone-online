@@ -1,6 +1,7 @@
 import { ARCHETYPES, ARCHETYPE_INVERTED_TARGETS, STRESS_ARCHETYPES } from '../data/arcanaArchetypes';
 import { SUB_DIMENSION_IDS, TENSION_DEFINITIONS } from '../data/arcanaDimensions';
 import { ARCANA_QUESTIONS } from '../data/arcanaQuestions';
+import { deriveVariantSeed } from './arcanaVariants';
 import type {
   ArcanaAnswer,
   ArcanaAnswerMap,
@@ -333,6 +334,7 @@ export function calculateArcanaResult(
     stressArchetype,
     tensions,
     responseQuality,
+    variantSeed: deriveVariantSeed(answers),
   };
 }
 

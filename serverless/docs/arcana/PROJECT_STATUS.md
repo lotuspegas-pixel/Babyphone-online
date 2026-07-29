@@ -19,6 +19,15 @@ Alle fases (0–7) afgerond. Daarna uitgebreid met fase 8: naslagwerk, personali
 - [x] Rapport uitgebreid van 15 naar 33 secties
 - [x] Nuancering wanneer archetypeportret en eigen score botsen
 
+### Phase 9 — Tekstvarianten (build-time, geen runtime-AI)
+- [x] Deterministische variantselectie op basis van de antwoorden (`arcanaVariants.ts`)
+- [x] `variantSeed` toegevoegd aan het scoreresultaat
+- [x] 3 formuleringen per veld voor 30 subdimensies × 5 velden (450 strings)
+- [x] 3 formuleringen voor 21 vaste sectieteksten
+- [x] Varianten voor de acht beschouwingen
+- [x] Tests: stijl, duplicaten, u-vorm en determinisme over alle varianten
+- [x] `npm run overlap` meet het effect herhaalbaar
+
 ## Phase checklist
 
 ### Phase 0 — Documentation and agent setup

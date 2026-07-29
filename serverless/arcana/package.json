@@ -9,7 +9,8 @@
     "lint": "oxlint",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",
-    "sample": "vitest run --dir src/dev --exclude '' ",
+    "sample": "vitest run --dir src/dev --exclude '' -t 'voorbeeldrapport'",
+    "overlap": "vitest run --dir src/dev --exclude '' -t 'tekstoverlap' --reporter=verbose",
     "preview": "vite preview"
   },
   "dependencies": {

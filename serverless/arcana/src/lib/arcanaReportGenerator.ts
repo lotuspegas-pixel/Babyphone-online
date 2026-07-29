@@ -3,8 +3,10 @@ import { ARCHETYPE_CONTENT } from '../data/arcanaArchetypeContent';
 import { SUB_DIMENSION_IDS, TENSION_DEFINITIONS } from '../data/arcanaDimensions';
 import { CLOSING_SENTENCE_FALLBACK } from '../data/arcanaReportBlocks';
 import { REFLECTION_THEMES, type ReflectionTheme } from '../data/arcanaReflections';
-import { TRAIT_CONTENT } from '../data/arcanaTraitContent';
+import { SECTION_PHRASINGS } from '../data/arcanaSectionPhrasings';
+import { TRAIT_CONTENT, type TraitContent } from '../data/arcanaTraitContent';
 import { scoreBand } from './arcanaScoringEngine';
+import { pick } from './arcanaVariants';
 import { applyVoice, displayName } from './arcanaVoice';
 import type {
   ArcanaProfile,
@@ -178,6 +180,41 @@ function section(
   return { id, title, intro, paragraphs, bullets };
 }
 
+/** Een subdimensie met alle formuleringen al gekozen — platte strings. */
+type ResolvedTrait = {
+  [K in keyof TraitContent]: string;
+};
+
+/**
+ * Lost één subdimensie op voor dit rapport: velden met meerdere formuleringen
+ * krijgen er deterministisch één toegewezen op basis van de antwoorden.
+ */
+function T(result: ArcanaScoreResult, id: SubDimensionId): ResolvedTrait {
+  const t = TRAIT_CONTENT[id];
+  const seed = result.variantSeed;
+  return {
+    label: t.label,
+    behavior: pick(t.behavior, seed, `${id}.behavior`),
+    hiddenNeed: pick(t.hiddenNeed, seed, `${id}.hiddenNeed`),
+    effect: pick(t.effect, seed, `${id}.effect`),
+    pitfall: pick(t.pitfall, seed, `${id}.pitfall`),
+    growthKey: pick(t.growthKey, seed, `${id}.growthKey`),
+    alone: t.alone,
+    withOthers: t.withOthers,
+    atWork: t.atWork,
+    closeCircle: t.closeCircle,
+    atEase: t.atEase,
+    jungian: t.jungian,
+  };
+}
+
+/** Kiest deterministisch één formulering van een vaste sectietekst. */
+function S(result: ArcanaScoreResult, key: string): string {
+  const phrasing = SECTION_PHRASINGS[key];
+  if (!phrasing) throw new Error(`Onbekende sectietekst "${key}"`);
+  return pick(phrasing, result.variantSeed, `section.${key}`);
+}
+
 /**
  * De velden in TRAIT_CONTENT staan in hoofdzinsvolgorde ("mensen weten precies waar
  * ze aan toe zijn"). Het Nederlands vraagt in een bijzin een andere woordvolgorde,
@@ -246,11 +283,11 @@ function generateWhoYouAreSection(result: ArcanaScoreResult, profile: ArcanaProf
   const [first, second, third] = top;
 
   const bullets = top.map((id) => {
-    const t = TRAIT_CONTENT[id];
+    const t = T(result, id);
     return `${t.label} (${result.subDimensions[id].score}/100): ${t.behavior}.`;
   });
 
-  const strongest = TRAIT_CONTENT[first];
+  const strongest = T(result, first);
   const strongestScore = result.subDimensions[first].score;
 
   return section(
@@ -262,7 +299,7 @@ function generateWhoYouAreSection(result: ArcanaScoreResult, profile: ArcanaProf
       'Dit is de kern die uit je antwoorden naar voren komt — niet als etiket, maar als het patroon dat het vaakst terugkwam.',
     ),
     [
-      `Wat voor mens je bent, laat zich scherper aflezen aan je drie sterkst uitgeslagen eigenschappen dan aan één archetype. Bij jou zijn dat ${strongest.label.toLowerCase()}, ${TRAIT_CONTENT[second].label.toLowerCase()} en ${TRAIT_CONTENT[third].label.toLowerCase()}. Die drie samen verklaren waarom bepaalde situaties je moeiteloos afgaan en andere onevenredig veel van je vragen.`,
+      `Wat voor mens je bent, laat zich scherper aflezen aan je drie sterkst uitgeslagen eigenschappen dan aan één archetype. Bij jou zijn dat ${strongest.label.toLowerCase()}, ${T(result, second).label.toLowerCase()} en ${T(result, third).label.toLowerCase()}. Die drie samen verklaren waarom bepaalde situaties je moeiteloos afgaan en andere onevenredig veel van je vragen.`,
       `De sterkste daarvan is ${strongest.label.toLowerCase()} met ${strongestScore}/100. Daaronder zit ${strongest.hiddenNeed} — en dat is het punt waar het interessant wordt, want die behoefte stuurt je ook op momenten waarop je denkt dat je een rationele keuze maakt.`,
       `Dat patroon wordt in dit rapport samengevat als ${primary.name}, met ${secondary.name} als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.`,
     ],
@@ -308,13 +345,13 @@ function generateCorePatternSection(result: ArcanaScoreResult): ArcanaReportSect
 function generateSeenByOthersSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, VISIBLE_DIMENSIONS, 3);
   const bullets = top.map((id) => {
-    const t = TRAIT_CONTENT[id];
+    const t = T(result, id);
     return `${t.label}: ${t.behavior}. ${asSentence(t.effect)}`;
   });
   return section(
     'seen-by-others',
     'Wat anderen aan jou zien',
-    'Dit is de kant van je persoonlijkheid die het snelst zichtbaar wordt in gedrag, ook voor mensen die je nog niet goed kennen.',
+    S(result, 'seen-by-others.intro'),
     [
       'Deze eigenschappen zijn niet je hele verhaal, maar wel het deel dat als eerste indruk blijft hangen. In Jungs taal is dit je persona: het gezicht dat je meeneemt naar buiten. Een persona is niet oneerlijk — je hebt er een nodig. Hij wordt pas een probleem wanneer je hem thuis niet meer af krijgt.',
     ],
@@ -325,15 +362,15 @@ function generateSeenByOthersSection(result: ArcanaScoreResult): ArcanaReportSec
 function generateHiddenInnerWorldSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, HIDDEN_DIMENSIONS, 3);
   const bullets = top.map((id) => {
-    const t = TRAIT_CONTENT[id];
+    const t = T(result, id);
     return `${t.label}: van binnen draait dit om ${t.hiddenNeed}. Van buiten zien mensen iets anders — ${t.behavior} — en niet hoe sterk dat vanbinnen speelt.`;
   });
   return section(
     'hidden-inner-world',
     'Wat mensen vaak niet aan jou zien',
-    'Onder de zichtbare laag zit een deel van je patroon dat je minder snel laat zien, ook aan mensen die dichtbij staan.',
+    S(result, 'hidden-inner-world.intro'),
     [
-      'Dit is niet iets wat je verbergt om te misleiden — het is vaak zo vertrouwd geworden dat je het zelf nauwelijks meer opmerkt.',
+      S(result, 'hidden-inner-world.note'),
     ],
     bullets,
   );
@@ -344,7 +381,7 @@ function generateAloneSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, SOLO_DIMENSIONS, 3);
   const solitude = result.subDimensions.solitudeNeed.score;
 
-  const bullets = top.map((id) => `${TRAIT_CONTENT[id].label}: ${TRAIT_CONTENT[id].alone}.`);
+  const bullets = top.map((id) => `${T(result, id).label}: ${T(result, id).alone}.`);
 
   const rhythm =
     solitude >= 65
@@ -360,7 +397,7 @@ function generateAloneSection(result: ArcanaScoreResult): ArcanaReportSection {
   return section(
     'alone',
     'Hoe je bent wanneer je alleen bent',
-    'Wie je bent zonder publiek is vaak eerlijker dan wie je bent in gezelschap, en het is de versie waar je het minst over praat.',
+    S(result, 'alone.intro'),
     paragraphs,
     bullets,
   );
@@ -369,7 +406,7 @@ function generateAloneSection(result: ArcanaScoreResult): ArcanaReportSection {
 function generateWithOthersSection(result: ArcanaScoreResult): ArcanaReportSection {
   const content = ARCHETYPE_CONTENT[result.primaryArchetype];
   const top = topSubDimensions(result.subDimensions, SOCIAL_DIMENSIONS, 3);
-  const bullets = top.map((id) => `${TRAIT_CONTENT[id].label}: ${TRAIT_CONTENT[id].withOthers}.`);
+  const bullets = top.map((id) => `${T(result, id).label}: ${T(result, id).withOthers}.`);
 
   const social = result.mainDimensions.socialPattern.score;
 
@@ -397,7 +434,7 @@ function generateAtWorkSection(result: ArcanaScoreResult): ArcanaReportSection {
   const content = ARCHETYPE_CONTENT[result.primaryArchetype];
   const score = result.mainDimensions.workStyle.score;
   const top = topSubDimensions(result.subDimensions, WORK_DIMENSIONS, 3);
-  const bullets = top.map((id) => `${TRAIT_CONTENT[id].label}: ${TRAIT_CONTENT[id].atWork}.`);
+  const bullets = top.map((id) => `${T(result, id).label}: ${T(result, id).atWork}.`);
 
   const dominant = [
     { label: 'praktisch uitvoeren', value: result.subDimensions.practicalThinking.score },
@@ -412,7 +449,7 @@ function generateAtWorkSection(result: ArcanaScoreResult): ArcanaReportSection {
     `Je werkstijl scoort ${scoreBand(score)} (${score}/100); het sterkste onderdeel daarin is ${dominant.label} (${dominant.value}/100).`,
     [
       content.atWork,
-      `Betekenis speelt hierbij een rol die je niet moet onderschatten (${result.subDimensions.meaningNeed.score}/100): ${TRAIT_CONTENT.meaningNeed.behavior}. Werk dat daar haaks op staat kost je meer energie dan de taak zelf rechtvaardigt.`,
+      `Betekenis speelt hierbij een rol die je niet moet onderschatten (${result.subDimensions.meaningNeed.score}/100): ${T(result, 'meaningNeed').behavior}. Werk dat daar haaks op staat kost je meer energie dan de taak zelf rechtvaardigt.`,
     ],
     bullets,
   );
@@ -421,7 +458,7 @@ function generateAtWorkSection(result: ArcanaScoreResult): ArcanaReportSection {
 function generateCloseCircleSection(result: ArcanaScoreResult): ArcanaReportSection {
   const content = ARCHETYPE_CONTENT[result.primaryArchetype];
   const top = topSubDimensions(result.subDimensions, CLOSE_CIRCLE_DIMENSIONS, 3);
-  const bullets = top.map((id) => `${TRAIT_CONTENT[id].label}: ${TRAIT_CONTENT[id].closeCircle}.`);
+  const bullets = top.map((id) => `${T(result, id).label}: ${T(result, id).closeCircle}.`);
 
   const loyalty = result.subDimensions.connectionNeed.score;
   const boundaries = result.subDimensions.peoplePleasing.score;
@@ -438,7 +475,7 @@ function generateCloseCircleSection(result: ArcanaScoreResult): ArcanaReportSect
   return section(
     'close-circle',
     'Hoe je bent met familie en vrienden',
-    'In langdurige banden gedraagt bijna iedereen zich anders dan op werk of onder vreemden. Oude rollen liggen daar het dichtst aan de oppervlakte.',
+    S(result, 'close-circle.intro'),
     paragraphs,
     bullets,
   );
@@ -456,7 +493,7 @@ function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
     theDefender: 'shadowDefensiveness',
   };
   const dimId = stressDimMap[result.stressArchetype];
-  const t = TRAIT_CONTENT[dimId];
+  const t = T(result, dimId);
   const s = result.subDimensions[dimId].score;
 
   return section(
@@ -474,7 +511,7 @@ function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
 function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile): ArcanaReportSection {
   const content = ARCHETYPE_CONTENT[result.primaryArchetype];
   const top = topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 3);
-  const bullets = top.map((id) => `${TRAIT_CONTENT[id].label}: ${TRAIT_CONTENT[id].atEase}.`);
+  const bullets = top.map((id) => `${T(result, id).label}: ${T(result, id).atEase}.`);
 
   return section(
     'at-ease',
@@ -486,7 +523,7 @@ function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile
     ),
     [
       content.atEase,
-      'Als je jezelf hier niet in herkent, is dat op zichzelf informatie. Het kan betekenen dat je zelden lang genoeg veilig bent geweest om deze versie van jezelf te leren kennen — en dat is geen tekortkoming, maar wel iets om serieus te nemen.',
+      S(result, 'at-ease.note'),
     ],
     bullets,
   );
@@ -495,7 +532,7 @@ function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile
 function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 5);
   const bullets = top.map((id) => {
-    const t = TRAIT_CONTENT[id];
+    const t = T(result, id);
     const s = result.subDimensions[id].score;
     return `${t.label} (${s}/100, ${scoreBand(s)}): ${t.behavior}. Dit komt voort uit ${t.hiddenNeed}. ${asSentence(t.effect)}`;
   });
@@ -504,7 +541,7 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
     'Jouw sterke punten',
     'Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar je patroon het sterkst en meest natuurlijk naar buiten komt.',
     [
-      'Let op: een sterke eigenschap is niet hetzelfde als een deugd. Dit zijn de eigenschappen die je het makkelijkst inzet, ook op momenten waarop een andere aanpak beter was geweest.',
+      S(result, 'strengths.note'),
     ],
     bullets,
   );
@@ -513,16 +550,16 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
 function generateShadowSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 5);
   const bullets = top.map((id) => {
-    const t = TRAIT_CONTENT[id];
+    const t = T(result, id);
     const s = result.subDimensions[id].score;
     return `${t.label} (${s}/100, ${scoreBand(s)}): valkuil — ${t.pitfall}. Groeisleutel: ${t.growthKey}.`;
   });
   return section(
     'shadow',
     'Je valkuilen',
-    'Elke kracht heeft een keerzijde. Dit zijn de patronen die, als ze te sterk worden, tegen je gaan werken in plaats van voor je.',
+    S(result, 'shadow.intro'),
     [
-      'Dit is geen diagnose en geen tekortkoming — het zijn de plekken waar bewustwording het meeste oplevert.',
+      S(result, 'shadow.disclaimer'),
     ],
     bullets,
   );
@@ -536,10 +573,10 @@ function generateJungianSection(result: ArcanaScoreResult): ArcanaReportSection 
     .slice(0, 2);
 
   const bullets = [
-    ...topShadow.map((id) => `${TRAIT_CONTENT[id].label}: ${TRAIT_CONTENT[id].jungian}`),
+    ...topShadow.map((id) => `${T(result, id).label}: ${T(result, id).jungian}`),
     ...lowest.map(
       (id) =>
-        `${TRAIT_CONTENT[id].label} scoort met ${result.subDimensions[id].score}/100 opvallend laag. Jung zou vragen of deze eigenschap werkelijk ontbreekt, of dat je hem hebt weggelegd. Wat je bij anderen op dit punt afkeurt of juist bewondert, wijst meestal naar het antwoord.`,
+        `${T(result, id).label} scoort met ${result.subDimensions[id].score}/100 opvallend laag. Jung zou vragen of deze eigenschap werkelijk ontbreekt, of dat je hem hebt weggelegd. Wat je bij anderen op dit punt afkeurt of juist bewondert, wijst meestal naar het antwoord.`,
     ),
   ];
 
@@ -567,7 +604,7 @@ function generateRelationshipSection(result: ArcanaScoreResult): ArcanaReportSec
     'Je relatiepatroon',
     `Je relatiepatroon scoort ${scoreBand(score)} (${score}/100) op de combinatie van verbinding, vertrouwen en intimiteit.`,
     [
-      `Je vertrouwensbehoefte (${trustScore}/100) en intimiteitsbehoefte (${intimacyScore}/100) bepalen samen hoe snel je mensen echt dichtbij laat komen: ${TRAIT_CONTENT.trustNeed.behavior}.`,
+      `Je vertrouwensbehoefte (${trustScore}/100) en intimiteitsbehoefte (${intimacyScore}/100) bepalen samen hoe snel je mensen echt dichtbij laat komen: ${T(result, 'trustNeed').behavior}.`,
       conflictAvoidanceScore > 60
         ? `Je conflictvermijding (${conflictAvoidanceScore}/100) zorgt ervoor dat je liever de sfeer bewaart dan spanning aangaat, wat op korte termijn rust geeft maar op lange termijn onuitgesproken irritatie kan opstapelen.`
         : `Je bent relatief bereid om spanning direct aan te gaan (conflictvermijding: ${conflictAvoidanceScore}/100), wat helpt om irritatie niet te laten opstapelen.`,
@@ -596,8 +633,8 @@ function generateCommunicationSection(result: ArcanaScoreResult): ArcanaReportSe
     [
       `Directheid (${directness}/100), pleasen (${peoplePleasing}/100) en conflictvermijding (${conflictAvoidance}/100) bepalen samen hoeveel filter er zit tussen wat je denkt en wat je uitspreekt.`,
       directness >= 65
-        ? `Je valkuil: ${TRAIT_CONTENT.directness.pitfall}. Groeisleutel: ${TRAIT_CONTENT.directness.growthKey}.`
-        : `Je valkuil: ${TRAIT_CONTENT.conflictAvoidance.pitfall}. Groeisleutel: ${TRAIT_CONTENT.conflictAvoidance.growthKey}.`,
+        ? `Je valkuil: ${T(result, 'directness').pitfall}. Groeisleutel: ${T(result, 'directness').growthKey}.`
+        : `Je valkuil: ${T(result, 'conflictAvoidance').pitfall}. Groeisleutel: ${T(result, 'conflictAvoidance').growthKey}.`,
     ],
   );
 }
@@ -624,9 +661,9 @@ function generateTensionsSection(result: ArcanaScoreResult): ArcanaReportSection
   return section(
     'tensions',
     'Je spanningsvelden',
-    'Spanningsvelden ontstaan wanneer twee echte behoeften in jou tegelijk sterk zijn, zonder dat de één de ander opheft.',
+    S(result, 'tensions.intro'),
     [
-      'Dit zijn geen tegenstrijdigheden die opgelost moeten worden — het zijn polen die om beurten om aandacht vragen, afhankelijk van de situatie.',
+      S(result, 'tensions.note'),
       'Jung noemde dit het spanningspaar, en hij zag er de motor van ontwikkeling in. Wie zo\'n paar te snel platslaat door één kant te kiezen, verliest niet alleen de andere kant maar ook de beweging. Wie de spanning lang genoeg verdraagt, ziet er soms een derde weg uit ontstaan die hij vooraf niet had kunnen bedenken.',
     ],
     bullets,
@@ -639,7 +676,7 @@ function generateBlindSpotsSection(result: ArcanaScoreResult): ArcanaReportSecti
   const blindSpots = topSubDimensions(result.subDimensions, remaining, 2);
 
   const bullets = blindSpots.map((id) => {
-    const t = TRAIT_CONTENT[id];
+    const t = T(result, id);
     const s = result.subDimensions[id].score;
     return `${t.label} (${s}/100): dit patroon is minder op de voorgrond, maar ${t.pitfall} — vaak juist omdat het weinig aandacht krijgt.`;
   });
@@ -651,9 +688,9 @@ function generateBlindSpotsSection(result: ArcanaScoreResult): ArcanaReportSecti
   return section(
     'blind-spots',
     'Je blinde vlekken',
-    'Blinde vlekken zijn de patronen die net onder de radar blijven — niet groot genoeg om als schaduwkant op te vallen, maar wel invloedrijk.',
+    S(result, 'blind-spots.intro'),
     [
-      'Een blinde vlek herken je zelden aan het patroon zelf, maar aan de reacties die het oproept. Als meerdere mensen je onafhankelijk van elkaar hetzelfde hebben teruggegeven, is de kans groot dat het hier staat.',
+      S(result, 'blind-spots.note'),
     ],
     bullets,
   );
@@ -691,7 +728,7 @@ function generateWhatYouNeedSection(result: ArcanaScoreResult): ArcanaReportSect
 
   const bullets = [
     ...content.whatYouNeed,
-    ...shadowTop.map((id) => `${TRAIT_CONTENT[id].label}: ${TRAIT_CONTENT[id].growthKey}.`),
+    ...shadowTop.map((id) => `${T(result, id).label}: ${T(result, id).growthKey}.`),
   ];
 
   return section(
@@ -699,7 +736,7 @@ function generateWhatYouNeedSection(result: ArcanaScoreResult): ArcanaReportSect
     'Wat je nodig hebt om dat te worden',
     'Voorwaarden, geen voornemens. Dit zijn de omstandigheden en oefeningen die bij jouw specifieke patroon het meeste verschil maken.',
     [
-      'Kies er één. Wie aan alles tegelijk begint, verandert doorgaans niets — en bij jouw profiel is dat een reëel risico.',
+      S(result, 'what-you-need.note'),
     ],
     bullets,
   );
@@ -710,7 +747,7 @@ function generateGrowthPathSection(result: ArcanaScoreResult): ArcanaReportSecti
   const remaining = RISK_DIMENSIONS.filter((id) => !shadowTop5.has(id));
   const growthDims = topSubDimensions(result.subDimensions, remaining.length >= 2 ? remaining : RISK_DIMENSIONS, 2);
 
-  const bullets = growthDims.map((id) => `${TRAIT_CONTENT[id].label}: ${TRAIT_CONTENT[id].growthKey}.`);
+  const bullets = growthDims.map((id) => `${T(result, id).label}: ${T(result, id).growthKey}.`);
   const growthScore = result.subDimensions.growthReadiness.score;
 
   return section(
@@ -718,7 +755,7 @@ function generateGrowthPathSection(result: ArcanaScoreResult): ArcanaReportSecti
     'Je groeipad',
     `Je groeibereidheid scoort ${scoreBand(growthScore)} (${growthScore}/100) — dat bepaalt hoeveel ruimte je jezelf momenteel geeft om naar deze patronen te kijken.`,
     [
-      'Groei betekent hier niet dat een patroon verdwijnt, maar dat je sneller herkent wanneer het aan het stuur zit — en dan bewust kunt kiezen of je dat wilt.',
+      S(result, 'growth-path.note'),
     ],
     bullets,
   );
@@ -731,7 +768,7 @@ function generateUnderstoodByOthersSection(result: ArcanaScoreResult, profile: A
   const bullets = [
     ...content.howOthersShouldUnderstand,
     ...hidden.map(
-      (id) => `Wat mensen makkelijk missen: ${TRAIT_CONTENT[id].hiddenNeed}. Van buiten zien ze vooral het gedrag — ${TRAIT_CONTENT[id].behavior} — en niet de behoefte eronder.`,
+      (id) => `Wat mensen makkelijk missen: ${T(result, id).hiddenNeed}. Van buiten zien ze vooral het gedrag — ${T(result, id).behavior} — en niet de behoefte eronder.`,
     ),
   ];
 
@@ -756,14 +793,14 @@ function generateUnderstandYourselfSection(result: ArcanaScoreResult): ArcanaRep
 
   const bullets = [
     ...content.howToUnderstandYourself,
-    `Let deze maand op momenten waarop dit gebeurt: ${TRAIT_CONTENT[topShadow].behavior}. Noteer wat er vlak daarvoor gebeurde — daar zit de trigger, niet in het gedrag zelf.`,
+    `Let deze maand op momenten waarop dit gebeurt: ${T(result, topShadow).behavior}. Noteer wat er vlak daarvoor gebeurde — daar zit de trigger, niet in het gedrag zelf.`,
     'Vraag aan twee mensen die je vertrouwen: wat merk jij aan mij dat ik zelf waarschijnlijk niet doorheb? Vraag door tot het ongemakkelijk wordt; daar begint de informatie.',
   ];
 
   return section(
     'understand-yourself',
     'Hoe je jezelf beter kunt begrijpen',
-    'Zelfkennis komt zelden uit nadenken. Ze komt uit terugkijken op wat je deed toen je niet nadacht.',
+    S(result, 'understand-yourself.intro'),
     [content.ifItDoesNotFit],
     bullets,
   );
@@ -784,28 +821,33 @@ function matchingReflections(theme: ReflectionTheme, sub: Record<SubDimensionId,
 }
 
 function generateReflectionSections(result: ArcanaScoreResult): ArcanaReportSection[] {
-  return REFLECTION_THEMES.map((theme) =>
-    section(
+  const seed = result.variantSeed;
+  return REFLECTION_THEMES.map((theme) => {
+    const essence = theme.essence.map((paragraph, i) =>
+      pick(paragraph, seed, `reflectie.${theme.id}.essence${i}`),
+    );
+    const question = pick(theme.question, seed, `reflectie.${theme.id}.question`);
+    return section(
       `reflectie-${theme.id}`,
       theme.title,
-      theme.essence[0],
-      [...theme.essence.slice(1), `Vraag om bij stil te staan: ${theme.question}`],
+      essence[0],
+      [...essence.slice(1), `Vraag om bij stil te staan: ${question}`],
       matchingReflections(theme, result.subDimensions),
-    ),
-  );
+    );
+  });
 }
 
 function generateThirtyDayPlan(result: ArcanaScoreResult): ArcanaReportSection {
   const primary = archetypeById(result.primaryArchetype);
   const topShadow = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 1)[0];
-  const shadowTrait = TRAIT_CONTENT[topShadow];
+  const shadowTrait = T(result, topShadow);
   const topTension = generateTensionsSection(result).bullets[0] ?? '';
   const growthDims = topSubDimensions(
     result.subDimensions,
     RISK_DIMENSIONS.filter((id) => id !== topShadow),
     1,
   );
-  const secondTrait = TRAIT_CONTENT[growthDims[0] ?? topShadow];
+  const secondTrait = T(result, growthDims[0] ?? topShadow);
 
   const weeks = [
     {
@@ -845,9 +887,9 @@ function generateThirtyDayPlan(result: ArcanaScoreResult): ArcanaReportSection {
   return section(
     'thirty-day-plan',
     '30-dagen actieplan',
-    'Vier weken, elk met een concrete stap, gebaseerd op jouw sterkste schaduwpatroon en spanningsveld.',
+    S(result, 'thirty-day.intro'),
     [
-      'Dit plan is bewust klein. Niet omdat je niet meer aankunt, maar omdat verandering die je op je slechtste dag niet volhoudt, geen verandering is.',
+      S(result, 'thirty-day.note'),
     ],
     bullets,
   );
@@ -856,7 +898,7 @@ function generateThirtyDayPlan(result: ArcanaScoreResult): ArcanaReportSection {
 function generateFinalSentence(result: ArcanaScoreResult, profile: ArcanaProfile): ArcanaReportSection {
   const primary = archetypeById(result.primaryArchetype);
   const topShadow = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 1)[0];
-  const shadowTrait = TRAIT_CONTENT[topShadow];
+  const shadowTrait = T(result, topShadow);
 
   const sentence =
     result.responseQuality.confidenceLevel === 'low'

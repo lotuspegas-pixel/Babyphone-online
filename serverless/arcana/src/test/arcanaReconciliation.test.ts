@@ -42,6 +42,7 @@ function makeResult(
       confidenceLevel: 'high',
       notes: [],
     },
+    variantSeed: 1234,
   };
 }
 
