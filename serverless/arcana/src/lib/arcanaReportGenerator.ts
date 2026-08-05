@@ -353,7 +353,7 @@ function generateSeenByOthersSection(result: ArcanaScoreResult): ArcanaReportSec
     'Wat anderen aan jou zien',
     S(result, 'seen-by-others.intro'),
     [
-      'Deze eigenschappen zijn niet je hele verhaal, maar wel het deel dat als eerste indruk blijft hangen. In Jungs taal is dit je persona: het gezicht dat je meeneemt naar buiten. Een persona is niet oneerlijk — je hebt er een nodig. Hij wordt pas een probleem wanneer je hem thuis niet meer af krijgt.',
+      S(result, 'seen-by-others.persona'),
     ],
     bullets,
   );
@@ -412,7 +412,7 @@ function generateWithOthersSection(result: ArcanaScoreResult): ArcanaReportSecti
 
   const paragraphs = [
     content.withOthers,
-    'Let bij het lezen hiervan op het verschil tussen bekende en onbekende gezelschappen. De meeste mensen zijn in een vertrouwde groep een ander mens dan onder vreemden, en het is de moeite waard om te weten welke van de twee jij als "jezelf" beschouwt.',
+    S(result, 'with-others.note'),
   ];
   const nuance = reconciliation(
     result.primaryArchetype,
@@ -781,7 +781,7 @@ function generateUnderstoodByOthersSection(result: ArcanaScoreResult, profile: A
       'Dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.',
     ),
     [
-      'Belangrijk: dit is geen vrijbrief. "Zo ben ik nu eenmaal" is het einde van een gesprek, niet het begin. Gebruik dit om jezelf uit te leggen, niet om jezelf te verdedigen.',
+      S(result, 'understood-by-others.note'),
     ],
     bullets,
   );
@@ -909,10 +909,14 @@ function generateFinalSentence(result: ArcanaScoreResult, profile: ArcanaProfile
           `Jouw kracht als ${primary.name} zit niet in het wegwerken van ${shadowTrait.label.toLowerCase()}, maar in het steeds sneller herkennen van het moment waarop dat patroon het overneemt.`,
         );
 
-  return section('final-sentence', 'Samenvatting in één zin', sentence, [
+  const closingParagraphs = [
     'En tot slot iets wat in geen enkele score staat: je hoeft niet eerst genezen te zijn om blij te mogen zijn. De blijdschap ligt niet aan het eind van je groeipad — ze ligt ernaast, de hele weg.',
-    CLOSING_SENTENCE_FALLBACK,
-  ]);
+  ];
+  if (result.responseQuality.confidenceLevel !== 'low') {
+    closingParagraphs.push(CLOSING_SENTENCE_FALLBACK);
+  }
+
+  return section('final-sentence', 'Samenvatting in één zin', sentence, closingParagraphs);
 }
 
 // ---------------------------------------------------------------------------
