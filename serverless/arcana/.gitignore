@@ -26,3 +26,6 @@ dist-ssr
 # Gegenereerd door `npm run sample`
 voorbeeldrapport.md
 sample-report.md
+
+# Gegenereerde baseline-rapporten (reproduceerbaar met npm run sample)
+.arcana-baseline
