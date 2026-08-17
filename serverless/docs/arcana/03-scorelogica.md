@@ -99,10 +99,22 @@ confidence = min(100, round((itemCount / 6) * 100))
 - The Wounded Healer = average(emotionalSensitivity, criticismSensitivity, connectionNeed, growthReadiness)
 - The Visionary = average(creativeThinking, autonomyNeed, intuitiveThinking, meaningNeed)
 - The Anchor = average(securityNeed, practicalThinking, trustNeed, 100 - stressAcceleration)
-- The Performer = average(recognitionNeed, socialEnergy, selfConfidence, directness)
+- The Performer = average(recognitionNeed, socialEnergy, selfConfidence, creativeThinking)
 - The Hermit = average(solitudeNeed, intuitiveThinking, meaningNeed, independenceNeed)
 
 Primary archetype = hoogste score. Secondary archetype = tweede hoogste score.
+
+> **Kalibratienotitie (empirisch vastgesteld):** The Flame en The Performer deelden
+> voorheen exact dezelfde vier subdimensies (alleen in andere volgorde). Omdat
+> `average()` orde-onafhankelijk is, gaven ze altijd identiek dezelfde score, en won
+> The Flame bij een gelijkspel altijd (lagere index in `ARCHETYPES`) — The Performer
+> kon daardoor wiskundig nooit primary archetype worden (0/360 in een steekproef over
+> zes dummy-modi x 60 seeds, zie `arcana/src/dev/archetypeMetrics.test.ts`). The
+> Performer gebruikt nu `creativeThinking` in plaats van `directness`, wat beter
+> aansluit bij de beschrijving "expressie, impact en erkenning" tegenover Flame's
+> "energie, beweging, lef en zichtbaarheid" (`docs/arcana/01-testmodel.md`). Na de
+> wijziging kan The Performer aantoonbaar hoger scoren dan The Flame (zie
+> regressietest `theFlame and thePerformer can diverge` in `arcana/src/test/arcana.test.ts`).
 
 ## Stress-archetype
 
@@ -144,5 +156,22 @@ Actief als beide scores > 65. Zeer sterk als beide scores > 75.
 Regels:
 - completionRate = ingevulde vragen / 120
 - straightLiningRisk hoog als >70% Likert dezelfde score heeft
-- socialDesirabilityRisk hoog als iemand extreem positief scoort op zelfcontrole, groei en sociaal gedrag maar laag op alle schaduwitems
+- socialDesirabilityRisk hoog als: `growthReadiness > 80 AND shadowAvoidance < 20 AND shadowDefensiveness < 60 AND perfectionism < 20`
 - confidenceLevel: high/medium/low
+
+> **Kalibratienotitie (empirisch vastgesteld):** `shadowDefensiveness` heeft geen
+> enkel Likert-item — alleen forcedChoice/scenario/ranking-opties, die per ontwerp
+> nooit negatief kunnen bijdragen (een niet-gekozen optie levert 0, nooit een
+> "tegenstem"). Daardoor ligt de structurele ondergrens van `shadowDefensiveness` op
+> 55, niet op 0 (bewezen in `arcana/src/dev/responseQualityContam.test.ts`, ook
+> vastgelegd als regressietest onder `arcana/src/test/arcana.test.ts`). Met de
+> oorspronkelijke drempel van `< 20` kon `socialDesirabilityRisk` daarom nooit
+> triggeren, voor geen enkele invulling. De drempel is verhoogd naar `< 60`: dat
+> ligt ruim boven de structurele bodem (55) maar duidelijk onder het gemiddelde bij
+> neutrale of willekeurige invulling (77-85, zie
+> `arcana/src/dev/baselineCalibration.test.ts`), zodat de detector wél normale
+> invullingen ongemoeid laat maar opzettelijk eenzijdig positieve invulpatronen
+> herkent. De onderliggende itemdekking van `shadowDefensiveness` (geen Likert-item,
+> laagste itemCount van alle 30 subdimensies) is een apart, nog openstaand probleem
+> — zie bevinding 3 en 6 in de modelanalyse; dat vraagt itemontwerp in
+> `arcanaQuestions.ts`, buiten het schrijfdomein van de scoring-engine.

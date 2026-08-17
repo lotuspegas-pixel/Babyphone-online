@@ -2,8 +2,10 @@ import { ARCHETYPES } from '../data/arcanaArchetypes';
 import { DISCLAIMER_TEXT, PRIVACY_TEXT } from '../data/arcanaReportBlocks';
 import type { ArcanaReport as ReportType } from '../types/arcana';
 import { ArcanaArchetypeCard } from './ArcanaArchetypeCard';
+import { ArcanaExportButton } from './ArcanaExportButton';
 import { ArcanaPrintButton } from './ArcanaPrintButton';
 import { ArcanaReportSection } from './ArcanaReportSection';
+import { ArcanaReportToc } from './ArcanaReportToc';
 import { ArcanaScoreWheel } from './ArcanaScoreWheel';
 import { ArcanaTensionCard } from './ArcanaTensionCard';
 
@@ -22,10 +24,27 @@ export function ArcanaReport({ report, onRestart, onClearAnswers }: Props) {
         <p className="arcana-eyebrow">Arcana Mirror</p>
         <div className="arcana-report__header-actions">
           <ArcanaPrintButton />
-          <button type="button" className="arcana-button arcana-button--ghost" onClick={onRestart}>
+          <ArcanaExportButton report={report} />
+          <button
+            type="button"
+            className="arcana-button arcana-button--ghost"
+            onClick={() => {
+              if (window.confirm('Weet je zeker dat je opnieuw wilt beginnen? Je huidige antwoorden en rapport gaan verloren. Overweeg eerst "Rapport downloaden".')) {
+                onRestart();
+              }
+            }}
+          >
             Opnieuw beginnen
           </button>
-          <button type="button" className="arcana-button arcana-button--text" onClick={onClearAnswers}>
+          <button
+            type="button"
+            className="arcana-button arcana-button--text"
+            onClick={() => {
+              if (window.confirm('Weet je zeker dat je al je antwoorden en dit rapport wilt wissen? Dit kan niet ongedaan worden gemaakt. Overweeg eerst "Rapport downloaden".')) {
+                onClearAnswers();
+              }
+            }}
+          >
             Antwoorden wissen
           </button>
         </div>
@@ -36,6 +55,8 @@ export function ArcanaReport({ report, onRestart, onClearAnswers }: Props) {
         <h1>{primaryDef.name}</h1>
         <p className="arcana-body">{report.sections[0].intro}</p>
       </div>
+
+      <ArcanaReportToc sections={report.sections} />
 
       <ArcanaArchetypeCard
         primary={report.archetypes.primary}

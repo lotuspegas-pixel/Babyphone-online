@@ -81,7 +81,7 @@ export const ARCHETYPES: ArchetypeDefinition[] = [
   {
     id: 'thePerformer',
     name: 'The Performer',
-    formula: ['recognitionNeed', 'socialEnergy', 'selfConfidence', 'directness'],
+    formula: ['recognitionNeed', 'socialEnergy', 'selfConfidence', 'creativeThinking'],
     baseText:
       'Jij wilt impact maken. Niet alleen aanwezig zijn, maar iets neerzetten dat gezien wordt. Je kracht zit in expressie. Je valkuil is dat erkenning soms ongemerkt invloed krijgt op je keuzes.',
   },

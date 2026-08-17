@@ -285,10 +285,16 @@ export function detectResponseQuality(
     notes.push('Sommige antwoordpatronen spreken elkaar tegen, wat kan wijzen op interne spanning of wisselende invulcontext.');
   }
 
+  // shadowDefensiveness heeft geen enkel Likert-item (alleen forcedChoice/scenario/ranking),
+  // die per ontwerp nooit negatief kunnen bijdragen. Daardoor ligt de structurele ondergrens
+  // op 55 (empirisch bevestigd in src/dev/responseQualityContam.test.ts), niet op 0. Een
+  // drempel van <20 is daarom wiskundig onbereikbaar en liet deze detector nooit triggeren.
+  // <60 ligt ruim boven de structurele bodem (55) maar duidelijk onder het gemiddelde bij
+  // neutrale/willekeurige invulling (77-85, zie src/dev/baselineCalibration.test.ts).
   const socialDesirabilityRisk =
     s('growthReadiness') > 80 &&
     s('shadowAvoidance') < 20 &&
-    s('shadowDefensiveness') < 20 &&
+    s('shadowDefensiveness') < 60 &&
     s('perfectionism') < 20;
   if (socialDesirabilityRisk) {
     notes.push('De antwoorden zijn opvallend eenzijdig positief over zelfcontrole en groei; dit kan sociaal wenselijk invullen suggereren.');

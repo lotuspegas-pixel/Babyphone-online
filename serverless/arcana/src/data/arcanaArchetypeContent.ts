@@ -1,4 +1,5 @@
-import type { ArchetypeId } from "../types/arcana";
+import type { Phrasing } from "../lib/arcanaVariants";
+import type { ArchetypeId, StressArchetypeId } from "../types/arcana";
 
 export interface ArchetypeContent {
   /** Hoe dit patroon zich toont wanneer iemand alleen is. Volledige zinnen. */
@@ -351,5 +352,58 @@ export const ARCHETYPE_CONTENT: Record<ArchetypeId, ArchetypeContent> = {
       "Wat zou er gebeuren als ik nu contact zocht, in plaats van te wachten tot iemand anders het doet?",
     ],
     ifItDoesNotFit: "Het kan zijn dat je momenteel in een sociaal veeleisende levensfase zit die je natuurlijke behoefte aan afzondering overstemt, waardoor je die niet direct herkent. Het is ook mogelijk dat je hebt geleerd je behoefte aan stilte te verbergen omdat die in je omgeving als onvriendelijk werd opgevat, waardoor je haar nu zelf minder goed herkent als een kernbehoefte.",
+  },
+};
+
+export interface StressArchetypeContent {
+  /**
+   * Zichtbaar gedrag en de innerlijke drijfveer van dít stress-archetype
+   * (niet van het primaire archetype). Volledige zin(nen).
+   */
+  underPressure: Phrasing;
+}
+
+/**
+ * Beschrijft het zichtbare gedrag onder druk per gemeten stress-archetype
+ * (result.stressArchetype), losstaand van het primaire archetype. Dit
+ * voorkomt dat de sectie "Hoe je bent onder druk" het gedrag van het ene
+ * archetype aankondigt en dan het gedrag van een ander archetype beschrijft.
+ */
+export const STRESS_ARCHETYPE_CONTENT: Record<StressArchetypeId, StressArchetypeContent> = {
+  theController: {
+    underPressure: [
+      "Zichtbaar grijp je naar lijstjes, planningen en duidelijke afspraken, en je bemoeit je sneller dan anders met taken die niet van jou zijn. Van binnen speelt de angst dat de situatie je overvalt als je nu niet zelf de regie pakt, een angst die groter is dan wat er praktisch op het spel staat.",
+      "Zichtbaar zoek je houvast in overzicht, regels en een strak schema, en neem je sneller taken van anderen over. Van binnen speelt de angst overvallen te worden door hoe de situatie loopt, een angst die zwaarder weegt dan het praktische probleem zelf.",
+    ],
+  },
+  theVanisher: {
+    underPressure: [
+      "Zichtbaar word je stiller, trek je je terug uit gesprekken en zoek je afstand in plaats van erover te praten. Van binnen speelt de behoefte om in je eentje eerst overzicht te krijgen, voordat je iets met een ander kunt delen.",
+      "Zichtbaar trek je je terug en wordt het stiller om je heen, precies op momenten dat anderen misschien juist iets van je zouden willen horen. Van binnen ben je aan het verwerken in je eigen tempo, en dat gaat aan de oppervlakte onopgemerkt door.",
+    ],
+  },
+  theSprinter: {
+    underPressure: [
+      "Zichtbaar versnel je: meer praten, meer beslissen, sneller reageren, soms harder dan bedoeld. Van binnen speelt de angst dat stilstaan nu als achterblijven voelt, een angst die groter is dan de praktische druk zelf.",
+      "Zichtbaar ga je meer tegelijk doen en neem je sneller besluiten dan je normaal zou nemen. Van binnen speelt de angst dat je iets misloopt als je nu niet in beweging blijft.",
+    ],
+  },
+  theFrozenOne: {
+    underPressure: [
+      "Zichtbaar lijk je stil te vallen of vast te lopen, terwijl je hoofd vanbinnen juist druk doorwerkt zonder dat dit naar buiten komt. Van binnen speelt de angst om de verkeerde stap te zetten, waardoor geen enkele stap nog veilig voelt.",
+      "Zichtbaar reageer je trager of lijk je even vast te zitten, ook al blijft er vanbinnen van alles bewegen. Van binnen speelt de angst een misstap te zetten die je liever helemaal vermijdt door voorlopig niets te doen.",
+    ],
+  },
+  thePleaser: {
+    underPressure: [
+      "Zichtbaar stem je je sneller af op wat de ander lijkt te willen en zeg je minder snel tegen, ook als jouw eigen ruimte daaronder lijdt. Van binnen speelt de angst dat spanning tussen jou en een ander erger wordt als je nu niet meebeweegt.",
+      "Zichtbaar pas je je sneller aan de wensen van een ander aan en vermijd je liever een aanvaring. Van binnen speelt de angst dat een aanvaring de relatie schaadt, zwaarder dan wat er feitelijk op het spel staat.",
+    ],
+  },
+  theDefender: {
+    underPressure: [
+      "Zichtbaar reageer je sneller met een tegenargument of uitleg zodra er kritiek komt, nog voordat je de opmerking echt hebt overwogen. Van binnen speelt de angst dat kritiek betekent dat je tekortschiet, een angst die groter is dan de opmerking zelf rechtvaardigt.",
+      "Zichtbaar schiet je sneller in de verdediging bij kritiek, met een tegenargument dat al klaarstaat voordat de opmerking is uitgesproken. Van binnen speelt de angst als onbekwaam gezien te worden, zwaarder dan wat de kritiek feitelijk beweert.",
+    ],
   },
 };

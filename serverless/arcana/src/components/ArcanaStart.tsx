@@ -1,4 +1,6 @@
+import { ARCANA_QUESTIONS } from '../data/arcanaQuestions';
 import { DISCLAIMER_TEXT, PRIVACY_TEXT } from '../data/arcanaReportBlocks';
+import { loadCurrentQuestionIndex } from '../lib/arcanaStorage';
 
 interface Props {
   hasInProgress: boolean;
@@ -9,6 +11,9 @@ interface Props {
 }
 
 export function ArcanaStart({ hasInProgress, hasResult, onStart, onResume, onViewResult }: Props) {
+  const resumeQuestionNumber =
+    hasInProgress && !hasResult ? Math.min(loadCurrentQuestionIndex() + 1, ARCANA_QUESTIONS.length) : null;
+
   return (
     <div className="arcana-screen arcana-start">
       <div className="arcana-card arcana-start__card">
@@ -30,9 +35,9 @@ export function ArcanaStart({ hasInProgress, hasResult, onStart, onResume, onVie
               Bekijk mijn rapport
             </button>
           )}
-          {hasInProgress && !hasResult && (
+          {resumeQuestionNumber !== null && (
             <button type="button" className="arcana-button arcana-button--primary" onClick={onResume}>
-              Verdergaan
+              {`Verdergaan — je was bij vraag ${resumeQuestionNumber} van ${ARCANA_QUESTIONS.length}`}
             </button>
           )}
           <button

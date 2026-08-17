@@ -5,7 +5,7 @@ import { validateQuestionBank } from '../lib/arcanaValidation';
 import { calculateArcanaResult } from '../lib/arcanaScoringEngine';
 import { generateArcanaReport } from '../lib/arcanaReportGenerator';
 import { generateDummyAnswers, type DummyMode } from '../lib/arcanaDummyAnswers';
-import type { ArcanaProfile } from '../types/arcana';
+import type { ArcanaAnswerMap, ArcanaProfile } from '../types/arcana';
 
 const DUMMY_MODES: DummyMode[] = [
   'balanced',
@@ -82,6 +82,84 @@ describe('scoring engine', () => {
   it('flags straight-lining risk for the straightLine dummy mode', () => {
     const result = calculateArcanaResult(generateDummyAnswers('straightLine'));
     expect(result.responseQuality.straightLiningRisk).toBe(true);
+  });
+
+  it('theFlame and thePerformer can diverge (no longer a mathematically identical formula)', () => {
+    // Regression test voor het gevonden defect: theFlame en thePerformer deelden exact dezelfde
+    // vier subdimensies (alleen in andere volgorde), waardoor average() ze altijd identiek
+    // scoorde en thePerformer nooit primary archetype kon worden (0/360 in archetypeMetrics.test.ts).
+    // thePerformer gebruikt nu creativeThinking i.p.v. directness, zodat "expressie/impact"
+    // (Performer) kan afwijken van "beweging/lef" (Flame, docs/arcana/01-testmodel.md).
+    const answers: ArcanaAnswerMap = {};
+    for (const q of ARCANA_QUESTIONS) {
+      if (q.type === 'likert') {
+        if (q.targets.includes('creativeThinking')) {
+          answers[q.id] = { type: 'likert', questionId: q.id, value: 7 };
+        } else if (q.targets.includes('directness')) {
+          answers[q.id] = { type: 'likert', questionId: q.id, value: 1 };
+        } else {
+          answers[q.id] = { type: 'likert', questionId: q.id, value: 4 };
+        }
+      } else if (q.type === 'forcedChoice' || q.type === 'scenario') {
+        const creativeOpt = q.options.find((o) => o.targets.includes('creativeThinking'));
+        const directOpt = q.options.find((o) => o.targets.includes('directness'));
+        const pick = creativeOpt ?? q.options.find((o) => o !== directOpt) ?? q.options[0];
+        answers[q.id] = { type: q.type, questionId: q.id, optionKey: pick.key };
+      } else {
+        const ordered = [...q.items]
+          .sort((a, b) => {
+            const score = (t: typeof a) =>
+              (t.targets.includes('creativeThinking') ? 1 : 0) - (t.targets.includes('directness') ? 1 : 0);
+            return score(b) - score(a);
+          })
+          .map((i) => i.key);
+        answers[q.id] = { type: 'ranking', questionId: q.id, order: ordered };
+      }
+    }
+    const result = calculateArcanaResult(answers);
+    expect(result.archetypeScores.theFlame.score).not.toBe(result.archetypeScores.thePerformer.score);
+    expect(result.archetypeScores.thePerformer.score).toBeGreaterThan(result.archetypeScores.theFlame.score);
+  });
+
+  it('flags socialDesirabilityRisk for a maximally "sociaal wenselijk" answer set', () => {
+    // Regression test voor het gevonden defect: shadowDefensiveness heeft geen enkel
+    // Likert-item, dus de forcedChoice/scenario/ranking-bijdrage kan nooit onder de
+    // structurele bodem van 55 komen. Een drempel van <20 was daardoor onbereikbaar en
+    // liet deze detector nooit triggeren (zie src/dev/responseQualityContam.test.ts).
+    const answers: ArcanaAnswerMap = {};
+    for (const q of ARCANA_QUESTIONS) {
+      if (q.type === 'likert') {
+        const wantsGrowth = q.targets.includes('growthReadiness');
+        const wantsLowShadow = q.targets.some(
+          (t) => t === 'shadowAvoidance' || t === 'shadowDefensiveness' || t === 'perfectionism',
+        );
+        if (wantsGrowth) answers[q.id] = { type: 'likert', questionId: q.id, value: 7 };
+        else if (wantsLowShadow) answers[q.id] = { type: 'likert', questionId: q.id, value: 1 };
+        else answers[q.id] = { type: 'likert', questionId: q.id, value: 5 };
+      } else if (q.type === 'forcedChoice' || q.type === 'scenario') {
+        const isShadowTarget = (t: (typeof q.options)[number]['targets'][number]) =>
+          t === 'shadowAvoidance' || t === 'shadowDefensiveness' || t === 'perfectionism';
+        const growthOpt = q.options.find((o) => o.targets.includes('growthReadiness'));
+        const nonShadowOpt = q.options.find((o) => !o.targets.some(isShadowTarget));
+        const pick = growthOpt ?? nonShadowOpt ?? q.options[0];
+        answers[q.id] = { type: q.type, questionId: q.id, optionKey: pick.key };
+      } else {
+        const isShadowTarget = (t: (typeof q.items)[number]['targets'][number]) =>
+          t === 'shadowAvoidance' || t === 'shadowDefensiveness' || t === 'perfectionism';
+        const ordered = [...q.items]
+          .sort((a, b) => {
+            const aGrowth = a.targets.includes('growthReadiness') ? 1 : 0;
+            const bGrowth = b.targets.includes('growthReadiness') ? 1 : 0;
+            const aShadow = a.targets.some(isShadowTarget) ? 1 : 0;
+            const bShadow = b.targets.some(isShadowTarget) ? 1 : 0;
+            return bGrowth - aGrowth || aShadow - bShadow;
+          })
+          .map((i) => i.key);
+        answers[q.id] = { type: 'ranking', questionId: q.id, order: ordered };
+      }
+    }
+    const result = calculateArcanaResult(answers);
+    expect(result.responseQuality.socialDesirabilityRisk).toBe(true);
   });
 });
 

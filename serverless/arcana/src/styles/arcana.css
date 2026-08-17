@@ -8,6 +8,9 @@
   --arc-cream-soft: #efe6d4;
   --arc-gold: #d8a94d;
   --arc-gold-soft: #e9c983;
+  /* Donkerder goud voor tekst/lijnen op crème of wit: haalt WCAG AA (>=4.5:1 tekst, >=3:1 UI/grafiek)
+     tegen zowel de crème kaarten als de donkerste achtergrond, zodat het ook als focusring werkt. */
+  --arc-gold-deep: #7d5a10;
   --arc-ink: #1c1730;
   --arc-ink-soft: #4a4360;
   --arc-glow: rgba(216, 169, 77, 0.35);
@@ -64,8 +67,15 @@
   letter-spacing: 0.14em;
   font-size: 12px;
   font-weight: 700;
-  color: var(--arc-gold);
+  color: var(--arc-gold-deep);
   margin: 0 0 8px;
+}
+
+/* Op de donkere schermachtergrond (buiten een crème kaart, zoals de
+   rapport-header) blijft het lichtere goud gebruiken: --arc-gold-deep is
+   daar te donker om te lezen. */
+.arcana-report__header > .arcana-eyebrow {
+  color: var(--arc-gold-soft);
 }
 
 .arcana-title {
@@ -95,7 +105,7 @@
 
 .arcana-meta-list li::before {
   content: '✦ ';
-  color: var(--arc-gold);
+  color: var(--arc-gold-deep);
 }
 
 .arcana-fineprint {
@@ -205,9 +215,24 @@
 }
 
 .arcana-field__input:focus-visible {
-  outline: 2px solid var(--arc-gold);
+  outline: 2px solid var(--arc-gold-deep);
   outline-offset: 1px;
-  border-color: var(--arc-gold);
+  border-color: var(--arc-gold-deep);
+}
+
+/* Zichtbare, ontworpen focusring voor alle interactieve elementen in de
+   testflow en het rapport (knoppen, likert-opties, keuzekaarten, segmented
+   control en ranking-pijlen). --arc-gold-deep haalt >=3:1 op zowel de
+   donkerste schermachtergrond als de crème/witte kaarten, dus dezelfde regel
+   werkt overal zonder per-context aanpassing. */
+.arcana-button:focus-visible,
+.arcana-likert__option:focus-visible,
+.arcana-choice:focus-visible,
+.arcana-segmented__option:focus-visible,
+.arcana-ranking__controls button:focus-visible,
+.arcana-report-toc__toggle:focus-visible {
+  outline: 3px solid var(--arc-gold-deep);
+  outline-offset: 2px;
 }
 
 .arcana-field__hint {
@@ -262,21 +287,33 @@
 }
 
 .arcana-progress__track {
-  height: 8px;
+  height: 10px;
   border-radius: 999px;
   background: var(--arc-cream-soft);
+  border: 1px solid rgba(28, 23, 48, 0.15);
   overflow: hidden;
 }
 
 .arcana-progress__fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--arc-gold-soft), var(--arc-gold));
+  /* Solide --arc-gold-deep in plaats van een lichtere gradiënt: haalt
+     >=3:1 contrast tegen de track over de volle breedte van de balk, ook
+     waar de vulling nog kort is. */
+  background: var(--arc-gold-deep);
   transition: width 0.3s ease;
 }
 
 .arcana-progress__label {
   font-size: 12.5px;
   color: var(--arc-ink-soft);
+}
+
+.arcana-progress__block {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--arc-gold-deep);
 }
 
 /* Test screen */
@@ -388,7 +425,7 @@
 
 .arcana-choice__key {
   font-weight: 700;
-  color: var(--arc-gold);
+  color: var(--arc-gold-deep);
   flex-shrink: 0;
 }
 
@@ -434,12 +471,13 @@
 
 .arcana-ranking__controls {
   display: flex;
-  gap: 4px;
+  gap: 8px;
 }
 
 .arcana-ranking__controls button {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
   border-radius: 8px;
   border: 1px solid rgba(28, 23, 48, 0.2);
   background: var(--arc-cream);
@@ -530,13 +568,27 @@
 }
 
 .arcana-score-wheel__shape {
-  fill: rgba(216, 169, 77, 0.35);
-  stroke: var(--arc-gold);
-  stroke-width: 2;
+  fill: rgba(125, 90, 16, 0.32);
+  stroke: var(--arc-gold-deep);
+  stroke-width: 2.5;
 }
 
 .arcana-score-wheel__point {
-  fill: var(--arc-gold);
+  fill: var(--arc-gold-deep);
+  stroke: #fff;
+  stroke-width: 1;
+}
+
+.arcana-score-wheel__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .arcana-score-wheel__label {
@@ -560,7 +612,7 @@
   display: inline-block;
   margin-top: 4px;
   font-weight: 700;
-  color: var(--arc-gold);
+  color: var(--arc-gold-deep);
 }
 
 .arcana-report-section__intro {
@@ -606,7 +658,7 @@
 
 .arcana-report-section--reflection .arcana-report-section__bullets li::before {
   content: '✦ ';
-  color: var(--arc-gold);
+  color: var(--arc-gold-deep);
 }
 
 .arcana-tension-grid {
@@ -645,15 +697,39 @@
 }
 
 .arcana-tension-card__bar {
-  height: 8px;
+  height: 10px;
   border-radius: 999px;
   background: var(--arc-cream-soft);
+  border: 1px solid rgba(28, 23, 48, 0.15);
   overflow: hidden;
 }
 
 .arcana-tension-card__bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--arc-gold-soft), var(--arc-gold));
+  background: var(--arc-gold-deep);
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .arcana-loading__glow {
+    animation: none;
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  .arcana-button,
+  .arcana-button--primary:not(:disabled):hover,
+  .arcana-progress__fill,
+  .arcana-segmented__option,
+  .arcana-likert__option,
+  .arcana-choice {
+    transition: none !important;
+  }
+
+  .arcana-button--primary:not(:disabled):hover {
+    transform: none;
+  }
 }
 
 /* Print */
@@ -679,4 +755,86 @@
   .arcana-score-wheel__label {
     fill: #000;
   }
+
+  /* In zwart-wit valt kleurverschil weg; zorg dat vormen ook op luminantie
+     leesbaar blijven met een duidelijke, donkere rand en vulling. */
+  .arcana-score-wheel__shape {
+    fill: rgba(0, 0, 0, 0.18);
+    stroke: #000;
+    stroke-width: 2;
+  }
+
+  .arcana-score-wheel__point {
+    fill: #000;
+    stroke: #fff;
+  }
+
+  .arcana-progress__track,
+  .arcana-tension-card__bar {
+    border: 1px solid #000;
+  }
+
+  .arcana-progress__fill,
+  .arcana-tension-card__bar-fill {
+    background: #000;
+  }
+
+  .arcana-eyebrow,
+  .arcana-choice__key,
+  .arcana-archetype-card__score {
+    color: #000;
+  }
+}
+
+/* Inhoudsopgave (nieuw component, ArcanaReportToc) */
+
+.arcana-report-toc {
+  padding: 1rem 1.25rem;
+}
+
+.arcana-report-toc__toggle {
+  background: none;
+  border: none;
+  color: var(--arc-ink);
+  font-family: var(--arc-font-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  /* Raakdoel minstens 44px hoog, gelijk aan de overige bedieningselementen. */
+  min-height: 44px;
+  padding: 10px 0;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.arcana-report-toc__list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.35rem 1rem;
+}
+
+.arcana-report-toc__list a {
+  color: var(--arc-ink-soft);
+  text-decoration: none;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  /* Raakdoel minstens 44px hoog; de link vult zijn rasterrij zodat een
+     misser naast de tekst nog steeds de juiste sectie opent. */
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  border-radius: 6px;
+}
+
+.arcana-report-toc__list a:hover,
+.arcana-report-toc__list a:focus-visible {
+  color: var(--arc-ink);
+  text-decoration: underline;
 }

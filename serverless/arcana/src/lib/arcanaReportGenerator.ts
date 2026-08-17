@@ -1,7 +1,7 @@
 import { ARCHETYPES, STRESS_ARCHETYPES } from '../data/arcanaArchetypes';
-import { ARCHETYPE_CONTENT } from '../data/arcanaArchetypeContent';
+import { ARCHETYPE_CONTENT, STRESS_ARCHETYPE_CONTENT } from '../data/arcanaArchetypeContent';
 import { SUB_DIMENSION_IDS, TENSION_DEFINITIONS } from '../data/arcanaDimensions';
-import { CLOSING_SENTENCE_FALLBACK } from '../data/arcanaReportBlocks';
+import { CLOSING_SENTENCE_FALLBACK, MAIN_DIMENSION_GLOSS } from '../data/arcanaReportBlocks';
 import { REFLECTION_THEMES, type ReflectionTheme } from '../data/arcanaReflections';
 import { SECTION_PHRASINGS } from '../data/arcanaSectionPhrasings';
 import { TRAIT_CONTENT, type TraitContent } from '../data/arcanaTraitContent';
@@ -188,17 +188,23 @@ type ResolvedTrait = {
 /**
  * Lost één subdimensie op voor dit rapport: velden met meerdere formuleringen
  * krijgen er deterministisch één toegewezen op basis van de antwoorden.
+ *
+ * `salt` maakt het mogelijk om dezelfde subdimensie in verschillende secties
+ * op te halen zonder telkens letterlijk dezelfde formulering te krijgen — een
+ * top-subdimensie duikt in meerdere secties op (sterke punten, valkuilen,
+ * onder druk, ...), en zonder salt kiest `pick` daar overal dezelfde variant.
+ * De zes velden blijven inhoudelijk gelijkwaardig; alleen de bewoording wisselt.
  */
-function T(result: ArcanaScoreResult, id: SubDimensionId): ResolvedTrait {
+function T(result: ArcanaScoreResult, id: SubDimensionId, salt = ''): ResolvedTrait {
   const t = TRAIT_CONTENT[id];
   const seed = result.variantSeed;
   return {
     label: t.label,
-    behavior: pick(t.behavior, seed, `${id}.behavior`),
-    hiddenNeed: pick(t.hiddenNeed, seed, `${id}.hiddenNeed`),
-    effect: pick(t.effect, seed, `${id}.effect`),
-    pitfall: pick(t.pitfall, seed, `${id}.pitfall`),
-    growthKey: pick(t.growthKey, seed, `${id}.growthKey`),
+    behavior: pick(t.behavior, seed, `${id}.behavior${salt}`),
+    hiddenNeed: pick(t.hiddenNeed, seed, `${id}.hiddenNeed${salt}`),
+    effect: pick(t.effect, seed, `${id}.effect${salt}`),
+    pitfall: pick(t.pitfall, seed, `${id}.pitfall${salt}`),
+    growthKey: pick(t.growthKey, seed, `${id}.growthKey${salt}`),
     alone: t.alone,
     withOthers: t.withOthers,
     atWork: t.atWork,
@@ -283,12 +289,24 @@ function generateWhoYouAreSection(result: ArcanaScoreResult, profile: ArcanaProf
   const [first, second, third] = top;
 
   const bullets = top.map((id) => {
-    const t = T(result, id);
+    const t = T(result, id, ':who-you-are');
     return `${t.label} (${result.subDimensions[id].score}/100): ${t.behavior}.`;
   });
 
-  const strongest = T(result, first);
+  const strongest = T(result, first, ':who-you-are');
   const strongestScore = result.subDimensions[first].score;
+  const strongestConfidence = result.subDimensions[first].confidence;
+
+  const paragraphs = [
+    `Wat voor mens je bent, laat zich scherper aflezen aan je drie sterkst uitgeslagen eigenschappen dan aan één archetype. Bij jou zijn dat ${strongest.label.toLowerCase()}, ${T(result, second).label.toLowerCase()} en ${T(result, third).label.toLowerCase()}. Die drie samen verklaren waarom bepaalde situaties je moeiteloos afgaan en andere onevenredig veel van je vragen.`,
+    `De sterkste daarvan is ${strongest.label.toLowerCase()} met ${strongestScore}/100. Daaronder zit ${strongest.hiddenNeed} — en dat is het punt waar het interessant wordt, want die behoefte stuurt je ook op momenten waarop je denkt dat je een rationele keuze maakt.`,
+    `Dat patroon wordt in dit rapport samengevat als ${primary.name}, met ${secondary.name} als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.`,
+  ];
+  if (strongestConfidence < 50) {
+    paragraphs.push(
+      `Kanttekening: ${strongest.label.toLowerCase()} steunt hier op relatief weinig antwoorden (betrouwbaarheid ${strongestConfidence}%), dus lees deze uitspraak als een aanwijzing, niet als een vaststaand feit — je eigen herkenning weegt zwaarder dan het getal.`,
+    );
+  }
 
   return section(
     'who-you-are',
@@ -298,11 +316,7 @@ function generateWhoYouAreSection(result: ArcanaScoreResult, profile: ArcanaProf
       '{naam}, dit is de kern die uit je antwoorden naar voren komt — niet als etiket, maar als het patroon dat het vaakst terugkwam.',
       'Dit is de kern die uit je antwoorden naar voren komt — niet als etiket, maar als het patroon dat het vaakst terugkwam.',
     ),
-    [
-      `Wat voor mens je bent, laat zich scherper aflezen aan je drie sterkst uitgeslagen eigenschappen dan aan één archetype. Bij jou zijn dat ${strongest.label.toLowerCase()}, ${T(result, second).label.toLowerCase()} en ${T(result, third).label.toLowerCase()}. Die drie samen verklaren waarom bepaalde situaties je moeiteloos afgaan en andere onevenredig veel van je vragen.`,
-      `De sterkste daarvan is ${strongest.label.toLowerCase()} met ${strongestScore}/100. Daaronder zit ${strongest.hiddenNeed} — en dat is het punt waar het interessant wordt, want die behoefte stuurt je ook op momenten waarop je denkt dat je een rationele keuze maakt.`,
-      `Dat patroon wordt in dit rapport samengevat als ${primary.name}, met ${secondary.name} als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.`,
-    ],
+    paragraphs,
     bullets,
   );
 }
@@ -328,7 +342,9 @@ function generateCorePatternSection(result: ArcanaScoreResult): ArcanaReportSect
     growthPath: 'je groeipad',
   };
 
-  const bullets = top.map((id) => `${labels[id]} scoort ${scoreBand(main[id].score)} (${main[id].score}/100)`);
+  const bullets = top.map(
+    (id) => `${labels[id]} scoort ${scoreBand(main[id].score)} (${main[id].score}/100): ${MAIN_DIMENSION_GLOSS[id]}`,
+  );
 
   return section(
     'core-pattern',
@@ -362,7 +378,7 @@ function generateSeenByOthersSection(result: ArcanaScoreResult): ArcanaReportSec
 function generateHiddenInnerWorldSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, HIDDEN_DIMENSIONS, 3);
   const bullets = top.map((id) => {
-    const t = T(result, id);
+    const t = T(result, id, ':hidden-inner-world');
     return `${t.label}: van binnen draait dit om ${t.hiddenNeed}. Van buiten zien mensen iets anders — ${t.behavior} — en niet hoe sterk dat vanbinnen speelt.`;
   });
   return section(
@@ -482,8 +498,9 @@ function generateCloseCircleSection(result: ArcanaScoreResult): ArcanaReportSect
 }
 
 function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
-  const content = ARCHETYPE_CONTENT[result.primaryArchetype];
   const stressDef = STRESS_ARCHETYPES.find((s) => s.id === result.stressArchetype);
+  const stressContent = STRESS_ARCHETYPE_CONTENT[result.stressArchetype];
+  const underPressure = pick(stressContent.underPressure, result.variantSeed, `stress.${result.stressArchetype}.underPressure`);
   const stressDimMap: Record<string, SubDimensionId> = {
     theController: 'stressControl',
     theVanisher: 'stressWithdrawal',
@@ -493,7 +510,7 @@ function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
     theDefender: 'shadowDefensiveness',
   };
   const dimId = stressDimMap[result.stressArchetype];
-  const t = T(result, dimId);
+  const t = T(result, dimId, ':stress');
   const s = result.subDimensions[dimId].score;
 
   return section(
@@ -501,7 +518,7 @@ function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
     'Hoe je bent onder druk',
     `Onder druk laat jij vooral het patroon van ${stressDef?.name} zien: ${stressDef?.description}`,
     [
-      content.underPressure,
+      underPressure,
       `Concreet vertaalt zich dat naar: ${t.behavior}. De drijfveer eronder is ${t.hiddenNeed} (${s}/100, ${scoreBand(s)}).`,
       `De valkuil daarbij: ${t.pitfall}. Groeisleutel: ${t.growthKey}. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.`,
     ],
@@ -532,7 +549,7 @@ function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile
 function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 5);
   const bullets = top.map((id) => {
-    const t = T(result, id);
+    const t = T(result, id, ':strengths');
     const s = result.subDimensions[id].score;
     return `${t.label} (${s}/100, ${scoreBand(s)}): ${t.behavior}. Dit komt voort uit ${t.hiddenNeed}. ${asSentence(t.effect)}`;
   });
@@ -550,7 +567,7 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
 function generateShadowSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 5);
   const bullets = top.map((id) => {
-    const t = T(result, id);
+    const t = T(result, id, ':shadow');
     const s = result.subDimensions[id].score;
     return `${t.label} (${s}/100, ${scoreBand(s)}): valkuil — ${t.pitfall}. Groeisleutel: ${t.growthKey}.`;
   });
@@ -572,12 +589,18 @@ function generateJungianSection(result: ArcanaScoreResult): ArcanaReportSection 
     .sort((a, b) => result.subDimensions[a].score - result.subDimensions[b].score)
     .slice(0, 2);
 
+  // De twee laagst scorende subdimensies krijgen één gezamenlijke zin in
+  // plaats van twee bijna identieke bullets met alleen een andere naam en
+  // score — dat sjabloon-stiksel viel op in een verder essayistische sectie.
+  const [lowestFirst, lowestSecond] = lowest;
+  const lowestBullet =
+    lowestSecond === undefined
+      ? `${T(result, lowestFirst).label} scoort met ${result.subDimensions[lowestFirst].score}/100 opvallend laag. Jung zou vragen of deze eigenschap werkelijk ontbreekt, of dat je hem hebt weggelegd. Wat je bij anderen op dit punt afkeurt of juist bewondert, wijst meestal naar het antwoord.`
+      : `${T(result, lowestFirst).label} (${result.subDimensions[lowestFirst].score}/100) en ${T(result, lowestSecond).label.toLowerCase()} (${result.subDimensions[lowestSecond].score}/100) steken er allebei opvallend laag uit. Jung zou bij beide vragen of ze werkelijk ontbreken, of dat je ze hebt weggelegd — en wat je bij anderen op precies die twee punten afkeurt of juist bewondert, wijst meestal naar het antwoord.`;
+
   const bullets = [
     ...topShadow.map((id) => `${T(result, id).label}: ${T(result, id).jungian}`),
-    ...lowest.map(
-      (id) =>
-        `${T(result, id).label} scoort met ${result.subDimensions[id].score}/100 opvallend laag. Jung zou vragen of deze eigenschap werkelijk ontbreekt, of dat je hem hebt weggelegd. Wat je bij anderen op dit punt afkeurt of juist bewondert, wijst meestal naar het antwoord.`,
-    ),
+    lowestBullet,
   ];
 
   return section(
@@ -728,7 +751,7 @@ function generateWhatYouNeedSection(result: ArcanaScoreResult): ArcanaReportSect
 
   const bullets = [
     ...content.whatYouNeed,
-    ...shadowTop.map((id) => `${T(result, id).label}: ${T(result, id).growthKey}.`),
+    ...shadowTop.map((id) => `${T(result, id, ':what-you-need').label}: ${T(result, id, ':what-you-need').growthKey}.`),
   ];
 
   return section(
@@ -763,12 +786,15 @@ function generateGrowthPathSection(result: ArcanaScoreResult): ArcanaReportSecti
 
 function generateUnderstoodByOthersSection(result: ArcanaScoreResult, profile: ArcanaProfile): ArcanaReportSection {
   const content = ARCHETYPE_CONTENT[result.primaryArchetype];
-  const hidden = topSubDimensions(result.subDimensions, HIDDEN_DIMENSIONS, 2);
+  // Neemt bewust de op-drie-na-hoogste hidden dimensions (niet de top 3), zodat
+  // deze sectie niet dezelfde subdimensie herhaalt als "Wat mensen vaak niet
+  // aan jou zien" — dat leverde tweemaal bijna hetzelfde inzicht op.
+  const hidden = topSubDimensions(result.subDimensions, HIDDEN_DIMENSIONS, HIDDEN_DIMENSIONS.length).slice(3, 5);
 
   const bullets = [
     ...content.howOthersShouldUnderstand,
     ...hidden.map(
-      (id) => `Wat mensen makkelijk missen: ${T(result, id).hiddenNeed}. Van buiten zien ze vooral het gedrag — ${T(result, id).behavior} — en niet de behoefte eronder.`,
+      (id) => `Wat mensen makkelijk missen: ${T(result, id, ':understood-by-others').hiddenNeed}. Van buiten zien ze vooral het gedrag — ${T(result, id, ':understood-by-others').behavior} — en niet de behoefte eronder.`,
     ),
   ];
 
@@ -793,7 +819,7 @@ function generateUnderstandYourselfSection(result: ArcanaScoreResult): ArcanaRep
 
   const bullets = [
     ...content.howToUnderstandYourself,
-    `Let deze maand op momenten waarop dit gebeurt: ${T(result, topShadow).behavior}. Noteer wat er vlak daarvoor gebeurde — daar zit de trigger, niet in het gedrag zelf.`,
+    `Let deze maand op momenten waarop dit gebeurt: ${T(result, topShadow, ':understand-yourself').behavior}. Noteer wat er vlak daarvoor gebeurde — daar zit de trigger, niet in het gedrag zelf.`,
     'Vraag aan twee mensen die je vertrouwen: wat merk jij aan mij dat ik zelf waarschijnlijk niet doorheb? Vraag door tot het ongemakkelijk wordt; daar begint de informatie.',
   ];
 
@@ -823,8 +849,18 @@ function matchingReflections(theme: ReflectionTheme, sub: Record<SubDimensionId,
 function generateReflectionSections(result: ArcanaScoreResult): ArcanaReportSection[] {
   const seed = result.variantSeed;
   return REFLECTION_THEMES.map((theme) => {
+    // De eerste conditie van de eerste regel is de subdimensie waar deze
+    // beschouwing inhoudelijk om draait. Door die score mee te nemen in de
+    // seed voor de essence-alinea's, hangt óók de gekozen formulering van de
+    // kernalinea (niet alleen de score-gebonden bullets eronder) samen met
+    // wat er bij déze persoon is gemeten, in plaats van alleen met de
+    // algemene antwoordenset. Dat verkleint de kans dat twee heel
+    // verschillende profielen woordelijk dezelfde kernalinea krijgen.
+    const anchorId = theme.rules[0]?.when[0]?.id;
+    const anchorScore = anchorId ? result.subDimensions[anchorId].score : 0;
+    const essenceSeed = seed + anchorScore;
     const essence = theme.essence.map((paragraph, i) =>
-      pick(paragraph, seed, `reflectie.${theme.id}.essence${i}`),
+      pick(paragraph, essenceSeed, `reflectie.${theme.id}.essence${i}`),
     );
     const question = pick(theme.question, seed, `reflectie.${theme.id}.question`);
     return section(
@@ -840,14 +876,14 @@ function generateReflectionSections(result: ArcanaScoreResult): ArcanaReportSect
 function generateThirtyDayPlan(result: ArcanaScoreResult): ArcanaReportSection {
   const primary = archetypeById(result.primaryArchetype);
   const topShadow = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 1)[0];
-  const shadowTrait = T(result, topShadow);
+  const shadowTrait = T(result, topShadow, ':thirty-day');
   const topTension = generateTensionsSection(result).bullets[0] ?? '';
   const growthDims = topSubDimensions(
     result.subDimensions,
     RISK_DIMENSIONS.filter((id) => id !== topShadow),
     1,
   );
-  const secondTrait = T(result, growthDims[0] ?? topShadow);
+  const secondTrait = T(result, growthDims[0] ?? topShadow, ':thirty-day');
 
   const weeks = [
     {

@@ -36,7 +36,18 @@ function readJson<T>(key: string): T | null {
 
 function writeJson(key: string, value: unknown): void {
   if (!hasLocalStorage()) return;
-  window.localStorage.setItem(key, JSON.stringify(value));
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // localStorage kan een QuotaExceededError gooien (opslag vol) of een
+    // SecurityError (bv. privénavigatie in sommige browsers). Zonder deze
+    // try/catch gooit saveAnswers() dit onafgevangen door de setAnswers-updater
+    // in App.tsx, wat de hele testflow laat crashen en de huidige antwoorden in
+    // React-state onbereikbaar maakt. Beter: het schrijven mislukt stil, de
+    // antwoorden blijven in memory bruikbaar voor de rest van de sessie, en
+    // hervatten na herladen werkt dan voor dit veld niet meer — dat is een
+    // kleiner verlies dan een crash.
+  }
 }
 
 export function loadAnswers(): ArcanaAnswerMap {
