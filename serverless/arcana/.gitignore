@@ -29,3 +29,7 @@ sample-report.md
 
 # Gegenereerde baseline-rapporten (reproduceerbaar met npm run sample)
 .arcana-baseline
+
+# Gebouwde uitlevermappen en zips (reproduceerbaar met npm run build)
+arcana-mirror-hostinger/
+*-hostinger.zip

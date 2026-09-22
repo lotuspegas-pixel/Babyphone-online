@@ -30,12 +30,12 @@ export const SUB_DIMENSIONS: SubDimensionDefinition[] = [
   { id: 'independenceNeed', label: 'Onafhankelijkheid', description: 'behoefte om niet afhankelijk te zijn.' },
   { id: 'selfDoubt', label: 'Zelftwijfel', description: 'twijfelen, heroverwegen en innerlijke onzekerheid.' },
   { id: 'selfConfidence', label: 'Zelfvertrouwen', description: 'vertrouwen in eigen oordeel en kracht.' },
-  { id: 'stressWithdrawal', label: 'Stress: terugtrekken', description: 'onder druk stiller of afstandelijker worden.' },
-  { id: 'stressControl', label: 'Stress: controleren', description: 'onder druk meer controle pakken.' },
-  { id: 'stressAcceleration', label: 'Stress: versnellen', description: 'onder druk sneller of chaotischer worden.' },
-  { id: 'stressFreeze', label: 'Stress: bevriezen', description: 'onder druk vastlopen.' },
-  { id: 'shadowDefensiveness', label: 'Schaduw: verdedigen', description: 'kritiek wegduwen of rationaliseren.' },
-  { id: 'shadowAvoidance', label: 'Schaduw: vermijden', description: 'lastige gevoelens, keuzes of waarheden uitstellen.' },
+  { id: 'stressWithdrawal', label: 'Terugtrekken onder druk', description: 'onder druk stiller of afstandelijker worden.' },
+  { id: 'stressControl', label: 'Grip zoeken onder druk', description: 'onder druk meer controle pakken.' },
+  { id: 'stressAcceleration', label: 'Versnellen onder druk', description: 'onder druk sneller of chaotischer worden.' },
+  { id: 'stressFreeze', label: 'Vastlopen onder druk', description: 'onder druk vastlopen.' },
+  { id: 'shadowDefensiveness', label: 'Jezelf verdedigen bij kritiek', description: 'kritiek wegduwen of rationaliseren.' },
+  { id: 'shadowAvoidance', label: 'Uitstellen wat ongemakkelijk is', description: 'lastige gevoelens, keuzes of waarheden uitstellen.' },
   { id: 'growthReadiness', label: 'Groeibereidheid', description: 'bereidheid om naar jezelf te kijken en te veranderen.' },
 ];
 
@@ -44,21 +44,93 @@ export const SUB_DIMENSION_IDS: SubDimensionId[] = SUB_DIMENSIONS.map((d) => d.i
 export interface MainDimensionDefinition {
   id: MainDimensionId;
   label: string;
+  /**
+   * Wat een hoge score op deze dimensie betekent, in gewone taal. Staat naast
+   * het cijfer in het portret, zodat een dimensienaam nooit een kaal etiket is.
+   */
+  meaning: string;
+  /**
+   * Vaste tint van deze dimensie in het portret. De twaalf lopen als één reeks
+   * van diep indigo via jade en oker naar karmijn; de kleur hoort bij de plaats
+   * in de cirkel en zegt niets over hoog of laag. Niet los aanpassen: de reeks
+   * werkt alleen als geheel.
+   */
+  color: string;
 }
 
 export const MAIN_DIMENSIONS: MainDimensionDefinition[] = [
-  { id: 'innerMotor', label: 'Innerlijke motor' },
-  { id: 'socialPattern', label: 'Sociale energie' },
-  { id: 'thinkingStyle', label: 'Denkstijl' },
-  { id: 'emotionalSensitivityMain', label: 'Emotionele gevoeligheid' },
-  { id: 'controlAndSecurity', label: 'Controle en zekerheid' },
-  { id: 'conflictStyle', label: 'Conflictstijl' },
-  { id: 'selfImage', label: 'Zelfbeeld' },
-  { id: 'shadowPattern', label: 'Schaduwkant' },
-  { id: 'relationshipPattern', label: 'Relatiepatroon' },
-  { id: 'workStyle', label: 'Werkstijl' },
-  { id: 'stressPattern', label: 'Stressreactie' },
-  { id: 'growthPath', label: 'Groeipad' },
+  {
+    id: 'innerMotor',
+    label: 'Innerlijke motor',
+    meaning: 'Hoe hard je motor draait als niemand je aanzet.',
+    color: '#33386b',
+  },
+  {
+    id: 'socialPattern',
+    label: 'Sociale energie',
+    meaning: 'Of je oplaadt bij mensen of juist alleen.',
+    color: '#33527a',
+  },
+  {
+    id: 'thinkingStyle',
+    label: 'Denkstijl',
+    meaning: 'Hoeveel je eerst uitrekent voor je iets vindt.',
+    color: '#2f6b78',
+  },
+  {
+    id: 'emotionalSensitivityMain',
+    label: 'Emotionele gevoeligheid',
+    meaning: 'Hoe hard gevoelens van anderen binnenkomen.',
+    color: '#2f7f6d',
+  },
+  {
+    id: 'controlAndSecurity',
+    label: 'Controle en zekerheid',
+    meaning: 'Hoeveel je zelf wilt sturen.',
+    color: '#4c8a5b',
+  },
+  {
+    id: 'conflictStyle',
+    label: 'Conflictstijl',
+    meaning: 'Of je de confrontatie opzoekt of ontwijkt.',
+    color: '#75934f',
+  },
+  {
+    id: 'selfImage',
+    label: 'Zelfbeeld',
+    meaning: 'Hoe stevig je over jezelf denkt.',
+    color: '#9a9349',
+  },
+  {
+    id: 'shadowPattern',
+    label: 'Schaduwkant',
+    meaning: 'Hoe vaak je afgeweerde kant meespeelt zonder dat je het merkt.',
+    color: '#b58b41',
+  },
+  {
+    id: 'relationshipPattern',
+    label: 'Relatiepatroon',
+    meaning: 'Hoe dichtbij je mensen laat komen.',
+    color: '#bf7540',
+  },
+  {
+    id: 'workStyle',
+    label: 'Werkstijl',
+    meaning: 'Hoeveel structuur je aanbrengt.',
+    color: '#b85a41',
+  },
+  {
+    id: 'stressPattern',
+    label: 'Stressreactie',
+    meaning: 'Wat er als eerste gebeurt zodra de druk oploopt.',
+    color: '#a6423f',
+  },
+  {
+    id: 'growthPath',
+    label: 'Groeipad',
+    meaning: 'Hoe makkelijk je van richting verandert.',
+    color: '#8e3350',
+  },
 ];
 
 export const TENSION_DEFINITIONS = [

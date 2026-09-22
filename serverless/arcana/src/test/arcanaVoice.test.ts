@@ -53,4 +53,43 @@ describe('toFormal', () => {
       'U zegt wat u vindt zonder het lang in te pakken, waardoor mensen weten waar ze aan toe zijn.';
     expect(applyVoice(input, 'u')).toBe(expected);
   });
+
+  /**
+   * Gevonden door de gouden master (src/test/goldenMaster.test.ts): drie
+   * bronzinnen leverden in de u-vorm "van uw overkomt" op, omdat de omzetter
+   * alleen een whitelist van werkwoorden kende en "overkomt", "uitgaat" en het
+   * partikel "naar" daar niet in stonden. Na een voorzetsel is "je" het
+   * voorwerp, niet de bezitter — behalve wanneer er een zelfstandig naamwoord
+   * op volgt, en dat onderscheid maakt het volgende woord.
+   */
+  describe('voorwerp na een voorzetsel wordt "u", bezit blijft "uw"', () => {
+    it('zet "van je" om naar "van u" wanneer er een werkwoord op volgt', () => {
+      expect(toFormal('Dit is wat er van je overkomt voordat iemand je kent.')).toBe(
+        'Dit is wat er van u overkomt voordat iemand u kent.',
+      );
+      expect(toFormal('de druk die van je uitgaat')).toBe('de druk die van u uitgaat');
+    });
+
+    it('zet "van je" om naar "van u" wanneer er een partikel op volgt', () => {
+      expect(toFormal('een eerlijker versie van je naar boven halen')).toBe(
+        'een eerlijker versie van u naar boven halen',
+      );
+      expect(toFormal('dat gaat bij je af')).toBe('dat gaat bij u af');
+    });
+
+    it('laat echt bezit met rust', () => {
+      expect(toFormal('van je patroon, van je week, van je groeipad')).toBe(
+        'van uw patroon, van uw week, van uw groeipad',
+      );
+      expect(toFormal('Dit is de kant van je persoonlijkheid die zichtbaar wordt.')).toBe(
+        'Dit is de kant van uw persoonlijkheid die zichtbaar wordt.',
+      );
+    });
+
+    it('scheidt onderwerp, voorwerp en bezit binnen één zin', () => {
+      expect(toFormal('Je voelt je niet gezien en je grens verschuift.')).toBe(
+        'U voelt u niet gezien en uw grens verschuift.',
+      );
+    });
+  });
 });

@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arcana Profile — drie designrichtingen</title>
+<meta name="description" content="Beslisdocument werkstroom B: drie uitgewerkte designrichtingen voor Arcana Profile, met gemeten contrastratio's en kleurenblindheidssimulatie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+ --pg-bg:#f7f4ee; --pg-surface:#ffffff; --pg-ink:#241f1a; --pg-ink-soft:#554d44; --pg-ink-faint:#655b50;
+ --pg-line:rgba(36,31,26,.16); --pg-line-strong:rgba(36,31,26,.30); --pg-acc:#7f4c04; --pg-acc-deep:#5e3a05;
+ --pg-ok:#0f6b3f; --pg-warn:#8a4a00;
+ --gutter:clamp(1rem,4vw,2.5rem);
+ --shadow:0 2px 4px rgba(36,31,26,.05), 0 10px 26px -10px rgba(36,31,26,.12);
+}
+@media (prefers-color-scheme: dark){
+ :root:not([data-theme="light"]){
+  --pg-bg:#16130f; --pg-surface:#1f1b16; --pg-ink:#ede5d9; --pg-ink-soft:#c2b7a6; --pg-ink-faint:#a29786;
+  --pg-line:rgba(237,229,217,.15); --pg-line-strong:rgba(237,229,217,.28); --pg-acc:#e3b866; --pg-acc-deep:#f0cb8c;
+  --pg-ok:#6cd39a; --pg-warn:#f0b866;
+  --shadow:0 2px 6px rgba(0,0,0,.45), 0 14px 32px -12px rgba(0,0,0,.5);
+ }
+}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--pg-bg);color:var(--pg-ink);
+ font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.6;
+ -webkit-font-smoothing:antialiased}
+a{color:var(--pg-acc-deep)}
+.skip{position:absolute;left:-9999px;top:0}
+.skip:focus{left:var(--gutter);top:.5rem;z-index:99;background:var(--pg-surface);color:var(--pg-ink);
+ padding:.6rem 1rem;border:2px solid var(--pg-acc-deep);border-radius:.4rem}
+:focus-visible{outline:3px solid var(--pg-acc-deep);outline-offset:2px;border-radius:3px}
+.wrap{max-width:1500px;margin:0 auto;padding:0 var(--gutter)}
+header.paginakop{border-bottom:1px solid var(--pg-line-strong);padding:clamp(2rem,6vw,4rem) 0 clamp(1.5rem,4vw,2.5rem)}
+.eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--pg-acc-deep);margin:0 0 .6rem}
+h1{font-family:'Cormorant Garamond',ui-serif,Georgia,serif;font-weight:500;line-height:1.05;
+ letter-spacing:-.02em;margin:0 0 .6rem;font-size:clamp(2.1rem,6vw,3.6rem);text-wrap:balance}
+.paginakop p{max-width:64ch;color:var(--pg-ink-soft);margin:0 0 .5rem}
+.uitleg{border:1px solid var(--pg-line);border-left:3px solid var(--pg-acc);background:var(--pg-surface);
+ padding:clamp(1rem,2.5vw,1.5rem);border-radius:.5rem;margin:1.5rem 0 0;box-shadow:var(--shadow)}
+.uitleg h2{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin:0 0 .4rem}
+.uitleg p{margin:0 0 .6rem;color:var(--pg-ink-soft);max-width:70ch}
+.uitleg p:last-child{margin-bottom:0}
+.snelnav{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 0;padding:0;list-style:none}
+.snelnav a{display:inline-flex;align-items:center;min-height:44px;padding:.5rem .95rem;
+ border:1px solid var(--pg-line-strong);border-radius:999px;text-decoration:none;color:var(--pg-ink);font-size:.9rem}
+.snelnav a:hover{background:var(--pg-surface)}
+
+.grid{display:grid;gap:clamp(1.25rem,3vw,2rem);padding:clamp(1.5rem,4vw,3rem) 0}
+@media (min-width:1080px){.grid{grid-template-columns:repeat(3,1fr);align-items:start}}
+
+.dir{background:var(--d-bg);color:var(--d-ink);border:1px solid var(--pg-line-strong);border-radius:.6rem;
+ overflow:hidden;box-shadow:var(--shadow)}
+.dir__kop{display:flex;gap:1rem;align-items:baseline;padding:clamp(1.1rem,2.5vw,1.6rem) clamp(1rem,2.5vw,1.5rem);
+ border-bottom:1px solid var(--d-line)}
+.dir__letter{font-family:'Cormorant Garamond',serif;font-size:2.6rem;line-height:.8;margin:0;color:var(--d-acc);font-weight:600}
+.dir__kop h2{font-family:var(--d-display),'Cormorant Garamond',serif;font-weight:500;font-size:1.75rem;
+ line-height:1.1;margin:0 0 .15rem;letter-spacing:-.015em}
+.dir__sub{margin:0;font-size:.82rem;letter-spacing:.09em;text-transform:uppercase;color:var(--d-ink-faint)}
+.blok{padding:clamp(1rem,2.5vw,1.5rem);border-bottom:1px solid var(--d-line)}
+.blok:last-child{border-bottom:none}
+.blok__kop{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--d-acc);margin:0 0 .85rem;font-weight:600}
+.blok__mode{color:var(--d-ink-faint);letter-spacing:.06em}
+.blok__lead{font-family:var(--d-display),'Cormorant Garamond',serif;font-size:1.32rem;line-height:1.3;margin:0 0 .6rem}
+.blok__tekst{font-size:.9rem;color:var(--d-ink-soft);margin:0;line-height:1.65}
+
+.hero{margin:0 0 1rem}
+.hero img{width:100%;height:auto;display:block;border:1px solid var(--d-line);border-radius:.35rem}
+.hero figcaption{font-size:.74rem;color:var(--d-ink-faint);margin-top:.5rem;line-height:1.5}
+.heroschets{border:1px solid var(--d-line);border-radius:.35rem;background:var(--d-surface);
+ padding:clamp(1.1rem,3vw,1.75rem);text-align:center}
+.hs-eyebrow{font-size:.64rem;letter-spacing:.2em;color:var(--d-acc);margin:0 0 .5rem}
+.hs-titel{font-family:var(--d-display),'Cormorant Garamond',serif;font-size:clamp(2.3rem,7vw,3.1rem);
+ line-height:.86;margin:0 0 .7rem;font-weight:500;letter-spacing:-.045em}
+.hs-belofte{font-size:.86rem;color:var(--d-ink-soft);margin:0 auto .95rem;max-width:30ch;line-height:1.6}
+.hs-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.65rem 1.6rem;
+ border-radius:999px;background:var(--d-btn-bg);color:var(--d-btn-fg);font-weight:600;font-size:.9rem}
+.hs-meta{font-size:.74rem;color:var(--d-ink-faint);margin:.7rem 0 0}
+
+.tabelwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.78rem;min-width:360px}
+caption{text-align:left;font-size:.74rem;color:var(--d-ink-faint);margin-bottom:.5rem;line-height:1.5}
+th,td{text-align:left;padding:.36rem .45rem;border-bottom:1px solid var(--d-line);vertical-align:middle}
+th{font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--d-ink-faint);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+.sw{display:block;width:20px;height:20px;border-radius:3px;border:1px solid var(--d-line)}
+.b{display:inline-block;font-size:.64rem;letter-spacing:.06em;padding:.13rem .4rem;border-radius:3px;
+ border:1px solid currentColor;white-space:nowrap}
+.b-ok{color:var(--d-ok)} .b-warn{color:var(--d-warn)} .b-vlak{color:var(--d-ink-faint)}
+.badge-cell{white-space:nowrap}
+
+.typo{border:1px solid var(--d-line);border-radius:.35rem;padding:clamp(1rem,2.5vw,1.4rem);background:var(--d-surface)}
+.typo-eyebrow{font-size:.64rem;letter-spacing:.2em;color:var(--d-acc);margin:0 0 .35rem}
+.typo-h1{font-family:var(--d-display),'Cormorant Garamond',serif;font-size:1.85rem;line-height:1.12;
+ margin:0 0 .6rem;font-weight:500;letter-spacing:-.018em}
+.typo-lead{font-size:.95rem;color:var(--d-ink-soft);margin:0 0 .7rem;line-height:1.6}
+.typo-body{font-size:.86rem;color:var(--d-ink-soft);margin:0 0 .9rem;line-height:1.7}
+.typo-spec{font-size:.68rem;color:var(--d-ink-faint);margin:0;border-top:1px solid var(--d-line);padding-top:.6rem}
+
+.kaartdemo{display:grid;gap:.8rem}
+.kaart{background:var(--d-surface);border:1px solid var(--d-line);border-radius:.4rem;
+ padding:clamp(.9rem,2.5vw,1.2rem);border-top:3px solid var(--d-acc);
+ box-shadow:0 1px 2px rgba(0,0,0,.05),0 6px 16px -8px rgba(0,0,0,.14)}
+.kaart--2{border-top-color:var(--d-acc-deep)}
+.kaart__fam{display:block;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--d-acc);margin-bottom:.4rem}
+.kaart h4{font-family:var(--d-display),'Cormorant Garamond',serif;font-size:1.12rem;margin:0 0 .35rem;font-weight:600;line-height:1.25}
+.kaart p{font-size:.84rem;color:var(--d-ink-soft);margin:0;line-height:1.6}
+
+.wheel{width:100%;max-width:320px;margin:0 auto .9rem;display:block;height:auto}
+.wlab{font-size:11px;fill:var(--d-ink-faint);font-family:'Inter',sans-serif}
+.wcore{font-family:var(--d-display),'Cormorant Garamond',serif;font-size:22px;fill:var(--d-ink)}
+.wcore2{font-size:8.5px;fill:var(--d-ink-faint);letter-spacing:.12em;font-family:'Inter',sans-serif}
+
+.feiten{margin:0;display:grid;gap:.15rem .9rem}
+.feiten dt{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--d-acc);margin-top:.7rem}
+.feiten dt:first-child{margin-top:0}
+.feiten dd{margin:0;font-size:.86rem;color:var(--d-ink-soft);line-height:1.6}
+
+.sectie{padding:clamp(2rem,5vw,3.5rem) 0;border-top:1px solid var(--pg-line-strong)}
+.sectie h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.6rem,4vw,2.3rem);
+ margin:0 0 .5rem;line-height:1.15;letter-spacing:-.015em}
+.sectie p{max-width:70ch;color:var(--pg-ink-soft)}
+.cvd{display:grid;gap:1rem;margin:1.5rem 0 0}
+@media(min-width:720px){.cvd{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1080px){.cvd{grid-template-columns:repeat(4,1fr)}}
+.cvd-col{border:1px solid var(--pg-line);border-radius:.4rem;padding:.9rem;background:var(--pg-surface)}
+.cvd-col h4{margin:0 0 .6rem;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pg-ink-faint)}
+.cvd-strip{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin-bottom:.4rem}
+.cvd-chip{display:block;aspect-ratio:1/2.4;border-radius:2px}
+.aanbeveling{background:var(--pg-surface);border:1px solid var(--pg-line-strong);border-left:4px solid var(--pg-acc);
+ border-radius:.5rem;padding:clamp(1.1rem,3vw,1.8rem);box-shadow:var(--shadow)}
+.aanbeveling h2{margin-top:0}
+.aanbeveling ol{margin:.8rem 0 0;padding-left:1.2rem}
+.aanbeveling li{margin-bottom:.5rem;color:var(--pg-ink-soft);max-width:70ch}
+footer.paginavoet{border-top:1px solid var(--pg-line-strong);padding:1.5rem 0 3rem;font-size:.78rem;color:var(--pg-ink-faint)}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+@media print{.snelnav,.skip{display:none}.dir{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#richtingen">Naar de drie richtingen</a>
+<div class="wrap">
+<header class="paginakop">
+  <p class="eyebrow">Arcana Profile · werkstroom B · 22 september 2026</p>
+  <h1>Drie richtingen. Eén keuze.</h1>
+  <p>De inhoud van Arcana Profile is sterk; de buitenkant is vlak. Dit document legt drie volwaardige richtingen naast elkaar zodat de keuze op zicht te maken is. Elke hex hieronder heeft een gemeten contrastratio bij zich — berekend, niet geschat.</p>
+  <div class="uitleg">
+    <h2>Wat u hier beoordeelt</h2>
+    <p>De huidige site haalt <strong>nul contrastfouten op 693 tekstknopen</strong>. Dat is de lat: geen van deze drie richtingen mag daaronder duiken. Alle drie zijn daarop doorgerekend en alle drie halen het.</p>
+    <p>Het kleurensysteem voor de twaalf dimensies is in alle drie de richtingen hetzelfde; alleen de tint verschilt per modus. Dat systeem staat verderop apart uitgelegd, inclusief de simulatie voor de drie vormen van kleurenblindheid.</p>
+    <p><strong>Kies één richting.</strong> De rest van het project — tokens, componenten, copy, bouw — hangt aan die keuze.</p>
+  </div>
+  <ul class="snelnav">
+    <li><a href="#richting-a">a · Perkament &amp; Diepte</a></li>
+    <li><a href="#richting-b">b · Nacht &amp; Goud</a></li>
+    <li><a href="#richting-c">c · Warm &amp; Nabij</a></li>
+    <li><a href="#kleurenblindheid">Kleurenblindheid</a></li>
+    <li><a href="#advies">Advies</a></li>
+  </ul>
+</header>
+
+<main id="richtingen">
+<div class="grid">
+
+<article class="dir" id="richting-a" style="--d-bg:#fbf8f3;--d-surface:#ffffff;--d-band:#e4d8c2;--d-veil:#f6f0e5;--d-ink:#241f1a;--d-ink-soft:#554d44;--d-ink-faint:#655b50;--d-acc:#7f4c04;--d-acc-deep:#5e3a05;--d-btn-bg:#5e3a05;--d-btn-fg:#fffaf2;--d-line:rgba(36,31,26,.18);--d-display:'Cormorant Garamond';--d-ok:#0f6b3f;--d-warn:#8a4a00;">
+  <header class="dir__kop">
+    <p class="dir__letter">a</p>
+    <div>
+      <h2>Perkament & Diepte</h2>
+      <p class="dir__sub">Behoud de ziel, verfijnd</p>
+    </div>
+  </header>
+
+  <section class="blok">
+    <h3 class="blok__kop">Hero</h3>
+    <figure class="hero">
+      <img src="B-hero-a-perkament-en-diepte.png" alt="Conceptillustratie voor richting a: Perkament & Diepte" loading="lazy" width="2400" height="1000">
+      <figcaption>Originele conceptillustratie, gemaakt voor dit voorstel. Geen bestaand werk, geen bestaand merk.</figcaption>
+    </figure>
+    <div class="heroschets">
+      <p class="hs-eyebrow">ZELFINZICHT ZONDER HOKJES</p>
+      <p class="hs-titel">Arcana<br>Profile</p>
+      <p class="hs-belofte">Beantwoord 120 vragen en lees terug wat je patronen zijn: waar je kracht zit, waar je jezelf in de weg staat.</p>
+      <p><span class="hs-btn">Start de test</span></p>
+      <p class="hs-meta">120 vragen · 20–25 minuten · gratis</p>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Het idee</h3>
+    <p class="blok__lead">Hetzelfde perkament, maar met bodem.</p>
+    <p class="blok__tekst">Dezelfde inkt, hetzelfde serif, dezelfde stem. Wat erbij komt is diepte: zeven vlakken in plaats van drie, echte schaduwen in plaats van <code>--shadow: none</code>, haarlijnen die je ziet, en de vier accentkleuren die al in <code>:root</code> stonden maar nooit werden aangezet. De elf secties krijgen een ritme in plaats van een herhaling.</p>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Palet</h3>
+    <div class="tabelwrap">
+    <table>
+      <caption>Contrast gemeten volgens WCAG 2.1. Kolom 4 = op de paginabasis, kolom 5 = op de donkerste band.</caption>
+      <thead><tr><th></th><th>token</th><th>hex</th><th class="num">op basis</th><th class="num">op band</th><th>eis</th></tr></thead>
+      <tbody><tr><td><span class="sw" style="background:#fbf8f3"></span></td><td><code>--bg</code></td><td><code>#fbf8f3</code></td>
+   <td class="num">L 94,1%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#f6f0e5"></span></td><td><code>--bg-veil</code></td><td><code>#f6f0e5</code></td>
+   <td class="num">L 87,6%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#efe6d6"></span></td><td><code>--bg-deep</code></td><td><code>#efe6d6</code></td>
+   <td class="num">L 79,8%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#e4d8c2"></span></td><td><code>--bg-band</code></td><td><code>#e4d8c2</code></td>
+   <td class="num">L 69,5%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#ffffff"></span></td><td><code>--surface</code></td><td><code>#ffffff</code></td>
+   <td class="num">L 100,0%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#241f1a"></span></td><td><code>--bg-ink</code></td><td><code>#241f1a</code></td>
+   <td class="num">L 1,4%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#241f1a"></span></td><td><code>--ink</code></td><td><code>#241f1a</code></td>
+  <td class="num">15,42</td><td class="num">11,59</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#554d44"></span></td><td><code>--ink-soft</code></td><td><code>#554d44</code></td>
+  <td class="num">7,83</td><td class="num">5,89</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#655b50"></span></td><td><code>--ink-faint</code></td><td><code>#655b50</code></td>
+  <td class="num">6,26</td><td class="num">4,71</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#7f4c04"></span></td><td><code>--gold</code></td><td><code>#7f4c04</code></td>
+  <td class="num">6,75</td><td class="num">5,07</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#5e3a05"></span></td><td><code>--gold-deep</code></td><td><code>#5e3a05</code></td>
+  <td class="num">9,51</td><td class="num">7,15</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#b06a00"></span></td><td><code>--gold-glyph</code></td><td><code>#b06a00</code></td>
+  <td class="num">4,04</td><td class="num">3,04</td>
+  <td class="badge-cell"><span class="b b-ok">≥3 grafisch</span></td></tr></tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Typografie</h3>
+    <div class="typo">
+      <p class="typo-eyebrow">WAT HET MEET</p>
+      <p class="typo-h1">Twaalf dimensies,<br>dertig eigenschappen</p>
+      <p class="typo-lead">Elke zin in je rapport is gekoppeld aan een gemeten score op een specifieke eigenschap.</p>
+      <p class="typo-body">De subdimensies worden samengevoegd tot twaalf hoofdlijnen: je innerlijke motor, je denkstijl, je conflictstijl, je schaduwkant, en acht andere. Uit die twaalf volgt welk archetype het sterkst naar voren komt.</p>
+      <p class="typo-spec">Cormorant Garamond 500 · display &nbsp;|&nbsp; Inter 400/500/600 · lopend &nbsp;|&nbsp; schaal 1,20 → 1,26</p>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Kaart</h3>
+    <div class="kaartdemo">
+      <div class="kaart kaart--1">
+        <span class="kaart__fam">◆ motor en richting</span>
+        <h4>Elke zin komt uit een score</h4>
+        <p>Geen algemene uitspraken die op iedereen passen. Staat er iets over je conflictstijl, dan staat het cijfer erbij waar het uit volgt.</p>
+      </div>
+      <div class="kaart kaart--2">
+        <span class="kaart__fam">▲ grip</span>
+        <h4>Ook de kant die je liever niet leest</h4>
+        <p>Hier staat ook in waar je kracht doorslaat, wat je vermijdt, en wat mensen om je heen merken zonder het te zeggen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Dimensiekleurenwiel <span class="blok__mode">(lichte modus)</span></h3>
+    <svg viewBox="0 0 320 320" role="img" aria-label="Kleurenwiel met twaalf dimensies, gegroepeerd in vier families" class="wheel"><circle cx="160" cy="160" r="144" fill="none" stroke="rgba(36,31,26,.18)" stroke-width="1"/><line x1="150.4" y1="115.0" x2="146.7" y2="97.3" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="152.3" y1="114.6" x2="146.0" y2="77.5" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="154.2" y1="114.4" x2="148.6" y2="69.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="156.2" y1="114.2" x2="152.0" y2="64.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="158.1" y1="114.0" x2="155.9" y2="61.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="160.0" y1="114.0" x2="160.0" y2="60.7" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="161.9" y1="114.0" x2="164.1" y2="61.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="163.8" y1="114.2" x2="168.0" y2="64.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="165.8" y1="114.4" x2="171.4" y2="69.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="167.7" y1="114.6" x2="174.0" y2="77.5" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="169.6" y1="115.0" x2="173.3" y2="97.3" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="160.0" y="9.0" text-anchor="middle" class="wlab">◆</text><line x1="174.2" y1="116.3" x2="181.4" y2="94.2" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="176.0" y1="116.9" x2="192.8" y2="71.7" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="177.8" y1="117.6" x2="200.2" y2="64.4" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="179.6" y1="118.4" x2="206.7" y2="60.8" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="181.3" y1="119.2" x2="212.4" y2="59.8" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="183.0" y1="120.2" x2="217.1" y2="61.1" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="184.6" y1="121.2" x2="220.6" y2="64.5" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="186.3" y1="122.2" x2="222.6" y2="70.0" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="187.8" y1="123.4" x2="222.7" y2="77.4" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="189.3" y1="124.6" x2="220.0" y2="87.4" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="190.8" y1="125.8" x2="206.3" y2="108.6" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="237.0" y="29.6" text-anchor="middle" class="wlab">◆</text><line x1="194.2" y1="129.2" x2="215.2" y2="110.3" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="195.4" y1="130.7" x2="240.7" y2="93.3" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="196.6" y1="132.2" x2="252.6" y2="89.7" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="197.8" y1="133.7" x2="261.4" y2="89.5" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="198.8" y1="135.4" x2="267.8" y2="91.6" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="199.8" y1="137.0" x2="271.7" y2="95.5" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="200.8" y1="138.7" x2="273.1" y2="100.9" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="201.6" y1="140.4" x2="271.8" y2="107.4" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="202.4" y1="142.2" x2="267.2" y2="115.0" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="203.1" y1="144.0" x2="258.1" y2="123.5" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="203.7" y1="145.8" x2="230.6" y2="137.1" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="293.4" y="86.0" text-anchor="middle" class="wlab">◆</text><line x1="205.0" y1="150.4" x2="225.7" y2="146.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="205.4" y1="152.3" x2="248.7" y2="145.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="205.6" y1="154.2" x2="257.9" y2="147.6" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="205.8" y1="156.2" x2="263.7" y2="151.3" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="206.0" y1="158.1" x2="267.1" y2="155.5" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="206.0" y1="160.0" x2="268.2" y2="160.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="206.0" y1="161.9" x2="267.1" y2="164.5" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="205.8" y1="163.8" x2="263.7" y2="168.7" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="205.6" y1="165.8" x2="257.9" y2="172.4" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="205.4" y1="167.7" x2="248.7" y2="175.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="205.0" y1="169.6" x2="225.7" y2="174.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="314.0" y="163.0" text-anchor="middle" class="wlab">●</text><line x1="203.7" y1="174.2" x2="228.7" y2="182.3" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="203.1" y1="176.0" x2="254.2" y2="195.0" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="202.4" y1="177.8" x2="262.5" y2="203.1" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="201.6" y1="179.6" x2="266.7" y2="210.2" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="200.8" y1="181.3" x2="268.0" y2="216.4" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="199.8" y1="183.0" x2="266.6" y2="221.5" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="198.8" y1="184.6" x2="262.9" y2="225.3" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="197.8" y1="186.3" x2="256.9" y2="227.3" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="196.6" y1="187.8" x2="248.6" y2="227.2" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="195.4" y1="189.3" x2="237.4" y2="224.1" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="194.2" y1="190.8" x2="213.7" y2="208.3" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="293.4" y="240.0" text-anchor="middle" class="wlab">●</text><line x1="190.8" y1="194.2" x2="203.6" y2="208.4" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="189.3" y1="195.4" x2="214.7" y2="226.1" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="187.8" y1="196.6" x2="216.6" y2="234.6" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="186.3" y1="197.8" x2="216.2" y2="240.9" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="184.6" y1="198.8" x2="214.3" y2="245.6" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="183.0" y1="199.8" x2="211.1" y2="248.6" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="181.3" y1="200.8" x2="207.0" y2="249.8" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="179.6" y1="201.6" x2="202.0" y2="249.2" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="177.8" y1="202.4" x2="196.3" y2="246.3" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="176.0" y1="203.1" x2="189.9" y2="240.4" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="174.2" y1="203.7" x2="180.1" y2="222.0" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="237.0" y="296.4" text-anchor="middle" class="wlab">●</text><line x1="169.6" y1="205.0" x2="174.6" y2="228.7" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="167.7" y1="205.4" x2="176.1" y2="254.9" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="165.8" y1="205.6" x2="173.3" y2="265.4" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="163.8" y1="205.8" x2="169.4" y2="272.0" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="161.9" y1="206.0" x2="164.9" y2="275.9" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="160.0" y1="206.0" x2="160.0" y2="277.1" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="158.1" y1="206.0" x2="155.1" y2="275.9" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="156.2" y1="205.8" x2="150.6" y2="272.0" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="154.2" y1="205.6" x2="146.7" y2="265.4" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="152.3" y1="205.4" x2="143.9" y2="254.9" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="150.4" y1="205.0" x2="145.4" y2="228.7" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="160.0" y="317.0" text-anchor="middle" class="wlab">▲</text><line x1="145.8" y1="203.7" x2="136.7" y2="231.6" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="144.0" y1="203.1" x2="122.8" y2="260.1" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="142.2" y1="202.4" x2="114.0" y2="269.5" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="140.4" y1="201.6" x2="106.2" y2="274.3" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="138.7" y1="200.8" x2="99.5" y2="275.7" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="137.0" y1="199.8" x2="94.0" y2="274.3" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="135.4" y1="198.8" x2="90.0" y2="270.3" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="133.7" y1="197.8" x2="87.9" y2="263.7" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="132.2" y1="196.6" x2="88.2" y2="254.6" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="130.7" y1="195.4" x2="91.9" y2="242.3" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="129.2" y1="194.2" x2="109.7" y2="215.9" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="83.0" y="296.4" text-anchor="middle" class="wlab">▲</text><line x1="125.8" y1="190.8" x2="109.3" y2="205.6" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="124.6" y1="189.3" x2="89.0" y2="218.7" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="123.4" y1="187.8" x2="79.4" y2="221.2" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="122.2" y1="186.3" x2="72.2" y2="221.0" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="121.2" y1="184.6" x2="67.0" y2="219.0" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="120.2" y1="183.0" x2="63.7" y2="215.6" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="119.2" y1="181.3" x2="62.4" y2="211.0" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="118.4" y1="179.6" x2="63.3" y2="205.5" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="117.6" y1="177.8" x2="66.7" y2="199.2" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="116.9" y1="176.0" x2="73.7" y2="192.1" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="116.3" y1="174.2" x2="95.2" y2="181.1" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="26.6" y="240.0" text-anchor="middle" class="wlab">▲</text><line x1="115.0" y1="169.6" x2="88.4" y2="175.2" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="114.6" y1="167.7" x2="58.8" y2="177.1" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="114.4" y1="165.8" x2="47.2" y2="174.3" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="114.2" y1="163.8" x2="39.7" y2="170.1" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="114.0" y1="161.9" x2="35.4" y2="165.2" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="114.0" y1="160.0" x2="33.9" y2="160.0" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="114.0" y1="158.1" x2="35.4" y2="154.8" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="114.2" y1="156.2" x2="39.7" y2="149.9" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="114.4" y1="154.2" x2="47.2" y2="145.7" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="114.6" y1="152.3" x2="58.8" y2="142.9" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="115.0" y1="150.4" x2="88.4" y2="144.8" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="6.0" y="163.0" text-anchor="middle" class="wlab">■</text><line x1="116.3" y1="145.8" x2="97.1" y2="139.6" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="116.9" y1="144.0" x2="77.6" y2="129.4" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="117.6" y1="142.2" x2="71.4" y2="122.7" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="118.4" y1="140.4" x2="68.3" y2="116.9" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="119.2" y1="138.7" x2="67.6" y2="111.7" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="120.2" y1="137.0" x2="68.8" y2="107.4" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="121.2" y1="135.4" x2="71.9" y2="104.1" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="122.2" y1="133.7" x2="76.8" y2="102.2" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="123.4" y1="132.2" x2="83.4" y2="101.9" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="124.6" y1="130.7" x2="92.3" y2="104.0" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="125.8" y1="129.2" x2="110.8" y2="115.7" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="26.6" y="86.0" text-anchor="middle" class="wlab">■</text><line x1="129.2" y1="125.8" x2="112.4" y2="107.1" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="130.7" y1="124.6" x2="97.3" y2="84.2" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="132.2" y1="123.4" x2="94.3" y2="73.4" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="133.7" y1="122.2" x2="94.3" y2="65.4" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="135.4" y1="121.2" x2="96.3" y2="59.6" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="137.0" y1="120.2" x2="99.9" y2="56.0" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="138.7" y1="119.2" x2="104.9" y2="54.6" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="140.4" y1="118.4" x2="111.0" y2="55.8" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="142.2" y1="117.6" x2="117.9" y2="59.8" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="144.0" y1="116.9" x2="125.7" y2="67.8" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="145.8" y1="116.3" x2="138.0" y2="92.3" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="83.0" y="29.6" text-anchor="middle" class="wlab">■</text><circle cx="160" cy="160" r="40" fill="#ffffff" stroke="rgba(36,31,26,.18)"/><text x="160" y="158" text-anchor="middle" class="wcore">12</text><text x="160" y="173" text-anchor="middle" class="wcore2">dimensies</text></svg>
+    <div class="tabelwrap">
+    <table class="compact">
+      <thead><tr><th></th><th>dimensie</th><th>hex</th><th class="num">contrast</th><th>eis</th></tr></thead>
+      <tbody><tr><td><span class="sw" style="background:#496cca"></span></td>
+  <td>◆ Innerlijke motor</td><td><code>#496cca</code></td>
+  <td class="num">4,63</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#4242a2"></span></td>
+  <td>◆ Denkstijl</td><td><code>#4242a2</code></td>
+  <td class="num">7,83</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#3c2c73"></span></td>
+  <td>◆ Werkstijl</td><td><code>#3c2c73</code></td>
+  <td class="num">11,01</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#068062"></span></td>
+  <td>● Sociale energie</td><td><code>#068062</code></td>
+  <td class="num">4,64</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#006a5c"></span></td>
+  <td>● Emotionele gevoeligheid</td><td><code>#006a5c</code></td>
+  <td class="num">6,16</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#005041"></span></td>
+  <td>● Relatiepatroon</td><td><code>#005041</code></td>
+  <td class="num">8,91</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#866e34"></span></td>
+  <td>▲ Controle en zekerheid</td><td><code>#866e34</code></td>
+  <td class="num">4,62</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#755a00"></span></td>
+  <td>▲ Conflictstijl</td><td><code>#755a00</code></td>
+  <td class="num">6,16</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#633a00"></span></td>
+  <td>▲ Stressreactie</td><td><code>#633a00</code></td>
+  <td class="num">9,28</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#ae527b"></span></td>
+  <td>■ Zelfbeeld</td><td><code>#ae527b</code></td>
+  <td class="num">4,62</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#bc395c"></span></td>
+  <td>■ Schaduwkant</td><td><code>#bc395c</code></td>
+  <td class="num">5,11</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#85003c"></span></td>
+  <td>■ Groeipad</td><td><code>#85003c</code></td>
+  <td class="num">9,61</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr></tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Voor wie · risico · kosten</h3>
+    <dl class="feiten">
+      <dt>Spreekt aan</dt><dd>Wie al overtuigd is van het idee en de toon serieus neemt. Lezers, twijfelaars, mensen die naar een coachgesprek toewerken.</dd>
+      <dt>Risico</dt><dd>Te weinig verschil met vandaag. Als de uitvoering halfhartig is, blijft het een keurige pagina die niemand onthoudt.</dd>
+      <dt>Bouwkosten</dt><dd>Laag. Alleen tokens en sectie-CSS; de componentstructuur blijft staan. 5 tot 8 dagen werk, plus de donkere modus.</dd>
+    </dl>
+  </section>
+</article>
+
+<article class="dir" id="richting-b" style="--d-bg:#0e0d14;--d-surface:#191627;--d-band:#2b2540;--d-veil:#141220;--d-ink:#ece6f2;--d-ink-soft:#bdb5c9;--d-ink-faint:#9a93a8;--d-acc:#e0b25c;--d-acc-deep:#f2c97e;--d-btn-bg:#e0b25c;--d-btn-fg:#17141f;--d-line:rgba(236,230,242,.16);--d-display:'Cormorant Garamond';--d-ok:#6cd39a;--d-warn:#f0b866;">
+  <header class="dir__kop">
+    <p class="dir__letter">b</p>
+    <div>
+      <h2>Nacht & Goud</h2>
+      <p class="dir__sub">Modern-mystiek-premium</p>
+    </div>
+  </header>
+
+  <section class="blok">
+    <h3 class="blok__kop">Hero</h3>
+    <figure class="hero">
+      <img src="B-hero-b-nacht-en-goud.png" alt="Conceptillustratie voor richting b: Nacht & Goud" loading="lazy" width="2400" height="1000">
+      <figcaption>Originele conceptillustratie, gemaakt voor dit voorstel. Geen bestaand werk, geen bestaand merk.</figcaption>
+    </figure>
+    <div class="heroschets">
+      <p class="hs-eyebrow">ZELFINZICHT ZONDER HOKJES</p>
+      <p class="hs-titel">Arcana<br>Profile</p>
+      <p class="hs-belofte">Beantwoord 120 vragen en lees terug wat je patronen zijn: waar je kracht zit, waar je jezelf in de weg staat.</p>
+      <p><span class="hs-btn">Start de test</span></p>
+      <p class="hs-meta">120 vragen · 20–25 minuten · gratis</p>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Het idee</h3>
+    <p class="blok__lead">De nacht als hoofdmodus.</p>
+    <p class="blok__tekst">Donker is hier geen alternatief maar het uitgangspunt: diep indigoblauw-zwart, goud als enige warme kleur, en het scorewiel als lichtgevend object in het midden. Het rapport van 7.559 woorden leest ’s avonds zonder pijn. De landingspagina wordt een affiche in plaats van een folder.</p>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Palet</h3>
+    <div class="tabelwrap">
+    <table>
+      <caption>Contrast gemeten volgens WCAG 2.1. Kolom 4 = op de paginabasis, kolom 5 = op de donkerste band.</caption>
+      <thead><tr><th></th><th>token</th><th>hex</th><th class="num">op basis</th><th class="num">op band</th><th>eis</th></tr></thead>
+      <tbody><tr><td><span class="sw" style="background:#0e0d14"></span></td><td><code>--bg</code></td><td><code>#0e0d14</code></td>
+   <td class="num">L 0,4%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#141220"></span></td><td><code>--bg-veil</code></td><td><code>#141220</code></td>
+   <td class="num">L 0,7%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#191627"></span></td><td><code>--surface</code></td><td><code>#191627</code></td>
+   <td class="num">L 0,9%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#211d33"></span></td><td><code>--surface-raised</code></td><td><code>#211d33</code></td>
+   <td class="num">L 1,4%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#2b2540"></span></td><td><code>--bg-band</code></td><td><code>#2b2540</code></td>
+   <td class="num">L 2,2%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#f3ece0"></span></td><td><code>--paper-block</code></td><td><code>#f3ece0</code></td>
+   <td class="num">L 84,4%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#ece6f2"></span></td><td><code>--ink</code></td><td><code>#ece6f2</code></td>
+  <td class="num">15,80</td><td class="num">11,91</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#bdb5c9"></span></td><td><code>--ink-soft</code></td><td><code>#bdb5c9</code></td>
+  <td class="num">9,77</td><td class="num">7,37</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#9a93a8"></span></td><td><code>--ink-faint</code></td><td><code>#9a93a8</code></td>
+  <td class="num">6,55</td><td class="num">4,93</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#e0b25c"></span></td><td><code>--gold</code></td><td><code>#e0b25c</code></td>
+  <td class="num">9,84</td><td class="num">7,42</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#f2c97e"></span></td><td><code>--gold-bright</code></td><td><code>#f2c97e</code></td>
+  <td class="num">12,36</td><td class="num">9,32</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#bd8d3c"></span></td><td><code>--gold-deep</code></td><td><code>#bd8d3c</code></td>
+  <td class="num">6,48</td><td class="num">4,88</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#8f8cff"></span></td><td><code>--indigo-glow</code></td><td><code>#8f8cff</code></td>
+  <td class="num">6,78</td><td class="num">5,11</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr></tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Typografie</h3>
+    <div class="typo">
+      <p class="typo-eyebrow">WAT HET MEET</p>
+      <p class="typo-h1">Twaalf dimensies,<br>dertig eigenschappen</p>
+      <p class="typo-lead">Elke zin in je rapport is gekoppeld aan een gemeten score op een specifieke eigenschap.</p>
+      <p class="typo-body">De subdimensies worden samengevoegd tot twaalf hoofdlijnen: je innerlijke motor, je denkstijl, je conflictstijl, je schaduwkant, en acht andere. Uit die twaalf volgt welk archetype het sterkst naar voren komt.</p>
+      <p class="typo-spec">Cormorant Garamond 500 · display &nbsp;|&nbsp; Inter 400/500/600 · lopend &nbsp;|&nbsp; schaal 1,20 → 1,26</p>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Kaart</h3>
+    <div class="kaartdemo">
+      <div class="kaart kaart--1">
+        <span class="kaart__fam">◆ motor en richting</span>
+        <h4>Elke zin komt uit een score</h4>
+        <p>Geen algemene uitspraken die op iedereen passen. Staat er iets over je conflictstijl, dan staat het cijfer erbij waar het uit volgt.</p>
+      </div>
+      <div class="kaart kaart--2">
+        <span class="kaart__fam">▲ grip</span>
+        <h4>Ook de kant die je liever niet leest</h4>
+        <p>Hier staat ook in waar je kracht doorslaat, wat je vermijdt, en wat mensen om je heen merken zonder het te zeggen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Dimensiekleurenwiel <span class="blok__mode">(donkere modus)</span></h3>
+    <svg viewBox="0 0 320 320" role="img" aria-label="Kleurenwiel met twaalf dimensies, gegroepeerd in vier families" class="wheel"><circle cx="160" cy="160" r="144" fill="none" stroke="rgba(236,230,242,.16)" stroke-width="1"/><line x1="150.4" y1="115.0" x2="146.7" y2="97.3" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="152.3" y1="114.6" x2="146.0" y2="77.5" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="154.2" y1="114.4" x2="148.6" y2="69.6" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="156.2" y1="114.2" x2="152.0" y2="64.6" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="158.1" y1="114.0" x2="155.9" y2="61.6" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="160.0" y1="114.0" x2="160.0" y2="60.7" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="161.9" y1="114.0" x2="164.1" y2="61.6" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="163.8" y1="114.2" x2="168.0" y2="64.6" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="165.8" y1="114.4" x2="171.4" y2="69.6" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="167.7" y1="114.6" x2="174.0" y2="77.5" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="169.6" y1="115.0" x2="173.3" y2="97.3" stroke="#6284d7" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="160.0" y="9.0" text-anchor="middle" class="wlab">◆</text><line x1="174.2" y1="116.3" x2="181.4" y2="94.2" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="176.0" y1="116.9" x2="192.8" y2="71.7" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="177.8" y1="117.6" x2="200.2" y2="64.4" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="179.6" y1="118.4" x2="206.7" y2="60.8" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="181.3" y1="119.2" x2="212.4" y2="59.8" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="183.0" y1="120.2" x2="217.1" y2="61.1" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="184.6" y1="121.2" x2="220.6" y2="64.5" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="186.3" y1="122.2" x2="222.6" y2="70.0" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="187.8" y1="123.4" x2="222.7" y2="77.4" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="189.3" y1="124.6" x2="220.0" y2="87.4" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="190.8" y1="125.8" x2="206.3" y2="108.6" stroke="#99a3fe" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="237.0" y="29.6" text-anchor="middle" class="wlab">◆</text><line x1="194.2" y1="129.2" x2="215.2" y2="110.3" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="195.4" y1="130.7" x2="240.7" y2="93.3" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="196.6" y1="132.2" x2="252.6" y2="89.7" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="197.8" y1="133.7" x2="261.4" y2="89.5" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="198.8" y1="135.4" x2="267.8" y2="91.6" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="199.8" y1="137.0" x2="271.7" y2="95.5" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="200.8" y1="138.7" x2="273.1" y2="100.9" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="201.6" y1="140.4" x2="271.8" y2="107.4" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="202.4" y1="142.2" x2="267.2" y2="115.0" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="203.1" y1="144.0" x2="258.1" y2="123.5" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="203.7" y1="145.8" x2="230.6" y2="137.1" stroke="#cec8ff" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="293.4" y="86.0" text-anchor="middle" class="wlab">◆</text><line x1="205.0" y1="150.4" x2="225.7" y2="146.0" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="205.4" y1="152.3" x2="248.7" y2="145.0" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="205.6" y1="154.2" x2="257.9" y2="147.6" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="205.8" y1="156.2" x2="263.7" y2="151.3" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="206.0" y1="158.1" x2="267.1" y2="155.5" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="206.0" y1="160.0" x2="268.2" y2="160.0" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="206.0" y1="161.9" x2="267.1" y2="164.5" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="205.8" y1="163.8" x2="263.7" y2="168.7" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="205.6" y1="165.8" x2="257.9" y2="172.4" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="205.4" y1="167.7" x2="248.7" y2="175.0" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="205.0" y1="169.6" x2="225.7" y2="174.0" stroke="#3e9377" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="314.0" y="163.0" text-anchor="middle" class="wlab">●</text><line x1="203.7" y1="174.2" x2="228.7" y2="182.3" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="203.1" y1="176.0" x2="254.2" y2="195.0" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="202.4" y1="177.8" x2="262.5" y2="203.1" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="201.6" y1="179.6" x2="266.7" y2="210.2" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="200.8" y1="181.3" x2="268.0" y2="216.4" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="199.8" y1="183.0" x2="266.6" y2="221.5" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="198.8" y1="184.6" x2="262.9" y2="225.3" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="197.8" y1="186.3" x2="256.9" y2="227.3" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="196.6" y1="187.8" x2="248.6" y2="227.2" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="195.4" y1="189.3" x2="237.4" y2="224.1" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="194.2" y1="190.8" x2="213.7" y2="208.3" stroke="#5dc1a7" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="293.4" y="240.0" text-anchor="middle" class="wlab">●</text><line x1="190.8" y1="194.2" x2="203.6" y2="208.4" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="189.3" y1="195.4" x2="214.7" y2="226.1" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="187.8" y1="196.6" x2="216.6" y2="234.6" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="186.3" y1="197.8" x2="216.2" y2="240.9" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="184.6" y1="198.8" x2="214.3" y2="245.6" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="183.0" y1="199.8" x2="211.1" y2="248.6" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="181.3" y1="200.8" x2="207.0" y2="249.8" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="179.6" y1="201.6" x2="202.0" y2="249.2" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="177.8" y1="202.4" x2="196.3" y2="246.3" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="176.0" y1="203.1" x2="189.9" y2="240.4" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="174.2" y1="203.7" x2="180.1" y2="222.0" stroke="#26edd0" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="237.0" y="296.4" text-anchor="middle" class="wlab">●</text><line x1="169.6" y1="205.0" x2="174.6" y2="228.7" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="167.7" y1="205.4" x2="176.1" y2="254.9" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="165.8" y1="205.6" x2="173.3" y2="265.4" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="163.8" y1="205.8" x2="169.4" y2="272.0" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="161.9" y1="206.0" x2="164.9" y2="275.9" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="160.0" y1="206.0" x2="160.0" y2="277.1" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="158.1" y1="206.0" x2="155.1" y2="275.9" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="156.2" y1="205.8" x2="150.6" y2="272.0" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="154.2" y1="205.6" x2="146.7" y2="265.4" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="152.3" y1="205.4" x2="143.9" y2="254.9" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="150.4" y1="205.0" x2="145.4" y2="228.7" stroke="#978351" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="160.0" y="317.0" text-anchor="middle" class="wlab">▲</text><line x1="145.8" y1="203.7" x2="136.7" y2="231.6" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="144.0" y1="203.1" x2="122.8" y2="260.1" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="142.2" y1="202.4" x2="114.0" y2="269.5" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="140.4" y1="201.6" x2="106.2" y2="274.3" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="138.7" y1="200.8" x2="99.5" y2="275.7" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="137.0" y1="199.8" x2="94.0" y2="274.3" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="135.4" y1="198.8" x2="90.0" y2="270.3" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="133.7" y1="197.8" x2="87.9" y2="263.7" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="132.2" y1="196.6" x2="88.2" y2="254.6" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="130.7" y1="195.4" x2="91.9" y2="242.3" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="129.2" y1="194.2" x2="109.7" y2="215.9" stroke="#cfa940" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="83.0" y="296.4" text-anchor="middle" class="wlab">▲</text><line x1="125.8" y1="190.8" x2="109.3" y2="205.6" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="124.6" y1="189.3" x2="89.0" y2="218.7" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="123.4" y1="187.8" x2="79.4" y2="221.2" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="122.2" y1="186.3" x2="72.2" y2="221.0" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="121.2" y1="184.6" x2="67.0" y2="219.0" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="120.2" y1="183.0" x2="63.7" y2="215.6" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="119.2" y1="181.3" x2="62.4" y2="211.0" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="118.4" y1="179.6" x2="63.3" y2="205.5" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="117.6" y1="177.8" x2="66.7" y2="199.2" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="116.9" y1="176.0" x2="73.7" y2="192.1" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="116.3" y1="174.2" x2="95.2" y2="181.1" stroke="#ffd09e" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="26.6" y="240.0" text-anchor="middle" class="wlab">▲</text><line x1="115.0" y1="169.6" x2="88.4" y2="175.2" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="114.6" y1="167.7" x2="58.8" y2="177.1" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="114.4" y1="165.8" x2="47.2" y2="174.3" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="114.2" y1="163.8" x2="39.7" y2="170.1" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="114.0" y1="161.9" x2="35.4" y2="165.2" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="114.0" y1="160.0" x2="33.9" y2="160.0" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="114.0" y1="158.1" x2="35.4" y2="154.8" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="114.2" y1="156.2" x2="39.7" y2="149.9" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="114.4" y1="154.2" x2="47.2" y2="145.7" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="114.6" y1="152.3" x2="58.8" y2="142.9" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="115.0" y1="150.4" x2="88.4" y2="144.8" stroke="#d35f78" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="6.0" y="163.0" text-anchor="middle" class="wlab">■</text><line x1="116.3" y1="145.8" x2="97.1" y2="139.6" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="116.9" y1="144.0" x2="77.6" y2="129.4" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="117.6" y1="142.2" x2="71.4" y2="122.7" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="118.4" y1="140.4" x2="68.3" y2="116.9" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="119.2" y1="138.7" x2="67.6" y2="111.7" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="120.2" y1="137.0" x2="68.8" y2="107.4" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="121.2" y1="135.4" x2="71.9" y2="104.1" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="122.2" y1="133.7" x2="76.8" y2="102.2" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="123.4" y1="132.2" x2="83.4" y2="101.9" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="124.6" y1="130.7" x2="92.3" y2="104.0" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="125.8" y1="129.2" x2="110.8" y2="115.7" stroke="#c87598" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="26.6" y="86.0" text-anchor="middle" class="wlab">■</text><line x1="129.2" y1="125.8" x2="112.4" y2="107.1" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="130.7" y1="124.6" x2="97.3" y2="84.2" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="132.2" y1="123.4" x2="94.3" y2="73.4" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="133.7" y1="122.2" x2="94.3" y2="65.4" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="135.4" y1="121.2" x2="96.3" y2="59.6" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="137.0" y1="120.2" x2="99.9" y2="56.0" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="138.7" y1="119.2" x2="104.9" y2="54.6" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="140.4" y1="118.4" x2="111.0" y2="55.8" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="142.2" y1="117.6" x2="117.9" y2="59.8" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="144.0" y1="116.9" x2="125.7" y2="67.8" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="145.8" y1="116.3" x2="138.0" y2="92.3" stroke="#ffa5bb" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="83.0" y="29.6" text-anchor="middle" class="wlab">■</text><circle cx="160" cy="160" r="40" fill="#191627" stroke="rgba(236,230,242,.16)"/><text x="160" y="158" text-anchor="middle" class="wcore">12</text><text x="160" y="173" text-anchor="middle" class="wcore2">dimensies</text></svg>
+    <div class="tabelwrap">
+    <table class="compact">
+      <thead><tr><th></th><th>dimensie</th><th>hex</th><th class="num">contrast</th><th>eis</th></tr></thead>
+      <tbody><tr><td><span class="sw" style="background:#6284d7"></span></td>
+  <td>◆ Innerlijke motor</td><td><code>#6284d7</code></td>
+  <td class="num">4,89</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#99a3fe"></span></td>
+  <td>◆ Denkstijl</td><td><code>#99a3fe</code></td>
+  <td class="num">7,61</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#cec8ff"></span></td>
+  <td>◆ Werkstijl</td><td><code>#cec8ff</code></td>
+  <td class="num">11,25</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#3e9377"></span></td>
+  <td>● Sociale energie</td><td><code>#3e9377</code></td>
+  <td class="num">4,76</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#5dc1a7"></span></td>
+  <td>● Emotionele gevoeligheid</td><td><code>#5dc1a7</code></td>
+  <td class="num">8,14</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#26edd0"></span></td>
+  <td>● Relatiepatroon</td><td><code>#26edd0</code></td>
+  <td class="num">11,90</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#978351"></span></td>
+  <td>▲ Controle en zekerheid</td><td><code>#978351</code></td>
+  <td class="num">4,79</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#cfa940"></span></td>
+  <td>▲ Conflictstijl</td><td><code>#cfa940</code></td>
+  <td class="num">7,93</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#ffd09e"></span></td>
+  <td>▲ Stressreactie</td><td><code>#ffd09e</code></td>
+  <td class="num">12,46</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#d35f78"></span></td>
+  <td>■ Zelfbeeld</td><td><code>#d35f78</code></td>
+  <td class="num">4,79</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#c87598"></span></td>
+  <td>■ Schaduwkant</td><td><code>#c87598</code></td>
+  <td class="num">5,44</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#ffa5bb"></span></td>
+  <td>■ Groeipad</td><td><code>#ffa5bb</code></td>
+  <td class="num">9,58</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr></tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Voor wie · risico · kosten</h3>
+    <dl class="feiten">
+      <dt>Spreekt aan</dt><dd>Wie iets bijzonders verwacht. Jongere bezoekers, mensen die de test ’s avonds op hun telefoon doen, mensen die hem doorsturen omdat hij er goed uitziet.</dd>
+      <dt>Risico</dt><dd>Mystiek kan kantelen naar esoterisch, en juist daar zit de geloofwaardigheid van dit product. De belofte “narekenbaar” verdraagt weinig sterrenstof.</dd>
+      <dt>Bouwkosten</dt><dd>Hoog. Donker is de hoofdmodus, dus alles moet twee keer: de lichte modus wordt een volwaardige tweede opgave. 12 tot 18 dagen, plus nieuw beeldmateriaal.</dd>
+    </dl>
+  </section>
+</article>
+
+<article class="dir" id="richting-c" style="--d-bg:#fdfbf8;--d-surface:#ffffff;--d-band:#dcd3c8;--d-veil:#f5f1ec;--d-ink:#20242b;--d-ink-soft:#4c525c;--d-ink-faint:#555b64;--d-acc:#9e381f;--d-acc-deep:#0a5254;--d-btn-bg:#8d3320;--d-btn-fg:#ffffff;--d-line:rgba(32,36,43,.16);--d-display:'Fraunces';--d-ok:#0f6b3f;--d-warn:#8a4a00;">
+  <header class="dir__kop">
+    <p class="dir__letter">c</p>
+    <div>
+      <h2>Warm & Nabij</h2>
+      <p class="dir__sub">Warm-eigentijds-toegankelijk</p>
+    </div>
+  </header>
+
+  <section class="blok">
+    <h3 class="blok__kop">Hero</h3>
+    <figure class="hero">
+      <img src="B-hero-c-warm-en-nabij.png" alt="Conceptillustratie voor richting c: Warm & Nabij" loading="lazy" width="2400" height="1000">
+      <figcaption>Originele conceptillustratie, gemaakt voor dit voorstel. Geen bestaand werk, geen bestaand merk.</figcaption>
+    </figure>
+    <div class="heroschets">
+      <p class="hs-eyebrow">ZELFINZICHT ZONDER HOKJES</p>
+      <p class="hs-titel">Arcana<br>Profile</p>
+      <p class="hs-belofte">Beantwoord 120 vragen en lees terug wat je patronen zijn: waar je kracht zit, waar je jezelf in de weg staat.</p>
+      <p><span class="hs-btn">Start de test</span></p>
+      <p class="hs-meta">120 vragen · 20–25 minuten · gratis</p>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Het idee</h3>
+    <p class="blok__lead">Minder antiquarisch, meer nu.</p>
+    <p class="blok__tekst">De sepia-gravure en het zestiende-eeuwse serif maken plaats voor warm wit, een eigentijds serif met meer gewicht en twee accenten die geen goud zijn: klei en diep blauwgroen. Kortere secties, meer beeld, de eerste vraag zichtbaar boven de vouw. Bedoeld om de start-rate te verhogen, niet om mooier te zijn.</p>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Palet</h3>
+    <div class="tabelwrap">
+    <table>
+      <caption>Contrast gemeten volgens WCAG 2.1. Kolom 4 = op de paginabasis, kolom 5 = op de donkerste band.</caption>
+      <thead><tr><th></th><th>token</th><th>hex</th><th class="num">op basis</th><th class="num">op band</th><th>eis</th></tr></thead>
+      <tbody><tr><td><span class="sw" style="background:#fdfbf8"></span></td><td><code>--bg</code></td><td><code>#fdfbf8</code></td>
+   <td class="num">L 96,7%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#f5f1ec"></span></td><td><code>--bg-veil</code></td><td><code>#f5f1ec</code></td>
+   <td class="num">L 88,4%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#ece6de"></span></td><td><code>--bg-deep</code></td><td><code>#ece6de</code></td>
+   <td class="num">L 79,7%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#dcd3c8"></span></td><td><code>--bg-band</code></td><td><code>#dcd3c8</code></td>
+   <td class="num">L 66,0%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#ffffff"></span></td><td><code>--surface</code></td><td><code>#ffffff</code></td>
+   <td class="num">L 100,0%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#20242b"></span></td><td><code>--ink-block</code></td><td><code>#20242b</code></td>
+   <td class="num">L 1,7%</td><td class="num">—</td><td class="badge-cell"><span class="b b-vlak">vlak</span></td></tr>
+<tr><td><span class="sw" style="background:#20242b"></span></td><td><code>--ink</code></td><td><code>#20242b</code></td>
+  <td class="num">15,07</td><td class="num">10,53</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#4c525c"></span></td><td><code>--ink-soft</code></td><td><code>#4c525c</code></td>
+  <td class="num">7,62</td><td class="num">5,32</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#555b64"></span></td><td><code>--ink-faint</code></td><td><code>#555b64</code></td>
+  <td class="num">6,63</td><td class="num">4,63</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#9e381f"></span></td><td><code>--clay</code></td><td><code>#9e381f</code></td>
+  <td class="num">6,69</td><td class="num">4,67</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#8d3320"></span></td><td><code>--clay-deep</code></td><td><code>#8d3320</code></td>
+  <td class="num">7,74</td><td class="num">5,40</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#0c6063"></span></td><td><code>--teal</code></td><td><code>#0c6063</code></td>
+  <td class="num">7,09</td><td class="num">4,95</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#0a5254"></span></td><td><code>--teal-deep</code></td><td><code>#0a5254</code></td>
+  <td class="num">8,66</td><td class="num">6,05</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr></tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Typografie</h3>
+    <div class="typo">
+      <p class="typo-eyebrow">WAT HET MEET</p>
+      <p class="typo-h1">Twaalf dimensies,<br>dertig eigenschappen</p>
+      <p class="typo-lead">Elke zin in je rapport is gekoppeld aan een gemeten score op een specifieke eigenschap.</p>
+      <p class="typo-body">De subdimensies worden samengevoegd tot twaalf hoofdlijnen: je innerlijke motor, je denkstijl, je conflictstijl, je schaduwkant, en acht andere. Uit die twaalf volgt welk archetype het sterkst naar voren komt.</p>
+      <p class="typo-spec">Fraunces 500 · display &nbsp;|&nbsp; Inter 400/500/600 · lopend &nbsp;|&nbsp; schaal 1,20 → 1,26</p>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Kaart</h3>
+    <div class="kaartdemo">
+      <div class="kaart kaart--1">
+        <span class="kaart__fam">◆ motor en richting</span>
+        <h4>Elke zin komt uit een score</h4>
+        <p>Geen algemene uitspraken die op iedereen passen. Staat er iets over je conflictstijl, dan staat het cijfer erbij waar het uit volgt.</p>
+      </div>
+      <div class="kaart kaart--2">
+        <span class="kaart__fam">▲ grip</span>
+        <h4>Ook de kant die je liever niet leest</h4>
+        <p>Hier staat ook in waar je kracht doorslaat, wat je vermijdt, en wat mensen om je heen merken zonder het te zeggen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Dimensiekleurenwiel <span class="blok__mode">(lichte modus)</span></h3>
+    <svg viewBox="0 0 320 320" role="img" aria-label="Kleurenwiel met twaalf dimensies, gegroepeerd in vier families" class="wheel"><circle cx="160" cy="160" r="144" fill="none" stroke="rgba(32,36,43,.16)" stroke-width="1"/><line x1="150.4" y1="115.0" x2="146.7" y2="97.3" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="152.3" y1="114.6" x2="146.0" y2="77.5" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="154.2" y1="114.4" x2="148.6" y2="69.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="156.2" y1="114.2" x2="152.0" y2="64.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="158.1" y1="114.0" x2="155.9" y2="61.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="160.0" y1="114.0" x2="160.0" y2="60.7" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="161.9" y1="114.0" x2="164.1" y2="61.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="163.8" y1="114.2" x2="168.0" y2="64.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="165.8" y1="114.4" x2="171.4" y2="69.6" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="167.7" y1="114.6" x2="174.0" y2="77.5" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="169.6" y1="115.0" x2="173.3" y2="97.3" stroke="#496cca" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="160.0" y="9.0" text-anchor="middle" class="wlab">◆</text><line x1="174.2" y1="116.3" x2="181.4" y2="94.2" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="176.0" y1="116.9" x2="192.8" y2="71.7" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="177.8" y1="117.6" x2="200.2" y2="64.4" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="179.6" y1="118.4" x2="206.7" y2="60.8" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="181.3" y1="119.2" x2="212.4" y2="59.8" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="183.0" y1="120.2" x2="217.1" y2="61.1" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="184.6" y1="121.2" x2="220.6" y2="64.5" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="186.3" y1="122.2" x2="222.6" y2="70.0" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="187.8" y1="123.4" x2="222.7" y2="77.4" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="189.3" y1="124.6" x2="220.0" y2="87.4" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="190.8" y1="125.8" x2="206.3" y2="108.6" stroke="#4242a2" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="237.0" y="29.6" text-anchor="middle" class="wlab">◆</text><line x1="194.2" y1="129.2" x2="215.2" y2="110.3" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="195.4" y1="130.7" x2="240.7" y2="93.3" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="196.6" y1="132.2" x2="252.6" y2="89.7" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="197.8" y1="133.7" x2="261.4" y2="89.5" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="198.8" y1="135.4" x2="267.8" y2="91.6" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="199.8" y1="137.0" x2="271.7" y2="95.5" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="200.8" y1="138.7" x2="273.1" y2="100.9" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="201.6" y1="140.4" x2="271.8" y2="107.4" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="202.4" y1="142.2" x2="267.2" y2="115.0" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="203.1" y1="144.0" x2="258.1" y2="123.5" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="203.7" y1="145.8" x2="230.6" y2="137.1" stroke="#3c2c73" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="293.4" y="86.0" text-anchor="middle" class="wlab">◆</text><line x1="205.0" y1="150.4" x2="225.7" y2="146.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="205.4" y1="152.3" x2="248.7" y2="145.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="205.6" y1="154.2" x2="257.9" y2="147.6" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="205.8" y1="156.2" x2="263.7" y2="151.3" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="206.0" y1="158.1" x2="267.1" y2="155.5" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="206.0" y1="160.0" x2="268.2" y2="160.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="206.0" y1="161.9" x2="267.1" y2="164.5" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="205.8" y1="163.8" x2="263.7" y2="168.7" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="205.6" y1="165.8" x2="257.9" y2="172.4" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="205.4" y1="167.7" x2="248.7" y2="175.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="205.0" y1="169.6" x2="225.7" y2="174.0" stroke="#068062" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="314.0" y="163.0" text-anchor="middle" class="wlab">●</text><line x1="203.7" y1="174.2" x2="228.7" y2="182.3" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="203.1" y1="176.0" x2="254.2" y2="195.0" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="202.4" y1="177.8" x2="262.5" y2="203.1" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="201.6" y1="179.6" x2="266.7" y2="210.2" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="200.8" y1="181.3" x2="268.0" y2="216.4" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="199.8" y1="183.0" x2="266.6" y2="221.5" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="198.8" y1="184.6" x2="262.9" y2="225.3" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="197.8" y1="186.3" x2="256.9" y2="227.3" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="196.6" y1="187.8" x2="248.6" y2="227.2" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="195.4" y1="189.3" x2="237.4" y2="224.1" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="194.2" y1="190.8" x2="213.7" y2="208.3" stroke="#006a5c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="293.4" y="240.0" text-anchor="middle" class="wlab">●</text><line x1="190.8" y1="194.2" x2="203.6" y2="208.4" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="189.3" y1="195.4" x2="214.7" y2="226.1" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="187.8" y1="196.6" x2="216.6" y2="234.6" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="186.3" y1="197.8" x2="216.2" y2="240.9" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="184.6" y1="198.8" x2="214.3" y2="245.6" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="183.0" y1="199.8" x2="211.1" y2="248.6" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="181.3" y1="200.8" x2="207.0" y2="249.8" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="179.6" y1="201.6" x2="202.0" y2="249.2" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="177.8" y1="202.4" x2="196.3" y2="246.3" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="176.0" y1="203.1" x2="189.9" y2="240.4" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="174.2" y1="203.7" x2="180.1" y2="222.0" stroke="#005041" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="237.0" y="296.4" text-anchor="middle" class="wlab">●</text><line x1="169.6" y1="205.0" x2="174.6" y2="228.7" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="167.7" y1="205.4" x2="176.1" y2="254.9" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="165.8" y1="205.6" x2="173.3" y2="265.4" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="163.8" y1="205.8" x2="169.4" y2="272.0" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="161.9" y1="206.0" x2="164.9" y2="275.9" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="160.0" y1="206.0" x2="160.0" y2="277.1" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="158.1" y1="206.0" x2="155.1" y2="275.9" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="156.2" y1="205.8" x2="150.6" y2="272.0" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="154.2" y1="205.6" x2="146.7" y2="265.4" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="152.3" y1="205.4" x2="143.9" y2="254.9" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="150.4" y1="205.0" x2="145.4" y2="228.7" stroke="#866e34" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="160.0" y="317.0" text-anchor="middle" class="wlab">▲</text><line x1="145.8" y1="203.7" x2="136.7" y2="231.6" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="144.0" y1="203.1" x2="122.8" y2="260.1" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="142.2" y1="202.4" x2="114.0" y2="269.5" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="140.4" y1="201.6" x2="106.2" y2="274.3" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="138.7" y1="200.8" x2="99.5" y2="275.7" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="137.0" y1="199.8" x2="94.0" y2="274.3" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="135.4" y1="198.8" x2="90.0" y2="270.3" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="133.7" y1="197.8" x2="87.9" y2="263.7" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="132.2" y1="196.6" x2="88.2" y2="254.6" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="130.7" y1="195.4" x2="91.9" y2="242.3" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="129.2" y1="194.2" x2="109.7" y2="215.9" stroke="#755a00" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="83.0" y="296.4" text-anchor="middle" class="wlab">▲</text><line x1="125.8" y1="190.8" x2="109.3" y2="205.6" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="124.6" y1="189.3" x2="89.0" y2="218.7" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="123.4" y1="187.8" x2="79.4" y2="221.2" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="122.2" y1="186.3" x2="72.2" y2="221.0" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="121.2" y1="184.6" x2="67.0" y2="219.0" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="120.2" y1="183.0" x2="63.7" y2="215.6" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="119.2" y1="181.3" x2="62.4" y2="211.0" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="118.4" y1="179.6" x2="63.3" y2="205.5" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="117.6" y1="177.8" x2="66.7" y2="199.2" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="116.9" y1="176.0" x2="73.7" y2="192.1" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="116.3" y1="174.2" x2="95.2" y2="181.1" stroke="#633a00" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="26.6" y="240.0" text-anchor="middle" class="wlab">▲</text><line x1="115.0" y1="169.6" x2="88.4" y2="175.2" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="114.6" y1="167.7" x2="58.8" y2="177.1" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="114.4" y1="165.8" x2="47.2" y2="174.3" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="114.2" y1="163.8" x2="39.7" y2="170.1" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="114.0" y1="161.9" x2="35.4" y2="165.2" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="114.0" y1="160.0" x2="33.9" y2="160.0" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="114.0" y1="158.1" x2="35.4" y2="154.8" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="114.2" y1="156.2" x2="39.7" y2="149.9" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="114.4" y1="154.2" x2="47.2" y2="145.7" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="114.6" y1="152.3" x2="58.8" y2="142.9" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="115.0" y1="150.4" x2="88.4" y2="144.8" stroke="#ae527b" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="6.0" y="163.0" text-anchor="middle" class="wlab">■</text><line x1="116.3" y1="145.8" x2="97.1" y2="139.6" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="116.9" y1="144.0" x2="77.6" y2="129.4" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="117.6" y1="142.2" x2="71.4" y2="122.7" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="118.4" y1="140.4" x2="68.3" y2="116.9" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="119.2" y1="138.7" x2="67.6" y2="111.7" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="120.2" y1="137.0" x2="68.8" y2="107.4" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="121.2" y1="135.4" x2="71.9" y2="104.1" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="122.2" y1="133.7" x2="76.8" y2="102.2" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="123.4" y1="132.2" x2="83.4" y2="101.9" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="124.6" y1="130.7" x2="92.3" y2="104.0" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="125.8" y1="129.2" x2="110.8" y2="115.7" stroke="#bc395c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="26.6" y="86.0" text-anchor="middle" class="wlab">■</text><line x1="129.2" y1="125.8" x2="112.4" y2="107.1" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><line x1="130.7" y1="124.6" x2="97.3" y2="84.2" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="132.2" y1="123.4" x2="94.3" y2="73.4" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="133.7" y1="122.2" x2="94.3" y2="65.4" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="135.4" y1="121.2" x2="96.3" y2="59.6" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="137.0" y1="120.2" x2="99.9" y2="56.0" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.95"/><line x1="138.7" y1="119.2" x2="104.9" y2="54.6" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.94"/><line x1="140.4" y1="118.4" x2="111.0" y2="55.8" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.90"/><line x1="142.2" y1="117.6" x2="117.9" y2="59.8" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.83"/><line x1="144.0" y1="116.9" x2="125.7" y2="67.8" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.73"/><line x1="145.8" y1="116.3" x2="138.0" y2="92.3" stroke="#85003c" stroke-width="2.1" stroke-linecap="round" opacity="0.45"/><text x="83.0" y="29.6" text-anchor="middle" class="wlab">■</text><circle cx="160" cy="160" r="40" fill="#ffffff" stroke="rgba(32,36,43,.16)"/><text x="160" y="158" text-anchor="middle" class="wcore">12</text><text x="160" y="173" text-anchor="middle" class="wcore2">dimensies</text></svg>
+    <div class="tabelwrap">
+    <table class="compact">
+      <thead><tr><th></th><th>dimensie</th><th>hex</th><th class="num">contrast</th><th>eis</th></tr></thead>
+      <tbody><tr><td><span class="sw" style="background:#496cca"></span></td>
+  <td>◆ Innerlijke motor</td><td><code>#496cca</code></td>
+  <td class="num">4,75</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#4242a2"></span></td>
+  <td>◆ Denkstijl</td><td><code>#4242a2</code></td>
+  <td class="num">8,03</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#3c2c73"></span></td>
+  <td>◆ Werkstijl</td><td><code>#3c2c73</code></td>
+  <td class="num">11,30</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#068062"></span></td>
+  <td>● Sociale energie</td><td><code>#068062</code></td>
+  <td class="num">4,76</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#006a5c"></span></td>
+  <td>● Emotionele gevoeligheid</td><td><code>#006a5c</code></td>
+  <td class="num">6,32</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#005041"></span></td>
+  <td>● Relatiepatroon</td><td><code>#005041</code></td>
+  <td class="num">9,14</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#866e34"></span></td>
+  <td>▲ Controle en zekerheid</td><td><code>#866e34</code></td>
+  <td class="num">4,74</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#755a00"></span></td>
+  <td>▲ Conflictstijl</td><td><code>#755a00</code></td>
+  <td class="num">6,32</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#633a00"></span></td>
+  <td>▲ Stressreactie</td><td><code>#633a00</code></td>
+  <td class="num">9,52</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#ae527b"></span></td>
+  <td>■ Zelfbeeld</td><td><code>#ae527b</code></td>
+  <td class="num">4,74</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#bc395c"></span></td>
+  <td>■ Schaduwkant</td><td><code>#bc395c</code></td>
+  <td class="num">5,24</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr>
+<tr><td><span class="sw" style="background:#85003c"></span></td>
+  <td>■ Groeipad</td><td><code>#85003c</code></td>
+  <td class="num">9,86</td>
+  <td class="badge-cell"><span class="b b-ok">AA</span></td></tr></tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="blok">
+    <h3 class="blok__kop">Voor wie · risico · kosten</h3>
+    <dl class="feiten">
+      <dt>Spreekt aan</dt><dd>Wie langsloopt en niets met “arcana” heeft. Een breder, jonger, minder literair publiek — en de sceptische deelnemer uit de usabilitytest.</dd>
+      <dt>Risico</dt><dd>Je verliest wat dit product onderscheidt. De literaire toon is de reden dat het rapport landt; als de buitenkant belooft dat het licht is, valt de eerste alinea zwaar.</dd>
+      <dt>Bouwkosten</dt><dd>Middel tot hoog. Nieuw display-lettertype, nieuw beeld, nieuwe sectie-indeling, en de copy moet mee. 10 tot 14 dagen.</dd>
+    </dl>
+  </section>
+</article>
+</div>
+
+<section class="sectie" id="kleurenblindheid">
+  <h2>Het bewijs: twaalf kleuren onder vier soorten zicht</h2>
+  <p>Elke strook toont de twaalf dimensiekleuren in dezelfde volgorde; de bovenste rij is de lichte modus, de onderste de donkere. Links het normale zicht, daarnaast de drie veelvoorkomende vormen van kleurenblindheid, gesimuleerd met de matrices van Machado, Oliveira &amp; Fernandes (2009) op volle severiteit.</p>
+  <p>De laagste onderlinge afstand over alle 66 paren en alle vier de zichtcondities is <strong>ΔE2000 = 7,1</strong> in de lichte modus (7,10; deuteranopie, Sociale energie tegenover Zelfbeeld) en <strong>7,4</strong> in de donkere (7,44; deuteranopie, Emotionele gevoeligheid tegenover Schaduwkant). In het huidige wiel is dat <strong>1,4</strong> (Zelfbeeld tegenover Schaduwkant, protanopie) — praktisch identiek. <em>Methode: Machado, Oliveira &amp; Fernandes (2009), severiteit 1,0, matrix toegepast op <strong>lineaire</strong> RGB; afstand CIEDE2000, witpunt D65. Op gamma-RGB geven dezelfde matrices andere uitkomsten, dus deze regel hoort bij het getal.</em> Belangrijk: ruim 7 ΔE is een verbetering van factor vijf, maar het is nog steeds te weinig om een dimensie op kleur alleen te herkennen. Daarom draagt kleur in dit systeem nooit alleen: elke dimensie heeft altijd ook zijn naam, zijn vaste positie op het wiel en het symbool van zijn familie (◆ motor · ● contact · ▲ grip · ■ zelf).</p>
+  <div class="cvd"><div class="cvd-col"><h4>normaal</h4><div class="cvd-strip"><span class="cvd-chip" style="background:#496cca" title="Innerlijke motor · #496cca"></span><span class="cvd-chip" style="background:#4242a2" title="Denkstijl · #4242a2"></span><span class="cvd-chip" style="background:#3c2c73" title="Werkstijl · #3c2c73"></span><span class="cvd-chip" style="background:#068062" title="Sociale energie · #068062"></span><span class="cvd-chip" style="background:#006a5c" title="Emotionele gevoeligheid · #006a5c"></span><span class="cvd-chip" style="background:#005041" title="Relatiepatroon · #005041"></span><span class="cvd-chip" style="background:#866e34" title="Controle en zekerheid · #866e34"></span><span class="cvd-chip" style="background:#755a00" title="Conflictstijl · #755a00"></span><span class="cvd-chip" style="background:#633a00" title="Stressreactie · #633a00"></span><span class="cvd-chip" style="background:#ae527b" title="Zelfbeeld · #ae527b"></span><span class="cvd-chip" style="background:#bc395c" title="Schaduwkant · #bc395c"></span><span class="cvd-chip" style="background:#85003c" title="Groeipad · #85003c"></span></div><div class="cvd-strip"><span class="cvd-chip" style="background:#6284d7" title="Innerlijke motor · #6284d7"></span><span class="cvd-chip" style="background:#99a3fe" title="Denkstijl · #99a3fe"></span><span class="cvd-chip" style="background:#cec8ff" title="Werkstijl · #cec8ff"></span><span class="cvd-chip" style="background:#3e9377" title="Sociale energie · #3e9377"></span><span class="cvd-chip" style="background:#5dc1a7" title="Emotionele gevoeligheid · #5dc1a7"></span><span class="cvd-chip" style="background:#26edd0" title="Relatiepatroon · #26edd0"></span><span class="cvd-chip" style="background:#978351" title="Controle en zekerheid · #978351"></span><span class="cvd-chip" style="background:#cfa940" title="Conflictstijl · #cfa940"></span><span class="cvd-chip" style="background:#ffd09e" title="Stressreactie · #ffd09e"></span><span class="cvd-chip" style="background:#d35f78" title="Zelfbeeld · #d35f78"></span><span class="cvd-chip" style="background:#c87598" title="Schaduwkant · #c87598"></span><span class="cvd-chip" style="background:#ffa5bb" title="Groeipad · #ffa5bb"></span></div></div><div class="cvd-col"><h4>protanopie</h4><div class="cvd-strip"><span class="cvd-chip" style="background:#3d77ce" title="Innerlijke motor · #3d77ce"></span><span class="cvd-chip" style="background:#0052a5" title="Denkstijl · #0052a5"></span><span class="cvd-chip" style="background:#003a75" title="Werkstijl · #003a75"></span><span class="cvd-chip" style="background:#7c7660" title="Sociale energie · #7c7660"></span><span class="cvd-chip" style="background:#65635b" title="Emotionele gevoeligheid · #65635b"></span><span class="cvd-chip" style="background:#4d4a40" title="Relatiepatroon · #4d4a40"></span><span class="cvd-chip" style="background:#7a6d2e" title="Controle en zekerheid · #7a6d2e"></span><span class="cvd-chip" style="background:#675900" title="Conflictstijl · #675900"></span><span class="cvd-chip" style="background:#473e00" title="Stressreactie · #473e00"></span><span class="cvd-chip" style="background:#5e677c" title="Zelfbeeld · #5e677c"></span><span class="cvd-chip" style="background:#58595d" title="Schaduwkant · #58595d"></span><span class="cvd-chip" style="background:#2d323d" title="Groeipad · #2d323d"></span></div><div class="cvd-strip"><span class="cvd-chip" style="background:#628cda" title="Innerlijke motor · #628cda"></span><span class="cvd-chip" style="background:#84aeff" title="Denkstijl · #84aeff"></span><span class="cvd-chip" style="background:#bbcfff" title="Werkstijl · #bbcfff"></span><span class="cvd-chip" style="background:#8f8a76" title="Sociale energie · #8f8a76"></span><span class="cvd-chip" style="background:#bbb6a6" title="Emotionele gevoeligheid · #bbb6a6"></span><span class="cvd-chip" style="background:#e3decf" title="Relatiepatroon · #e3decf"></span><span class="cvd-chip" style="background:#8e824d" title="Controle en zekerheid · #8e824d"></span><span class="cvd-chip" style="background:#bca732" title="Conflictstijl · #bca732"></span><span class="cvd-chip" style="background:#e0d29b" title="Stressreactie · #e0d29b"></span><span class="cvd-chip" style="background:#767779" title="Zelfbeeld · #767779"></span><span class="cvd-chip" style="background:#7f8699" title="Schaduwkant · #7f8699"></span><span class="cvd-chip" style="background:#b2b5bc" title="Groeipad · #b2b5bc"></span></div></div><div class="cvd-col"><h4>deuteranopie</h4><div class="cvd-strip"><span class="cvd-chip" style="background:#256bc8" title="Innerlijke motor · #256bc8"></span><span class="cvd-chip" style="background:#004aa0" title="Denkstijl · #004aa0"></span><span class="cvd-chip" style="background:#003771" title="Werkstijl · #003771"></span><span class="cvd-chip" style="background:#6f6d64" title="Sociale energie · #6f6d64"></span><span class="cvd-chip" style="background:#595a5d" title="Emotionele gevoeligheid · #595a5d"></span><span class="cvd-chip" style="background:#444342" title="Relatiepatroon · #444342"></span><span class="cvd-chip" style="background:#7f7436" title="Controle en zekerheid · #7f7436"></span><span class="cvd-chip" style="background:#6d6108" title="Conflictstijl · #6d6108"></span><span class="cvd-chip" style="background:#514701" title="Stressreactie · #514701"></span><span class="cvd-chip" style="background:#777779" title="Zelfbeeld · #777779"></span><span class="cvd-chip" style="background:#7a7459" title="Schaduwkant · #7a7459"></span><span class="cvd-chip" style="background:#4e4a39" title="Groeipad · #4e4a39"></span></div><div class="cvd-strip"><span class="cvd-chip" style="background:#5482d5" title="Innerlijke motor · #5482d5"></span><span class="cvd-chip" style="background:#7da6fc" title="Denkstijl · #7da6fc"></span><span class="cvd-chip" style="background:#bbcdfd" title="Werkstijl · #bbcdfd"></span><span class="cvd-chip" style="background:#838179" title="Sociale energie · #838179"></span><span class="cvd-chip" style="background:#acaba9" title="Emotionele gevoeligheid · #acaba9"></span><span class="cvd-chip" style="background:#caccd2" title="Relatiepatroon · #caccd2"></span><span class="cvd-chip" style="background:#938753" title="Controle en zekerheid · #938753"></span><span class="cvd-chip" style="background:#c5b245" title="Conflictstijl · #c5b245"></span><span class="cvd-chip" style="background:#ebdd9f" title="Stressreactie · #ebdd9f"></span><span class="cvd-chip" style="background:#948d75" title="Zelfbeeld · #948d75"></span><span class="cvd-chip" style="background:#939496" title="Schaduwkant · #939496"></span><span class="cvd-chip" style="background:#c8c5b9" title="Groeipad · #c8c5b9"></span></div></div><div class="cvd-col"><h4>tritanopie</h4><div class="cvd-strip"><span class="cvd-chip" style="background:#008291" title="Innerlijke motor · #008291"></span><span class="cvd-chip" style="background:#00596b" title="Denkstijl · #00596b"></span><span class="cvd-chip" style="background:#2b3c4b" title="Werkstijl · #2b3c4b"></span><span class="cvd-chip" style="background:#008178" title="Sociale energie · #008178"></span><span class="cvd-chip" style="background:#006c66" title="Emotionele gevoeligheid · #006c66"></span><span class="cvd-chip" style="background:#00514c" title="Relatiepatroon · #00514c"></span><span class="cvd-chip" style="background:#916661" title="Controle en zekerheid · #916661"></span><span class="cvd-chip" style="background:#80504c" title="Conflictstijl · #80504c"></span><span class="cvd-chip" style="background:#6d3030" title="Stressreactie · #6d3030"></span><span class="cvd-chip" style="background:#ba4d61" title="Zelfbeeld · #ba4d61"></span><span class="cvd-chip" style="background:#cd2047" title="Schaduwkant · #cd2047"></span><span class="cvd-chip" style="background:#920021" title="Groeipad · #920021"></span></div><div class="cvd-strip"><span class="cvd-chip" style="background:#2096a3" title="Innerlijke motor · #2096a3"></span><span class="cvd-chip" style="background:#7ab5c5" title="Denkstijl · #7ab5c5"></span><span class="cvd-chip" style="background:#c4d1db" title="Werkstijl · #c4d1db"></span><span class="cvd-chip" style="background:#10948b" title="Sociale energie · #10948b"></span><span class="cvd-chip" style="background:#2ec3b9" title="Emotionele gevoeligheid · #2ec3b9"></span><span class="cvd-chip" style="background:#00f1e4" title="Relatiepatroon · #00f1e4"></span><span class="cvd-chip" style="background:#a17b77" title="Controle en zekerheid · #a17b77"></span><span class="cvd-chip" style="background:#e09b93" title="Conflictstijl · #e09b93"></span><span class="cvd-chip" style="background:#ffc5c3" title="Stressreactie · #ffc5c3"></span><span class="cvd-chip" style="background:#e45168" title="Zelfbeeld · #e45168"></span><span class="cvd-chip" style="background:#d47181" title="Schaduwkant · #d47181"></span><span class="cvd-chip" style="background:#ff9fad" title="Groeipad · #ff9fad"></span></div></div></div>
+</section>
+
+<section class="sectie" id="advies">
+  <div class="aanbeveling">
+    <h2>Advies: richting (a), met de donkere modus van (b) er integraal in</h2>
+    <p>Het probleem is niet de identiteit van het palet maar het ontbreken van middentonen, ritme en beeld. Richting (a) repareert precies dat, met het laagste risico voor het merk en de laagste bouwkosten — en de donkere modus uit (b) levert het drama zonder dat de hele propositie erop wordt ingezet.</p>
+    <ol>
+      <li><strong>Er is geen middentoon.</strong> Het hele huidige palet zit in twee klonters: negen tokens tussen 79 % en 100 % luminantie, elf tussen 1,8 % en 22,5 %. Tussen 22,5 % en 79,2 % staat niets. Zonder middentoon is diepte onmogelijk, ongeacht welke richting u kiest.</li>
+      <li><strong>Twee van de twaalf huidige dimensiekleuren halen zelfs de grafische eis van 3:1 niet</strong> (<code>#9a9349</code> = 2,98 en <code>#b58b41</code> = 2,94 op perkament). Dat staat los van de richtingkeuze en moet hoe dan ook worden opgelost.</li>
+      <li><strong>Donkere modus is geen extraatje.</strong> Het rapport is 21.716 pixels lang en 7.559 woorden groot; mensen lezen dat 's avonds. De site heeft vandaag nul <code>prefers-color-scheme</code>-regels.</li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<footer class="paginavoet">
+  <p>Contrast berekend volgens WCAG 2.1 (relatieve luminantie, sRGB). Kleurenblindheid gesimuleerd met Machado, Oliveira &amp; Fernandes (2009), severiteit 1,0. Kleurafstand volgens CIEDE2000. Alle illustraties zijn origineel werk voor dit voorstel.</p>
+  <p>Deze pagina respecteert <code>prefers-reduced-motion</code> en <code>prefers-color-scheme</code>, en is getoetst op telefoonbreedte.</p>
+</footer>
+</div>
+</body>
+</html>

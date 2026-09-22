@@ -4,13 +4,23 @@
     {
       "name": "babyfoon-web (root, node server.js)",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", ".."],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--prefix",
+        ".."
+      ],
       "port": 3000
     },
     {
       "name": "arcana (vite dev server)",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "arcana"],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--prefix",
+        "arcana"
+      ],
       "port": 5173
     },
     {
@@ -24,6 +34,17 @@
         "3100"
       ],
       "port": 3100
+    },
+    {
+      "name": "verkoophub",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "start",
+        "--prefix",
+        "../../verkoophub"
+      ],
+      "port": 4321
     }
   ]
 }

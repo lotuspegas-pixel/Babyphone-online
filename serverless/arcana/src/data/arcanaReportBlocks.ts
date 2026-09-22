@@ -2,7 +2,7 @@ export const PRIVACY_TEXT =
   "Je antwoorden worden standaard alleen in deze browser opgeslagen om je rapport te maken. Verwijder je je browserdata of klik je op 'Antwoorden wissen', dan verdwijnen je antwoorden.";
 
 export const DISCLAIMER_TEXT =
-  'Arcana Mirror is bedoeld voor zelfreflectie en persoonlijke ontwikkeling. Het is geen medisch, psychologisch of therapeutisch diagnose-instrument.';
+  'Arcana Profile is bedoeld voor zelfreflectie en persoonlijke ontwikkeling. Het is geen medisch, psychologisch of therapeutisch diagnose-instrument.';
 
 export interface ThirtyDayWeek {
   week: number;

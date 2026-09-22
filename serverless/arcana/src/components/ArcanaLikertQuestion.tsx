@@ -50,29 +50,37 @@ export function ArcanaLikertQuestion({ question, answer, onAnswer }: Props) {
   const selectedIndex = VALUES.findIndex((value) => answer?.value === value);
 
   return (
-    <div className="arcana-likert" role="radiogroup" aria-label={question.text}>
-      {VALUES.map((value, index) => {
-        const isSelected = answer?.value === value;
-        const isTabbable = selectedIndex === -1 ? index === 0 : isSelected;
-        return (
-          <button
-            key={value}
-            type="button"
-            ref={(el) => {
-              optionRefs.current[index] = el;
-            }}
-            className={`arcana-likert__option${isSelected ? ' is-selected' : ''}`}
-            onClick={() => select(value)}
-            onKeyDown={(event) => handleKeyDown(event, index)}
-            role="radio"
-            aria-checked={isSelected}
-            tabIndex={isTabbable ? 0 : -1}
-          >
-            <span className="arcana-likert__number">{value}</span>
-            <span className="arcana-likert__label">{LIKERT_LABELS[value]}</span>
-          </button>
-        );
-      })}
+    <div className="arcana-likert">
+      <div className="arcana-likert__scale" role="radiogroup" aria-label={question.text}>
+        {VALUES.map((value, index) => {
+          const isSelected = answer?.value === value;
+          const isTabbable = selectedIndex === -1 ? index === 0 : isSelected;
+          return (
+            <button
+              key={value}
+              type="button"
+              ref={(el) => {
+                optionRefs.current[index] = el;
+              }}
+              className={`arcana-likert__option${isSelected ? ' is-selected' : ''}`}
+              onClick={() => select(value)}
+              onKeyDown={(event) => handleKeyDown(event, index)}
+              role="radio"
+              aria-checked={isSelected}
+              aria-label={`${value} van 7 — ${LIKERT_LABELS[value]}`}
+              tabIndex={isTabbable ? 0 : -1}
+            >
+              <span className="arcana-likert__number" aria-hidden="true">
+                {value}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <div className="arcana-likert__labels" aria-hidden="true">
+        <span>{LIKERT_LABELS[1]}</span>
+        <span>{LIKERT_LABELS[7]}</span>
+      </div>
     </div>
   );
 }

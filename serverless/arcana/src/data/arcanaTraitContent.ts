@@ -819,7 +819,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     ],
   },
   stressWithdrawal: {
-    label: 'Stress: terugtrekken',
+    label: 'Terugtrekken onder druk',
     behavior: [
       'je wordt onder druk stiller en trekt je terug in plaats van te delen',
       'je valt onder druk stil en zoekt afstand in plaats van erover te praten',
@@ -853,7 +853,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     ],
   },
   stressControl: {
-    label: 'Stress: controleren',
+    label: 'Grip zoeken onder druk',
     behavior: [
       'je grijpt onder druk naar overzicht en regie',
       'je zoekt onder druk houvast door overzicht en regie naar je toe te trekken',
@@ -887,7 +887,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     ],
   },
   stressAcceleration: {
-    label: 'Stress: versnellen',
+    label: 'Versnellen onder druk',
     behavior: [
       'je gaat onder druk sneller en doet meer tegelijk',
       'je versnelt onder spanning en pakt meerdere dingen tegelijk op',
@@ -921,7 +921,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     ],
   },
   stressFreeze: {
-    label: 'Stress: bevriezen',
+    label: 'Vastlopen onder druk',
     behavior: [
       'je loopt vast, ook al blijft je hoofd actief malen',
       'je komt tot stilstand, terwijl je gedachten intussen druk blijven doorwerken',
@@ -955,7 +955,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     ],
   },
   shadowDefensiveness: {
-    label: 'Schaduw: verdedigen',
+    label: 'Jezelf verdedigen bij kritiek',
     behavior: [
       'je verdedigt jezelf sneller dan je zou willen wanneer er kritiek komt',
       'je schiet bij kritiek sneller in de verdediging dan je eigenlijk zou willen',
@@ -989,7 +989,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     ],
   },
   shadowAvoidance: {
-    label: 'Schaduw: vermijden',
+    label: 'Uitstellen wat ongemakkelijk is',
     behavior: [
       'je stelt lastige gevoelens, keuzes of gesprekken uit',
       'je schuift moeilijke gevoelens, beslissingen of gesprekken voor je uit',

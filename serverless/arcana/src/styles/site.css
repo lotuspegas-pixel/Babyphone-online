@@ -1,0 +1,979 @@
+/* =========================================================================
+   Publieke website rond de test: header, landingspagina, losse pagina's,
+   voettekst. De testflow zelf staat in arcana.css; dit bestand gebruikt
+   dezelfde tokens en voegt er niets aan toe.
+
+   Alles schaalt mee met de schermbreedte via clamp() en auto-fit-grids, zodat
+   er geen vaste breekpunten nodig zijn behalve voor de navigatie (die op
+   smalle schermen naar een menuknop gaat).
+   ========================================================================= */
+
+.site {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site__main {
+  flex: 1;
+}
+
+/* Generieke focusring voor alles in de site-laag dat geen eigen
+   focus-visible-stijl heeft (navigatielinks, voettekstlinks, FAQ-summary,
+   burgerknop, "terug"-link op de losse pagina's). Zelfde kleur en dikte als
+   in de testflow/het rapport, zodat toetsenbordnavigatie er overal
+   hetzelfde uitziet. */
+.site :focus-visible,
+.legal :focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site *,
+  .legal * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ----------------------------------------------------------------- header */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--color-parchment) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.site-header__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0.85rem clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* Het achtpuntige stermerk, als masker zodat het de tekstkleur volgt. */
+.site-header__mark {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+  background: var(--editorial-gold);
+  mask-image: var(--arc-star);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: var(--arc-star);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+.site-header__nav {
+  display: flex;
+  gap: clamp(0.9rem, 2vw, 1.75rem);
+  margin-left: auto;
+  font-size: 0.93rem;
+}
+
+.site-header__nav a {
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid transparent;
+  transition: color 0.18s, border-color 0.18s;
+}
+
+.site-header__nav a:hover {
+  color: var(--color-ink);
+  border-bottom-color: var(--interaction);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+}
+
+.site-header__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--color-hairline);
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--color-ink);
+}
+
+.site-header__burger {
+  display: grid;
+  gap: 4px;
+  width: 18px;
+}
+
+.site-header__burger span {
+  display: block;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.site-header__burger.is-open span:nth-child(1) {
+  transform: translateY(5.5px) rotate(45deg);
+}
+.site-header__burger.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.site-header__burger.is-open span:nth-child(3) {
+  transform: translateY(-5.5px) rotate(-45deg);
+}
+
+.site-header__menu {
+  border-top: 1px solid var(--color-hairline);
+  padding: 1rem clamp(1rem, 4vw, 2.5rem) 1.35rem;
+  display: grid;
+  gap: 0.35rem;
+  background: var(--color-parchment);
+}
+
+.site-header__menu nav {
+  display: grid;
+}
+
+.site-header__menu a {
+  padding: 0.8rem 0;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--color-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+
+.site-header__menu .arcana-button {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .site-header__nav,
+  .site-header__actions {
+    display: none;
+  }
+  .site-header__toggle {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 901px) {
+  .site-header__menu {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- landing */
+
+.landing {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2.5rem) 0;
+}
+
+.landing__hero {
+  text-align: center;
+  padding: clamp(2.75rem, 7vw, 5.5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.landing__wordmark {
+  font-family: var(--font-display);
+  font-weight: 500;
+  /* Minimum bewust laag: "Profile" moet op een 320px-scherm binnen de marges
+     passen, ook met de negatieve letterafstand. */
+  font-size: clamp(3.25rem, 12vw, 8.5rem);
+  line-height: 0.78;
+  letter-spacing: -0.055em;
+  margin: 0.6rem 0 0;
+  display: grid;
+}
+
+.landing__belofte {
+  max-width: 34rem;
+  margin: clamp(1.25rem, 3vw, 2rem) auto 0;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  color: var(--color-ink-soft);
+  line-height: 1.65;
+}
+
+.landing__cta-blok {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.landing__cta-blok .arcana-button {
+  min-width: min(100%, 15rem);
+}
+
+.landing__cta-meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+.landing__vertrouwen {
+  list-style: none;
+  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem clamp(1rem, 3vw, 2rem);
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+.landing__vertrouwen li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.landing__vertrouwen li::before {
+  content: '';
+  width: 0.65em;
+  height: 0.65em;
+  flex: none;
+  background: var(--editorial-gold);
+  mask-image: var(--arc-star);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: var(--arc-star);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* De gravure als sfeerband; multiply laat de crème van de plaat samenvallen
+   met de parchment-achtergrond, zodat er geen harde rand ontstaat. */
+.landing__landschap {
+  margin: clamp(1.5rem, 4vw, 3rem) 0 0;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.landing__landschap img {
+  width: 100%;
+  height: clamp(150px, 26vw, 330px);
+  object-fit: cover;
+  mix-blend-mode: multiply;
+}
+
+/* ----------------------------------------------------------------- cijfers */
+
+.landing__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--color-hairline);
+  border: 1px solid var(--color-hairline);
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+.landing__stat {
+  background: var(--color-parchment);
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  text-align: center;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.landing__stat-getal {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--interaction-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.landing__stat-label {
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+  line-height: 1.45;
+}
+
+/* ----------------------------------------------------------------- secties */
+
+.landing__sectie {
+  padding: clamp(3rem, 7vw, 5.5rem) 0;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.landing__sectie:first-of-type {
+  border-top: none;
+}
+
+/* Volle-breedte tint: het negatieve marge-trucje laat de tint doorlopen tot
+   de schermrand terwijl de inhoud binnen de kolom blijft. */
+.landing__sectie--veil {
+  background: var(--color-parchment-veil);
+  margin-inline: calc(clamp(1rem, 4vw, 2.5rem) * -1);
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.landing__sectie-kop {
+  max-width: 42rem;
+  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.landing__sectie-kop h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.12;
+  margin: 0.35rem 0 0.6rem;
+  text-wrap: balance;
+}
+
+.landing__lead {
+  color: var(--color-ink-soft);
+  font-size: clamp(0.98rem, 1.5vw, 1.08rem);
+  line-height: 1.65;
+  margin: 0;
+  max-width: 38rem;
+}
+
+/* -------------------------------------------------------------------- grid */
+
+.landing__grid {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  grid-template-columns: 1fr;
+}
+
+/* Vaste kolomaantallen per breekpunt in plaats van auto-fit: bij vier of zes
+   vaste kaarten geeft auto-fit op sommige breedtes een weeskaart alleen op de
+   laatste rij (3+1, 4+2). Met een vast aantal kolommen per stap blijft de
+   rij altijd vol — 2 kolommen voor vier kaarten, 2 dan 3 voor zes. */
+.landing__grid--2 {
+  gap: clamp(1rem, 2.5vw, 1.5rem) clamp(1rem, 2.5vw, 1.5rem);
+}
+
+@media (min-width: 560px) {
+  .landing__grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 560px) {
+  .landing__grid--3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .landing__grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.landing__kaart {
+  background: #fff;
+  border: 1px solid var(--color-hairline);
+  border-top: 3px solid var(--interaction);
+  padding: clamp(1.2rem, 2.5vw, 1.6rem);
+}
+
+.landing__kaart h3 {
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  line-height: 1.25;
+}
+
+.landing__kaart p {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.landing__kaart--genummerd {
+  position: relative;
+}
+
+.landing__kaart-index {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--interaction-strong);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* ------------------------------------------------------------------ funnel */
+
+/* Het pronkstuk van de uitleg: een echte trechtervorm (drie tredes die
+   versmallen, uitlopend in een druppel) naast een legenda die dezelfde vier
+   cijfers in woorden herhaalt. Op smalle schermen staat de vorm boven de
+   legenda; vanaf tablet-breedte staan ze naast elkaar. De vorm zelf blijft
+   op elke breedte hetzelfde — geen aparte mobiele variant nodig, want een
+   trechter die van boven naar beneden versmalt is al een verticale vorm. */
+.funnel {
+  margin: 0 0 clamp(2.5rem, 6vw, 3.5rem);
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 2.5rem);
+  align-items: center;
+  justify-items: center;
+}
+
+@media (min-width: 720px) {
+  .funnel {
+    grid-template-columns: minmax(200px, 260px) 1fr;
+    justify-items: stretch;
+  }
+}
+
+.funnel__shape {
+  width: min(100%, 260px);
+  display: grid;
+  justify-items: center;
+}
+
+.funnel__band {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.55em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--color-ink);
+}
+
+.funnel__band--1 {
+  height: clamp(3rem, 7vw, 3.75rem);
+  clip-path: polygon(0% 0%, 100% 0%, 87% 100%, 13% 100%);
+  background: var(--interaction-wash);
+  font-size: clamp(1.55rem, 3.4vw, 2rem);
+}
+
+.funnel__band--2 {
+  height: clamp(2.6rem, 6vw, 3.25rem);
+  margin-top: -1px;
+  clip-path: polygon(13% 0%, 87% 0%, 74% 100%, 26% 100%);
+  background: color-mix(in srgb, var(--interaction-wash) 55%, var(--editorial-gold) 45%);
+  font-size: clamp(1.3rem, 2.8vw, 1.65rem);
+}
+
+.funnel__band--3 {
+  height: clamp(2.25rem, 5vw, 2.75rem);
+  margin-top: -1px;
+  clip-path: polygon(26% 0%, 74% 0%, 60% 100%, 40% 100%);
+  background: color-mix(in srgb, var(--editorial-gold) 80%, var(--interaction-wash) 20%);
+  font-size: clamp(1.1rem, 2.3vw, 1.35rem);
+  color: var(--color-ink);
+}
+
+.funnel__band-getal {
+  transform: translateY(-0.1em);
+}
+
+.funnel__stem {
+  width: 20%;
+  height: clamp(0.85rem, 2vw, 1.25rem);
+  background: var(--interaction-strong);
+}
+
+.funnel__drop {
+  width: clamp(3.5rem, 8vw, 4.25rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--interaction-strong);
+  color: var(--color-parchment);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0.5rem 1.25rem -0.5rem color-mix(in srgb, var(--interaction-strong) 60%, transparent);
+}
+
+.funnel__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.1rem);
+  width: 100%;
+  max-width: 30rem;
+}
+
+.funnel__legend-item {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: baseline;
+  gap: 0 0.7rem;
+  padding-bottom: clamp(0.75rem, 2vw, 1.1rem);
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+
+.funnel__legend-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.funnel__legend-mark {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  align-self: center;
+  background: var(--interaction-wash);
+  border: 1px solid var(--color-hairline);
+}
+
+.funnel__legend-mark--2 {
+  background: color-mix(in srgb, var(--interaction-wash) 55%, var(--editorial-gold) 45%);
+}
+
+.funnel__legend-mark--3 {
+  background: color-mix(in srgb, var(--editorial-gold) 80%, var(--interaction-wash) 20%);
+}
+
+.funnel__legend-mark--4 {
+  background: var(--interaction-strong);
+  border-color: var(--interaction-strong);
+}
+
+.funnel__legend-getal {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--interaction-strong);
+  font-variant-numeric: tabular-nums;
+  min-width: 2.4ch;
+}
+
+.funnel__legend-tekst {
+  color: var(--color-ink-soft);
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.funnel__legend-tekst strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------------- stappen */
+
+.landing__stappen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.4rem);
+}
+
+.landing__stap {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+  align-items: start;
+  padding-bottom: clamp(1rem, 2.5vw, 1.4rem);
+  border-bottom: 1px solid var(--color-hairline-soft);
+}
+
+.landing__stap:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.landing__stap-nummer {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--interaction-strong);
+  letter-spacing: 0.08em;
+  padding-top: 0.25rem;
+}
+
+.landing__stap h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  font-weight: 600;
+  margin: 0 0 0.3rem;
+  line-height: 1.25;
+}
+
+.landing__stap p {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 44rem;
+}
+
+/* --------------------------------------------------------------- dimensies */
+
+.landing__dimensies {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1px;
+  background: var(--color-hairline);
+  border: 1px solid var(--color-hairline);
+}
+
+.landing__dimensies li {
+  background: var(--color-parchment);
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.landing__dimensies h3 {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 600;
+  margin: 0 0 0.3rem;
+}
+
+.landing__dimensies p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-ink-soft);
+  line-height: 1.55;
+}
+
+/* ------------------------------------------------------------------ extras */
+
+.landing__extras {
+  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 0.7rem clamp(1rem, 3vw, 2rem);
+}
+
+.landing__extras li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  font-size: 0.93rem;
+  color: var(--color-ink-soft);
+  line-height: 1.55;
+}
+
+.landing__extras li::before {
+  content: '';
+  width: 0.7em;
+  height: 0.7em;
+  margin-top: 0.42em;
+  flex: none;
+  background: var(--editorial-gold);
+  mask-image: var(--arc-star);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: var(--arc-star);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* ----------------------------------------------------------------- eerlijk */
+
+.landing__sectie--eerlijk .landing__eerlijk {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+/* Vier punten: bij auto-fit breekt dit op brede schermen 3+1. Vast op 2
+   kolommen vanaf tablet-breedte houdt de rij altijd vol. */
+@media (min-width: 560px) {
+  .landing__sectie--eerlijk .landing__eerlijk {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.landing__eerlijk li {
+  border-left: 3px solid var(--color-ink);
+  padding: 0.15rem 0 0.15rem 1rem;
+  font-size: 0.93rem;
+  color: var(--color-ink-soft);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------- faq */
+
+.landing__faq {
+  display: grid;
+  border-top: 1px solid var(--color-hairline);
+  max-width: 48rem;
+}
+
+.landing__faq details {
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.landing__faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1.05rem 2.25rem 1.05rem 0;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.22rem);
+  font-weight: 600;
+  position: relative;
+}
+
+.landing__faq summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Plusje dat naar een minnetje kantelt; puur CSS zodat er geen icoon nodig is. */
+.landing__faq summary::after {
+  content: '';
+  position: absolute;
+  right: 0.35rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  background:
+    linear-gradient(var(--interaction-strong), var(--interaction-strong)) center / 100% 1.5px no-repeat,
+    linear-gradient(var(--interaction-strong), var(--interaction-strong)) center / 1.5px 100% no-repeat;
+  transition: transform 0.2s;
+}
+
+.landing__faq details[open] summary::after {
+  transform: rotate(90deg);
+  background: linear-gradient(var(--interaction-strong), var(--interaction-strong)) center / 100% 1.5px no-repeat;
+}
+
+.landing__faq p {
+  margin: 0 0 1.15rem;
+  padding-right: 2.25rem;
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  max-width: 44rem;
+}
+
+/* ---------------------------------------------------------------- slot-cta */
+
+.landing__slot {
+  text-align: center;
+  padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 4vw, 2.5rem);
+  margin: 0 calc(clamp(1rem, 4vw, 2.5rem) * -1);
+  border-top: 1px solid var(--color-hairline);
+  background: var(--color-parchment-deep);
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+}
+
+.landing__slot h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.12;
+  text-wrap: balance;
+  max-width: 20ch;
+}
+
+.landing__slot p {
+  margin: 0;
+  color: var(--color-ink-soft);
+  max-width: 34rem;
+  line-height: 1.6;
+}
+
+.landing__slot .arcana-button {
+  margin-top: 0.5rem;
+  min-width: min(100%, 15rem);
+}
+
+/* ------------------------------------------------------------------ footer */
+
+.site-footer {
+  border-top: 1px solid var(--color-hairline);
+  background: var(--color-parchment-veil);
+  margin-top: auto;
+}
+
+.site-footer__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 2.5rem) 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.site-footer__brand {
+  display: grid;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+}
+
+.site-footer__brand strong {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.site-footer__brand p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--color-ink-soft);
+  max-width: 22rem;
+}
+
+.site-footer__links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.15rem 1rem;
+  align-content: start;
+}
+
+.site-footer__links a,
+.site-footer__links button {
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.55rem 0;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.site-footer__links a:hover,
+.site-footer__links button:hover {
+  color: var(--interaction-strong);
+}
+
+.site-footer__fineprint {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2.5rem) clamp(1.75rem, 4vw, 2.5rem);
+  border-top: 1px solid var(--color-hairline);
+  padding-top: 1.25rem;
+}
+
+.site-footer__fineprint p {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+  line-height: 1.6;
+  max-width: 62rem;
+}
+
+/* ------------------------------------------------------------ losse pagina */
+
+.legal {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2.5rem) clamp(3rem, 6vw, 4.5rem);
+}
+
+.legal__terug {
+  margin-bottom: 1.25rem;
+  padding-left: 0;
+}
+
+.legal h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0 0 1rem;
+}
+
+.legal__lead {
+  font-size: clamp(1rem, 1.7vw, 1.12rem);
+  color: var(--color-ink-soft);
+  line-height: 1.65;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.legal h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.6vw, 1.6rem);
+  font-weight: 600;
+  margin: 2rem 0 0.5rem;
+  line-height: 1.25;
+}
+
+.legal p,
+.legal li {
+  color: var(--color-ink-soft);
+  line-height: 1.7;
+  font-size: 0.98rem;
+  max-width: 62ch;
+}
+
+.legal ul {
+  padding-left: 1.15rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.legal strong {
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------------- print */
+
+@media print {
+  .site-header,
+  .site-footer__links,
+  .landing__cta-blok,
+  .landing__slot,
+  .landing__landschap {
+    display: none !important;
+  }
+}

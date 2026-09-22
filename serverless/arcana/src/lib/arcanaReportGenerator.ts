@@ -294,12 +294,13 @@ function generateWhoYouAreSection(result: ArcanaScoreResult, profile: ArcanaProf
   });
 
   const strongest = T(result, first, ':who-you-are');
-  const strongestScore = result.subDimensions[first].score;
   const strongestConfidence = result.subDimensions[first].confidence;
 
   const paragraphs = [
     `Wat voor mens je bent, laat zich scherper aflezen aan je drie sterkst uitgeslagen eigenschappen dan aan één archetype. Bij jou zijn dat ${strongest.label.toLowerCase()}, ${T(result, second).label.toLowerCase()} en ${T(result, third).label.toLowerCase()}. Die drie samen verklaren waarom bepaalde situaties je moeiteloos afgaan en andere onevenredig veel van je vragen.`,
-    `De sterkste daarvan is ${strongest.label.toLowerCase()} met ${strongestScore}/100. Daaronder zit ${strongest.hiddenNeed} — en dat is het punt waar het interessant wordt, want die behoefte stuurt je ook op momenten waarop je denkt dat je een rationele keuze maakt.`,
+    // Het cijfer zelf staat al canoniek in de eerste bullet hieronder (samen met de
+    // andere twee, symmetrisch) — hier volstaat de kwalitatieve aanduiding "sterkste".
+    `De sterkste daarvan is ${strongest.label.toLowerCase()}. Daaronder zit ${strongest.hiddenNeed} — en dat is het punt waar het interessant wordt, want die behoefte stuurt je ook op momenten waarop je denkt dat je een rationele keuze maakt.`,
     `Dat patroon wordt in dit rapport samengevat als ${primary.name}, met ${secondary.name} als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.`,
   ];
   if (strongestConfidence < 50) {
@@ -513,13 +514,22 @@ function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
   const t = T(result, dimId, ':stress');
   const s = result.subDimensions[dimId].score;
 
+  // Conditioneel, zelden waar: de stress-subdimensie kan toevallig ook in de
+  // top-3 van "Wie je bent" zitten. Zo ja, laat het cijfer hier weg (dat staat
+  // al bij "Wie je bent") en verwijs terug; zo nee — het gangbare geval — is dit
+  // de eerste plek met een cijfer en toont deze sectie het gewoon.
+  const whoYouAreTop = topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 3);
+  const driveSentence = whoYouAreTop.includes(dimId)
+    ? `De drijfveer eronder is ${t.hiddenNeed}. ${S(result, 'stress.already-named')}`
+    : `De drijfveer eronder is ${t.hiddenNeed} (${s}/100, ${scoreBand(s)}).`;
+
   return section(
     'stress',
     'Hoe je bent onder druk',
     `Onder druk laat jij vooral het patroon van ${stressDef?.name} zien: ${stressDef?.description}`,
     [
       underPressure,
-      `Concreet vertaalt zich dat naar: ${t.behavior}. De drijfveer eronder is ${t.hiddenNeed} (${s}/100, ${scoreBand(s)}).`,
+      `Concreet vertaalt zich dat naar: ${t.behavior}. ${driveSentence}`,
       `De valkuil daarbij: ${t.pitfall}. Groeisleutel: ${t.growthKey}. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.`,
     ],
   );
@@ -529,6 +539,13 @@ function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile
   const content = ARCHETYPE_CONTENT[result.primaryArchetype];
   const top = topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 3);
   const bullets = top.map((id) => `${T(result, id).label}: ${T(result, id).atEase}.`);
+
+  // De top-3 hier is per definitie identiek aan de top-3 van "Wie je bent" (zelfde
+  // pool, zelfde sortering, zelfde count). De cijfers staan al canoniek daar; hier
+  // volstaat een kwalitatieve terugverwijzing in plaats van een herhaling.
+  const [first, second, third] = top;
+  const labelList = `${T(result, first).label.toLowerCase()}, ${T(result, second).label.toLowerCase()} en ${T(result, third).label.toLowerCase()}`;
+  const bridge = S(result, 'at-ease.bridge').replace('{labels}', labelList);
 
   return section(
     'at-ease',
@@ -541,17 +558,37 @@ function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile
     [
       content.atEase,
       S(result, 'at-ease.note'),
+      bridge,
     ],
     bullets,
   );
 }
 
+/**
+ * Items #1-3 van de top-5 hier zijn per definitie identiek aan de top-3 van
+ * "Wie je bent" (zelfde pool, zelfde sortering — een top-5 deelt altijd zijn
+ * eerste drie met de top-3). Voor die drie laten we het cijfer weg en verwijzen
+ * we terug in plaats van het te herhalen; #4-5 zijn exclusief voor deze sectie
+ * en tonen het cijfer gewoon.
+ */
+const STRENGTH_ALREADY_NAMED: readonly string[] = [
+  'zoals hierboven al genoemd bij wie je bent',
+  'die je hierboven al tegenkwam bij wie je bent',
+  'al even genoemd bij wie je bent',
+  'hierboven al genoemd, bij wie je bent',
+  'die naam viel al bij wie je bent',
+];
+
 function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 5);
-  const bullets = top.map((id) => {
+  const bullets = top.map((id, index) => {
     const t = T(result, id, ':strengths');
     const s = result.subDimensions[id].score;
-    return `${t.label} (${s}/100, ${scoreBand(s)}): ${t.behavior}. Dit komt voort uit ${t.hiddenNeed}. ${asSentence(t.effect)}`;
+    const label =
+      index < 3
+        ? `${t.label} (${pick(STRENGTH_ALREADY_NAMED, result.variantSeed, `strengths.bridge.${id}`)})`
+        : `${t.label} (${s}/100, ${scoreBand(s)})`;
+    return `${label}: ${t.behavior}. Dit komt voort uit ${t.hiddenNeed}. ${asSentence(t.effect)}`;
   });
   return section(
     'strengths',
@@ -564,11 +601,33 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
   );
 }
 
+/**
+ * Referentiefragment voor wanneer een valkuil dezelfde subdimensie is als een
+ * eerder getoonde sterkte — de "sterkte = valkuil"-combinatie is inhoudelijk
+ * waardevol en blijft dus staan; alleen het cijfer wordt niet nogmaals getoond.
+ */
+const SHADOW_ALSO_STRENGTH: readonly string[] = [
+  'dezelfde eigenschap die hierboven ook al als sterk punt langskwam, heeft hier een keerzijde',
+  'wat hierboven nog een sterk punt was, laat hier ook een andere kant zien',
+  'deze eigenschap kwam al langs als sterk punt en toont hier zijn keerzijde',
+  'wat je hierboven nog als sterk punt las, heeft hier een andere kant',
+  'dezelfde eigenschap stond hierboven nog bij je sterke punten en laat hier een keerzijde zien',
+];
+
 function generateShadowSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 5);
+  // Conditioneel, niet gegarandeerd: afhankelijk van de individuele scores kan
+  // een valkuil ook in de top-5 sterke punten staan. Zo ja, laat het cijfer weg
+  // (dat staat al bij "Jouw sterke punten") en verwijs kort terug; zo nee, toon
+  // het cijfer hier gewoon zoals altijd.
+  const strengthsTop = new Set(topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 5));
   const bullets = top.map((id) => {
     const t = T(result, id, ':shadow');
     const s = result.subDimensions[id].score;
+    if (strengthsTop.has(id)) {
+      const bridge = pick(SHADOW_ALSO_STRENGTH, result.variantSeed, `shadow.bridge.${id}`);
+      return `${t.label} — ${bridge}. Valkuil: ${t.pitfall}. Groeisleutel: ${t.growthKey}.`;
+    }
     return `${t.label} (${s}/100, ${scoreBand(s)}): valkuil — ${t.pitfall}. Groeisleutel: ${t.growthKey}.`;
   });
   return section(
@@ -628,9 +687,12 @@ function generateRelationshipSection(result: ArcanaScoreResult): ArcanaReportSec
     `Je relatiepatroon scoort ${scoreBand(score)} (${score}/100) op de combinatie van verbinding, vertrouwen en intimiteit.`,
     [
       `Je vertrouwensbehoefte (${trustScore}/100) en intimiteitsbehoefte (${intimacyScore}/100) bepalen samen hoe snel je mensen echt dichtbij laat komen: ${T(result, 'trustNeed').behavior}.`,
+      // Het conflictAvoidance-cijfer staat canoniek bij "Je communicatiestijl" (daar
+      // is het functioneel bewijs voor de driefactor-stijlclassificatie); hier
+      // volstaat een kwalitatieve brug ernaartoe, zonder het cijfer te herhalen.
       conflictAvoidanceScore > 60
-        ? `Je conflictvermijding (${conflictAvoidanceScore}/100) zorgt ervoor dat je liever de sfeer bewaart dan spanning aangaat, wat op korte termijn rust geeft maar op lange termijn onuitgesproken irritatie kan opstapelen.`
-        : `Je bent relatief bereid om spanning direct aan te gaan (conflictvermijding: ${conflictAvoidanceScore}/100), wat helpt om irritatie niet te laten opstapelen.`,
+        ? S(result, 'relationship.conflict-bridge-high')
+        : S(result, 'relationship.conflict-bridge-low'),
     ],
   );
 }
@@ -662,7 +724,12 @@ function generateCommunicationSection(result: ArcanaScoreResult): ArcanaReportSe
   );
 }
 
-function generateTensionsSection(result: ArcanaScoreResult): ArcanaReportSection {
+/**
+ * De sterkste spanningsvelden, met beide polen bij naam. Gedeeld tussen
+ * "Je spanningsvelden" (dat de volledige cijfers toont, canoniek) en het
+ * 30-dagenplan (dat alleen de twee polen noemt, zonder cijfers te herhalen).
+ */
+function topTensionsList(result: ArcanaScoreResult, count: number) {
   const withLabels = result.tensions.map((tension) => {
     const def = TENSION_DEFINITIONS.find((d) => d.id === tension.id)!;
     const [labelA, labelB] = def.label.split(' versus ');
@@ -671,10 +738,14 @@ function generateTensionsSection(result: ArcanaScoreResult): ArcanaReportSection
 
   const active = withLabels.filter((t) => t.active);
   const pool = active.length >= 3 ? active : withLabels;
-  const top = pool
+  return pool
     .slice()
     .sort((a, b) => b.scoreA + b.scoreB - (a.scoreA + a.scoreB))
-    .slice(0, 3);
+    .slice(0, count);
+}
+
+function generateTensionsSection(result: ArcanaScoreResult): ArcanaReportSection {
+  const top = topTensionsList(result, 3);
 
   const bullets = top.map((t) => {
     const intensity = t.intense ? 'zeer sterk aanwezig' : t.active ? 'actief aanwezig' : 'op de achtergrond aanwezig';
@@ -722,13 +793,14 @@ function generateBlindSpotsSection(result: ArcanaScoreResult): ArcanaReportSecti
 function generateWhoYouCanBecomeSection(result: ArcanaScoreResult, profile: ArcanaProfile): ArcanaReportSection {
   const content = ARCHETYPE_CONTENT[result.primaryArchetype];
   const primary = archetypeById(result.primaryArchetype);
-  const growthScore = result.subDimensions.growthReadiness.score;
   const phaseNote = LIFE_PHASE_NOTE[profile.lifePhase];
 
   const paragraphs = [
     content.whoYouCanBecome,
     `Individuatie — Jungs woord voor dit proces — gaat niet over iemand anders worden. Het gaat over vollediger worden: dezelfde mens, met minder dwang. Voor jou als ${primary.name} betekent dat niet dat je patroon verdwijnt, maar dat je het inzet omdat je ervoor kiest in plaats van omdat het je overkomt.`,
-    `Je groeibereidheid scoort ${scoreBand(growthScore)} (${growthScore}/100). Dat bepaalt vooral het tempo, niet de bestemming.`,
+    // Het groeibereidheid-cijfer staat canoniek bij "Je groeipad" (die sectie is
+    // om precies dat cijfer gebouwd); hier volstaat een kwalitatieve brug ernaartoe.
+    S(result, 'who-you-can-become.growth-bridge'),
   ];
 
   if (phaseNote) paragraphs.push(phaseNote);
@@ -877,7 +949,12 @@ function generateThirtyDayPlan(result: ArcanaScoreResult): ArcanaReportSection {
   const primary = archetypeById(result.primaryArchetype);
   const topShadow = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 1)[0];
   const shadowTrait = T(result, topShadow, ':thirty-day');
-  const topTension = generateTensionsSection(result).bullets[0] ?? '';
+  // Alleen de twee polen bij naam, zonder scores of statuslabel: de volledige
+  // cijfers staan al canoniek in "Je spanningsvelden" en horen hier niet nogmaals.
+  const topTensionEntry = topTensionsList(result, 1)[0];
+  const tensionTask = topTensionEntry
+    ? `Beschrijf een situatie deze week waarin ${topTensionEntry.labelA.toLowerCase()} en ${topTensionEntry.labelB.toLowerCase()} allebei om voorrang leken te vragen.`
+    : 'Beschrijf een situatie deze week waarin twee behoeften tegelijk aan je trokken.';
   const growthDims = topSubDimensions(
     result.subDimensions,
     RISK_DIMENSIONS.filter((id) => id !== topShadow),
@@ -897,7 +974,7 @@ function generateThirtyDayPlan(result: ArcanaScoreResult): ArcanaReportSection {
       week: 2,
       title: 'Grenzen en patronen herkennen',
       goal: 'Herkennen hoe het spanningsveld tussen je twee sterkste behoeften in de praktijk werkt.',
-      task: `Beschrijf een situatie deze week waarin je dit voelde: ${topTension || 'twee behoeften trokken tegelijk aan je.'}`,
+      task: tensionTask,
       reflection: 'Welke van de twee kanten kreeg dit keer de overhand, en waarom?',
     },
     {

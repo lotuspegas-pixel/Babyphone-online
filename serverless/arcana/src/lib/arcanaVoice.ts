@@ -10,33 +10,52 @@ import type { AddressForm, ArcanaProfile } from '../types/arcana';
  * werkwoord valt, dan is het een onderwerp; anders behandelen we het als bezittelijk.
  */
 
-/** Vervoegde werkwoorden die in deze teksten direct achter "je" kunnen staan. */
-const VERBS_AFTER_SUBJECT = new Set([
-  'ben', 'bent', 'was', 'wordt', 'werd', 'blijft', 'bleef',
-  'hebt', 'heb', 'had', 'krijgt', 'kreeg', 'geeft', 'gaf',
-  'kunt', 'kan', 'kon', 'wilt', 'wil', 'wilde', 'moet', 'moest',
-  'mag', 'mocht', 'zult', 'zal', 'zou', 'gaat', 'ging', 'doet', 'deed',
-  'zegt', 'zei', 'vraagt', 'vroeg', 'antwoordt', 'praat', 'spreekt', 'benoemt',
-  'voelt', 'voelde', 'merkt', 'merkte', 'ziet', 'zag', 'hoort', 'hoorde',
-  'denkt', 'dacht', 'weet', 'wist', 'begrijpt', 'snapt', 'herkent', 'ontdekt',
-  'vindt', 'vond', 'zoekt', 'zocht', 'kiest', 'koos', 'beslist', 'besluit',
-  'maakt', 'maakte', 'bouwt', 'schrijft', 'leest', 'werkt', 'werkte',
-  'neemt', 'nam', 'pakt', 'grijpt', 'houdt', 'hield', 'laat', 'liet',
-  'trekt', 'trok', 'duwt', 'draagt', 'droeg', 'legt', 'zet', 'stelt', 'stelde',
-  'begint', 'begon', 'stopt', 'eindigt', 'wacht', 'wachtte', 'blijkt',
-  'raakt', 'raakte', 'reageert', 'reageerde', 'handelt', 'beweegt',
-  'verdedigt', 'vermijdt', 'ontwijkt', 'negeert', 'uitstelt', 'twijfelt',
-  'helpt', 'hielp', 'zorgt', 'zorgde', 'geniet', 'lacht', 'huilt',
-  'leert', 'leerde', 'groeit', 'verandert', 'ontwikkelt', 'oefent',
-  'verliest', 'verloor', 'wint', 'won', 'faalt', 'slaagt', 'lukt',
-  'probeert', 'probeerde', 'durft', 'dorst', 'waagt', 'riskeert',
-  'past', 'paste', 'schikt', 'buigt', 'zwijgt', 'zweeg', 'luistert',
-  'analyseert', 'observeert', 'plant', 'organiseert', 'regelt', 'controleert',
-  'presteert', 'levert', 'verwacht', 'hoopt', 'verlangt', 'mist', 'miste',
-  'vertrouwt', 'wantrouwt', 'twijfelde', 'aarzelt', 'kijkt', 'keek',
-  'staat', 'stond', 'zit', 'zat', 'ligt', 'lag', 'loopt', 'liep',
-  'komt', 'kwam', 'gaat', 'vertrekt', 'blijft', 'keert', 'stapt',
-  'herstelt', 'ademt', 'rust', 'slaapt', 'droomt', 'denkt',
+/**
+ * De beslisregel, na een telling over alle bronteksten.
+ *
+ * In het Nederlands is een woord dat direct op "je" volgt en op -t, -te of -de
+ * eindigt vrijwel altijd een vervoegd werkwoord ("je voelt", "je wegduwt",
+ * "je durfde"). Van de 273 zulke woorden in deze teksten zijn er ruim 200
+ * werkwoord. Daarom is dat de standaard, en houden we de uitzonderingen bij —
+ * dat is een korte, stabiele lijst in plaats van een werkwoordenlijst die bij
+ * elke nieuwe zin incompleet raakt.
+ *
+ * Eerder stond die regel andersom. Gevolg: "Hoe je bent wanneer je alleen bent"
+ * werd "Hoe u bent wanneer uw alleen bent", en dat stond live.
+ */
+
+/** Zelfstandige naamwoorden, bijvoeglijke naamwoorden en bijwoorden op -t/-te/-de. */
+const NON_VERB_T_WORDS = new Set([
+  // zelfstandige naamwoorden
+  'rapport', 'behoefte', 'kracht', 'inzet', 'overzicht', 'ruimte', 'scherpte',
+  'portret', 'stabiliteit', 'houvast', 'liefde', 'identiteit', 'schaduwkant',
+  'kwaliteit', 'standpunt', 'test', 'zoektocht', 'gemakzucht', 'aandacht',
+  'impulsiviteit', 'onrust', 'moeite', 'diepte', 'verdriet', 'buurt', 'zijde',
+  'inzicht', 'last', 'vertrouwensbehoefte', 'apparaat', 'contact', 'rust',
+  'kant', 'punt', 'hart', 'gezicht', 'gevecht', 'licht', 'zicht', 'gebrek',
+  'conflict', 'effect', 'moment', 'talent', 'geduld', 'gedrag',
+  // Verbogen bijvoeglijke naamwoorden: die staan vóór een zelfstandig
+  // naamwoord, dus "je <bijv.nw> <znw>" is bezit ("je oude patroon").
+  'oude', 'vertrouwde', 'echte', 'afgeweerde', 'zoekende', 'volgende',
+  'blinde', 'hetzelfde', 'eerste', 'beste', 'sterkste', 'grootste',
+  'slechtste', 'meest', 'sterkst', 'volledige', 'hele', 'enige', 'huidige',
+  'natuurlijke', 'emotionele', 'innerlijke', 'sociale', 'scherpe', 'kortere',
+  'specifieke', 'automatische', 'nieuwe', 'rijke', 'hoge', 'werkelijke',
+]);
+
+/**
+ * Onvervoegde en onregelmatige werkwoordsvormen die niet op -t eindigen en
+ * dus niet door de hoofdregel gevangen worden.
+ */
+const IRREGULAR_VERBS = new Set([
+  'is', 'ben', 'was', 'zijn', 'heb', 'had', 'kan', 'kon', 'wil', 'mag', 'mocht',
+  'zal', 'zou', 'ga', 'ging', 'werd', 'bleef', 'kreeg', 'gaf', 'nam', 'zag',
+  'wilde', 'moest', 'deed', 'zei', 'vroeg', 'hield', 'liet', 'trok', 'droeg',
+  'hoorde', 'dacht', 'vond', 'zocht', 'koos', 'maakte', 'werkte', 'stond',
+  'zat', 'lag', 'liep', 'kwam', 'keek', 'miste', 'raakte', 'voelde', 'merkte',
+  'begon', 'stopte', 'wachtte', 'leerde', 'verloor', 'won', 'probeerde',
+  'durfde', 'paste', 'zweeg', 'stelde', 'bouwde', 'las', 'schreef',
+  'aanvoelde', 'antwoordde', 'beantwoordde', 'trokken', 'opving', 'oversloeg',
 ]);
 
 /**
@@ -45,16 +64,98 @@ const VERBS_AFTER_SUBJECT = new Set([
  */
 const ADVERBS_AFTER_SUBJECT = new Set([
   'niet', 'nooit', 'altijd', 'vaak', 'soms', 'zelden', 'meestal', 'steeds',
-  'al', 'nog', 'ooit', 'weer', 'toch', 'juist', 'ook', 'zelfs', 'echt',
-  'liever', 'graag', 'eerst', 'daarna', 'later', 'eerder', 'sneller',
-  'langer', 'harder', 'beter', 'minder', 'meer', 'te', 'zo', 'er', 'hem',
-  'haar', 'ze', 'het', 'dat', 'dit', 'iets', 'niets', 'iemand', 'niemand',
+  'al', 'nog', 'weer', 'toch', 'ook', 'zelfs', 'liever', 'graag', 'daarna',
+  'later', 'eerder', 'sneller', 'langer', 'harder', 'beter', 'minder', 'meer',
+  'te', 'zo', 'er', 'hem', 'haar', 'ze', 'iets', 'niets', 'iemand', 'niemand',
+  'nodig', 'nu', 'eigenlijk', 'vanbinnen', 'hierboven', 'snel', 'zeker',
+  'momenteel', 'pas', 'even', 'weinig', 'daar', 'hier', 'die', 'deze', 'wel',
+  'dus', 'misschien', 'waarschijnlijk', 'vaker', 'opnieuw', 'straks', 'meteen',
+  'direct', 'vooral', 'alleen', 'samen', 'ergens', 'overal', 'nauwelijks',
+  'amper', 'inmiddels', 'ondertussen', 'voortdurend', 'moeiteloos',
+  'stilzwijgend', 'dagelijks', 'bovenmatig', 'vrijwel', 'vrijwillig',
+  'onafhankelijk', 'makkelijker', 'hiermee', 'ervoor', 'ervan', 'erom',
+  'erover', 'erbij', 'erop', 'eromheen', 'daardoor', 'daaraan', 'achteraf',
+  'halverwege', 'uiteindelijk', 'vanzelf', 'toen', 'verder', 'lang', 'allebei',
+  'goed', 'hard', 'diep', 'hoog', 'laag', 'vroeg', 'duidelijk', 'rustig',
+  'stil', 'open', 'lastig', 'zwaar', 'vol', 'half', 'bijna', 'haast',
+  'ongeveer', 'redelijk', 'behoorlijk', 'nogal', 'erg', 'heel', 'veel',
+  'genoeg', 'voldoende', 'precies', 'warm', 'zwak', 'sterker', 'trager',
+  'lastiger', 'gevoelig', 'kwetsbaar', 'schuldig', 'fijn', 'prettig',
+  'normaal', 'speels', 'grappig', 'aardig', 'bezig', 'waard', 'enkel',
+  'nieuwsgierig', 'ongeduldig', 'toegankelijk', 'onbereikbaar', 'actief',
+  'zelfstandig', 'vrij', 'bovengemiddeld', 'overmatig', 'droogkomisch',
+  // Voornaamwoorden, voegwoorden en bijwoorden die tussen onderwerp en
+  // werkwoord kunnen staan: "denk je dat het klopt", "wil je eerst gelijk".
+  'het', 'dat', 'dit', 'wat', 'omdat', 'juist', 'eerst', 'best', 'echt',
+  'net', 'ooit', 'ongemerkt', 'impliciet', 'oprecht', 'vlot', 'bewust',
+  'alert', 'uitgeput', 'verstrikt', 'gevraagd', 'gedaan', 'geworden',
+  'gebleven', 'vergeten', 'bedoeld', 'vastgesteld', 'vastgelopen',
+  'aangevallen', 'overladen', 'uitgeput',
 ]);
 
+/**
+ * Voorzetsels en scheidbare partikels. Deze kunnen nooit het bezit inleiden dat
+ * een bezittelijk "je" zou aankondigen: in "een eerlijker versie van je naar
+ * boven" is "je" het voorwerp van "van", niet de bezitter van "naar".
+ */
+const PARTICLES_AFTER_OBJECT = new Set([
+  'naar', 'toe', 'heen', 'vandaan', 'af', 'aan', 'uit', 'op', 'in', 'om',
+  'door', 'over', 'langs', 'tegen', 'weg', 'terug', 'mee', 'bij', 'voorbij',
+  'binnen', 'buiten', 'omhoog', 'omlaag', 'vooruit', 'achteruit',
+  'van', 'met', 'voor', 'onder', 'als', 'tot', 'na', 'zonder', 'tussen',
+  'achter', 'naast', 'terwijl', 'zodra', 'wanneer', 'hoewel', 'dan', 'neer',
+]);
+
+/** True wanneer "je" hier onderwerp of voorwerp is, en dus "u" wordt. */
+export function jeIsSubjectOrObject(next: string): boolean {
+  // "op basis van je 120 antwoorden" — een telwoord kondigt bezit aan.
+  if (/^\d/.test(next.trim())) return false;
+  const w = next.toLowerCase().replace(/[^a-zà-ÿ']/g, '');
+  if (!w) return true;
+  if (NON_VERB_T_WORDS.has(w)) return false;
+  if (ADVERBS_AFTER_SUBJECT.has(w) || PARTICLES_AFTER_OBJECT.has(w)) return true;
+  if (IRREGULAR_VERBS.has(w)) return true;
+  // Alleen -t. Vormen op -te en -de zijn óf verleden tijd — die staan hierboven
+  // met name genoemd — óf een verbogen bijvoeglijk naamwoord ("je goede
+  // oordeel"), en dan zou deze regel juist de fout maken die we net opruimden.
+  return /t$/.test(w);
+}
+
 function replaceJe(next: string): string {
-  const lowered = next.toLowerCase();
-  const isSubject = VERBS_AFTER_SUBJECT.has(lowered) || ADVERBS_AFTER_SUBJECT.has(lowered);
-  return isSubject ? 'u' : 'uw';
+  return jeIsSubjectOrObject(next) ? 'u' : 'uw';
+}
+
+/** Onregelmatige inversievormen: "kun je" → "kunt u". */
+const INVERSION_IRREGULAR: Record<string, string> = {
+  kun: 'kunt', zul: 'zult', wil: 'wilt', ben: 'bent', heb: 'hebt',
+  ga: 'gaat', sta: 'staat', doe: 'doet', zie: 'ziet', weet: 'weet',
+  moet: 'moet', mag: 'mag', laat: 'laat', is: 'is',
+};
+
+/**
+ * Werkwoordsstammen die in deze teksten vóór "je" staan. Geteld over alle
+ * bronteksten; een stam die hier ontbreekt levert "voel u" in plaats van
+ * "voelt u" op, en de test in arcanaVoice.test.ts bewaakt dat.
+ */
+const INVERSION_STEMS = new Set([
+  'voel', 'geef', 'neem', 'lees', 'herken', 'hoef', 'trek', 'leef', 'kom',
+  'twijfel', 'verlies', 'klik', 'wis', 'deel', 'raak', 'breng', 'versnel',
+  'inspireer', 'vertrouw', 'word', 'zoek', 'lijk', 'reageer', 'stem', 'houd',
+  'merk', 'bewaar', 'spreek', 'gebruik', 'krijg', 'noem', 'verwerk',
+  'motiveer', 'draai', 'speel', 'blijf', 'broed', 'grijp', 'zeg', 'vermijd',
+  'val', 'leer', 'schuif', 'benoem', 'bekijk', 'benut', 'steun', 'draag',
+  'sleep', 'torst', 'hoor', 'vind', 'vraag', 'stel', 'denk', 'veroordeel',
+  'put', 'zet', 'werk', 'land', 'pas', 'open', 'verwijder', 'download',
+]);
+
+/**
+ * Geeft de u-vorm van een werkwoord dat in inversie vóór "je" stond, of null
+ * wanneer dit woord geen werkwoord is.
+ */
+function conjugateForInversion(word: string): string | null {
+  if (word in INVERSION_IRREGULAR) return INVERSION_IRREGULAR[word];
+  if (INVERSION_STEMS.has(word)) return word + 't';
+  return null;
 }
 
 function preserveCase(source: string, replacement: string): string {
@@ -82,6 +183,18 @@ export function toFormal(text: string): string {
 
   // "je" aan het eind van een zin of voor leesteken: behandel als onderwerp.
   result = result.replace(/\bje\b/gi, (m) => preserveCase(m, 'u'));
+
+  // Inversie: in het Nederlands verliest de tweede persoon enkelvoud zijn -t
+  // wanneer het onderwerp achter het werkwoord staat ("jij voelt" → "voel je").
+  // In de u-vorm bestaat die regel niet, dus de -t moet terug: "voel je" wordt
+  // "voelt u", niet "voel u". Dit gebeurt pas nadat hierboven is vastgesteld
+  // dat "je" hier het onderwerp was — bij bezit ("lees je rapport" → "lees uw
+  // rapport") blijft de gebiedende wijs staan, en dat is juist.
+  result = result.replace(/\b([a-zà-ÿ]+)(\s+)(u)\b/gi, (full, verb: string, space: string, u: string) => {
+    const conjugated = conjugateForInversion(verb.toLowerCase());
+    if (!conjugated) return full;
+    return `${preserveCase(verb, conjugated)}${space}${u}`;
+  });
 
   // Hoofdletters herstellen na een zinseinde. Niet aan het begin van de string:
   // veel bronteksten zijn zinsdelen die bewust met een kleine letter beginnen.

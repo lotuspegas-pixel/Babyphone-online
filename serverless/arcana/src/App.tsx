@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './styles/arcana.css';
+import './styles/site.css';
 import { ARCANA_QUESTIONS } from './data/arcanaQuestions';
 import { calculateArcanaResult } from './lib/arcanaScoringEngine';
 import { generateArcanaReport } from './lib/arcanaReportGenerator';
@@ -23,16 +24,38 @@ import type {
   ArcanaProfile,
   ArcanaReport as ReportType,
 } from './types/arcana';
-import { ArcanaStart } from './components/ArcanaStart';
 import { ArcanaIntake } from './components/ArcanaIntake';
 import { ArcanaTest } from './components/ArcanaTest';
 import { ArcanaResultLoading } from './components/ArcanaResultLoading';
 import { ArcanaReport } from './components/ArcanaReport';
+import { LandingPage } from './site/LandingPage';
+import { SiteHeader } from './site/SiteHeader';
+import { SiteFooter } from './site/SiteFooter';
+import { PrivacyPage, TermsPage } from './site/LegalPages';
 
-type Screen = 'start' | 'intake' | 'test' | 'loading' | 'report';
+type Screen = 'landing' | 'intake' | 'test' | 'loading' | 'report';
+type LegalRoute = 'privacy' | 'voorwaarden';
+
+/**
+ * De losse pagina's hangen aan een hash zodat ze deelbaar en herlaadbaar zijn
+ * zonder dat de webserver rewrite-regels nodig heeft. Dat is bewust: de site
+ * wordt als statische map geüpload, en een pad als /privacy zou daar een 404
+ * geven tenzij de host apart geconfigureerd wordt.
+ */
+const LEGAL_HASHES: Record<string, LegalRoute> = {
+  '#/privacy': 'privacy',
+  '#/voorwaarden': 'voorwaarden',
+};
+
+function readLegalRoute(): LegalRoute | null {
+  return LEGAL_HASHES[window.location.hash] ?? null;
+}
 
 function App() {
-  const [screen, setScreen] = useState<Screen>('start');
+  const [screen, setScreen] = useState<Screen>('landing');
+  const [legalRoute, setLegalRoute] = useState<LegalRoute | null>(() =>
+    typeof window === 'undefined' ? null : readLegalRoute(),
+  );
   const [answers, setAnswers] = useState<ArcanaAnswerMap>({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [report, setReport] = useState<ReportType | null>(null);
@@ -46,12 +69,29 @@ function App() {
     setCurrentIndex(Math.min(loadCurrentQuestionIndex(), ARCANA_QUESTIONS.length - 1));
     if (storedResult) {
       setReport(storedResult);
-      setScreen('report');
     }
   }, []);
 
-  const hasInProgress = Object.keys(answers).length > 0;
+  useEffect(() => {
+    const onHash = () => setLegalRoute(readLegalRoute());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  // Bij het wisselen van scherm bovenaan beginnen; anders land je halverwege de
+  // vorige pagina in de nieuwe.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [screen, legalRoute]);
+
+  const hasInProgress = Object.keys(answers).length > 0 && report === null;
   const hasResult = report !== null;
+  const resumeQuestionNumber = Math.min(currentIndex + 1, ARCANA_QUESTIONS.length);
+
+  function goToSite() {
+    if (window.location.hash) window.location.hash = '';
+    setLegalRoute(null);
+  }
 
   function handleStart() {
     const previousProfile = profile;
@@ -61,6 +101,7 @@ function App() {
     setReport(null);
     // De naam blijft staan bij opnieuw beginnen; alleen de antwoorden gaan weg.
     setProfile(previousProfile);
+    goToSite();
     setScreen('intake');
   }
 
@@ -72,11 +113,15 @@ function App() {
   }
 
   function handleResume() {
+    goToSite();
     setScreen('test');
   }
 
   function handleViewResult() {
-    if (report) setScreen('report');
+    if (report) {
+      goToSite();
+      setScreen('report');
+    }
   }
 
   function handleAnswer(answer: ArcanaAnswer) {
@@ -106,7 +151,7 @@ function App() {
   }
 
   function handlePause() {
-    setScreen('start');
+    setScreen('landing');
   }
 
   function handleLoadingDone() {
@@ -124,7 +169,7 @@ function App() {
     setCurrentIndex(0);
     setReport(null);
     setProfile(previousProfile);
-    setScreen('start');
+    setScreen('landing');
   }
 
   /** Wist alles, inclusief de naam: dit is de expliciete privacy-actie. */
@@ -134,7 +179,26 @@ function App() {
     setCurrentIndex(0);
     setReport(null);
     setProfile({ ...DEFAULT_PROFILE });
-    setScreen('start');
+    setScreen('landing');
+  }
+
+  function openLegal(route: LegalRoute) {
+    window.location.hash = route === 'privacy' ? '#/privacy' : '#/voorwaarden';
+    setLegalRoute(route);
+  }
+
+  // De losse pagina's staan los van de testflow: ook midden in de test kun je
+  // de privacyverklaring openen zonder je voortgang kwijt te raken.
+  if (legalRoute) {
+    return (
+      <div className="site">
+        <SiteHeader onStart={handleStart} hasInProgress={hasInProgress} onResume={handleResume} />
+        <main className="site__main">
+          {legalRoute === 'privacy' ? <PrivacyPage onBack={goToSite} /> : <TermsPage onBack={goToSite} />}
+        </main>
+        <SiteFooter onNavigate={openLegal} />
+      </div>
+    );
   }
 
   if (screen === 'intake') {
@@ -142,7 +206,7 @@ function App() {
       <ArcanaIntake
         initialProfile={profile}
         onConfirm={handleIntakeConfirm}
-        onBack={() => setScreen('start')}
+        onBack={() => setScreen('landing')}
       />
     );
   }
@@ -165,17 +229,29 @@ function App() {
   }
 
   if (screen === 'report' && report) {
-    return <ArcanaReport report={report} onRestart={handleRestart} onClearAnswers={handleClearAnswers} />;
+    return <ArcanaReport
+        report={report}
+        onRestart={handleRestart}
+        onClearAnswers={handleClearAnswers}
+        onBackToSite={() => setScreen('landing')}
+      />;
   }
 
   return (
-    <ArcanaStart
-      hasInProgress={hasInProgress}
-      hasResult={hasResult}
-      onStart={handleStart}
-      onResume={handleResume}
-      onViewResult={handleViewResult}
-    />
+    <div className="site">
+      <SiteHeader onStart={handleStart} hasInProgress={hasInProgress} onResume={handleResume} />
+      <main className="site__main">
+        <LandingPage
+          onStart={handleStart}
+          onResume={handleResume}
+          onViewResult={handleViewResult}
+          hasInProgress={hasInProgress}
+          hasResult={hasResult}
+          resumeQuestionNumber={resumeQuestionNumber}
+        />
+      </main>
+      <SiteFooter onNavigate={openLegal} />
+    </div>
   );
 }
 

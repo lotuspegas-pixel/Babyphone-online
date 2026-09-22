@@ -1,0 +1,13 @@
+{
+  "name": "Arcana Profile",
+  "short_name": "Arcana",
+  "description": "Persoonlijkheidstest met een rapport dat zich laat narekenen.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf8f3",
+  "theme_color": "#fbf8f3",
+  "lang": "nl-NL",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

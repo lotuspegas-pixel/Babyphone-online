@@ -2,16 +2,159 @@
 <html lang="nl">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arcana Profile — persoonlijkheidstest met een rapport dat zich laat narekenen</title>
     <meta
       name="description"
-      content="Arcana Mirror: een persoonlijke spiegel voor je patronen, kracht en groeirichting."
+      content="Gratis persoonlijkheidstest van 120 vragen. Je krijgt een rapport van 33 hoofdstukken over je drijfveren, denkstijl, relaties, stresspatroon, sterke kanten en blinde vlekken. Elke uitspraak is herleidbaar naar een score. Je antwoorden blijven op je eigen apparaat."
     />
-    <title>Arcana Mirror</title>
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Arcana Profile" />
+    <meta name="theme-color" content="#FBF8F3" />
+    <link rel="canonical" href="https://arcanaprofile.com/" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Arcana Profile" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta property="og:title" content="Arcana Profile — een persoonlijkheidstest die zich laat narekenen" />
+    <meta
+      property="og:description"
+      content="120 vragen, 33 hoofdstukken, ruim 5.500 woorden over jou. Elke uitspraak hangt aan een gemeten score. Gratis, zonder account, en je antwoorden blijven op je eigen apparaat."
+    />
+    <meta property="og:url" content="https://arcanaprofile.com/" />
+    <meta property="og:image" content="https://arcanaprofile.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Arcana Profile — een persoonlijkheidstest die zich laat narekenen" />
+    <meta
+      name="twitter:description"
+      content="120 vragen, 33 hoofdstukken, ruim 5.500 woorden over jou. Gratis en privé."
+    />
+    <meta name="twitter:image" content="https://arcanaprofile.com/og-image.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://arcanaprofile.com/#website",
+            "url": "https://arcanaprofile.com/",
+            "name": "Arcana Profile",
+            "inLanguage": "nl-NL",
+            "description": "Gratis persoonlijkheidstest van 120 vragen met een uitgebreid, herleidbaar persoonlijk rapport."
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://arcanaprofile.com/#app",
+            "name": "Arcana Profile",
+            "url": "https://arcanaprofile.com/",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Vereist JavaScript",
+            "isAccessibleForFree": true,
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+            "inLanguage": "nl-NL",
+            "description": "Arcana Profile is een zelfreflectie-instrument: 120 vragen in vier vraagsoorten worden omgerekend naar 30 eigenschappen en 12 hoofddimensies, en daaruit volgt een persoonlijk rapport van 33 hoofdstukken. Elke uitspraak in het rapport is herleidbaar naar een gemeten score. Alle gegevens blijven in de browser van de gebruiker. Het is geen diagnose- of selectie-instrument.",
+            "featureList": [
+              "120 vragen in vier vraagsoorten",
+              "30 gemeten eigenschappen en 12 hoofddimensies",
+              "Rapport van 33 hoofdstukken en ruim 5.500 woorden",
+              "Scorewiel, sterke punten, valkuilen en spanningsvelden",
+              "Actieplan van vier weken",
+              "Opslaan als PDF, printen of downloaden",
+              "Geen account, geen server: alles blijft lokaal"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://arcanaprofile.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Hoe lang duurt de test?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ongeveer 20 tot 25 minuten voor 120 vragen. Je kunt tussendoor pauzeren; je voortgang blijft in je browser bewaard."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wat kost het?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Niets. Je krijgt het volledige rapport van alle 33 hoofdstukken, zonder betaalmuur en zonder account."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wat gebeurt er met mijn antwoorden?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Die blijven in de opslag van je eigen browser. Er is geen server waar ze naartoe gaan. Wis je je browsergegevens, dan zijn ze definitief weg."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is dit wetenschappelijk gevalideerd?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nee. Het is een reflectie-instrument, geen gevalideerde psychologische test. De berekeningen zijn herleidbaar, maar er is geen normgroep en geen validatiestudie."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Kan ik dit gebruiken om iemand aan te nemen of te beoordelen?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nee. Het is niet gemaakt of getoetst voor selectie of beoordeling van anderen."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Statische inhoud voor zoekmachines en bezoekers zonder JavaScript;
+           wordt vervangen zodra de app laadt. -->
+      <div style="max-width:640px;margin:0 auto;padding:48px 24px;font-family:Georgia,serif;color:#292420">
+        <h1 style="font-size:2.2rem;margin-bottom:8px">Arcana Profile</h1>
+        <p style="font-size:1.1rem;color:#574f47">
+          Een persoonlijkheidstest met een rapport dat zich laat narekenen.
+        </p>
+        <p>
+          Je beantwoordt 120 vragen in vier vraagsoorten. Die worden omgerekend naar scores op 30
+          eigenschappen en 12 hoofddimensies: je innerlijke motor, sociale energie, denkstijl, emotionele
+          gevoeligheid, controle en zekerheid, conflictstijl, zelfbeeld, schaduwkant, relatiepatroon,
+          werkstijl, stressreactie en groeipad.
+        </p>
+        <p>
+          Daaruit volgt een persoonlijk rapport van 33 hoofdstukken en ruim 5.500 woorden, met je sterke
+          punten, je valkuilen, je stresspatroon, je spanningsvelden en een actieplan van vier weken. Elke
+          uitspraak is herleidbaar naar een gemeten score.
+        </p>
+        <p>
+          Gratis, zonder account. Je antwoorden en je rapport blijven in de opslag van je eigen browser en
+          worden niet naar een server gestuurd. Arcana Profile is bedoeld voor zelfreflectie: het is geen
+          medisch of psychologisch diagnose-instrument en niet geschikt voor selectie of beoordeling van
+          anderen.
+        </p>
+        <p><em>De website wordt geladen…</em></p>
+      </div>
+    </div>
+    <noscript>
+      <p style="text-align:center;font-family:sans-serif">
+        Arcana Profile heeft JavaScript nodig om de vragenlijst te draaien. Zet JavaScript aan in je browser.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

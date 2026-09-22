@@ -1,0 +1,847 @@
+{
+  "$schema": "arcana-designtokens/1",
+  "meta": {
+    "project": "Arcana Profile",
+    "werkstroom": "B",
+    "richting": "(a) Perkament & Diepte",
+    "datum": "2026-09-22",
+    "taal": "nl",
+    "meetmethode": "WCAG 2.1 relatief contrast; CVD-simulatie Machado/Oliveira/Fernandes 2009 severiteit 1,0; afstand CIEDE2000",
+    "opmerking": "Alle contrastwaarden zijn berekend, niet geschat. Kleur mag nooit de enige informatiedrager zijn."
+  },
+  "kleur": {
+    "licht": {
+      "vlak": {
+        "surface": {
+          "waarde": "#ffffff",
+          "luminantie": 100
+        },
+        "surface-raised": {
+          "waarde": "#fffdf9",
+          "luminantie": 98.4
+        },
+        "bg": {
+          "waarde": "#fbf8f3",
+          "luminantie": 94.1
+        },
+        "bg-veil": {
+          "waarde": "#f6f0e5",
+          "luminantie": 87.6
+        },
+        "bg-deep": {
+          "waarde": "#efe6d6",
+          "luminantie": 79.8
+        },
+        "bg-band": {
+          "waarde": "#e4d8c2",
+          "luminantie": 69.5
+        },
+        "bg-ink": {
+          "waarde": "#241f1a",
+          "luminantie": 1.4
+        },
+        "bg-wash": {
+          "waarde": "#f7ecd9",
+          "luminantie": 84.8
+        }
+      },
+      "inkt": {
+        "ink": {
+          "waarde": "#241f1a",
+          "contrast": {
+            "bg": 15.42,
+            "surface": 16.33,
+            "bg-veil": 14.4,
+            "bg-deep": 13.19,
+            "bg-band": 11.59,
+            "bg-ink": 1
+          }
+        },
+        "ink-soft": {
+          "waarde": "#554d44",
+          "contrast": {
+            "bg": 7.83,
+            "surface": 8.3,
+            "bg-veil": 7.31,
+            "bg-deep": 6.7,
+            "bg-band": 5.89,
+            "bg-ink": 1.97
+          }
+        },
+        "ink-faint": {
+          "waarde": "#655b50",
+          "contrast": {
+            "bg": 6.26,
+            "surface": 6.63,
+            "bg-veil": 5.85,
+            "bg-deep": 5.36,
+            "bg-band": 4.71,
+            "bg-ink": 2.46
+          }
+        },
+        "ink-inverse": {
+          "waarde": "#f4ede1",
+          "contrast": {
+            "bg": 1.1,
+            "surface": 1.16,
+            "bg-veil": 1.03,
+            "bg-deep": 1.06,
+            "bg-band": 1.21,
+            "bg-ink": 14.03
+          }
+        },
+        "ink-inverse-soft": {
+          "waarde": "#cbbfab",
+          "contrast": {
+            "bg": 1.71,
+            "surface": 1.81,
+            "bg-veil": 1.6,
+            "bg-deep": 1.46,
+            "bg-band": 1.29,
+            "bg-ink": 9
+          }
+        }
+      },
+      "accent": {
+        "gold": {
+          "waarde": "#7f4c04",
+          "contrast": {
+            "bg": 6.75,
+            "surface": 7.15,
+            "bg-veil": 6.3,
+            "bg-deep": 5.77,
+            "bg-band": 5.07
+          }
+        },
+        "gold-deep": {
+          "waarde": "#5e3a05",
+          "contrast": {
+            "bg": 9.51,
+            "surface": 10.08,
+            "bg-veil": 8.89,
+            "bg-deep": 8.14,
+            "bg-band": 7.15
+          }
+        },
+        "gold-glyph": {
+          "waarde": "#b06a00",
+          "contrast": {
+            "bg": 4.04,
+            "surface": 4.28,
+            "bg-veil": 3.77,
+            "bg-deep": 3.46,
+            "bg-band": 3.04
+          }
+        }
+      },
+      "interactie": {
+        "btn-bg": "#5e3a05",
+        "btn-fg": "#fffaf2",
+        "btn-contrast": 9.7,
+        "btn-bg-hover": "#4a2d04",
+        "focus": "#5e3a05",
+        "focus-min-contrast": 7.15
+      },
+      "lijn": {
+        "hairline": "18% ink",
+        "hairline-soft": "10% ink",
+        "hairline-strong": "28% ink"
+      }
+    },
+    "donker": {
+      "vlak": {
+        "surface": {
+          "waarde": "#1f1b16",
+          "luminantie": 1.1
+        },
+        "surface-raised": {
+          "waarde": "#262019",
+          "luminantie": 1.5
+        },
+        "bg": {
+          "waarde": "#16130f",
+          "luminantie": 0.7
+        },
+        "bg-veil": {
+          "waarde": "#1b1712",
+          "luminantie": 0.9
+        },
+        "bg-deep": {
+          "waarde": "#211c16",
+          "luminantie": 1.2
+        },
+        "bg-band": {
+          "waarde": "#322a20",
+          "luminantie": 2.4
+        },
+        "bg-ink": {
+          "waarde": "#f2ece0",
+          "luminantie": 84.2
+        },
+        "bg-wash": {
+          "waarde": "#2e2418",
+          "luminantie": 1.9
+        }
+      },
+      "inkt": {
+        "ink": {
+          "waarde": "#ede5d9",
+          "contrast": {
+            "bg": 14.82,
+            "surface": 13.7,
+            "bg-veil": 14.27,
+            "bg-deep": 13.53,
+            "bg-band": 11.3,
+            "bg-ink": 1.06
+          }
+        },
+        "ink-soft": {
+          "waarde": "#c2b7a6",
+          "contrast": {
+            "bg": 9.36,
+            "surface": 8.66,
+            "bg-veil": 9.01,
+            "bg-deep": 8.55,
+            "bg-band": 7.14,
+            "bg-ink": 1.68
+          }
+        },
+        "ink-faint": {
+          "waarde": "#a29786",
+          "contrast": {
+            "bg": 6.44,
+            "surface": 5.96,
+            "bg-veil": 6.2,
+            "bg-deep": 5.88,
+            "bg-band": 4.91,
+            "bg-ink": 2.44
+          }
+        },
+        "ink-inverse": {
+          "waarde": "#1b1610",
+          "contrast": {
+            "bg": 1.03,
+            "surface": 1.05,
+            "bg-veil": 1.01,
+            "bg-deep": 1.06,
+            "bg-band": 1.27,
+            "bg-ink": 15.27
+          }
+        },
+        "ink-inverse-soft": {
+          "waarde": "#4a4136",
+          "contrast": {
+            "bg": 1.85,
+            "surface": 1.71,
+            "bg-veil": 1.78,
+            "bg-deep": 1.69,
+            "bg-band": 1.41,
+            "bg-ink": 8.5
+          }
+        }
+      },
+      "accent": {
+        "gold": {
+          "waarde": "#e3b866",
+          "contrast": {
+            "bg": 9.98,
+            "surface": 9.22,
+            "bg-veil": 9.61,
+            "bg-deep": 9.11,
+            "bg-band": 7.61
+          }
+        },
+        "gold-deep": {
+          "waarde": "#c2953f",
+          "contrast": {
+            "bg": 6.76,
+            "surface": 6.25,
+            "bg-veil": 6.51,
+            "bg-deep": 6.17,
+            "bg-band": 5.15
+          }
+        },
+        "gold-glyph": {
+          "waarde": "#f0cb8c",
+          "contrast": {
+            "bg": 12.01,
+            "surface": 11.11,
+            "bg-veil": 11.57,
+            "bg-deep": 10.97,
+            "bg-band": 9.16
+          }
+        }
+      },
+      "interactie": {
+        "btn-bg": "#e3b866",
+        "btn-fg": "#1b1610",
+        "btn-contrast": 9.68,
+        "btn-bg-hover": "#f0cb8c",
+        "focus": "#f0cb8c",
+        "focus-min-contrast": 9.16
+      },
+      "lijn": {
+        "hairline": "16% ink",
+        "hairline-soft": "9% ink",
+        "hairline-strong": "26% ink"
+      }
+    }
+  },
+  "dimensies": {
+    "toelichting": "Vier families van drie. De familie draagt de betekenis; de lichtheid onderscheidt het lid binnen de familie. Kleur wordt altijd gecombineerd met label, vaste wielpositie en familiesymbool.",
+    "families": {
+      "motor": {
+        "naam": "motor en richting",
+        "basis_uit_oude_token": "--teal #4338ca",
+        "symbool": "◆"
+      },
+      "contact": {
+        "naam": "contact",
+        "basis_uit_oude_token": "--growth #0a7355",
+        "symbool": "●"
+      },
+      "grip": {
+        "naam": "grip",
+        "basis_uit_oude_token": "--ember #92610a",
+        "symbool": "▲"
+      },
+      "zelf": {
+        "naam": "zelf",
+        "basis_uit_oude_token": "--plum #a81e1e",
+        "symbool": "■"
+      }
+    },
+    "items": [
+      {
+        "volgorde": 1,
+        "token": "--dim-innerlijke-motor",
+        "naam": "Innerlijke motor",
+        "js_sleutel": "innerMotor",
+        "familie": "motor",
+        "symbool": "◆",
+        "licht": {
+          "waarde": "#496cca",
+          "contrast_op_bg": 4.63,
+          "contrast_op_surface": 4.91,
+          "wash": "#e9f0ff",
+          "inkt_op_wash": 14.29
+        },
+        "donker": {
+          "waarde": "#6284d7",
+          "contrast_op_surface": 4.73,
+          "contrast_op_bg": 5.11,
+          "wash": "#1d2945",
+          "inkt_op_wash": 11.55
+        },
+        "simulatie_licht": {
+          "protanopia": "#3d77ce",
+          "deuteranopia": "#256bc8",
+          "tritanopia": "#008291"
+        },
+        "simulatie_donker": {
+          "protanopia": "#628cda",
+          "deuteranopia": "#5482d5",
+          "tritanopia": "#2096a3"
+        }
+      },
+      {
+        "volgorde": 2,
+        "token": "--dim-denkstijl",
+        "naam": "Denkstijl",
+        "js_sleutel": "thinkingStyle",
+        "familie": "motor",
+        "symbool": "◆",
+        "licht": {
+          "waarde": "#4242a2",
+          "contrast_op_bg": 7.83,
+          "contrast_op_surface": 8.29,
+          "wash": "#ecefff",
+          "inkt_op_wash": 14.28
+        },
+        "donker": {
+          "waarde": "#99a3fe",
+          "contrast_op_surface": 7.36,
+          "contrast_op_bg": 7.96,
+          "wash": "#242745",
+          "inkt_op_wash": 11.58
+        },
+        "simulatie_licht": {
+          "protanopia": "#0052a5",
+          "deuteranopia": "#004aa0",
+          "tritanopia": "#00596b"
+        },
+        "simulatie_donker": {
+          "protanopia": "#84aeff",
+          "deuteranopia": "#7da6fc",
+          "tritanopia": "#7ab5c5"
+        }
+      },
+      {
+        "volgorde": 3,
+        "token": "--dim-werkstijl",
+        "naam": "Werkstijl",
+        "js_sleutel": "workStyle",
+        "familie": "motor",
+        "symbool": "◆",
+        "licht": {
+          "waarde": "#3c2c73",
+          "contrast_op_bg": 11.01,
+          "contrast_op_surface": 11.67,
+          "wash": "#efeeff",
+          "inkt_op_wash": 14.27
+        },
+        "donker": {
+          "waarde": "#cec8ff",
+          "contrast_op_surface": 10.87,
+          "contrast_op_bg": 11.75,
+          "wash": "#2a2543",
+          "inkt_op_wash": 11.64
+        },
+        "simulatie_licht": {
+          "protanopia": "#003a75",
+          "deuteranopia": "#003771",
+          "tritanopia": "#2b3c4b"
+        },
+        "simulatie_donker": {
+          "protanopia": "#bbcfff",
+          "deuteranopia": "#bbcdfd",
+          "tritanopia": "#c4d1db"
+        }
+      },
+      {
+        "volgorde": 4,
+        "token": "--dim-sociale-energie",
+        "naam": "Sociale energie",
+        "js_sleutel": "socialPattern",
+        "familie": "contact",
+        "symbool": "●",
+        "licht": {
+          "waarde": "#068062",
+          "contrast_op_bg": 4.64,
+          "contrast_op_surface": 4.92,
+          "wash": "#cdfdea",
+          "inkt_op_wash": 14.65
+        },
+        "donker": {
+          "waarde": "#3e9377",
+          "contrast_op_surface": 4.6,
+          "contrast_op_bg": 4.98,
+          "wash": "#033325",
+          "inkt_op_wash": 11.18
+        },
+        "simulatie_licht": {
+          "protanopia": "#7c7660",
+          "deuteranopia": "#6f6d64",
+          "tritanopia": "#008178"
+        },
+        "simulatie_donker": {
+          "protanopia": "#8f8a76",
+          "deuteranopia": "#838179",
+          "tritanopia": "#10948b"
+        }
+      },
+      {
+        "volgorde": 5,
+        "token": "--dim-emotionele-gevoeligheid",
+        "naam": "Emotionele gevoeligheid",
+        "js_sleutel": "emotionalSensitivityMain",
+        "familie": "contact",
+        "symbool": "●",
+        "licht": {
+          "waarde": "#006a5c",
+          "contrast_op_bg": 6.16,
+          "contrast_op_surface": 6.53,
+          "wash": "#c9fdf1",
+          "inkt_op_wash": 14.62
+        },
+        "donker": {
+          "waarde": "#5dc1a7",
+          "contrast_op_surface": 7.87,
+          "contrast_op_bg": 8.51,
+          "wash": "#003328",
+          "inkt_op_wash": 11.18
+        },
+        "simulatie_licht": {
+          "protanopia": "#65635b",
+          "deuteranopia": "#595a5d",
+          "tritanopia": "#006c66"
+        },
+        "simulatie_donker": {
+          "protanopia": "#bbb6a6",
+          "deuteranopia": "#acaba9",
+          "tritanopia": "#2ec3b9"
+        }
+      },
+      {
+        "volgorde": 6,
+        "token": "--dim-relatiepatroon",
+        "naam": "Relatiepatroon",
+        "js_sleutel": "relationshipPattern",
+        "familie": "contact",
+        "symbool": "●",
+        "licht": {
+          "waarde": "#005041",
+          "contrast_op_bg": 8.91,
+          "contrast_op_surface": 9.44,
+          "wash": "#cbfdee",
+          "inkt_op_wash": 14.64
+        },
+        "donker": {
+          "waarde": "#26edd0",
+          "contrast_op_surface": 11.5,
+          "contrast_op_bg": 12.44,
+          "wash": "#00322b",
+          "inkt_op_wash": 11.27
+        },
+        "simulatie_licht": {
+          "protanopia": "#4d4a40",
+          "deuteranopia": "#444342",
+          "tritanopia": "#00514c"
+        },
+        "simulatie_donker": {
+          "protanopia": "#e3decf",
+          "deuteranopia": "#caccd2",
+          "tritanopia": "#00f1e4"
+        }
+      },
+      {
+        "volgorde": 7,
+        "token": "--dim-controle-zekerheid",
+        "naam": "Controle en zekerheid",
+        "js_sleutel": "controlAndSecurity",
+        "familie": "grip",
+        "symbool": "▲",
+        "licht": {
+          "waarde": "#866e34",
+          "contrast_op_bg": 4.62,
+          "contrast_op_surface": 4.89,
+          "wash": "#ffefca",
+          "inkt_op_wash": 14.35
+        },
+        "donker": {
+          "waarde": "#978351",
+          "contrast_op_surface": 4.63,
+          "contrast_op_bg": 5.01,
+          "wash": "#352803",
+          "inkt_op_wash": 11.54
+        },
+        "simulatie_licht": {
+          "protanopia": "#7a6d2e",
+          "deuteranopia": "#7f7436",
+          "tritanopia": "#916661"
+        },
+        "simulatie_donker": {
+          "protanopia": "#8e824d",
+          "deuteranopia": "#938753",
+          "tritanopia": "#a17b77"
+        }
+      },
+      {
+        "volgorde": 8,
+        "token": "--dim-conflictstijl",
+        "naam": "Conflictstijl",
+        "js_sleutel": "conflictStyle",
+        "familie": "grip",
+        "symbool": "▲",
+        "licht": {
+          "waarde": "#755a00",
+          "contrast_op_bg": 6.16,
+          "contrast_op_surface": 6.52,
+          "wash": "#ffefc8",
+          "inkt_op_wash": 14.33
+        },
+        "donker": {
+          "waarde": "#cfa940",
+          "contrast_op_surface": 7.67,
+          "contrast_op_bg": 8.29,
+          "wash": "#352803",
+          "inkt_op_wash": 11.54
+        },
+        "simulatie_licht": {
+          "protanopia": "#675900",
+          "deuteranopia": "#6d6108",
+          "tritanopia": "#80504c"
+        },
+        "simulatie_donker": {
+          "protanopia": "#bca732",
+          "deuteranopia": "#c5b245",
+          "tritanopia": "#e09b93"
+        }
+      },
+      {
+        "volgorde": 9,
+        "token": "--dim-stressreactie",
+        "naam": "Stressreactie",
+        "js_sleutel": "stressPattern",
+        "familie": "grip",
+        "symbool": "▲",
+        "licht": {
+          "waarde": "#633a00",
+          "contrast_op_bg": 9.28,
+          "contrast_op_surface": 9.83,
+          "wash": "#ffeddb",
+          "inkt_op_wash": 14.3
+        },
+        "donker": {
+          "waarde": "#ffd09e",
+          "contrast_op_surface": 12.04,
+          "contrast_op_bg": 13.02,
+          "wash": "#3c2407",
+          "inkt_op_wash": 11.61
+        },
+        "simulatie_licht": {
+          "protanopia": "#473e00",
+          "deuteranopia": "#514701",
+          "tritanopia": "#6d3030"
+        },
+        "simulatie_donker": {
+          "protanopia": "#e0d29b",
+          "deuteranopia": "#ebdd9f",
+          "tritanopia": "#ffc5c3"
+        }
+      },
+      {
+        "volgorde": 10,
+        "token": "--dim-zelfbeeld",
+        "naam": "Zelfbeeld",
+        "js_sleutel": "selfImage",
+        "familie": "zelf",
+        "symbool": "■",
+        "licht": {
+          "waarde": "#ae527b",
+          "contrast_op_bg": 4.62,
+          "contrast_op_surface": 4.89,
+          "wash": "#ffeaf1",
+          "inkt_op_wash": 14.22
+        },
+        "donker": {
+          "waarde": "#d35f78",
+          "contrast_op_surface": 4.63,
+          "contrast_op_bg": 5.01,
+          "wash": "#411e24",
+          "inkt_op_wash": 11.71
+        },
+        "simulatie_licht": {
+          "protanopia": "#5e677c",
+          "deuteranopia": "#777779",
+          "tritanopia": "#ba4d61"
+        },
+        "simulatie_donker": {
+          "protanopia": "#767779",
+          "deuteranopia": "#948d75",
+          "tritanopia": "#e45168"
+        }
+      },
+      {
+        "volgorde": 11,
+        "token": "--dim-schaduwkant",
+        "naam": "Schaduwkant",
+        "js_sleutel": "shadowPattern",
+        "familie": "zelf",
+        "symbool": "■",
+        "licht": {
+          "waarde": "#bc395c",
+          "contrast_op_bg": 5.11,
+          "contrast_op_surface": 5.42,
+          "wash": "#ffeaed",
+          "inkt_op_wash": 14.19
+        },
+        "donker": {
+          "waarde": "#c87598",
+          "contrast_op_surface": 5.26,
+          "contrast_op_bg": 5.69,
+          "wash": "#3f1e2c",
+          "inkt_op_wash": 11.73
+        },
+        "simulatie_licht": {
+          "protanopia": "#58595d",
+          "deuteranopia": "#7a7459",
+          "tritanopia": "#cd2047"
+        },
+        "simulatie_donker": {
+          "protanopia": "#7f8699",
+          "deuteranopia": "#939496",
+          "tritanopia": "#d47181"
+        }
+      },
+      {
+        "volgorde": 12,
+        "token": "--dim-groeipad",
+        "naam": "Groeipad",
+        "js_sleutel": "growthPath",
+        "familie": "zelf",
+        "symbool": "■",
+        "licht": {
+          "waarde": "#85003c",
+          "contrast_op_bg": 9.61,
+          "contrast_op_surface": 10.18,
+          "wash": "#ffeaee",
+          "inkt_op_wash": 14.2
+        },
+        "donker": {
+          "waarde": "#ffa5bb",
+          "contrast_op_surface": 9.25,
+          "contrast_op_bg": 10.01,
+          "wash": "#401e27",
+          "inkt_op_wash": 11.73
+        },
+        "simulatie_licht": {
+          "protanopia": "#2d323d",
+          "deuteranopia": "#4e4a39",
+          "tritanopia": "#920021"
+        },
+        "simulatie_donker": {
+          "protanopia": "#b2b5bc",
+          "deuteranopia": "#c8c5b9",
+          "tritanopia": "#ff9fad"
+        }
+      }
+    ]
+  },
+  "typografie": {
+    "families": {
+      "display": "\"Cormorant Garamond\", ui-serif, Georgia, serif",
+      "body": "\"Inter\", system-ui, -apple-system, sans-serif",
+      "mono": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    },
+    "schaal": {
+      "text-2xs": "0.75rem",
+      "text-xs": "0.8125rem",
+      "text-sm": "0.9375rem",
+      "text-base": "clamp(1rem, 0.97rem + 0.15vw, 1.0625rem)",
+      "text-md": "clamp(1.0625rem, 1.01rem + 0.28vw, 1.1875rem)",
+      "text-lg": "clamp(1.1875rem, 1.10rem + 0.42vw, 1.375rem)",
+      "text-xl": "clamp(1.375rem, 1.24rem + 0.68vw, 1.75rem)",
+      "text-2xl": "clamp(1.625rem, 1.38rem + 1.22vw, 2.375rem)",
+      "text-3xl": "clamp(2rem, 1.58rem + 2.10vw, 3.25rem)",
+      "text-4xl": "clamp(2.5rem, 1.80rem + 3.50vw, 4.5rem)",
+      "text-wordmark": "clamp(3.25rem, 1.20rem + 10.2vw, 8.5rem)"
+    },
+    "regelhoogte": {
+      "tight": 1.08,
+      "snug": 1.25,
+      "normal": 1.5,
+      "prose": 1.68
+    },
+    "letterafstand": {
+      "tight": "-0.022em",
+      "normal": "0",
+      "wide": "0.06em",
+      "caps": "0.14em"
+    },
+    "gewicht": {
+      "regular": 400,
+      "medium": 500,
+      "semi": 600
+    },
+    "regellengte": {
+      "prose": "64ch",
+      "lead": "38rem",
+      "card": "46ch"
+    }
+  },
+  "ruimte": {
+    "schaal": {
+      "space-1": "0.25rem",
+      "space-2": "0.5rem",
+      "space-3": "0.75rem",
+      "space-4": "1rem",
+      "space-5": "1.5rem",
+      "space-6": "2rem",
+      "space-7": "2.5rem",
+      "space-8": "3rem",
+      "space-9": "4rem",
+      "space-10": "5rem",
+      "space-11": "6.5rem",
+      "space-12": "8rem"
+    },
+    "layout": {
+      "gutter": "clamp(1rem, 4vw, 2.5rem)",
+      "measure-site": "1180px",
+      "sectie-kort": "clamp(2.25rem, 5vw, 3.5rem)",
+      "sectie-normaal": "clamp(3rem, 7vw, 5.5rem)",
+      "sectie-ruim": "clamp(4.5rem, 10vw, 8rem)"
+    }
+  },
+  "radius": {
+    "btn": "999px",
+    "field": "0.625rem",
+    "card": "0.5rem",
+    "panel": "0.875rem",
+    "pill": "999px"
+  },
+  "schaduw": {
+    "licht": {
+      "shadow-0": "none",
+      "shadow-1": "0 1px 2px rgb(36 31 26 / 0.05), 0 1px 1px rgb(36 31 26 / 0.04)",
+      "shadow-2": "0 2px 4px rgb(36 31 26 / 0.05), 0 4px 10px -3px rgb(36 31 26 / 0.07)",
+      "shadow-3": "0 4px 8px rgb(36 31 26 / 0.05), 0 12px 28px -8px rgb(36 31 26 / 0.10)",
+      "shadow-4": "0 8px 16px rgb(36 31 26 / 0.06), 0 28px 56px -16px rgb(36 31 26 / 0.14)"
+    },
+    "donker": {
+      "shadow-1": "0 1px 2px rgb(0 0 0 / 0.40)",
+      "shadow-2": "0 2px 6px rgb(0 0 0 / 0.45), 0 6px 14px -4px rgb(0 0 0 / 0.35)",
+      "shadow-3": "0 6px 16px rgb(0 0 0 / 0.50), 0 16px 36px -10px rgb(0 0 0 / 0.42)",
+      "shadow-4": "0 10px 24px rgb(0 0 0 / 0.55), 0 34px 68px -18px rgb(0 0 0 / 0.50)"
+    }
+  },
+  "beweging": {
+    "duur": {
+      "instant": "80ms",
+      "snel": "140ms",
+      "normaal": "220ms",
+      "rustig": "380ms",
+      "traag": "700ms",
+      "verhaal": "1200ms"
+    },
+    "easing": {
+      "standaard": "cubic-bezier(0.2, 0, 0, 1)",
+      "uit": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "in": "cubic-bezier(0.7, 0, 0.84, 0)",
+      "zacht": "cubic-bezier(0.4, 0.14, 0.3, 1)"
+    },
+    "afstand": {
+      "enter-verschuiving": "14px",
+      "hover-lift": "-2px"
+    },
+    "reduced-motion": {
+      "alle_duraties": "0.01ms",
+      "enter-verschuiving": "0px",
+      "hover-lift": "0px"
+    }
+  },
+  "alias": {
+    "toelichting": "Oude tokennamen uit app.pretty.css, zodat bestaande CSS blijft werken tijdens de migratie.",
+    "--color-parchment": "--bg",
+    "--color-parchment-veil": "--bg-veil",
+    "--color-parchment-deep": "--bg-deep",
+    "--color-ink": "--ink",
+    "--color-ink-soft": "--ink-soft",
+    "--color-ink-faint": "--ink-faint",
+    "--color-hairline": "--hairline",
+    "--color-hairline-soft": "--hairline-soft",
+    "--interaction": "--gold",
+    "--interaction-strong": "--gold-deep",
+    "--interaction-wash": "--bg-wash",
+    "--editorial-gold": "--gold",
+    "--editorial-gold-dark": "--gold-deep",
+    "--teal": "--fam-motor",
+    "--growth": "--fam-contact",
+    "--ember": "--fam-grip",
+    "--plum": "--fam-zelf",
+    "--shadow": "--shadow-2",
+    "--surface-2": "--bg-veil",
+    "--profile": "--ink",
+    "--border": "--hairline"
+  },
+  "controle": {
+    "min_deltaE2000_licht": 7.1,
+    "min_deltaE2000_donker": 7.4,
+    "min_deltaE2000_huidige_site": 1.4,
+    "deltaE2000_methode": "Machado, Oliveira & Fernandes (2009), severiteit 1,0, matrix toegepast op LINEAIRE RGB; afstand CIEDE2000, witpunt D65. Exacte waarden: licht 7.10 (deuteranopie, sociale energie #068062 vs zelfbeeld #ae527b), donker 7.44 (deuteranopie, emotionele gevoeligheid #5dc1a7 vs schaduwkant #c87598), huidige site 1.41 (protanopie, #9a9349 vs #b58b41).",
+    "aantal_dimensiekleuren_onder_3_1_nu": 2,
+    "aantal_dimensiekleuren_onder_AA_nu": 6,
+    "aantal_dimensiekleuren_onder_AA_nieuw": 0,
+    "script": "A-baseline.md §5"
+  }
+}

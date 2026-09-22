@@ -16,7 +16,7 @@ export function buildArcanaExportText(report: ArcanaReport): string {
   const lines: string[] = [];
   const name = report.meta.profile.name.trim();
 
-  lines.push(`# Arcana Mirror — rapport${name ? ` van ${name}` : ''}`);
+  lines.push(`# Arcana Profile — rapport${name ? ` van ${name}` : ''}`);
   lines.push('');
   lines.push(`Gegenereerd op: ${formatDate(report.meta.generatedAt)}`);
   lines.push('');

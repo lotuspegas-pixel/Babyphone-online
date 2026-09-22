@@ -1,55 +1,351 @@
-/* Arcana Mirror — premium theme: nachtpaars/blauw, crème panels, warm goud. */
+/* Arcana Mirror — "Parchment": warme, redactionele wereld op crème/nachtpaars-
+   accenten, amber/goud als primaire actiekleur. Vervangt het vorige
+   "Kaartendeck"-thema (koel grijs met ember/teal/plum) volledig — expliciete
+   ontwerpkeuze van de eigenaar, overgenomen 1:1 uit een aangeleverde,
+   geverifieerde render (zie docs/arcana/DECISIONS.md). Functionaliteit
+   (120 vragen, autosave, automatisch doorschakelen, rapport, print/PDF)
+   verandert niet — alleen kleur, typografie en kaart-chrome.
+
+   Eén wereld, geen donker thema: de brondesign heeft nul
+   prefers-color-scheme-regels. color-scheme: light hieronder voorkomt dat
+   formulierbesturingselementen (bv. native focus/selectie-UI) alsnog
+   automatisch omkeren in een donkere systeemvoorkeur. */
+
+/* ==========================================================================
+   Webfonts — self-hosted, latin-subset eerst zodat een NL-bezoeker niet ook
+   de ~225KB grotere latin-ext-subset ophaalt. Bron: Fontsource (SIL OFL).
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-ext-400-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-500-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-ext-500-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-600-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-ext-600-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-400-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/cormorant-garamond-latin-ext-400-italic.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/inter-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/inter-latin-ext-400-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/inter-latin-500-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/inter-latin-ext-500-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/inter-latin-600-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/inter-latin-ext-600-normal.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
 
 :root {
-  --arc-bg-1: #120a2b;
-  --arc-bg-2: #1c1042;
-  --arc-bg-3: #241454;
-  --arc-cream: #f7f1e6;
-  --arc-cream-soft: #efe6d4;
-  --arc-gold: #d8a94d;
-  --arc-gold-soft: #e9c983;
-  /* Donkerder goud voor tekst/lijnen op crème of wit: haalt WCAG AA (>=4.5:1 tekst, >=3:1 UI/grafiek)
-     tegen zowel de crème kaarten als de donkerste achtergrond, zodat het ook als focusring werkt. */
-  --arc-gold-deep: #7d5a10;
-  --arc-ink: #1c1730;
-  --arc-ink-soft: #4a4360;
-  --arc-glow: rgba(216, 169, 77, 0.35);
-  --arc-border: rgba(216, 169, 77, 0.25);
-  --arc-radius-lg: 22px;
-  --arc-radius-md: 14px;
-  --arc-font: 'Segoe UI', 'Nunito', system-ui, sans-serif;
-  --arc-font-heading: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+  color-scheme: light;
+
+  --color-parchment: #fbf8f3;
+  --color-parchment-veil: #f8f4ec;
+  --color-parchment-deep: #f4eee4;
+  --color-ink: #292420;
+  --color-ink-soft: #574f47;
+  --color-ink-faint: #8b8177;
+  --color-hairline: #2924201a;
+  --color-hairline-soft: #29242012;
+
+  --interaction: #b66a08;
+  --interaction-strong: #7a4300;
+  --editorial-gold: #bd6c00;
+  --editorial-gold-dark: #8b5008;
+
+  /* Vulling voor "geselecteerd" op likert/keuze-opties: lichte amber-wasem
+     i.p.v. een volle --interaction-vlak. Reden: wit/inkt-tekst op de volle
+     --interaction (#b66a08) haalt maar ~4.2:1 (net onder AA voor body-tekst),
+     terwijl --color-ink op deze wasem >13:1 haalt (nagerekend). De rand
+     blijft de volle --interaction, want als 1px lijn geldt de UI-component-
+     grens (3:1), niet de tekstnorm, en --interaction haalt daar >4:1. */
+  --interaction-wash: #f6ede1;
+
+  /* Bestaande "kind"-namen blijven als aliassen bestaan (minder rename-
+     oppervlak in de rest van dit bestand) maar wijzen nu naar de vier
+     redactionele clusterkleuren + ink, zoals opgegeven door de eigenaar. */
+  --ember: #92610a;
+  --ember-fill: #92610a;
+  --ember-soft: #f1e6d3;
+
+  --teal: #4338ca;
+  --teal-fill: #4338ca;
+  --teal-soft: #e6e4fa;
+
+  --plum: #a81e1e;
+  --plum-fill: #a81e1e;
+  --plum-soft: #f8e2e2;
+
+  --growth: #0a7355;
+  --growth-fill: #0a7355;
+  --growth-soft: #dcf0ea;
+
+  --profile: #292420;
+
+  /* Focus is bewust niet één van de clusterkleuren: --interaction-strong
+     haalt op zowel wit als parchment >=7:1 (nagerekend), dus dezelfde ring
+     werkt overal zonder per-context aanpassing en blijft ook herkenbaar als
+     "actie", niet als toevallig gekleurd accent. */
+  --focus: #7a4300;
+  --btn-bg: #7a4300;
+  --btn-fg: #ffffff;
+
+  --shadow: none;
+
+  --font-display: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Bestaande aliassen die de rest van dit bestand nog gebruikt. */
+  --bg: var(--color-parchment);
+  --bg-dot: transparent;
+  --surface: #ffffff;
+  --surface-2: var(--color-parchment-veil);
+  --ink: var(--color-ink);
+  --ink-soft: var(--color-ink-soft);
+  --ink-faint: var(--color-ink-faint);
+  --border: var(--color-hairline);
+
+  /* Vlak/redactioneel ontwerp: geen geknipte hoek, geen kaartschaduw. Radii
+     zijn zacht (velden/keuzes) of volledig rond (knoppen), nooit scherp. */
+  --arc-radius-btn: 999px;
+  --arc-radius-field: 1rem;
+  --arc-radius-panel: 1rem;
+  --arc-card-cut: 0px;
+  --arc-deck-min: 270px;
+
+  /* Achtpuntige ster (4 lange assen + 4 korte diagonalen), als mask-image
+     zodat hij met elke achtergrondkleur (meestal --editorial-gold) kan
+     kleuren zonder een los PNG/SVG-bestand te laden. */
+  --arc-star: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PHBvbHlnb24gcG9pbnRzPScxMiwxIDEzLjE1LDkuMjMgMTYuMzgsNy42MiAxNC43NywxMC44NSAyMywxMiAxNC43NywxMy4xNSAxNi4zOCwxNi4zOCAxMy4xNSwxNC43NyAxMiwyMyAxMC44NSwxNC43NyA3LjYyLDE2LjM4IDkuMjMsMTMuMTUgMSwxMiA5LjIzLDEwLjg1IDcuNjIsNy42MiAxMC44NSw5LjIzJy8+PC9zdmc+");
 }
+
+/* Paginaachtergrond: brede radiale wasem, vast t.o.v. het venster zodat hij
+   niet "meescrolt" met de lange 33-secties-rapportpagina. Los van
+   .arcana-screen gezet (die blijft transparant) zodat de wasem over de hele
+   documenthoogte doorloopt, ook als een scherm hoger is dan 100vh. */
+html,
+body {
+  min-height: 100%;
+  background: radial-gradient(120% 80% at 50% -10%, #fff 0%, var(--color-parchment) 55%, var(--color-parchment-deep) 130%);
+  background-attachment: fixed;
+  background-color: var(--color-parchment);
+}
+
+/* ==========================================================================
+   Reset / basis
+   ========================================================================== */
 
 .arcana-app-root {
   min-height: 100vh;
+  background: transparent;
 }
+
+.arcana-app-root,
+.arcana-app-root *,
+.arcana-app-root *::before,
+.arcana-app-root *::after {
+  box-sizing: border-box;
+}
+
+.arcana-app-root ul {
+  margin: 0;
+}
+
+.arcana-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.arcana-app-root button {
+  font: inherit;
+}
+
+.arcana-app-root strong {
+  color: inherit;
+}
+
+.arcana-app-root :focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcana-app-root {
+    scroll-behavior: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .arcana-app-root {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ==========================================================================
+   Scherm / kaart-basis
+   ========================================================================== */
 
 .arcana-screen {
   min-height: 100vh;
   width: 100%;
-  padding: 24px 16px 56px;
+  padding: 28px 18px 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  font-family: var(--arc-font);
-  color: var(--arc-cream);
-  background:
-    radial-gradient(circle at 15% 10%, var(--arc-bg-3) 0%, transparent 45%),
-    radial-gradient(circle at 85% 0%, rgba(216, 169, 77, 0.12) 0%, transparent 40%),
-    linear-gradient(160deg, var(--arc-bg-1) 0%, var(--arc-bg-2) 55%, var(--arc-bg-1) 100%);
-  box-sizing: border-box;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: transparent;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
+/* Eenvoudig, vlak paneel: wit vlak, dunne haarlijn, geen schaduw. Gebruikt
+   op start/intake/testscherm en voor lichte hulpkaarten (inhoudsopgave). */
 .arcana-card {
   width: 100%;
   max-width: 720px;
-  background: var(--arc-cream);
-  color: var(--arc-ink);
-  border-radius: var(--arc-radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--arc-radius-panel);
   padding: 28px 24px;
-  box-shadow: 0 20px 60px rgba(8, 4, 20, 0.45), 0 0 0 1px var(--arc-border);
+  box-shadow: none;
   position: relative;
 }
 
@@ -57,39 +353,60 @@
 .arcana-card h2,
 .arcana-card h3,
 .arcana-card h4 {
-  font-family: var(--arc-font-heading);
-  color: var(--arc-ink);
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--ink);
   margin: 0 0 12px;
 }
 
 .arcana-eyebrow {
+  font-family: var(--font-body);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.13em;
   font-size: 12px;
-  font-weight: 700;
-  color: var(--arc-gold-deep);
+  font-weight: 600;
+  color: var(--ink-soft);
   margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
 }
 
-/* Op de donkere schermachtergrond (buiten een crème kaart, zoals de
-   rapport-header) blijft het lichtere goud gebruiken: --arc-gold-deep is
-   daar te donker om te lezen. */
-.arcana-report__header > .arcana-eyebrow {
-  color: var(--arc-gold-soft);
+/* Klein achtpuntig ster-accent vóór eyebrow-labels — het meest terugkerende
+   sier-element van het brondesign, hier als schaalbare mask i.p.v. afbeelding. */
+.arcana-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  background-color: var(--editorial-gold);
+  mask-image: var(--arc-star);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: var(--arc-star);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
 }
 
 .arcana-title {
-  font-family: var(--arc-font-heading);
-  font-size: clamp(24px, 4vw, 34px);
-  line-height: 1.25;
-  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0.35rem 0 0.5rem;
 }
 
 .arcana-body {
+  font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.65;
-  color: var(--arc-ink-soft);
+  color: var(--ink-soft);
   margin: 0 0 14px;
+  max-width: 65ch;
 }
 
 .arcana-meta-list {
@@ -98,20 +415,32 @@
   margin: 0 0 24px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  color: var(--arc-ink-soft);
+  gap: 7px;
+  color: var(--ink-soft);
   font-size: 14px;
 }
 
+.arcana-meta-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
 .arcana-meta-list li::before {
-  content: '✦ ';
-  color: var(--arc-gold-deep);
+  content: '';
+  flex: 0 0 auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--editorial-gold);
+  transform: translateY(-1px);
 }
 
 .arcana-fineprint {
+  font-family: var(--font-body);
   font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--arc-ink-soft);
+  line-height: 1.55;
+  color: var(--ink-soft);
   margin: 10px 0 0;
 }
 
@@ -119,52 +448,116 @@
   font-style: italic;
 }
 
-/* Buttons */
+/* ==========================================================================
+   Knoppen — volledig pil-vormig, min. 48px hoog (spec), witte tekst
+   ========================================================================== */
 
 .arcana-button {
-  font-family: var(--arc-font);
-  font-size: 15px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
   font-weight: 600;
-  padding: 13px 22px;
-  border-radius: 999px;
-  border: 1px solid transparent;
+  letter-spacing: 0.01em;
+  padding: 12px 24px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--arc-radius-btn);
+  border: 1.5px solid transparent;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
-  min-height: 44px;
+  transition: transform 0.15s ease, filter 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
 }
 
 .arcana-button:disabled {
-  opacity: 0.4;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 .arcana-button--primary {
-  background: linear-gradient(135deg, var(--arc-gold-soft), var(--arc-gold));
-  color: #211205;
-  box-shadow: 0 8px 24px var(--arc-glow);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border-color: var(--btn-bg);
 }
 
 .arcana-button--primary:not(:disabled):hover {
+  filter: brightness(1.12);
   transform: translateY(-1px);
 }
 
 .arcana-button--ghost {
   background: transparent;
-  color: var(--arc-ink);
-  border-color: var(--arc-ink-soft);
+  color: var(--ink);
+  border-color: var(--border);
+}
+
+.arcana-button--ghost:not(:disabled):hover {
+  background: var(--surface-2);
+  border-color: var(--interaction);
 }
 
 .arcana-button--text {
   background: transparent;
-  color: var(--arc-ink-soft);
+  color: var(--ink-soft);
   border: none;
+  padding-left: 4px;
+  padding-right: 4px;
   text-decoration: underline;
+  text-underline-offset: 3px;
+  min-height: 44px;
 }
 
-/* Start screen */
+.arcana-button--text:not(:disabled):hover {
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   Startscherm
+   ========================================================================== */
 
 .arcana-start__card {
   text-align: left;
+  max-width: 760px;
+}
+
+/* Gestapeld woordmerk: "Arcana" / "Mirror", als tekst — het kenmerkendste
+   typografische element van het brondesign (clamp(5rem,10vw,8.5rem),
+   line-height 0.76, letter-spacing -0.055em). */
+.arcana-start__wordmark {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(5rem, 10vw, 8.5rem);
+  line-height: 0.76;
+  letter-spacing: -0.055em;
+  margin: 0.2rem 0 1.1rem;
+  color: var(--color-ink);
+}
+
+.arcana-start__wordmark span {
+  display: block;
+}
+
+.arcana-start__wordmark span:last-child {
+  color: var(--editorial-gold-dark);
+  font-style: italic;
+}
+
+/* Sfeerband: vintage graveerbeeld van een vallei naar een ster, sepia op
+   crème, multiply-gemengd met het parchment eronder. */
+.arcana-start__valley {
+  width: 100%;
+  max-width: 720px;
+  overflow: hidden;
+  border-radius: var(--arc-radius-panel);
+  line-height: 0;
+}
+
+.arcana-start__valley img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  mix-blend-mode: multiply;
 }
 
 .arcana-start__actions {
@@ -174,7 +567,9 @@
   margin-bottom: 8px;
 }
 
-/* Intake */
+/* ==========================================================================
+   Intake
+   ========================================================================== */
 
 .arcana-intake__card {
   text-align: left;
@@ -196,49 +591,40 @@
 }
 
 .arcana-field__label {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--arc-ink);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
   padding: 0;
 }
 
 .arcana-field__input {
-  font-family: var(--arc-font);
+  font-family: var(--font-body);
   font-size: 16px;
-  padding: 13px 14px;
-  border-radius: var(--arc-radius-md);
-  border: 1px solid rgba(28, 23, 48, 0.2);
-  background: #fff;
-  color: var(--arc-ink);
-  min-height: 46px;
+  padding: 12px 16px;
+  border-radius: var(--arc-radius-field);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  min-height: 48px;
   width: 100%;
 }
 
-.arcana-field__input:focus-visible {
-  outline: 2px solid var(--arc-gold-deep);
-  outline-offset: 1px;
-  border-color: var(--arc-gold-deep);
+.arcana-field__input:hover {
+  border-color: var(--interaction);
 }
 
-/* Zichtbare, ontworpen focusring voor alle interactieve elementen in de
-   testflow en het rapport (knoppen, likert-opties, keuzekaarten, segmented
-   control en ranking-pijlen). --arc-gold-deep haalt >=3:1 op zowel de
-   donkerste schermachtergrond als de crème/witte kaarten, dus dezelfde regel
-   werkt overal zonder per-context aanpassing. */
-.arcana-button:focus-visible,
-.arcana-likert__option:focus-visible,
-.arcana-choice:focus-visible,
-.arcana-segmented__option:focus-visible,
-.arcana-ranking__controls button:focus-visible,
-.arcana-report-toc__toggle:focus-visible {
-  outline: 3px solid var(--arc-gold-deep);
-  outline-offset: 2px;
+.arcana-field__input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+  border-color: var(--focus);
 }
 
 .arcana-field__hint {
+  font-family: var(--font-body);
   font-size: 12.5px;
   line-height: 1.5;
-  color: var(--arc-ink-soft);
+  color: var(--ink-soft);
 }
 
 .arcana-segmented {
@@ -248,26 +634,30 @@
 
 .arcana-segmented__option {
   flex: 1;
-  font-family: var(--arc-font);
-  font-size: 15px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
   font-weight: 600;
   padding: 12px 16px;
-  min-height: 46px;
-  border-radius: var(--arc-radius-md);
-  border: 1px solid rgba(28, 23, 48, 0.2);
-  background: #fff;
-  color: var(--arc-ink);
+  min-height: 48px;
+  border-radius: var(--arc-radius-field);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .arcana-segmented__option:hover {
-  border-color: var(--arc-gold);
+  border-color: var(--interaction);
+  transform: translateY(-1px);
 }
 
+/* Wasem-vulling + volle-sterkte rand i.p.v. volle vulling + witte tekst: zie
+   toelichting bij --interaction-wash hierboven (contrast nagerekend). */
 .arcana-segmented__option.is-selected {
-  border-color: var(--arc-gold);
-  background: rgba(216, 169, 77, 0.14);
+  border-color: var(--interaction);
+  background: var(--interaction-wash);
+  color: var(--color-ink);
 }
 
 .arcana-intake__actions {
@@ -277,46 +667,68 @@
   margin: 4px 0 8px;
 }
 
-/* Progress */
+/* Zichtbare, ontworpen focusring voor alle interactieve elementen in de
+   testflow en het rapport. --focus (--interaction-strong) haalt >=7:1 op
+   zowel wit als parchment (nagerekend), dus dezelfde regel werkt overal. */
+.arcana-button:focus-visible,
+.arcana-likert__option:focus-visible,
+.arcana-choice:focus-visible,
+.arcana-segmented__option:focus-visible,
+.arcana-ranking__controls button:focus-visible,
+.arcana-report-toc__toggle:focus-visible,
+.arcana-report-toc__list a:focus-visible,
+.arcana-report-glance__item a:focus-visible,
+.arcana-card-nav a:focus-visible,
+.arcana-back-to-toc:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Voortgang
+   ========================================================================== */
 
 .arcana-progress {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
   margin-bottom: 20px;
 }
 
+.arcana-progress__block {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--editorial-gold-dark);
+}
+
 .arcana-progress__track {
-  height: 10px;
+  height: 8px;
   border-radius: 999px;
-  background: var(--arc-cream-soft);
-  border: 1px solid rgba(28, 23, 48, 0.15);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   overflow: hidden;
 }
 
 .arcana-progress__fill {
   height: 100%;
-  /* Solide --arc-gold-deep in plaats van een lichtere gradiënt: haalt
-     >=3:1 contrast tegen de track over de volle breedte van de balk, ook
-     waar de vulling nog kort is. */
-  background: var(--arc-gold-deep);
+  background: var(--interaction);
   transition: width 0.3s ease;
 }
 
 .arcana-progress__label {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
   font-size: 12.5px;
-  color: var(--arc-ink-soft);
+  color: var(--ink-soft);
 }
 
-.arcana-progress__block {
-  margin: 0;
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--arc-gold-deep);
-}
-
-/* Test screen */
+/* ==========================================================================
+   Testscherm
+   ========================================================================== */
 
 .arcana-test__card {
   display: flex;
@@ -324,12 +736,43 @@
 }
 
 .arcana-question-text {
-  font-size: clamp(19px, 3vw, 24px);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(19px, 3vw, 26px);
+  line-height: 1.4;
+  color: var(--ink);
   margin-bottom: 20px;
 }
 
 .arcana-question-body {
-  margin-bottom: 24px;
+  margin-bottom: 18px;
+}
+
+/* Equivalent van hun ".auto-advance-status": klein, rustig, rechts
+   uitgelijnd. Gebruikt --ink-soft i.p.v. het opgegeven --ink-faint: die
+   laatste haalt op parchment maar ~3.6:1, onder de AA-norm voor tekst op
+   deze grootte (nagerekend) — --ink-soft haalt >=7.5:1 en blijft optisch
+   net zo terughoudend. */
+.arcana-test__hint {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: -4px 0 20px;
+  padding-right: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  text-align: right;
+}
+
+.arcana-test__hint::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--interaction);
 }
 
 .arcana-test__nav {
@@ -338,58 +781,85 @@
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
 }
 
-/* Likert */
-
+/* Likert: horizontale schaal van 7 vierkante knoppen met alleen
+   eindpunt-labels (in plaats van een label per cijfer). Dit is de
+   gangbare vorm voor psychometrische schalen en is bij 72 van de 120 vragen
+   veel sneller te scannen dan 7 volle regels. De volledige tekst per
+   antwoord (bv. "sterk herkenbaar") blijft bewaard als aria-label, dus er
+   gaat voor schermlezers niets verloren. */
 .arcana-likert {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.arcana-likert__scale {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   gap: 8px;
 }
 
+@media (max-width: 420px) {
+  .arcana-likert__scale {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .arcana-likert__option {
+  aspect-ratio: 1;
+  min-height: 52px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: var(--arc-radius-md);
-  border: 1px solid rgba(28, 23, 48, 0.15);
-  background: #fff;
+  justify-content: center;
+  border-radius: var(--arc-radius-field);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
   cursor: pointer;
-  text-align: left;
-  font-family: var(--arc-font);
-  transition: border-color 0.15s ease, background 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .arcana-likert__option:hover {
-  border-color: var(--arc-gold);
+  border-color: var(--interaction);
+  color: var(--interaction-strong);
+  transform: translateY(-1px);
 }
 
+/* Wasem-vulling + volle-sterkte rand: zie toelichting bij --interaction-wash. */
 .arcana-likert__option.is-selected {
-  border-color: var(--arc-gold);
-  background: rgba(216, 169, 77, 0.12);
+  border-color: var(--interaction);
+  background: var(--interaction-wash);
+  color: var(--color-ink);
+  transform: scale(1.04);
 }
 
 .arcana-likert__number {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--arc-ink);
-  color: var(--arc-cream);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 17px;
 }
 
-.arcana-likert__label {
-  font-size: 14px;
-  color: var(--arc-ink-soft);
+.arcana-likert__labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: var(--ink-soft);
 }
 
-/* Forced choice / scenario */
+.arcana-likert__labels span:last-child {
+  text-align: right;
+}
+
+/* ==========================================================================
+   Forced choice / scenario
+   ========================================================================== */
 
 .arcana-choices {
   display: flex;
@@ -400,36 +870,41 @@
 .arcana-choice {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   text-align: left;
-  padding: 14px 16px;
-  border-radius: var(--arc-radius-md);
-  border: 1px solid rgba(28, 23, 48, 0.15);
-  background: #fff;
+  padding: 14px 18px;
+  min-height: 52px;
+  border-radius: var(--arc-radius-field);
+  border: 1px solid var(--border);
+  background: var(--surface);
   cursor: pointer;
-  font-family: var(--arc-font);
+  font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.5;
-  color: var(--arc-ink);
-  transition: border-color 0.15s ease, background 0.15s ease;
+  color: var(--ink);
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
 }
 
 .arcana-choice:hover {
-  border-color: var(--arc-gold);
+  border-color: var(--interaction);
+  transform: translateY(-1px);
 }
 
 .arcana-choice.is-selected {
-  border-color: var(--arc-gold);
-  background: rgba(216, 169, 77, 0.12);
+  border-color: var(--interaction);
+  background: var(--interaction-wash);
 }
 
 .arcana-choice__key {
-  font-weight: 700;
-  color: var(--arc-gold-deep);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--interaction-strong);
   flex-shrink: 0;
 }
 
-/* Ranking */
+/* ==========================================================================
+   Ranking
+   ========================================================================== */
 
 .arcana-ranking {
   list-style: none;
@@ -444,19 +919,21 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
-  border-radius: var(--arc-radius-md);
-  background: #fff;
-  border: 1px solid rgba(28, 23, 48, 0.15);
+  padding: 10px 16px;
+  border-radius: var(--arc-radius-field);
+  background: var(--surface);
+  border: 1px solid var(--border);
 }
 
 .arcana-ranking__rank {
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: var(--arc-gold);
-  color: #211205;
-  font-weight: 700;
+  background: var(--profile);
+  color: var(--surface);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
   font-size: 13px;
   display: inline-flex;
   align-items: center;
@@ -466,7 +943,9 @@
 
 .arcana-ranking__text {
   flex: 1;
+  font-family: var(--font-body);
   font-size: 14.5px;
+  color: var(--ink);
 }
 
 .arcana-ranking__controls {
@@ -478,147 +957,355 @@
   width: 44px;
   height: 44px;
   font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid rgba(28, 23, 48, 0.2);
-  background: var(--arc-cream);
+  border-radius: var(--arc-radius-field);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink);
   cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.arcana-ranking__controls button:hover:not(:disabled) {
+  border-color: var(--interaction);
+  color: var(--interaction-strong);
 }
 
 .arcana-ranking__controls button:disabled {
-  opacity: 0.3;
+  opacity: 0.35;
   cursor: not-allowed;
 }
 
-/* Loading screen */
+/* ==========================================================================
+   Laadscherm
+   ========================================================================== */
 
 .arcana-loading {
   justify-content: center;
   align-items: center;
   position: relative;
   overflow: hidden;
+  gap: 28px;
 }
 
-.arcana-loading__glow {
-  position: absolute;
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--arc-glow) 0%, transparent 70%);
-  animation: arcana-pulse 3s ease-in-out infinite;
+.arcana-loading__mark {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  background-color: var(--editorial-gold);
+  mask-image: var(--arc-star);
+  -webkit-mask-image: var(--arc-star);
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  animation: arcana-mark-spin 3.2s linear infinite;
 }
 
-@keyframes arcana-pulse {
-  0%, 100% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.15); opacity: 1; }
+@keyframes arcana-mark-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .arcana-loading__text {
   position: relative;
-  font-family: var(--arc-font-heading);
-  font-size: clamp(18px, 3vw, 24px);
-  color: var(--arc-cream);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(18px, 3vw, 22px);
+  color: var(--ink);
   text-align: center;
 }
 
-/* Report */
-
-.arcana-report {
-  gap: 18px;
-}
-
-.arcana-report__header {
-  width: 100%;
-  max-width: 720px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.arcana-report__header-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.arcana-report__hero h1 {
-  font-size: clamp(28px, 5vw, 40px);
-}
-
-.arcana-report__wheel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.arcana-score-wheel {
-  width: 100%;
-  max-width: 420px;
-  height: auto;
-}
-
-.arcana-score-wheel__ring {
-  fill: none;
-  stroke: rgba(28, 23, 48, 0.12);
-}
-
-.arcana-score-wheel__spoke {
-  stroke: rgba(28, 23, 48, 0.1);
-}
-
-.arcana-score-wheel__shape {
-  fill: rgba(125, 90, 16, 0.32);
-  stroke: var(--arc-gold-deep);
-  stroke-width: 2.5;
-}
-
-.arcana-score-wheel__point {
-  fill: var(--arc-gold-deep);
-  stroke: #fff;
-  stroke-width: 1;
-}
-
-.arcana-score-wheel__sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.arcana-score-wheel__label {
-  font-size: 9.5px;
-  fill: var(--arc-ink-soft);
-}
-
-.arcana-archetype-card {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-@media (min-width: 640px) {
-  .arcana-archetype-card {
-    grid-template-columns: 1.2fr 1fr 1fr;
+@media (prefers-reduced-motion: reduce) {
+  .arcana-loading__mark {
+    animation: none;
   }
 }
 
-.arcana-archetype-card__score {
+/* ==========================================================================
+   Rapport — lay-out
+   ========================================================================== */
+
+.arcana-report {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--arc-deck-min), 1fr));
+  align-items: stretch;
+  gap: 1.15rem;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 26px 20px 72px;
+}
+
+/* Elementen die als "banner" de volle breedte van het deck innemen in plaats
+   van als losse kaart in de raster te vallen: masthead, inhoudsopgave,
+   legenda, profielkaarten, groepstitels en de voettekst. */
+.arcana-report__masthead,
+.arcana-report-toc,
+.arcana-archetype-card,
+.arcana-report__portrait,
+.arcana-report__method,
+.arcana-report__depth-intro,
+.arcana-report-glance,
+.arcana-report-group__title,
+.arcana-report__tensions-grid,
+.arcana-report__footer {
+  grid-column: 1 / -1;
+}
+
+/* Masthead: eyebrow, archetypenaam en citaat links, acties rechts — geen
+   kaart, staat direct op het parchment. */
+.arcana-report__masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 20px;
+}
+
+.arcana-report__masthead-text {
+  max-width: 62ch;
+}
+
+.arcana-report__masthead h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0.2rem 0 0.5rem;
+  color: var(--ink);
+}
+
+.arcana-report__masthead-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 62ch;
+}
+
+.arcana-report__masthead-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.arcana-report__masthead-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* Kleiner ogende, minder nadrukkelijke variant voor "Opnieuw beginnen" /
+   "Antwoorden wissen" — maar min-height blijft op 44px: een raakdoel mag er
+   compacter uitzien dan de primaire knoppenrij, maar niet kleiner zijn dan
+   het minimum. */
+.arcana-report__masthead-buttons--secondary .arcana-button {
+  font-size: 13px;
+  padding: 6px 16px;
+  min-height: 44px;
+}
+
+@media (max-width: 640px) {
+  .arcana-report__masthead {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .arcana-report__masthead-actions {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .arcana-report__masthead-buttons {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .arcana-report__masthead-buttons .arcana-button {
+    flex: 1 1 auto;
+  }
+}
+
+/* Legenda: legt kleur+vorm van de 5 kaartsoorten uit. Puur ter
+   ondersteuning — de kaarten zelf zijn ook zonder deze legenda te
+   onderscheiden. */
+.arcana-legend {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.2rem;
+  align-items: center;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-body);
+}
+
+.arcana-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.arcana-legend__note {
+  margin-left: auto;
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 640px) {
+  .arcana-legend__note {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+}
+
+/* ==========================================================================
+   Kaart-soort systeem: kleur + vorm-merkteken
+   ========================================================================== */
+
+[data-kind='insight'] { --accent: var(--teal-fill); --accent-ink: var(--teal); }
+[data-kind='shadow'] { --accent: var(--plum-fill); --accent-ink: var(--plum); }
+[data-kind='reflection'] { --accent: var(--ember-fill); --accent-ink: var(--ember); }
+[data-kind='growth'] { --accent: var(--growth-fill); --accent-ink: var(--growth); }
+[data-kind='summary'] { --accent: var(--profile); --accent-ink: var(--profile); }
+[data-kind='profile'] { --accent: var(--profile); --accent-ink: var(--profile); }
+
+.arcana-card-mark {
   display: inline-block;
-  margin-top: 4px;
-  font-weight: 700;
-  color: var(--arc-gold-deep);
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+}
+
+.arcana-card-mark--lg {
+  width: 30px;
+  height: 30px;
+}
+
+[data-kind='insight'] .arcana-card-mark {
+  background: var(--teal-fill);
+  border-radius: 50%;
+}
+
+[data-kind='shadow'] .arcana-card-mark {
+  background: var(--plum-fill);
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+[data-kind='reflection'] .arcana-card-mark {
+  background: var(--ember-fill);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+[data-kind='growth'] .arcana-card-mark {
+  background: var(--growth-fill);
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+
+[data-kind='summary'] .arcana-card-mark,
+[data-kind='profile'] .arcana-card-mark {
+  width: 11px;
+  height: 11px;
+  background: transparent;
+  border: 2px solid var(--profile);
+  transform: rotate(45deg);
+}
+
+[data-kind='summary'] .arcana-card-mark--lg,
+[data-kind='profile'] .arcana-card-mark--lg {
+  width: 26px;
+  height: 26px;
+  border-width: 3px;
+}
+
+/* ==========================================================================
+   Rapportkaart: vlak, redactioneel — geen geknipte hoek, geen kaartschaduw.
+   Dunne haarlijn rondom, dikkere bovenrand in de accentkleur van het
+   kaartsoort (indigo/karmijn/jade/amber/ink).
+   ========================================================================== */
+
+.arcana-card-shell {
+  width: 100%;
+  height: 100%;
+  filter: none;
+  scroll-margin-top: 84px;
+}
+
+.arcana-card-clip {
+  height: 100%;
+  min-height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent, var(--profile));
+  border-radius: var(--arc-radius-panel);
+  padding: 1.4rem 1.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  color: var(--ink);
+}
+
+.arcana-card-shell:target .arcana-card-clip {
+  box-shadow: inset 0 0 0 2px var(--accent, var(--profile));
+}
+
+.arcana-card-clip h1,
+.arcana-card-clip h2,
+.arcana-card-clip h3,
+.arcana-card-clip h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.arcana-card-clip h3 {
+  font-size: 1.2rem;
+}
+
+.arcana-card-clip h4 {
+  font-size: 1.05rem;
+}
+
+.arcana-card-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.arcana-card-clip > .arcana-body,
+.arcana-card-clip > .arcana-report-section__intro,
+.arcana-card-clip > .arcana-report-section__bullets {
+  max-width: none;
 }
 
 .arcana-report-section__intro {
+  font-family: var(--font-body);
   font-weight: 600;
-  color: var(--arc-ink);
-  margin: 0 0 12px;
+  font-size: 0.98rem;
+  color: var(--ink);
+  margin: 0;
 }
 
 .arcana-report-section__bullets {
@@ -627,39 +1314,587 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  color: var(--arc-ink-soft);
-  font-size: 14.5px;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.97rem;
   line-height: 1.55;
 }
 
-/* Beschouwingen: rustiger, meer als een essay dan als een analyse. */
-.arcana-report-section--reflection {
-  background: linear-gradient(160deg, var(--arc-cream) 0%, var(--arc-cream-soft) 100%);
-  border-left: 3px solid var(--arc-gold);
+.arcana-report-section__bullets li::marker {
+  color: var(--accent-ink, var(--ink-faint));
 }
 
-.arcana-report-section--reflection h3 {
+/* Beschouwingen (de 8 essays): iets rustiger, cursieve kop, bullets zonder
+   opsommingsteken maar met een dunne scheidingslijn — leest als een
+   kort essay in plaats van een score-analyse. */
+.arcana-report-section--reflection .arcana-card-clip h3 {
   font-style: italic;
 }
 
 .arcana-report-section--reflection .arcana-report-section__intro {
   font-weight: 400;
-  font-size: 16.5px;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  font-family: var(--font-display);
 }
 
 .arcana-report-section--reflection .arcana-report-section__bullets {
-  border-top: 1px solid var(--arc-border);
-  padding-top: 14px;
-  margin-top: 4px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 2px;
   list-style: none;
   padding-left: 0;
 }
 
-.arcana-report-section--reflection .arcana-report-section__bullets li::before {
-  content: '✦ ';
-  color: var(--arc-gold-deep);
+.arcana-card-spacer {
+  flex: 1 1 auto;
 }
+
+.arcana-card-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.2rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.arcana-card-nav a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 2px;
+}
+
+.arcana-card-nav a:hover {
+  color: var(--accent-ink, var(--interaction-strong));
+}
+
+.arcana-card-nav__count {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+}
+
+.arcana-card-nav__stub {
+  visibility: hidden;
+}
+
+/* ==========================================================================
+   Inhoudsopgave
+   ========================================================================== */
+
+.arcana-report-toc {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--arc-radius-panel);
+  padding: 0.9rem 1.2rem;
+  box-shadow: none;
+}
+
+.arcana-report-toc__toggle {
+  background: none;
+  border: none;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-height: 44px;
+  padding: 8px 0;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arcana-report-toc__list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.35rem 1rem;
+}
+
+.arcana-report-toc__list a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  border-radius: 6px;
+}
+
+.arcana-report-toc__list a:hover,
+.arcana-report-toc__list a:focus-visible {
+  color: var(--ink);
+  background: var(--surface);
+  text-decoration: underline;
+}
+
+.arcana-report-toc__groups {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.arcana-report-toc__group-title {
+  margin: 0 0 0.4rem;
+  color: var(--ink-soft);
+}
+
+/* Groepstitel in het rapport zelf: staat direct op de achtergrond, niet in
+   een kaart. */
+.arcana-report-group__title {
+  margin: 0.4rem 0 0;
+  padding-top: 0.6rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--ink);
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  border-top: 2px solid var(--border);
+}
+
+.arcana-report-group__title:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+/* ==========================================================================
+   "In het kort"
+   ========================================================================== */
+
+/* ==========================================================================
+   De kern — vijf punten onder het portret
+   ========================================================================== */
+
+.arcana-core__lead {
+  margin: -0.4rem 0 0;
+  max-width: 62ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.arcana-core {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  margin-top: 1.4rem;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 720px) {
+  .arcana-core {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* De valkuil is het enige wat over de volle breedte gaat: die verdient
+     de aandacht en heeft ook de langste tekst. */
+  .arcana-core__card[data-tone='warn'] {
+    grid-column: 1 / -1;
+  }
+}
+
+.arcana-core__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.15rem 1.3rem;
+  background: var(--surface);
+}
+
+.arcana-core__card[data-tone='warn'] {
+  background: var(--surface-2);
+  box-shadow: inset 3px 0 0 var(--plum-fill);
+}
+
+.arcana-core__eyebrow {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.arcana-core__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.32rem;
+  line-height: 1.18;
+  color: var(--ink);
+}
+
+.arcana-core__body {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+.arcana-core__link {
+  margin-top: auto;
+  align-self: flex-start;
+  /* Raakdoel van minstens 44px: de link zelf is maar ~17px hoog tekst, dus de
+     hoogte komt uit padding. De onderstreping blijft strak onder de tekst door
+     een inline-block met een eigen rand op de tekstregel. */
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--interaction-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--color-hairline);
+  text-underline-offset: 4px;
+}
+
+.arcana-core__link:hover {
+  text-decoration-color: var(--interaction-strong);
+}
+
+/* ==========================================================================
+   Hoe dit gemeten is — de verantwoording vóór de verdieping
+   ========================================================================== */
+
+.arcana-method {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem 2.5rem;
+  margin-top: 1.4rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 720px) {
+  .arcana-method {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.arcana-method__block h4 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.arcana-method__block p {
+  margin: 0 0 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 58ch;
+}
+
+.arcana-method__block p:last-child {
+  margin-bottom: 0;
+}
+
+.arcana-method__block strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.arcana-method__chain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.88rem;
+  color: var(--ink);
+  padding: 0.7rem 0.9rem;
+  background: var(--surface-2);
+  border-left: 2px solid var(--interaction);
+}
+
+.arcana-method__chain span[aria-hidden] {
+  color: var(--ink-soft);
+  line-height: 0.9;
+}
+
+.arcana-method__notes {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.arcana-method__notes li {
+  margin-bottom: 0.2rem;
+}
+
+/* ==========================================================================
+   Archetypekaart
+   ========================================================================== */
+
+.arcana-archetype-card__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 640px) {
+  .arcana-archetype-card__grid {
+    grid-template-columns: 1.2fr 1fr 1fr;
+  }
+}
+
+.arcana-archetype-card__score {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: var(--profile);
+}
+
+/* ==========================================================================
+   Het portret — de twaalf hoofddimensies als één getekend beeld
+   ========================================================================== */
+
+.arcana-portrait {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.arcana-portrait__field {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* Het doek is vierkant en schaalt met de breedte; de motor leest deze
+     breedte uit en tekent op devicePixelRatio. */
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.arcana-portrait__canvas {
+  display: block;
+  max-width: 100%;
+  /* Vangnet: als max-width de breedte ooit klemt voordat de motor opnieuw
+     heeft gemeten, moet de hoogte meeschalen. Zonder dit blijft de inline
+     hoogte staan en wordt het portret uitgerekt. */
+  height: auto;
+}
+
+.arcana-portrait__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.2rem;
+  margin: -0.4rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.arcana-portrait__key-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.35rem;
+  line-height: 1.2;
+  margin: 0.4rem 0 0;
+  color: var(--ink);
+}
+
+.arcana-portrait__key-lead {
+  margin: -1.15rem 0 0;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+}
+
+.arcana-portrait__rules {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem 2rem;
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 720px) {
+  .arcana-portrait__rules {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.arcana-portrait__rules dt {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.86rem;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+
+.arcana-portrait__rules dd {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.arcana-portrait__list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.3rem 1rem;
+  margin: 0.6rem 0 -0.7rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.arcana-portrait__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 760px) {
+  .arcana-portrait__list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
+  }
+}
+
+/* De rijen zijn de tekstversie van het beeld: ze staan er altijd, ook zonder
+   canvas, en ze zijn tegelijk de bediening om één kant op te lichten. */
+.arcana-portrait__row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.55rem 0.5rem;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.14s ease;
+}
+
+.arcana-portrait__row:hover {
+  background: var(--surface-2);
+}
+
+.arcana-portrait__row.is-active {
+  background: var(--interaction-wash);
+}
+
+.arcana-portrait__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--portrait-hue, var(--ink-soft));
+}
+
+.arcana-portrait__row.is-pitfall .arcana-portrait__swatch {
+  /* Open ringetje: hetzelfde aandachtsmerk als op de pluimtop in het beeld. */
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--portrait-hue, var(--ink-soft));
+}
+
+.arcana-portrait__row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.arcana-portrait__row-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.arcana-portrait__row-meaning {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.arcana-portrait__row-score {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.arcana-portrait__list-foot {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+/* ==========================================================================
+   Scheiding tussen de kern en de verdieping
+   ========================================================================== */
+
+.arcana-report__depth-intro {
+  max-width: 62ch;
+  margin: 1.6rem 0 0;
+  padding-top: 1.8rem;
+  border-top: 2px solid var(--ink);
+}
+
+.arcana-report__depth-intro h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  line-height: 1.12;
+  margin: 0.2rem 0 0.6rem;
+  color: var(--ink);
+}
+
+.arcana-report__depth-intro p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* ==========================================================================
+   Spanningsvelden — "tug of war"
+   ========================================================================== */
 
 .arcana-tension-grid {
   display: grid;
@@ -674,167 +1909,368 @@
 }
 
 .arcana-tension-card {
+  --accent: var(--teal-fill);
+  --accent-ink: var(--teal);
+}
+
+.arcana-tension-card.is-intense .arcana-card-clip {
+  box-shadow: inset 0 0 0 2px var(--teal-fill);
+}
+
+/* Halve cirkel: dezelfde vorm+kleur-logica als de vijf data-kind-merktekens,
+   maar los daarvan omdat spanningsvelden buiten dat systeem om renderen
+   (eigen component, eigen kaartenrij). De halve vulling verbeeldt letterlijk
+   een balans tussen twee polen. */
+.arcana-tension-card__mark {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: conic-gradient(var(--teal-fill) 0 50%, var(--teal-soft) 50% 100%);
+}
+
+.arcana-tension-card__title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.3em;
+}
+
+.arcana-tension-card__vs {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.68em;
+  color: var(--ink-soft);
+  text-transform: lowercase;
+}
+
+.arcana-tension-card__tug {
+  display: flex;
+  align-items: center;
+  height: 16px;
+  gap: 3px;
+  margin: 0.3rem 0 0.1rem;
+}
+
+.arcana-tension-card__tug-half {
+  flex: 1;
+  height: 10px;
+  background: var(--surface-2);
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex;
+}
+
+.arcana-tension-card__tug-half--left {
+  justify-content: flex-end;
+}
+
+.arcana-tension-card__tug-half--right {
+  justify-content: flex-start;
+}
+
+.arcana-tension-card__tug-fill {
+  display: block;
+  height: 100%;
+}
+
+.arcana-tension-card__tug-half--left .arcana-tension-card__tug-fill {
+  background: var(--teal-fill);
+}
+
+.arcana-tension-card__tug-half--right .arcana-tension-card__tug-fill {
+  background: var(--ember-fill);
+}
+
+.arcana-tension-card__tug-mid {
+  width: 2px;
+  height: 18px;
+  background: var(--ink-faint);
+  flex: 0 0 auto;
+}
+
+.arcana-tension-card__tug-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.arcana-tension-card__tug-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.arcana-tension-card__tug-label--right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.arcana-tension-card__tug-name {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.arcana-tension-card__tug-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+/* ==========================================================================
+   Rapportvoettekst
+   ========================================================================== */
+
+.arcana-report__footer {
+  padding: 1.6rem 0 0.5rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
   max-width: none;
 }
 
-.arcana-tension-card.is-intense {
-  box-shadow: 0 0 0 2px var(--arc-gold), 0 20px 60px rgba(8, 4, 20, 0.45);
+.arcana-report__footer .arcana-fineprint {
+  max-width: 70ch;
 }
 
-.arcana-tension-card__bars {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* ==========================================================================
+   Zwevende "Naar inhoudsopgave"-knop
+   ========================================================================== */
+
+.arcana-back-to-toc {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 40;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: var(--arc-radius-btn);
+  border: 1.5px solid var(--interaction-strong);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #fff;
+  background: var(--interaction-strong);
+  box-shadow: 0 4px 14px rgba(41, 36, 32, 0.22);
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.15s ease;
 }
 
-.arcana-tension-card__bar-row {
-  display: grid;
-  grid-template-columns: 90px 1fr 32px;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--arc-ink-soft);
+.arcana-back-to-toc:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
 }
 
-.arcana-tension-card__bar {
-  height: 10px;
-  border-radius: 999px;
-  background: var(--arc-cream-soft);
-  border: 1px solid rgba(28, 23, 48, 0.15);
-  overflow: hidden;
-}
-
-.arcana-tension-card__bar-fill {
-  height: 100%;
-  background: var(--arc-gold-deep);
-}
-
-/* Reduced motion */
+/* ==========================================================================
+   prefers-reduced-motion
+   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  .arcana-loading__glow {
-    animation: none;
-    opacity: 0.85;
-    transform: scale(1);
-  }
-
   .arcana-button,
   .arcana-button--primary:not(:disabled):hover,
   .arcana-progress__fill,
   .arcana-segmented__option,
   .arcana-likert__option,
-  .arcana-choice {
+  .arcana-choice,
+  .arcana-back-to-toc,
+  .arcana-ranking__controls button,
+  .arcana-loading__mark {
     transition: none !important;
+    animation: none !important;
   }
 
-  .arcana-button--primary:not(:disabled):hover {
+  .arcana-button--primary:not(:disabled):hover,
+  .arcana-back-to-toc:hover,
+  .arcana-likert__option.is-selected {
     transform: none;
   }
 }
 
-/* Print */
+/* ==========================================================================
+   Print
+   ========================================================================== */
+
+/* Bewust buiten @media print: @page geldt sowieso alleen tijdens pagineren
+   (printen/print-preview), en top-level @page heeft de breedste
+   browserondersteuning — nesten in @media print is niet overal betrouwbaar. */
+@page {
+  size: A4;
+  margin: 14mm;
+}
 
 @media print {
+  /* Het thema is al licht, dus print hoeft geen kleurmodus meer om te
+     draaien — alleen de kleuraccenten worden op zwart/grijs gezet voor
+     leesbaarheid in zwart-wit en om inkt te sparen. */
+  :root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #ffffff;
+    --ink: #000000;
+    --ink-soft: #2b2b2b;
+    --ink-faint: #4a4a4a;
+    --border: #999999;
+    --ember: #6b4700;
+    --ember-fill: #6b4700;
+    --ember-soft: #f1e6d3;
+    --teal: #2c2493;
+    --teal-fill: #2c2493;
+    --teal-soft: #e6e4fa;
+    --plum: #7a1515;
+    --plum-fill: #7a1515;
+    --plum-soft: #f8e2e2;
+    --profile: #000000;
+    --interaction: #6b4700;
+    --interaction-strong: #4a3100;
+    --interaction-wash: #f1e6d3;
+    --shadow: none;
+  }
+
   .arcana-print-hide {
     display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff;
+    background-attachment: scroll;
   }
 
   .arcana-screen {
     background: #fff !important;
     color: #000;
     padding: 0;
+    display: block;
+  }
+
+  .arcana-start__valley,
+  .arcana-loading__mark {
+    display: none !important;
+  }
+
+  .arcana-report {
+    display: block;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .arcana-report__masthead,
+  .arcana-legend,
+  .arcana-report__depth-intro,
+  .arcana-report-group__title {
+    grid-column: auto;
   }
 
   .arcana-card {
     box-shadow: none;
     border: 1px solid #ccc;
-    break-inside: avoid;
     max-width: 100%;
+    break-inside: avoid;
   }
 
-  .arcana-score-wheel__label {
-    fill: #000;
+  .arcana-card-shell {
+    filter: none;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 10px;
   }
 
-  /* In zwart-wit valt kleurverschil weg; zorg dat vormen ook op luminantie
-     leesbaar blijven met een duidelijke, donkere rand en vulling. */
-  .arcana-score-wheel__shape {
-    fill: rgba(0, 0, 0, 0.18);
-    stroke: #000;
-    stroke-width: 2;
+  .arcana-card-clip {
+    box-shadow: none !important;
+    border: 1px solid #999;
+    border-top: 2px solid #555;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
-  .arcana-score-wheel__point {
-    fill: #000;
-    stroke: #fff;
+  .arcana-card-mark {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
-  .arcana-progress__track,
-  .arcana-tension-card__bar {
-    border: 1px solid #000;
+  /* Zes secties zijn langer dan één afgedrukte A4-pagina. "avoid" hierboven
+     duwt zo'n sectie in zijn geheel naar de volgende pagina, wat een bijna
+     lege pagina geeft gevolgd door een afgekapt vervolg zodra de sectie zelf
+     ook niet meer op één pagina past. Voor precies deze zes mag de inhoud
+     dus gewoon over de paginagrens doorlopen. Plain ID-selectors zodat dit
+     onafhankelijk blijft van welke kaart-klasse een element draagt. */
+  #jungian,
+  #alone,
+  #reflectie-verdriet,
+  #thirty-day-plan,
+  #strengths,
+  #who-you-are {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  /* Het portret is een bitmap op canvas. Zonder exacte kleurweergave drukt de
+     browser hem desgewenst grijs af; met deze regel komt het beeld mee zoals
+     het op het scherm staat. De motor tekent bij 'beforeprint' opnieuw op de
+     printbreedte, zodat het doek niet half of op schermmaat op papier belandt. */
+  .arcana-portrait__canvas {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    max-width: 150mm;
+    height: auto;
+  }
+
+  /* De rijen zijn op papier geen knoppen meer, alleen nog de leesbare lijst
+     met de twaalf waarden. */
+  .arcana-portrait__row {
+    background: none !important;
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 1px solid #999;
+  }
+
+  .arcana-portrait__swatch {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .arcana-portrait__rules,
+  .arcana-portrait__list-head,
+  .arcana-report__depth-intro {
+    border-color: #999;
+  }
+
+  .arcana-report__depth-intro {
+    border-top-color: #000;
+    break-before: page;
+    page-break-before: always;
   }
 
   .arcana-progress__fill,
-  .arcana-tension-card__bar-fill {
-    background: #000;
+  .arcana-tension-card__tug-fill {
+    background: #555 !important;
+  }
+
+  .arcana-progress__track,
+  .arcana-tension-card__tug-half {
+    border: 1px solid #999;
   }
 
   .arcana-eyebrow,
   .arcana-choice__key,
-  .arcana-archetype-card__score {
+  .arcana-archetype-card__score,
+  .arcana-card-kicker,
+  .arcana-portrait__row-score,
+  .arcana-tension-card__tug-num {
     color: #000;
   }
-}
 
-/* Inhoudsopgave (nieuw component, ArcanaReportToc) */
+  .arcana-eyebrow::before {
+    background-color: #000;
+  }
 
-.arcana-report-toc {
-  padding: 1rem 1.25rem;
-}
-
-.arcana-report-toc__toggle {
-  background: none;
-  border: none;
-  color: var(--arc-ink);
-  font-family: var(--arc-font-heading);
-  font-size: 1.05rem;
-  font-weight: 600;
-  cursor: pointer;
-  /* Raakdoel minstens 44px hoog, gelijk aan de overige bedieningselementen. */
-  min-height: 44px;
-  padding: 10px 0;
-  width: 100%;
-  text-align: left;
-  display: flex;
-  align-items: center;
-}
-
-.arcana-report-toc__list {
-  list-style: none;
-  margin: 0.75rem 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.35rem 1rem;
-}
-
-.arcana-report-toc__list a {
-  color: var(--arc-ink-soft);
-  text-decoration: none;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  /* Raakdoel minstens 44px hoog; de link vult zijn rasterrij zodat een
-     misser naast de tekst nog steeds de juiste sectie opent. */
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 4px 6px;
-  margin: -4px -6px;
-  border-radius: 6px;
-}
-
-.arcana-report-toc__list a:hover,
-.arcana-report-toc__list a:focus-visible {
-  color: var(--arc-ink);
-  text-decoration: underline;
+  .arcana-back-to-toc {
+    display: none !important;
+  }
 }

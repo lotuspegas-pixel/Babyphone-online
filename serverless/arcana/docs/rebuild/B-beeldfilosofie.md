@@ -1,0 +1,14 @@
+# Gestage Waarneming
+*Een visuele filosofie voor werk dat het onzichtbare behandelt als meetbaar terrein.*
+
+Dit is een beeldtaal die vertrekt bij één overtuiging: wat zich niet laat fotograferen, laat zich wél in kaart brengen. De middelen zijn die van de zeventiende-eeuwse gravure en van het moderne meetinstrument tegelijk — de fijne, geduldige arcering van de kopergraveur, en de koele referentiemarkering van de wetenschappelijke plaat. Het werk moet eruitzien alsof iemand er weken aan heeft gezeten: honderden losse lijnen, elk afzonderlijk gezet, samen één vorm. Nooit een vlak waar een bundel lijnen hoort. Nooit een verloop waar duizend krassen het werk kunnen doen. Meesterschap zit in de herhaling, niet in het effect.
+
+**Ruimte en vorm.** De compositie ademt door leegte, niet door ornament. Eén centrale gebeurtenis, ruim omringd door stilte; daaromheen een horizon die de blik vasthoudt in plaats van hem weg te leiden. Vormen zijn geometrisch zuiver — cirkels die cirkels zijn, stralen die vanuit één punt vertrekken — maar de uitvoering is met de hand: elke lijn wijkt minimaal af, en juist die afwijking maakt het levend. De marge is heilig. Niets raakt de rand, niets overlapt, alles heeft lucht.
+
+**Kleur en materiaal.** Het palet is streng beperkt en volledig intentioneel: een drager (papier, nacht, warmte), een inkt, en hooguit een handvol accenten die iets betékenen in plaats van iets versieren. Kleur wordt verdiend. Waar ze verschijnt, verschijnt ze omdat ze informatie draagt — een as, een orde, een verdeling. Het materiaal moet voelbaar zijn: korrel in het papier, warmte in het zwart, een spoor van slijtage alsof de plaat al vaker is afgedrukt.
+
+**Schaal en ritme.** De herhaling is het onderwerp. Twaalf, dertig, honderdtwintig — telbare eenheden die samen een patroon vormen dat je pas ziet als je afstand neemt, en dat pas klopt als je dichtbij komt. Dichte accumulatie naast wijde leegte. Het oog moet eerst het geheel vatten en daarna beloond worden voor het blijven kijken: in de arcering zit een tweede laag die van drie meter afstand niet bestaat.
+
+**Compositie en hiërarchie.** Eén zwaartepunt, licht uit het midden gedrukt. Typografie is fluistering: kleine kapitalen, ruime letterafstand, een enkel woord of getal als referentiemarkering — nooit een alinea, nooit een uitleg. De tekst is een label op een instrument, niet een bijschrift bij een plaatje. Wat het beeld al zegt, herhaalt de tekst niet.
+
+**Uitvoering.** Alles wordt gemaakt alsof het in een vitrine komt te liggen. Geen enkel element is er "ongeveer". Uitlijning tot op de pixel, afstanden uit één systeem, lijndiktes uit één reeks. Het resultaat moet de indruk wekken van een plaat uit een discipline die niet bestaat — geduldig geobserveerd, zorgvuldig genoteerd, door iemand die dit al dertig jaar doet.

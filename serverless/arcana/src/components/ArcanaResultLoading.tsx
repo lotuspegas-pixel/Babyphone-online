@@ -27,8 +27,8 @@ export function ArcanaResultLoading({ onDone }: Props) {
   }, []);
 
   return (
-    <div className="arcana-screen arcana-loading">
-      <div className="arcana-loading__glow" aria-hidden="true" />
+    <div className="arcana-screen arcana-loading" role="status" aria-live="polite">
+      <div className="arcana-loading__mark" aria-hidden="true" />
       <p className="arcana-loading__text">{MESSAGES[messageIndex]}</p>
     </div>
   );
