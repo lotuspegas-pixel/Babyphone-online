@@ -1,5 +1,5 @@
 import { ARCHETYPES } from '../data/arcanaArchetypes';
-import { ARCANA_QUESTIONS } from '../data/arcanaQuestions';
+import { QUESTION_COUNT } from '../data/arcanaQuestionCount';
 import { DISCLAIMER_TEXT, PRIVACY_TEXT } from '../data/arcanaReportBlocks';
 import { SECTION_GROUPS } from '../data/arcanaSectionGroups';
 import type { ArcanaReport as ReportType, ArcanaReportSection as ReportSectionType } from '../types/arcana';
@@ -182,7 +182,7 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
           betekenen en wat dit rapport níet beweert. */}
       <div className="arcana-card-shell arcana-report__method" data-kind="profile" id="hoe-gemeten">
         <div className="arcana-card-clip">
-          <ArcanaMethod quality={report.meta.responseQuality} questionCount={ARCANA_QUESTIONS.length} />
+          <ArcanaMethod quality={report.meta.responseQuality} questionCount={QUESTION_COUNT} />
         </div>
       </div>
 

@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 // tokens.css eerst: die levert de kleuren (licht én donker) en de oude
 // tokennamen als alias, waar de twee andere bestanden op rekenen.
 import './styles/tokens.css';
 import './styles/arcana.css';
 import './styles/site.css';
-import { ARCANA_QUESTIONS } from './data/arcanaQuestions';
-import { calculateArcanaResult } from './lib/arcanaScoringEngine';
-import { generateArcanaReport } from './lib/arcanaReportGenerator';
+import { QUESTION_COUNT } from './data/arcanaQuestionCount';
 import {
   DEFAULT_PROFILE,
   clearArcanaStorage,
@@ -27,16 +25,70 @@ import type {
   ArcanaProfile,
   ArcanaReport as ReportType,
 } from './types/arcana';
-import { ArcanaIntake } from './components/ArcanaIntake';
-import { ArcanaTest } from './components/ArcanaTest';
+import { ArcanaEngineUnavailable } from './components/ArcanaEngineUnavailable';
 import { ArcanaResultLoading } from './components/ArcanaResultLoading';
-import { ArcanaReport } from './components/ArcanaReport';
 import { LandingPage } from './site/LandingPage';
 import { SiteHeader } from './site/SiteHeader';
 import { SiteFooter } from './site/SiteFooter';
 import { PrivacyPage, TermsPage } from './site/LegalPages';
 
-type Screen = 'landing' | 'intake' | 'test' | 'loading' | 'report';
+/*
+ * Drie laadpunten. Wat een landingsbezoeker niet nodig heeft, komt niet mee:
+ * de vragenbank en de vraagschermen laden bij "Start de test", de rekenengine
+ * met alle rapportteksten wordt vóórgeladen zodra de intake begint (zodat hij
+ * ruim binnen is vóór vraag 120, ook op een trage verbinding), en de
+ * rapportweergave laadt bij het openen van het rapport.
+ */
+const ArcanaIntake = lazy(() => import('./components/ArcanaIntake').then((m) => ({ default: m.ArcanaIntake })));
+const ArcanaTest = lazy(() => import('./components/ArcanaTest').then((m) => ({ default: m.ArcanaTest })));
+const ArcanaReport = lazy(() => import('./components/ArcanaReport').then((m) => ({ default: m.ArcanaReport })));
+
+interface Engine {
+  calculateArcanaResult: typeof import('./lib/arcanaScoringEngine').calculateArcanaResult;
+  generateArcanaReport: typeof import('./lib/arcanaReportGenerator').generateArcanaReport;
+}
+
+let enginePromise: Promise<Engine> | null = null;
+
+/**
+ * Laadt de engine-chunk, met drie pogingen en oplopende wachttijd. Faalt hij
+ * alsnog, dan gooit hij — en dat is het moment waarop het scherm hieronder de
+ * antwoorden veiligstelt in plaats van een lege pagina te tonen.
+ */
+function loadEngine(): Promise<Engine> {
+  if (!enginePromise) {
+    enginePromise = (async () => {
+      let laatste: unknown;
+      for (let poging = 0; poging < 3; poging += 1) {
+        try {
+          const [scoring, generator] = await Promise.all([
+            import('./lib/arcanaScoringEngine'),
+            import('./lib/arcanaReportGenerator'),
+          ]);
+          return {
+            calculateArcanaResult: scoring.calculateArcanaResult,
+            generateArcanaReport: generator.generateArcanaReport,
+          };
+        } catch (error) {
+          laatste = error;
+          await new Promise((r) => setTimeout(r, 400 * 2 ** poging));
+        }
+      }
+      // Een mislukte poging mag een latere poging niet blokkeren.
+      enginePromise = null;
+      throw laatste instanceof Error ? laatste : new Error('Rekenmodule niet beschikbaar');
+    })();
+  }
+  return enginePromise;
+}
+
+function preloadEngine() {
+  loadEngine().catch(() => {
+    // Alleen voorladen; een fout hier wordt bij het echte gebruik opnieuw geprobeerd.
+  });
+}
+
+type Screen = 'landing' | 'intake' | 'test' | 'loading' | 'engine-unavailable' | 'report';
 type LegalRoute = 'privacy' | 'voorwaarden';
 
 /**
@@ -54,6 +106,11 @@ function readLegalRoute(): LegalRoute | null {
   return LEGAL_HASHES[window.location.hash] ?? null;
 }
 
+/** Rustige tussenstand terwijl een chunk binnenkomt; geen tekstwand, geen spinner-theater. */
+function ScreenFallback() {
+  return <div className="arcana-screen arcana-screen--fallback" aria-busy="true" />;
+}
+
 function App() {
   const [screen, setScreen] = useState<Screen>('landing');
   const [legalRoute, setLegalRoute] = useState<LegalRoute | null>(() =>
@@ -63,13 +120,16 @@ function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [report, setReport] = useState<ReportType | null>(null);
   const [profile, setProfile] = useState<ArcanaProfile>({ ...DEFAULT_PROFILE });
+  // Het laadscherm meldt zich klaar op een vaste tijd; het rekenen zelf wacht
+  // op de engine. Beide moeten er zijn vóór het rapport verschijnt.
+  const loadingDoneRef = useRef(false);
 
   useEffect(() => {
     const storedAnswers = loadAnswers();
     const storedResult = loadResult();
     setAnswers(storedAnswers);
     setProfile(loadProfile());
-    setCurrentIndex(Math.min(loadCurrentQuestionIndex(), ARCANA_QUESTIONS.length - 1));
+    setCurrentIndex(Math.min(loadCurrentQuestionIndex(), QUESTION_COUNT - 1));
     if (storedResult) {
       setReport(storedResult);
     }
@@ -89,7 +149,7 @@ function App() {
 
   const hasInProgress = Object.keys(answers).length > 0 && report === null;
   const hasResult = report !== null;
-  const resumeQuestionNumber = Math.min(currentIndex + 1, ARCANA_QUESTIONS.length);
+  const resumeQuestionNumber = Math.min(currentIndex + 1, QUESTION_COUNT);
 
   function goToSite() {
     if (window.location.hash) window.location.hash = '';
@@ -105,6 +165,7 @@ function App() {
     // De naam blijft staan bij opnieuw beginnen; alleen de antwoorden gaan weg.
     setProfile(previousProfile);
     goToSite();
+    preloadEngine();
     setScreen('intake');
   }
 
@@ -117,6 +178,7 @@ function App() {
 
   function handleResume() {
     goToSite();
+    preloadEngine();
     setScreen('test');
   }
 
@@ -136,9 +198,10 @@ function App() {
   }
 
   function handleNext() {
-    const isLast = currentIndex === ARCANA_QUESTIONS.length - 1;
+    const isLast = currentIndex === QUESTION_COUNT - 1;
     if (isLast) {
       saveCompletedAt(new Date().toISOString());
+      loadingDoneRef.current = false;
       setScreen('loading');
       return;
     }
@@ -157,12 +220,23 @@ function App() {
     setScreen('landing');
   }
 
+  async function generateReport() {
+    try {
+      const engine = await loadEngine();
+      const result = engine.calculateArcanaResult(answers);
+      const generated = engine.generateArcanaReport(result, profile, new Date().toISOString());
+      saveResult(generated);
+      setReport(generated);
+      setScreen('report');
+    } catch {
+      setScreen('engine-unavailable');
+    }
+  }
+
   function handleLoadingDone() {
-    const result = calculateArcanaResult(answers);
-    const generated = generateArcanaReport(result, profile, new Date().toISOString());
-    saveResult(generated);
-    setReport(generated);
-    setScreen('report');
+    if (loadingDoneRef.current) return;
+    loadingDoneRef.current = true;
+    void generateReport();
   }
 
   function handleRestart() {
@@ -206,24 +280,28 @@ function App() {
 
   if (screen === 'intake') {
     return (
-      <ArcanaIntake
-        initialProfile={profile}
-        onConfirm={handleIntakeConfirm}
-        onBack={() => setScreen('landing')}
-      />
+      <Suspense fallback={<ScreenFallback />}>
+        <ArcanaIntake
+          initialProfile={profile}
+          onConfirm={handleIntakeConfirm}
+          onBack={() => setScreen('landing')}
+        />
+      </Suspense>
     );
   }
 
   if (screen === 'test') {
     return (
-      <ArcanaTest
-        currentIndex={currentIndex}
-        answers={answers}
-        onAnswer={handleAnswer}
-        onNext={handleNext}
-        onPrevious={handlePrevious}
-        onPause={handlePause}
-      />
+      <Suspense fallback={<ScreenFallback />}>
+        <ArcanaTest
+          currentIndex={currentIndex}
+          answers={answers}
+          onAnswer={handleAnswer}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          onPause={handlePause}
+        />
+      </Suspense>
     );
   }
 
@@ -231,13 +309,29 @@ function App() {
     return <ArcanaResultLoading onDone={handleLoadingDone} />;
   }
 
-  if (screen === 'report' && report) {
-    return <ArcanaReport
-        report={report}
-        onRestart={handleRestart}
-        onClearAnswers={handleClearAnswers}
+  if (screen === 'engine-unavailable') {
+    return (
+      <ArcanaEngineUnavailable
+        onRetry={() => {
+          setScreen('loading');
+          loadingDoneRef.current = false;
+        }}
         onBackToSite={() => setScreen('landing')}
-      />;
+      />
+    );
+  }
+
+  if (screen === 'report' && report) {
+    return (
+      <Suspense fallback={<ScreenFallback />}>
+        <ArcanaReport
+          report={report}
+          onRestart={handleRestart}
+          onClearAnswers={handleClearAnswers}
+          onBackToSite={() => setScreen('landing')}
+        />
+      </Suspense>
+    );
   }
 
   return (
