@@ -104,6 +104,18 @@ Op 2026-08-19 is een klinische/UX/business-analyse van een live (willekeurig ing
   - [x] Jargoncontrole over een volledig rapport: nul treffers op `Stress:` / `Schaduw:`
   - [x] Raakdoelen: "lees verder"-links waren 28px, opgehoogd naar 44px
   - [x] Checks: typecheck 0, oxlint src 0, test 91/91, build slaagt
+- [x] **Rebuild taak 1 — Designtokens en donkere modus** (2026-09-23; plan in `arcana/docs/rebuild/G-rebuild-spec.md`, changelog in `arcana/docs/rebuild/CHANGELOG.md`)
+  - [x] Eigenaar koos richting (a) Perkament & Diepte + donkere modus, en herocopy A voor taak 3
+  - [x] `src/styles/tokens.css` = `design-tokens.css` uit werkstroom B, ongewijzigd, plus twee aanvullingen; oude `:root` uit `arcana.css` verwijderd, oude namen als alias
+  - [x] Twaalf dimensiekleuren → vier families van drie met symbool (◆ ● ▲ ■); `MAIN_DIMENSIONS` krijgt `token`/`family`, geen hex meer; volgorde per familie gehergroepeerd (generator leest de array niet)
+  - [x] Donkere modus: `prefers-color-scheme` + handmatige keuze (`arcana_theme`, JSON, buiten "Antwoorden wissen"), bootscript zonder flits, `theme-color` volgt de keuze, schakelaar in kop, mobiel menu en rapport
+  - [x] Portret leest kleuren uit de tokens en tekent opnieuw bij een themawissel; print forceert licht ook vanuit donker
+  - [x] Contrast: 0 fouten op landing/vragen/rapport in licht én donker; één echte fout gevonden en gefixt (trechterband 3)
+  - [x] Corpustest u-vorm: vals positief op "weet u" hersteld
+  - [x] Checks: typecheck 0, lint 0, 120 tests, gouden master 0 gewijzigd, build + domeincontrole geslaagd
+- [ ] **Rebuild taak 2 — Bundel splitsen, fonts subsetten, wiel naar SVG** — volgende
+- [ ] **Rebuild taak 3 — Landingspagina en hero (variant A)** — daarna
+- [ ] **Rebuild taak 4 — Rapport: herleesstructuur** — daarna
 - [ ] **Fase C — Scoremodel herijken** — bewust nog niet gestart, vereist expliciete instemming (breekt vergelijkbaarheid met bestaande rapporten). Extra aanleiding sinds 2026-09-21: op een echt rapport liggen de 12 dimensies tussen 42 en 72, waardoor het nieuwe portret bijna rond uitvalt en zijn zeggingskracht verliest.
 - [ ] **Fase D — Eerste betaalde laag (geen backend)** — nog niet gestart
 - [ ] **Fase E — Backend/accounts/teamfuncties** — nog niet gestart, fundamentele architectuurbeslissing

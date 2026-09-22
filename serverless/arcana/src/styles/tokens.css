@@ -1,0 +1,442 @@
+/* ============================================================================
+   ARCANA PROFILE — designtokens
+   Richting (a) "Perkament & Diepte", met volwaardige donkere modus.
+   Werkstroom B · 22-09-2026
+
+   Drop-in vervanging van de huidige `:root` uit `app.pretty.css` (regel ~188).
+   Alle oude tokennamen blijven bestaan als alias onderaan dit bestand, zodat de
+   bestaande CSS blijft werken terwijl fase G stap voor stap migreert.
+
+   Elke kleurwaarde hieronder is gemeten, niet geschat. De ratio in het
+   commentaar is het WCAG-2.1-contrast tegen het vlak dat erachter genoemd
+   staat. Alles wat tekst kan dragen haalt minimaal 4,50 (AA). Tokens die
+   uitsluitend grafisch zijn, zijn als zodanig gemarkeerd en halen minimaal
+   3,00 (WCAG 1.4.11).
+   ========================================================================= */
+
+:root {
+  color-scheme: light dark;
+
+  /* ── 1. Vlakken ──────────────────────────────────────────────────────────
+     De kern van de herstelactie. Het huidige palet heeft een luminantiegat
+     tussen 22,5 % en 79,2 %: er bestaat geen middentoon, en daardoor is er
+     geen diepte mogelijk. Deze reeks vult dat gat op:
+     1,4 % → 69,5 % → 79,8 % → 87,6 % → 94,1 % → 98,4 % → 100 %            */
+  --surface:            #ffffff;   /* L 100,0 %  — kaart, paneel            */
+  --surface-raised:     #fffdf9;   /* L  98,4 %  — kaart die opkomt         */
+  --bg:                 #fbf8f3;   /* L  94,1 %  — perkament, paginabasis   */
+  --bg-veil:            #f6f0e5;   /* L  87,6 %  — rustige sectie           */
+  --bg-deep:            #efe6d6;   /* L  79,8 %  — zwaardere sectie         */
+  --bg-band:            #e4d8c2;   /* L  69,5 %  — volle-breedtebalk        */
+  --bg-ink:             #241f1a;   /* L   1,4 %  — donker blok in de pagina */
+  --bg-wash:            #f7ecd9;   /* accentvlak, goudkant                  */
+
+  /* ── 2. Inkt ────────────────────────────────────────────────────────── */
+  --ink:                #241f1a;   /* 15,42 op --bg · 11,59 op --bg-band    */
+  --ink-soft:           #554d44;   /*  7,83 op --bg ·  5,89 op --bg-band    */
+  --ink-faint:          #655b50;   /*  6,26 op --bg ·  4,71 op --bg-band    */
+  --ink-inverse:        #f4ede1;   /* 14,03 op --bg-ink                     */
+  --ink-inverse-soft:   #cbbfab;   /*  9,00 op --bg-ink                     */
+
+  /* ── 3. Accent (goud) ───────────────────────────────────────────────── */
+  --gold:               #7f4c04;   /*  6,75 op --bg ·  5,07 op --bg-band    */
+  --gold-deep:          #5e3a05;   /*  9,51 op --bg — knop, focusring       */
+  --gold-glyph:         #b06a00;   /*  4,04 op --bg — ALLEEN GRAFISCH.
+                                      Niet voor tekst onder 24 px en niet
+                                      op --bg-band (daar 3,04).             */
+
+  /* ── 4. Lijnen ──────────────────────────────────────────────────────────
+     De huidige haarlijn is 10 % zwart (1,21:1) en valt daardoor weg. 18 %
+     geeft 1,44:1 en is zichtbaar zonder hard te worden; 28 % is de
+     structuurlijn die een sectie afsluit.                                  */
+  --hairline:           color-mix(in srgb, var(--ink) 18%, transparent);
+  --hairline-soft:      color-mix(in srgb, var(--ink) 10%, transparent);
+  --hairline-strong:    color-mix(in srgb, var(--ink) 28%, transparent);
+  --rule:               color-mix(in srgb, var(--gold) 55%, transparent);
+
+  /* ── 5. Interactie ──────────────────────────────────────────────────── */
+  --btn-bg:             var(--gold-deep);
+  --btn-fg:             #fffaf2;      /*  9,70 op --btn-bg                  */
+  --btn-bg-hover:       #4a2d04;
+  --btn-ghost-border:   var(--hairline-strong);
+  --focus:              var(--gold-deep);  /* ≥ 7,15 op elk vlak hierboven  */
+  --focus-width:        3px;
+  --focus-offset:       2px;
+  --selection-bg:       color-mix(in srgb, var(--gold) 22%, transparent);
+
+  /* ── 6. Twaalf dimensiekleuren ──────────────────────────────────────────
+     Vier families van drie. De familie draagt de betekenis, de lichtheid
+     onderscheidt het lid. Alle twaalf halen AA (≥ 4,50) op --bg, op
+     --surface én op de donkere kaart. Laagste ΔE2000 over alle 66 paren en
+     vier zichtcondities (normaal, protanopie, deuteranopie, tritanopie):
+     7,1 in licht (7,10) en 7,4 in donker (7,44) — tegen 1,4 in het huidige
+     wiel (1,41). Methode: Machado, Oliveira & Fernandes (2009), severiteit
+     1,0, matrix toegepast op LINEAIRE RGB; afstand CIEDE2000, witpunt D65.
+     Zonder die regel is het getal niet navolgbaar: op gamma-RGB geven
+     dezelfde matrices heel andere uitkomsten.
+     Kleur is NOOIT de enige drager: elke dimensie heeft altijd ook zijn
+     label, zijn vaste positie op het wiel en het familiesymbool.           */
+
+  /* familie I — indigo · "motor en richting" (uit --teal #4338ca)          */
+  --dim-innerlijke-motor:   #496cca;  /*  4,63 op --bg */
+  --dim-denkstijl:          #4242a2;  /*  7,83 */
+  --dim-werkstijl:          #3c2c73;  /* 11,01 */
+  /* familie II — groen · "contact" (uit --growth #0a7355)                  */
+  --dim-sociale-energie:    #068062;  /*  4,64 */
+  --dim-emotionele-gevoeligheid: #006a5c; /* 6,16 */
+  --dim-relatiepatroon:     #005041;  /*  8,91 */
+  /* familie III — amber · "grip" (uit --ember #92610a)                     */
+  --dim-controle-zekerheid: #866e34;  /*  4,62 */
+  --dim-conflictstijl:      #755a00;  /*  6,16 */
+  --dim-stressreactie:      #633a00;  /*  9,28 */
+  /* familie IV — karmijn · "zelf" (uit --plum #a81e1e)                     */
+  --dim-zelfbeeld:          #ae527b;  /*  4,62 */
+  --dim-schaduwkant:        #bc395c;  /*  5,11 */
+  --dim-groeipad:           #85003c;  /*  9,61 */
+
+  /* familie-ankers, voor koppen en legenda's boven een groep              */
+  --fam-motor:   var(--dim-denkstijl);
+  --fam-contact: var(--dim-emotionele-gevoeligheid);
+  --fam-grip:    var(--dim-conflictstijl);
+  --fam-zelf:    var(--dim-schaduwkant);
+
+  /* zachte vlakken per dimensie — inkt haalt hierop 13,3 of hoger          */
+  --dim-innerlijke-motor-wash:   #e9f0ff;
+  --dim-denkstijl-wash:          #ecefff;
+  --dim-werkstijl-wash:          #efeeff;
+  --dim-sociale-energie-wash:    #cdfdea;
+  --dim-emotionele-gevoeligheid-wash: #c9fdf1;
+  --dim-relatiepatroon-wash:     #cbfdee;
+  --dim-controle-zekerheid-wash: #ffefca;
+  --dim-conflictstijl-wash:      #ffefc8;
+  --dim-stressreactie-wash:      #ffeddb;
+  --dim-zelfbeeld-wash:          #ffeaf1;
+  --dim-schaduwkant-wash:        #ffeaed;
+  --dim-groeipad-wash:           #ffeaee;
+
+  /* ── 7. Typografie ──────────────────────────────────────────────────── */
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono:    ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Eén vloeiende schaal, verhouding 1,20 op mobiel → 1,26 op desktop.
+     De huidige CSS heeft 68 losse font-size-waarden zonder onderling
+     verband; dit vervangt ze.                                             */
+  --text-2xs:    0.75rem;                                   /* 12 px       */
+  --text-xs:     0.8125rem;                                 /* 13 px       */
+  --text-sm:     0.9375rem;                                 /* 15 px       */
+  --text-base:   clamp(1rem,     0.97rem + 0.15vw, 1.0625rem);
+  --text-md:     clamp(1.0625rem,1.01rem + 0.28vw, 1.1875rem);
+  --text-lg:     clamp(1.1875rem,1.10rem + 0.42vw, 1.375rem);
+  --text-xl:     clamp(1.375rem, 1.24rem + 0.68vw, 1.75rem);
+  --text-2xl:    clamp(1.625rem, 1.38rem + 1.22vw, 2.375rem);
+  --text-3xl:    clamp(2rem,     1.58rem + 2.10vw, 3.25rem);
+  --text-4xl:    clamp(2.5rem,   1.80rem + 3.50vw, 4.5rem);
+  --text-wordmark: clamp(3.25rem, 1.20rem + 10.2vw, 8.5rem);
+
+  --leading-tight:  1.08;
+  --leading-snug:   1.25;
+  --leading-normal: 1.50;
+  --leading-prose:  1.68;   /* leesregels in het rapport                    */
+
+  --tracking-tight:  -0.022em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.06em;
+  --tracking-caps:    0.14em;   /* de gouden kapitaal-eyebrow               */
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+
+  --measure-prose: 64ch;    /* maximale regellengte lopende tekst           */
+  --measure-lead:  38rem;
+  --measure-card:  46ch;
+
+  /* ── 8. Ruimte ──────────────────────────────────────────────────────────
+     Eén reeks van 4 px. De sectieritmetokens zijn bewust ongelijk: ze
+     voeden het ademhalingsplan uit §4 van B-designrichting.md.             */
+  --space-1:  0.25rem;  --space-2:  0.5rem;   --space-3:  0.75rem;
+  --space-4:  1rem;     --space-5:  1.5rem;   --space-6:  2rem;
+  --space-7:  2.5rem;   --space-8:  3rem;     --space-9:  4rem;
+  --space-10: 5rem;     --space-11: 6.5rem;   --space-12: 8rem;
+
+  --gutter:         clamp(1rem, 4vw, 2.5rem);
+  --measure-site:   1180px;
+  --sectie-kort:    clamp(2.25rem, 5vw, 3.5rem);   /* adempauze             */
+  --sectie-normaal: clamp(3rem,   7vw, 5.5rem);    /* standaard             */
+  --sectie-ruim:    clamp(4.5rem, 10vw, 8rem);     /* scharniermoment       */
+
+  /* ── 9. Radii ───────────────────────────────────────────────────────── */
+  --radius-btn:    999px;
+  --radius-field:  0.625rem;
+  --radius-card:   0.5rem;    /* was 1rem — strakker leest editorialer      */
+  --radius-panel:  0.875rem;
+  --radius-pill:   999px;
+
+  /* ── 10. Schaduw ────────────────────────────────────────────────────────
+     Het huidige `--shadow: none` is de tweede oorzaak van de vlakheid.
+     Deze schaduwen zijn warm getint (inktkleur, niet zwart) en laag van
+     opaciteit; ze maken hoogteverschil zonder de pagina bont te maken.     */
+  --shadow-color:  36 31 26;   /* = --ink in rgb-kanalen                    */
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgb(var(--shadow-color) / 0.05),
+              0 1px 1px rgb(var(--shadow-color) / 0.04);
+  --shadow-2: 0 2px 4px rgb(var(--shadow-color) / 0.05),
+              0 4px 10px -3px rgb(var(--shadow-color) / 0.07);
+  --shadow-3: 0 4px 8px rgb(var(--shadow-color) / 0.05),
+              0 12px 28px -8px rgb(var(--shadow-color) / 0.10);
+  --shadow-4: 0 8px 16px rgb(var(--shadow-color) / 0.06),
+              0 28px 56px -16px rgb(var(--shadow-color) / 0.14);
+  --shadow-inset-top: inset 0 1px 0 rgb(255 255 255 / 0.7);
+
+  /* ── 11. Beweging ───────────────────────────────────────────────────── */
+  --dur-instant: 80ms;
+  --dur-snel:    140ms;
+  --dur-normaal: 220ms;
+  --dur-rustig:  380ms;
+  --dur-traag:   700ms;
+  --dur-verhaal: 1200ms;   /* de trechter 120 → 30 → 12 → 1                 */
+
+  --ease-standaard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-uit:       cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:        cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-zacht:     cubic-bezier(0.4, 0.14, 0.3, 1);
+
+  --enter-verschuiving: 14px;   /* hoe ver een element binnenkomt           */
+  --hover-lift:         -2px;
+
+  /* ── 12. Overig ─────────────────────────────────────────────────────── */
+  --z-header: 50;  --z-overlay: 80;  --z-toast: 100;
+  --deck-min: 270px;
+  --star: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpolygon points='12,1 13.15,9.23 16.38,7.62 14.77,10.85 23,12 14.77,13.15 16.38,16.38 13.15,14.77 12,23 10.85,14.77 7.62,16.38 9.23,13.15 1,12 9.23,10.85 7.62,7.62 10.85,9.23'/%3E%3C/svg%3E");
+}
+
+/* ============================================================================
+   DONKERE MODUS
+   Warm bijna-zwart, geen blauwzwart: het perkament wordt nacht, geen scherm.
+   Reeks: 0,67 % → 1,13 % → 1,52 % → 1,91 % → 2,44 %, met een papierblok op
+   84,3 % als tegenhanger van het inktblok in de lichte modus.
+   Twee ingangen: het systeemvoorkeur én een expliciete [data-theme]-keuze,
+   zodat de site een eigen schakelaar kan aanbieden.
+   ========================================================================= */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --surface:          #1f1b16;
+    --surface-raised:   #262019;
+    --bg:               #16130f;
+    --bg-veil:          #1b1712;
+    --bg-deep:          #211c16;
+    --bg-band:          #322a20;
+    --bg-ink:           #f2ece0;   /* omgekeerd: het "papierblok"           */
+    --bg-wash:          #2e2418;
+
+    --ink:              #ede5d9;   /* 14,82 op --bg · 11,30 op --bg-band    */
+    --ink-soft:         #c2b7a6;   /*  9,36 op --bg                         */
+    --ink-faint:        #a29786;   /*  6,44 op --bg ·  4,91 op --bg-band    */
+    --ink-inverse:      #1b1610;   /* 13,91 op --bg-ink                     */
+    --ink-inverse-soft: #4a4136;
+
+    --gold:             #e3b866;   /*  9,98 op --bg                         */
+    --gold-deep:        #c2953f;   /*  6,76 op --bg                         */
+    --gold-glyph:       #f0cb8c;   /* 12,01 op --bg                         */
+
+    --hairline:         color-mix(in srgb, var(--ink) 16%, transparent);
+    --hairline-soft:    color-mix(in srgb, var(--ink) 9%,  transparent);
+    --hairline-strong:  color-mix(in srgb, var(--ink) 26%, transparent);
+
+    --btn-bg:           var(--gold);
+    --btn-fg:           #1b1610;   /*  9,68 op --btn-bg                     */
+    --btn-bg-hover:     #f0cb8c;
+    --focus:            #f0cb8c;   /* ≥ 9,16 op elk donker vlak             */
+    --selection-bg:     color-mix(in srgb, var(--gold) 28%, transparent);
+
+    /* de twaalf dimensies, omgekeerd — zelfde kleur, andere lichtheid.
+       Alle twaalf ≥ 4,60 op --surface #1f1b16.                            */
+    --dim-innerlijke-motor:        #6284d7;  /*  4,73 */
+    --dim-denkstijl:               #99a3fe;  /*  7,36 */
+    --dim-werkstijl:               #cec8ff;  /* 10,87 */
+    --dim-sociale-energie:         #3e9377;  /*  4,60 */
+    --dim-emotionele-gevoeligheid: #5dc1a7;  /*  7,87 */
+    --dim-relatiepatroon:          #26edd0;  /* 11,50 */
+    --dim-controle-zekerheid:      #978351;  /*  4,63 */
+    --dim-conflictstijl:           #cfa940;  /*  7,67 */
+    --dim-stressreactie:           #ffd09e;  /* 12,04 */
+    --dim-zelfbeeld:               #d35f78;  /*  4,63 */
+    --dim-schaduwkant:             #c87598;  /*  5,26 */
+    --dim-groeipad:                #ffa5bb;  /*  9,25 */
+
+    --dim-innerlijke-motor-wash:   #1d2945;
+    --dim-denkstijl-wash:          #242745;
+    --dim-werkstijl-wash:          #2a2543;
+    --dim-sociale-energie-wash:    #033325;
+    --dim-emotionele-gevoeligheid-wash: #003328;
+    --dim-relatiepatroon-wash:     #00322b;
+    --dim-controle-zekerheid-wash: #352803;
+    --dim-conflictstijl-wash:      #352803;
+    --dim-stressreactie-wash:      #3c2407;
+    --dim-zelfbeeld-wash:          #411e24;
+    --dim-schaduwkant-wash:        #3f1e2c;
+    --dim-groeipad-wash:           #401e27;
+
+    /* schaduw werkt in het donker via licht, niet via zwart */
+    --shadow-color: 0 0 0;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.40);
+    --shadow-2: 0 2px 6px rgb(0 0 0 / 0.45), 0 6px 14px -4px rgb(0 0 0 / 0.35);
+    --shadow-3: 0 6px 16px rgb(0 0 0 / 0.50), 0 16px 36px -10px rgb(0 0 0 / 0.42);
+    --shadow-4: 0 10px 24px rgb(0 0 0 / 0.55), 0 34px 68px -18px rgb(0 0 0 / 0.50);
+    --shadow-inset-top: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  }
+}
+
+/* Expliciete keuze door de bezoeker. Identiek blok; los gehouden zodat de
+   media query niet per ongeluk meeschakelt.                                */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface:          #1f1b16;
+  --surface-raised:   #262019;
+  --bg:               #16130f;
+  --bg-veil:          #1b1712;
+  --bg-deep:          #211c16;
+  --bg-band:          #322a20;
+  --bg-ink:           #f2ece0;
+  --bg-wash:          #2e2418;
+
+  --ink:              #ede5d9;
+  --ink-soft:         #c2b7a6;
+  --ink-faint:        #a29786;
+  --ink-inverse:      #1b1610;
+  --ink-inverse-soft: #4a4136;
+
+  --gold:             #e3b866;
+  --gold-deep:        #c2953f;
+  --gold-glyph:       #f0cb8c;
+
+  --hairline:         color-mix(in srgb, var(--ink) 16%, transparent);
+  --hairline-soft:    color-mix(in srgb, var(--ink) 9%,  transparent);
+  --hairline-strong:  color-mix(in srgb, var(--ink) 26%, transparent);
+
+  --btn-bg:           var(--gold);
+  --btn-fg:           #1b1610;
+  --btn-bg-hover:     #f0cb8c;
+  --focus:            #f0cb8c;
+  --selection-bg:     color-mix(in srgb, var(--gold) 28%, transparent);
+
+  --dim-innerlijke-motor:        #6284d7;
+  --dim-denkstijl:               #99a3fe;
+  --dim-werkstijl:               #cec8ff;
+  --dim-sociale-energie:         #3e9377;
+  --dim-emotionele-gevoeligheid: #5dc1a7;
+  --dim-relatiepatroon:          #26edd0;
+  --dim-controle-zekerheid:      #978351;
+  --dim-conflictstijl:           #cfa940;
+  --dim-stressreactie:           #ffd09e;
+  --dim-zelfbeeld:               #d35f78;
+  --dim-schaduwkant:             #c87598;
+  --dim-groeipad:                #ffa5bb;
+
+  --dim-innerlijke-motor-wash:   #1d2945;
+  --dim-denkstijl-wash:          #242745;
+  --dim-werkstijl-wash:          #2a2543;
+  --dim-sociale-energie-wash:    #033325;
+  --dim-emotionele-gevoeligheid-wash: #003328;
+  --dim-relatiepatroon-wash:     #00322b;
+  --dim-controle-zekerheid-wash: #352803;
+  --dim-conflictstijl-wash:      #352803;
+  --dim-stressreactie-wash:      #3c2407;
+  --dim-zelfbeeld-wash:          #411e24;
+  --dim-schaduwkant-wash:        #3f1e2c;
+  --dim-groeipad-wash:           #401e27;
+
+  --shadow-color: 0 0 0;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.40);
+  --shadow-2: 0 2px 6px rgb(0 0 0 / 0.45), 0 6px 14px -4px rgb(0 0 0 / 0.35);
+  --shadow-3: 0 6px 16px rgb(0 0 0 / 0.50), 0 16px 36px -10px rgb(0 0 0 / 0.42);
+  --shadow-4: 0 10px 24px rgb(0 0 0 / 0.55), 0 34px 68px -18px rgb(0 0 0 / 0.50);
+  --shadow-inset-top: inset 0 1px 0 rgb(255 255 255 / 0.06);
+}
+
+/* ============================================================================
+   BEWEGING — reduced motion
+   De site respecteert dit al (5 blokken). Dit token-niveau maakt het
+   waterdicht: alle duraties worden nul, alle binnenkomst-verschuivingen
+   worden nul, en de decoratieve animaties stoppen. Wat overblijft is een
+   directe toestandswissel — nooit een verdwenen functie.
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0.01ms;
+    --dur-snel:    0.01ms;
+    --dur-normaal: 0.01ms;
+    --dur-rustig:  0.01ms;
+    --dur-traag:   0.01ms;
+    --dur-verhaal: 0.01ms;
+    --enter-verschuiving: 0px;
+    --hover-lift: 0px;
+  }
+}
+
+/* ============================================================================
+   COMPATIBILITEIT — oude tokennamen als alias
+   Hiermee blijft de bestaande `app.pretty.css` draaien terwijl fase G
+   migreert. Verwijder dit blok zodra er geen oude naam meer voorkomt.
+   Let op: `--teal` heette teal maar was indigo; de alias wijst nu naar de
+   indigofamilie, wat de oorspronkelijke bedoeling was.
+   ========================================================================= */
+
+:root {
+  --color-parchment:      var(--bg);
+  --color-parchment-veil: var(--bg-veil);
+  --color-parchment-deep: var(--bg-deep);
+  --color-ink:            var(--ink);
+  --color-ink-soft:       var(--ink-soft);
+  --color-ink-faint:      var(--ink-faint);
+  --color-hairline:       var(--hairline);
+  --color-hairline-soft:  var(--hairline-soft);
+  --interaction:          var(--gold);
+  --interaction-strong:   var(--gold-deep);
+  --interaction-wash:     var(--bg-wash);
+  --editorial-gold:       var(--gold);
+  --editorial-gold-dark:  var(--gold-deep);
+  --ember:                var(--fam-grip);
+  --ember-fill:           var(--fam-grip);
+  --ember-soft:           var(--dim-conflictstijl-wash);
+  --teal:                 var(--fam-motor);      /* was #4338ca (indigo)    */
+  --teal-fill:            var(--fam-motor);
+  --teal-soft:            var(--dim-denkstijl-wash);
+  --plum:                 var(--fam-zelf);
+  --plum-fill:            var(--fam-zelf);
+  --plum-soft:            var(--dim-schaduwkant-wash);
+  --growth:               var(--fam-contact);
+  --growth-fill:          var(--fam-contact);
+  --growth-soft:          var(--dim-emotionele-gevoeligheid-wash);
+  --profile:              var(--ink);
+  --border:               var(--hairline);
+  --shadow:               var(--shadow-2);       /* was: none               */
+  --arc-radius-btn:       var(--radius-btn);
+  --arc-radius-field:     var(--radius-field);
+  --arc-radius-panel:     var(--radius-panel);
+  --arc-deck-min:         var(--deck-min);
+  --arc-star:             var(--star);
+  --bg-dot:               transparent;
+  --surface-2:            var(--bg-veil);
+}
+
+/* ============================================================================
+   AANVULLINGEN VOOR DEZE CODEBASE
+   Tokens die de bestaande CSS gebruikt maar die niet in de aangeleverde set
+   zaten. Hier, en niet in het blok hierboven, zodat design-tokens.css uit
+   docs/rebuild/ byte-voor-byte de bron blijft.
+   ========================================================================= */
+
+:root {
+  /* Werd al gebruikt maar was nergens gedefinieerd en viel stil terug op de
+     geërfde letter; nu een alias van de leesletter. */
+  --font-sans: var(--font-body);
+  /* Afgeknipte kaarthoek uit het vorige thema; staat bewust op 0. */
+  --arc-card-cut: 0px;
+}

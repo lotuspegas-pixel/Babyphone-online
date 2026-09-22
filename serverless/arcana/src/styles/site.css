@@ -404,7 +404,7 @@
 }
 
 .landing__kaart {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--color-hairline);
   border-top: 3px solid var(--interaction);
   padding: clamp(1.2rem, 2.5vw, 1.6rem);
@@ -498,9 +498,12 @@
   height: clamp(2.25rem, 5vw, 2.75rem);
   margin-top: -1px;
   clip-path: polygon(26% 0%, 74% 0%, 60% 100%, 40% 100%);
-  background: color-mix(in srgb, var(--editorial-gold) 80%, var(--interaction-wash) 20%);
+  /* De smalste band is het donkerst: volle goudkleur met de knoptekstkleur
+     erop (7,2:1 licht, 9,7:1 donker). Met inkt op een goudmenging haalde
+     deze band na de tokenwissel nog maar 3,5:1. */
+  background: var(--gold);
   font-size: clamp(1.1rem, 2.3vw, 1.35rem);
-  color: var(--color-ink);
+  color: var(--btn-fg);
 }
 
 .funnel__band-getal {
@@ -976,4 +979,35 @@
   .landing__landschap {
     display: none !important;
   }
+}
+
+/* ------------------------------------------------ themaschakelaar in de kop */
+
+.site-header__actions {
+  gap: 0.75rem;
+}
+
+.site-header__menu .arcana-theme-toggle {
+  align-self: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+/* ------------------------------------------- de gravure in donkere modus */
+
+/* De sepia-gravure is voor perkament gemaakt: donkere lijnen op licht, met
+   multiply. Op nacht keert dat om: het beeld wordt geïnverteerd (lichte
+   lijnen op donker) en met screen over de achtergrond gelegd, zodat alleen
+   de lijnen zichtbaar blijven. Nul extra bytes, en het volgt de handmatige
+   schakelaar. Met het oog te beoordelen — dit is de enige plek in taak 1
+   waar een getal het antwoord niet geeft. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .landing__landschap img {
+    mix-blend-mode: screen;
+    filter: invert(0.86) hue-rotate(180deg) saturate(0.7) brightness(0.9);
+  }
+}
+
+:root[data-theme='dark'] .landing__landschap img {
+  mix-blend-mode: screen;
+  filter: invert(0.86) hue-rotate(180deg) saturate(0.7) brightness(0.9);
 }

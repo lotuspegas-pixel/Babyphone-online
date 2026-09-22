@@ -41,6 +41,32 @@ export const SUB_DIMENSIONS: SubDimensionDefinition[] = [
 
 export const SUB_DIMENSION_IDS: SubDimensionId[] = SUB_DIMENSIONS.map((d) => d.id);
 
+/**
+ * Vier families van drie. Twaalf losse kleuren zijn onder kleurenblindheid
+ * niet uit elkaar te houden (het theoretische plafond ligt op ΔE2000 ≈ 10,6);
+ * vier families wél. De kleur draagt daarom de familie, de lichtheid het lid
+ * binnen de familie, en het symbool is de drager die ook zonder kleur werkt —
+ * in zwart-wit print, in de tekstexport, voor wie kleuren niet onderscheidt.
+ * Onderbouwing en metingen: docs/rebuild/B-designrichting.md §3.
+ */
+export type DimensionFamilyId = 'motor' | 'contact' | 'grip' | 'zelf';
+
+export interface DimensionFamily {
+  id: DimensionFamilyId;
+  label: string;
+  /** Vier vormen die op afstand en in monochroom te onderscheiden zijn. */
+  symbol: '◆' | '●' | '▲' | '■';
+  /** Wat de familie inhoudelijk bindt; volgt de zesdelige rapportstructuur. */
+  meaning: string;
+}
+
+export const DIMENSION_FAMILIES: Record<DimensionFamilyId, DimensionFamily> = {
+  motor: { id: 'motor', label: 'Motor en richting', symbol: '◆', meaning: 'wat je aandrijft en hoe je denkt en werkt' },
+  contact: { id: 'contact', label: 'Contact', symbol: '●', meaning: 'hoe je je tot anderen verhoudt' },
+  grip: { id: 'grip', label: 'Grip', symbol: '▲', meaning: 'wat je doet als het spannend wordt' },
+  zelf: { id: 'zelf', label: 'Zelf', symbol: '■', meaning: 'hoe je naar jezelf kijkt en verandert' },
+};
+
 export interface MainDimensionDefinition {
   id: MainDimensionId;
   label: string;
@@ -49,87 +75,106 @@ export interface MainDimensionDefinition {
    * het cijfer in het portret, zodat een dimensienaam nooit een kaal etiket is.
    */
   meaning: string;
+  family: DimensionFamilyId;
   /**
-   * Vaste tint van deze dimensie in het portret. De twaalf lopen als één reeks
-   * van diep indigo via jade en oker naar karmijn; de kleur hoort bij de plaats
-   * in de cirkel en zegt niets over hoog of laag. Niet los aanpassen: de reeks
-   * werkt alleen als geheel.
+   * De CSS-variabele die de kleur draagt — géén hex. De waarde staat in
+   * src/styles/tokens.css, twee keer: licht en donker, beide gemeten op AA.
+   * Zo volgt het portret de donkere modus zonder eigen kleurlogica.
    */
-  color: string;
+  token: `--dim-${string}`;
 }
 
+/*
+ * De volgorde hieronder is de vaste volgorde op het wiel (1 = twaalf uur, dan
+ * met de klok mee) én in elke lijst: per familie gegroepeerd, zodat het wiel
+ * vier kwadranten toont in plaats van een regenboog zonder betekenis
+ * (B-designrichting §3.2). De rapportgenerator leest deze array niet, dus de
+ * volgorde raakt geen zin en geen score — de gouden master is er blind voor.
+ */
 export const MAIN_DIMENSIONS: MainDimensionDefinition[] = [
   {
     id: 'innerMotor',
     label: 'Innerlijke motor',
     meaning: 'Hoe hard je motor draait als niemand je aanzet.',
-    color: '#33386b',
-  },
-  {
-    id: 'socialPattern',
-    label: 'Sociale energie',
-    meaning: 'Of je oplaadt bij mensen of juist alleen.',
-    color: '#33527a',
+    family: 'motor',
+    token: '--dim-innerlijke-motor',
   },
   {
     id: 'thinkingStyle',
     label: 'Denkstijl',
     meaning: 'Hoeveel je eerst uitrekent voor je iets vindt.',
-    color: '#2f6b78',
-  },
-  {
-    id: 'emotionalSensitivityMain',
-    label: 'Emotionele gevoeligheid',
-    meaning: 'Hoe hard gevoelens van anderen binnenkomen.',
-    color: '#2f7f6d',
-  },
-  {
-    id: 'controlAndSecurity',
-    label: 'Controle en zekerheid',
-    meaning: 'Hoeveel je zelf wilt sturen.',
-    color: '#4c8a5b',
-  },
-  {
-    id: 'conflictStyle',
-    label: 'Conflictstijl',
-    meaning: 'Of je de confrontatie opzoekt of ontwijkt.',
-    color: '#75934f',
-  },
-  {
-    id: 'selfImage',
-    label: 'Zelfbeeld',
-    meaning: 'Hoe stevig je over jezelf denkt.',
-    color: '#9a9349',
-  },
-  {
-    id: 'shadowPattern',
-    label: 'Schaduwkant',
-    meaning: 'Hoe vaak je afgeweerde kant meespeelt zonder dat je het merkt.',
-    color: '#b58b41',
-  },
-  {
-    id: 'relationshipPattern',
-    label: 'Relatiepatroon',
-    meaning: 'Hoe dichtbij je mensen laat komen.',
-    color: '#bf7540',
+    family: 'motor',
+    token: '--dim-denkstijl',
   },
   {
     id: 'workStyle',
     label: 'Werkstijl',
     meaning: 'Hoeveel structuur je aanbrengt.',
-    color: '#b85a41',
+    family: 'motor',
+    token: '--dim-werkstijl',
+  },
+  {
+    id: 'socialPattern',
+    label: 'Sociale energie',
+    meaning: 'Of je oplaadt bij mensen of juist alleen.',
+    family: 'contact',
+    token: '--dim-sociale-energie',
+  },
+  {
+    id: 'emotionalSensitivityMain',
+    label: 'Emotionele gevoeligheid',
+    meaning: 'Hoe hard gevoelens van anderen binnenkomen.',
+    family: 'contact',
+    token: '--dim-emotionele-gevoeligheid',
+  },
+  {
+    id: 'relationshipPattern',
+    label: 'Relatiepatroon',
+    meaning: 'Hoe dichtbij je mensen laat komen.',
+    family: 'contact',
+    token: '--dim-relatiepatroon',
+  },
+  {
+    id: 'controlAndSecurity',
+    label: 'Controle en zekerheid',
+    meaning: 'Hoeveel je zelf wilt sturen.',
+    family: 'grip',
+    token: '--dim-controle-zekerheid',
+  },
+  {
+    id: 'conflictStyle',
+    label: 'Conflictstijl',
+    meaning: 'Of je de confrontatie opzoekt of ontwijkt.',
+    family: 'grip',
+    token: '--dim-conflictstijl',
   },
   {
     id: 'stressPattern',
     label: 'Stressreactie',
     meaning: 'Wat er als eerste gebeurt zodra de druk oploopt.',
-    color: '#a6423f',
+    family: 'grip',
+    token: '--dim-stressreactie',
+  },
+  {
+    id: 'selfImage',
+    label: 'Zelfbeeld',
+    meaning: 'Hoe stevig je over jezelf denkt.',
+    family: 'zelf',
+    token: '--dim-zelfbeeld',
+  },
+  {
+    id: 'shadowPattern',
+    label: 'Schaduwkant',
+    meaning: 'Hoe vaak je afgeweerde kant meespeelt zonder dat je het merkt.',
+    family: 'zelf',
+    token: '--dim-schaduwkant',
   },
   {
     id: 'growthPath',
     label: 'Groeipad',
     meaning: 'Hoe makkelijk je van richting verandert.',
-    color: '#8e3350',
+    family: 'zelf',
+    token: '--dim-groeipad',
   },
 ];
 

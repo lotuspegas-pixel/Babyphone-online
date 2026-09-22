@@ -14,6 +14,7 @@ import { ArcanaReportGlance } from './ArcanaReportGlance';
 import { ArcanaReportSection } from './ArcanaReportSection';
 import { ArcanaReportToc } from './ArcanaReportToc';
 import { ArcanaTensionCard } from './ArcanaTensionCard';
+import { ArcanaThemeToggle } from './ArcanaThemeToggle';
 
 interface Props {
   report: ReportType;
@@ -106,6 +107,9 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
             <ArcanaPrintButton />
             <ArcanaExportButton report={report} />
           </div>
+          {/* Het rapport is lang en wordt 's avonds gelezen: hier is de
+              schakelaar een leeshulp, geen instelling. */}
+          <ArcanaThemeToggle />
           <div className="arcana-report__masthead-buttons arcana-report__masthead-buttons--secondary">
             <button type="button" className="arcana-button arcana-button--ghost" onClick={onBackToSite}>
               Terug naar de website

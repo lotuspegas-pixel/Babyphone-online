@@ -3,6 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Eén meta zonder media, en bewust vóór het bootscript hieronder zodat
+         het script hem kan vinden. Het script en de themaschakelaar zetten de
+         waarde, zodat de adresbalk op mobiel ook een handmatige keuze volgt. -->
+    <meta name="theme-color" content="#fbf8f3" />
+    <!-- Thema vóór de eerste verf: blokkerend en inline, bewust vóór de
+         stylesheet. Leest dezelfde sleutel (als JSON) als de app; de try/catch
+         is nodig omdat localStorage in een privévenster kan gooien. Zonder dit
+         script ziet wie op donker staat een lichte flits. -->
+    <script>
+      (function () {
+        var t = null;
+        try {
+          var raw = localStorage.getItem('arcana_theme');
+          t = raw ? JSON.parse(raw) : null;
+        } catch (e) {}
+        var root = document.documentElement;
+        if (t === 'dark' || t === 'light') root.setAttribute('data-theme', t);
+        var dark = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', dark ? '#16130f' : '#fbf8f3');
+      })();
+    </script>
+    <!-- Minimale kleurregel vóór de stylesheet, zodat ook de statische
+         #root-inhoud hieronder meteen in het juiste thema staat. Dezelfde
+         waarden als in src/styles/tokens.css. -->
+    <style>
+      :root { color-scheme: light dark; --boot-bg: #fbf8f3; --boot-ink: #241f1a; --boot-ink-soft: #554d44; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) { --boot-bg: #16130f; --boot-ink: #ede5d9; --boot-ink-soft: #c2b7a6; }
+      }
+      :root[data-theme='dark'] { --boot-bg: #16130f; --boot-ink: #ede5d9; --boot-ink-soft: #c2b7a6; }
+      html, body { background: var(--boot-bg); color: var(--boot-ink); }
+    </style>
     <title>Arcana Profile — persoonlijkheidstest met een rapport dat zich laat narekenen</title>
     <meta
       name="description"
@@ -10,7 +43,6 @@
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="author" content="Arcana Profile" />
-    <meta name="theme-color" content="#FBF8F3" />
     <link rel="canonical" href="https://arcanaprofile.com/" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -125,9 +157,9 @@
     <div id="root">
       <!-- Statische inhoud voor zoekmachines en bezoekers zonder JavaScript;
            wordt vervangen zodra de app laadt. -->
-      <div style="max-width:640px;margin:0 auto;padding:48px 24px;font-family:Georgia,serif;color:#292420">
+      <div style="max-width:640px;margin:0 auto;padding:48px 24px;font-family:Georgia,serif;color:var(--boot-ink)">
         <h1 style="font-size:2.2rem;margin-bottom:8px">Arcana Profile</h1>
-        <p style="font-size:1.1rem;color:#574f47">
+        <p style="font-size:1.1rem;color:var(--boot-ink-soft)">
           Een persoonlijkheidstest met een rapport dat zich laat narekenen.
         </p>
         <p>

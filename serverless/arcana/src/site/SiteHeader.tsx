@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ArcanaThemeToggle } from '../components/ArcanaThemeToggle';
 import { SITE_NAME } from './siteContent';
 
 interface Props {
@@ -57,6 +58,7 @@ export function SiteHeader({ onStart, hasInProgress, onResume }: Props) {
         </nav>
 
         <div className="site-header__actions">
+          <ArcanaThemeToggle compact />
           {hasInProgress ? (
             <button type="button" className="arcana-button arcana-button--primary" onClick={onResume}>
               Verdergaan
@@ -86,6 +88,7 @@ export function SiteHeader({ onStart, hasInProgress, onResume }: Props) {
 
       {open && (
         <div className="site-header__menu" id="site-menu">
+          <ArcanaThemeToggle />
           <nav aria-label="Navigatie">
             {NAV.map((item) => (
               <a key={item.href} href={item.href} onClick={() => setOpen(false)}>

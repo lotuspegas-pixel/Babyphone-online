@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { MAIN_DIMENSIONS } from '../data/arcanaDimensions';
+import { DIMENSION_FAMILIES, MAIN_DIMENSIONS } from '../data/arcanaDimensions';
+import { resolveTheme, subscribeTheme } from '../lib/arcanaTheme';
 import type { MainDimensionId, MainDimensionScore } from '../types/arcana';
 
 interface Props {
@@ -25,6 +26,15 @@ interface PortraitCore {
   archetypeName: string;
   archetypeScore: number;
   profileName: string;
+}
+
+/** Kleuren uit de cascade, één keer gelezen bij het opbouwen van de motor. */
+interface PortraitPalette {
+  ground: string;
+  bed: string;
+  ink: string;
+  inkSoft: string;
+  dark: boolean;
 }
 
 interface PortraitEngine {
@@ -70,6 +80,8 @@ function createEngine(
   field: HTMLElement,
   dims: PortraitDimension[],
   core: PortraitCore,
+  palette: PortraitPalette,
+  animate: boolean,
 ): PortraitEngine | null {
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
@@ -77,7 +89,7 @@ function createEngine(
   const TAU = Math.PI * 2;
   const SECTOR = TAU / 12;
   const HALF = SECTOR / 2;
-  const GROND = '#fbf8f3';
+  const GROND = palette.ground;
   const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
   const LEES = "'Inter', system-ui, -apple-system, sans-serif";
   const TITEL = "'Cormorant Garamond', ui-serif, Georgia, serif";
@@ -86,12 +98,12 @@ function createEngine(
     const n = parseInt(hex.slice(1), 16);
     return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
   }
-  // Inkt en inkt-zacht uit de huisstijltokens (--color-ink / --color-ink-soft).
+  // Inkt en inkt-zacht uit de tokens (--ink / --ink-soft), dus ook goed in donker.
   function inkt(a: number) {
-    return `rgba(41,36,32,${a})`;
+    return rgba(palette.ink, a);
   }
   function zacht(a: number) {
-    return `rgba(87,79,71,${a})`;
+    return rgba(palette.inkSoft, a);
   }
   function klem(v: number, a: number, b: number) {
     return v < a ? a : v > b ? b : v;
@@ -273,7 +285,7 @@ function createEngine(
     ctx!.font = `500 ${modus === 'full' ? 11 : 10}px ${MONO}`;
     const b = ctx!.measureText(tekst).width + 14;
     const h = modus === 'full' ? 19 : 17;
-    ctx!.fillStyle = `rgba(251,248,243,${0.94 * alfa})`;
+    ctx!.fillStyle = rgba(GROND, 0.94 * alfa);
     bus(x - b / 2, y - h / 2, b, h, h / 2);
     ctx!.fill();
     ctx!.strokeStyle = inkt((sterk ? 0.36 : 0.15) * alfa);
@@ -398,10 +410,10 @@ function createEngine(
     /* Warm papierbed onder de rozet; dooft uit voor de rand, zodat het doek
        naadloos in de pagina overgaat en het beeld ook los blijft kloppen. */
     const vg = ctx!.createRadialGradient(cx, cy, 0, cx, cy, rMax * 1.24);
-    vg.addColorStop(0.0, 'rgba(244,238,228,0.92)');
-    vg.addColorStop(0.58, 'rgba(244,238,228,0.80)');
-    vg.addColorStop(0.86, 'rgba(244,238,228,0.42)');
-    vg.addColorStop(1.0, 'rgba(244,238,228,0)');
+    vg.addColorStop(0.0, rgba(palette.bed, 0.92));
+    vg.addColorStop(0.58, rgba(palette.bed, 0.8));
+    vg.addColorStop(0.86, rgba(palette.bed, 0.42));
+    vg.addColorStop(1.0, rgba(palette.bed, 0));
     ctx!.fillStyle = vg;
     ctx!.fillRect(0, 0, W, H);
 
@@ -418,7 +430,8 @@ function createEngine(
 
     const alfa = (n: number) => (focus === null || focus === n ? 1 : 0.13);
 
-    ctx!.globalCompositeOperation = 'multiply';
+    // Op licht verdiept multiply de gloed; op donker zou hij hem uitdoven.
+    ctx!.globalCompositeOperation = palette.dark ? 'screen' : 'multiply';
     for (i = 0; i < 12; i += 1) waas(i, zichtbaar(i), alfa(i));
     ctx!.globalCompositeOperation = 'source-over';
     for (i = 0; i < 12; i += 1) pluim(i, zichtbaar(i), alfa(i));
@@ -430,7 +443,7 @@ function createEngine(
     ctx!.beginPath();
     ctx!.arc(cx, cy, rMax, 0, TAU);
     ctx!.stroke();
-    ctx!.strokeStyle = `rgba(251,248,243,${0.66 * laat})`;
+    ctx!.strokeStyle = rgba(GROND, 0.66 * laat);
     ctx!.lineWidth = 4.5;
     ctx!.beginPath();
     ctx!.arc(cx, cy, rMid, 0, TAU);
@@ -460,7 +473,7 @@ function createEngine(
       const dd = (dims[i].score - 50) / 50;
       const tip = punt(i, 1, dd, straal(dims[i].score));
       const rr = modus === 'full' ? 8.5 : 5.5;
-      ctx!.strokeStyle = `rgba(251,248,243,${0.9 * alfa(i)})`;
+      ctx!.strokeStyle = rgba(GROND, 0.9 * alfa(i));
       ctx!.lineWidth = 3.4;
       ctx!.beginPath();
       ctx!.arc(tip[0], tip[1], rr, 0, TAU);
@@ -506,8 +519,10 @@ function createEngine(
     else bezig = false;
   }
 
-  function speel() {
-    if (rustig || document.visibilityState !== 'visible') {
+  function speel(force = false) {
+    // Bij een themawissel wordt de motor opnieuw opgebouwd; dan mag de
+    // intekenanimatie niet nog een keer lopen — alleen op verzoek (force).
+    if ((!animate && !force) || rustig || document.visibilityState !== 'visible') {
       p = 1;
       teken();
       return;
@@ -566,7 +581,7 @@ function createEngine(
       focus = index;
       teken();
     },
-    replay: speel,
+    replay: () => speel(true),
     destroy() {
       cancelAnimationFrame(frame);
       window.clearTimeout(vangnet);
@@ -578,45 +593,88 @@ function createEngine(
 }
 
 /**
+ * Leest een kleurtoken uit de cascade. De canvas-tekening kan niet zelf naar
+ * CSS-variabelen verwijzen, dus de kleuren worden bij het opbouwen van de
+ * motor één keer opgehaald en bij een themawissel opnieuw. De tokens zijn
+ * kale hexwaarden in tokens.css; de terugval is er alleen voor omgevingen
+ * zonder stylesheet (tests).
+ */
+function readToken(name: string, fallback: string): string {
+  if (typeof window === 'undefined') return fallback;
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return /^#[0-9a-f]{6}$/i.test(value) ? value : fallback;
+}
+
+/**
  * Het portret: de twaalf hoofddimensies als één getekend beeld, met daaronder
  * de sleutel waarmee het af te lezen is. Zonder die sleutel is het decoratie.
  *
  * De twaalf waarden staan altijd ook als tekst op de pagina (de lijst hieronder
  * is de tekstversie van het beeld), zodat het rapport zonder canvas, zonder
- * JavaScript en met een schermlezer volledig blijft.
+ * JavaScript en met een schermlezer volledig blijft. Naast elke kleur staat
+ * het familiesymbool, zodat kleur nooit de enige drager is.
  */
 export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileName }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fieldRef = useRef<HTMLDivElement | null>(null);
   const engineRef = useRef<PortraitEngine | null>(null);
   const [locked, setLocked] = useState<number | null>(null);
+  // Loopt op bij elke themawissel, zodat de motor met de nieuwe kleuren
+  // opnieuw wordt opgebouwd — zonder de intekenanimatie te herhalen.
+  const [themeTick, setThemeTick] = useState(0);
+
+  useEffect(() => subscribeTheme(() => setThemeTick((tick) => tick + 1)), []);
 
   const pitfall = pitfallIndex(scores);
-  const dims: PortraitDimension[] = MAIN_DIMENSIONS.map((dim, i) => ({
+  const rows = MAIN_DIMENSIONS.map((dim, i) => ({
     id: dim.id,
     label: dim.label,
     meaning: dim.meaning,
-    color: dim.color,
+    token: dim.token,
+    symbol: DIMENSION_FAMILIES[dim.family].symbol,
+    familyLabel: DIMENSION_FAMILIES[dim.family].label,
     score: scores[dim.id].score,
     pitfall: i === pitfall,
   }));
 
   // Alleen de waarden die het beeld bepalen in de sleutel, zodat de tekening
   // niet bij elke render opnieuw wordt opgebouwd.
-  const signature = dims.map((d) => `${d.id}:${d.score}`).join('|');
+  const signature = rows.map((d) => `${d.id}:${d.score}`).join('|');
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const field = fieldRef.current;
     if (!canvas || !field) return;
-    const engine = createEngine(canvas, field, dims, { archetypeName, archetypeScore, profileName });
+    const dims: PortraitDimension[] = rows.map((row) => ({
+      id: row.id,
+      label: row.label,
+      meaning: row.meaning,
+      color: readToken(row.token, '#574f47'),
+      score: row.score,
+      pitfall: row.pitfall,
+    }));
+    const palette: PortraitPalette = {
+      ground: readToken('--bg', '#fbf8f3'),
+      bed: readToken('--bg-deep', '#f4eee4'),
+      ink: readToken('--ink', '#292420'),
+      inkSoft: readToken('--ink-soft', '#574f47'),
+      dark: resolveTheme() === 'dark',
+    };
+    const engine = createEngine(
+      canvas,
+      field,
+      dims,
+      { archetypeName, archetypeScore, profileName },
+      palette,
+      themeTick === 0,
+    );
     engineRef.current = engine;
     return () => {
       engine?.destroy();
       engineRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signature, archetypeName, archetypeScore, profileName]);
+  }, [signature, archetypeName, archetypeScore, profileName, themeTick]);
 
   useEffect(() => {
     engineRef.current?.setFocus(locked);
@@ -681,15 +739,17 @@ export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileN
           <dd>
             Hoe verder een score van 50 af ligt, hoe voller en zwaarder de pluim wordt en hoe sterker hij
             meebuigt. Lengte, dichtheid en buiging vertellen dus hetzelfde en versterken elkaar, zodat een
-            uitgesproken kant meteen opvalt. De kleur zegt niets over hoog of laag; die hoort bij de plaats in de
-            cirkel.
+            uitgesproken kant meteen opvalt.
           </dd>
         </div>
         <div>
-          <dt>De open ring — het aandachtspunt</dt>
+          <dt>Kleur en symbool — de familie</dt>
           <dd>
-            Eén pluimtop draagt een open ringetje: je sterkst uitgesproken kant, {dims[pitfall].label.toLowerCase()}.
-            Precies die kant is ook degene die het vaakst doorschiet.
+            De twaalf kanten vormen vier families van drie: ◆ motor en richting, ● contact, ▲ grip en ■ zelf.
+            De kleur zegt niets over hoog of laag; die hoort bij de familie. Het symbool staat er altijd bij,
+            zodat je de families ook zonder kleur uit elkaar houdt. Eén pluimtop draagt een open ringetje: je
+            sterkst uitgesproken kant, {rows[pitfall].label.toLowerCase()} — precies die kant is ook degene die
+            het vaakst doorschiet.
           </dd>
         </div>
       </dl>
@@ -699,12 +759,12 @@ export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileN
         <span>Score · 0–100 · midden 50</span>
       </p>
       <div className="arcana-portrait__list" id="arcana-portrait-list" role="group" aria-label="De twaalf gemeten kanten met hun score">
-        {dims.map((dim, i) => (
+        {rows.map((row, i) => (
           <button
-            key={dim.id}
+            key={row.id}
             type="button"
-            className={`arcana-portrait__row${dim.pitfall ? ' is-pitfall' : ''}${locked === i ? ' is-active' : ''}`}
-            style={{ '--portrait-hue': dim.color } as React.CSSProperties}
+            className={`arcana-portrait__row${row.pitfall ? ' is-pitfall' : ''}${locked === i ? ' is-active' : ''}`}
+            style={{ '--portrait-hue': `var(${row.token})` } as React.CSSProperties}
             aria-pressed={locked === i}
             onPointerEnter={() => hover(i)}
             onPointerLeave={() => hover(null)}
@@ -714,10 +774,15 @@ export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileN
           >
             <span className="arcana-portrait__swatch" aria-hidden="true" />
             <span className="arcana-portrait__row-text">
-              <span className="arcana-portrait__row-name">{dim.label}</span>
-              <span className="arcana-portrait__row-meaning">{dim.meaning}</span>
+              <span className="arcana-portrait__row-name">
+                <span className="arcana-portrait__family" title={row.familyLabel} aria-label={`familie ${row.familyLabel}`}>
+                  {row.symbol}
+                </span>{' '}
+                {row.label}
+              </span>
+              <span className="arcana-portrait__row-meaning">{row.meaning}</span>
             </span>
-            <span className="arcana-portrait__row-score">{dim.score}</span>
+            <span className="arcana-portrait__row-score">{row.score}</span>
           </button>
         ))}
       </div>

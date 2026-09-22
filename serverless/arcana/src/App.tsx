@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+// tokens.css eerst: die levert de kleuren (licht én donker) en de oude
+// tokennamen als alias, waar de twee andere bestanden op rekenen.
+import './styles/tokens.css';
 import './styles/arcana.css';
 import './styles/site.css';
 import { ARCANA_QUESTIONS } from './data/arcanaQuestions';

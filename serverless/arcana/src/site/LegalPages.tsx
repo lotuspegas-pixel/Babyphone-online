@@ -32,6 +32,11 @@ export function PrivacyPage({ onBack }: Props) {
         niet: de hele test en de hele rapportberekening draaien in je browser.
       </p>
       <p>
+        Kies je een lichte of donkere weergave, dan onthoudt de browser die keuze op dezelfde plek. Dat is een
+        instelling, geen persoonsgegeven: hij blijft staan als je je antwoorden wist, en hij zegt niets over
+        jou.
+      </p>
+      <p>
         Dat betekent ook dat wij je rapport niet kunnen inzien, niet kunnen herstellen en niet kunnen
         terugsturen. Wis je je browsergegevens, gebruik je een andere browser of een ander apparaat, of klik je
         in het rapport op "Antwoorden wissen", dan is het definitief weg. Wil je het bewaren, sla het dan op

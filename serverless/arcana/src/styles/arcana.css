@@ -160,89 +160,10 @@
    Tokens
    ========================================================================== */
 
-:root {
-  color-scheme: light;
-
-  --color-parchment: #fbf8f3;
-  --color-parchment-veil: #f8f4ec;
-  --color-parchment-deep: #f4eee4;
-  --color-ink: #292420;
-  --color-ink-soft: #574f47;
-  --color-ink-faint: #8b8177;
-  --color-hairline: #2924201a;
-  --color-hairline-soft: #29242012;
-
-  --interaction: #b66a08;
-  --interaction-strong: #7a4300;
-  --editorial-gold: #bd6c00;
-  --editorial-gold-dark: #8b5008;
-
-  /* Vulling voor "geselecteerd" op likert/keuze-opties: lichte amber-wasem
-     i.p.v. een volle --interaction-vlak. Reden: wit/inkt-tekst op de volle
-     --interaction (#b66a08) haalt maar ~4.2:1 (net onder AA voor body-tekst),
-     terwijl --color-ink op deze wasem >13:1 haalt (nagerekend). De rand
-     blijft de volle --interaction, want als 1px lijn geldt de UI-component-
-     grens (3:1), niet de tekstnorm, en --interaction haalt daar >4:1. */
-  --interaction-wash: #f6ede1;
-
-  /* Bestaande "kind"-namen blijven als aliassen bestaan (minder rename-
-     oppervlak in de rest van dit bestand) maar wijzen nu naar de vier
-     redactionele clusterkleuren + ink, zoals opgegeven door de eigenaar. */
-  --ember: #92610a;
-  --ember-fill: #92610a;
-  --ember-soft: #f1e6d3;
-
-  --teal: #4338ca;
-  --teal-fill: #4338ca;
-  --teal-soft: #e6e4fa;
-
-  --plum: #a81e1e;
-  --plum-fill: #a81e1e;
-  --plum-soft: #f8e2e2;
-
-  --growth: #0a7355;
-  --growth-fill: #0a7355;
-  --growth-soft: #dcf0ea;
-
-  --profile: #292420;
-
-  /* Focus is bewust niet één van de clusterkleuren: --interaction-strong
-     haalt op zowel wit als parchment >=7:1 (nagerekend), dus dezelfde ring
-     werkt overal zonder per-context aanpassing en blijft ook herkenbaar als
-     "actie", niet als toevallig gekleurd accent. */
-  --focus: #7a4300;
-  --btn-bg: #7a4300;
-  --btn-fg: #ffffff;
-
-  --shadow: none;
-
-  --font-display: 'Cormorant Garamond', ui-serif, Georgia, serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-
-  /* Bestaande aliassen die de rest van dit bestand nog gebruikt. */
-  --bg: var(--color-parchment);
-  --bg-dot: transparent;
-  --surface: #ffffff;
-  --surface-2: var(--color-parchment-veil);
-  --ink: var(--color-ink);
-  --ink-soft: var(--color-ink-soft);
-  --ink-faint: var(--color-ink-faint);
-  --border: var(--color-hairline);
-
-  /* Vlak/redactioneel ontwerp: geen geknipte hoek, geen kaartschaduw. Radii
-     zijn zacht (velden/keuzes) of volledig rond (knoppen), nooit scherp. */
-  --arc-radius-btn: 999px;
-  --arc-radius-field: 1rem;
-  --arc-radius-panel: 1rem;
-  --arc-card-cut: 0px;
-  --arc-deck-min: 270px;
-
-  /* Achtpuntige ster (4 lange assen + 4 korte diagonalen), als mask-image
-     zodat hij met elke achtergrondkleur (meestal --editorial-gold) kan
-     kleuren zonder een los PNG/SVG-bestand te laden. */
-  --arc-star: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCc+PHBvbHlnb24gcG9pbnRzPScxMiwxIDEzLjE1LDkuMjMgMTYuMzgsNy42MiAxNC43NywxMC44NSAyMywxMiAxNC43NywxMy4xNSAxNi4zOCwxNi4zOCAxMy4xNSwxNC43NyAxMiwyMyAxMC44NSwxNC43NyA3LjYyLDE2LjM4IDkuMjMsMTMuMTUgMSwxMiA5LjIzLDEwLjg1IDcuNjIsNy42MiAxMC44NSw5LjIzJy8+PC9zdmc+");
-}
+/* De tokens staan sinds taak 1 van de rebuild in tokens.css (licht én donker,
+   alle waarden gemeten). Dat bestand wordt vóór dit bestand geladen en levert
+   ook de oude namen als alias, dus de rest van dit bestand hoeft niet te
+   worden hernoemd. Voeg hier geen kleuren meer toe. */
 
 /* Paginaachtergrond: brede radiale wasem, vast t.o.v. het venster zodat hij
    niet "meescrolt" met de lange 33-secties-rapportpagina. Los van
@@ -251,9 +172,9 @@
 html,
 body {
   min-height: 100%;
-  background: radial-gradient(120% 80% at 50% -10%, #fff 0%, var(--color-parchment) 55%, var(--color-parchment-deep) 130%);
+  background: radial-gradient(120% 80% at 50% -10%, var(--surface-raised) 0%, var(--bg) 55%, var(--bg-deep) 130%);
   background-attachment: fixed;
-  background-color: var(--color-parchment);
+  background-color: var(--bg);
 }
 
 /* ==========================================================================
@@ -2055,9 +1976,9 @@ body {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 13.5px;
-  color: #fff;
-  background: var(--interaction-strong);
-  box-shadow: 0 4px 14px rgba(41, 36, 32, 0.22);
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  box-shadow: var(--shadow-3);
   cursor: pointer;
   transition: filter 0.15s ease, transform 0.15s ease;
 }
@@ -2105,10 +2026,14 @@ body {
 }
 
 @media print {
-  /* Het thema is al licht, dus print hoeft geen kleurmodus meer om te
-     draaien — alleen de kleuraccenten worden op zwart/grijs gezet voor
-     leesbaarheid in zwart-wit en om inkt te sparen. */
-  :root {
+  /* Papier is altijd licht: ook wie in donkere modus leest en op "Download
+     als PDF" klikt, krijgt een licht vel. De tweede selector is nodig omdat
+     :root[data-theme="dark"] anders méér specificiteit heeft dan :root en de
+     donkere tokens in de print zouden winnen. Verder worden de kleuraccenten
+     op zwart/grijs gezet voor zwart-witleesbaarheid en om inkt te sparen. */
+  :root,
+  :root[data-theme='dark'],
+  :root:not([data-theme='light']) {
     --bg: #ffffff;
     --surface: #ffffff;
     --surface-2: #ffffff;
@@ -2273,4 +2198,63 @@ body {
   .arcana-back-to-toc {
     display: none !important;
   }
+}
+
+/* ==========================================================================
+   Themaschakelaar — licht / auto / donker
+   ========================================================================== */
+
+.arcana-theme-toggle {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  padding: 2px;
+  gap: 2px;
+}
+
+.arcana-theme-toggle__option {
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0 0.8rem;
+  min-height: 40px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background var(--dur-snel) var(--ease-standaard), color var(--dur-snel) var(--ease-standaard);
+}
+
+.arcana-theme-toggle__option:hover {
+  color: var(--ink);
+}
+
+.arcana-theme-toggle__option[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.arcana-theme-toggle--compact .arcana-theme-toggle__option {
+  min-height: 34px;
+  padding: 0 0.65rem;
+  font-size: 0.76rem;
+}
+
+@media print {
+  .arcana-theme-toggle {
+    display: none !important;
+  }
+}
+
+/* Familiesymbool vóór de dimensienaam: de drager die ook zonder kleur werkt. */
+.arcana-portrait__family {
+  display: inline-block;
+  width: 1.1em;
+  font-size: 0.72em;
+  line-height: 1;
+  color: var(--portrait-hue, var(--ink-soft));
+  vertical-align: 0.08em;
 }

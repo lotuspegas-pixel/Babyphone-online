@@ -83,7 +83,12 @@ describe('u-vorm over de hele tekstverzameling', () => {
   });
 
   it('laat geen kale werkwoordsstam vóór "u" staan (inversie)', () => {
-    const stammen = ['voel', 'denk', 'weet', 'kun', 'zul', 'wil', 'ben', 'heb', 'ga', 'zie', 'kom', 'neem', 'geef', 'lees'];
+    // "weet" staat hier bewust niet in: de stam eindigt al op -t, dus "weet u"
+    // ("Weet u zeker dat…") is correcte inversie, geen kale stam. Hij stond er
+    // wel, en dat viel niet op omdat de zinnen met "Weet je zeker" toevallig
+    // buiten de scan vielen door een losse apostrof eerder in hetzelfde
+    // bestand — de scanner op string-literals is daar gevoelig voor.
+    const stammen = ['voel', 'denk', 'kun', 'zul', 'wil', 'ben', 'heb', 'ga', 'zie', 'kom', 'neem', 'geef', 'lees'];
     const fouten: string[] = [];
     for (const zin of sentences) {
       const u = toFormal(zin);
