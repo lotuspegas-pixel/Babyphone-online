@@ -177,3 +177,88 @@ de oude fontbestanden staan in `src/fonts/bron/` en het oude `@font-face`-blok i
 - Het beeld is met het oog beoordeeld op vorm en kleurwaarden via de DOM, niet als screenshot —
   het browserpaneel in deze omgeving rendert geen frames. Leg het na uitrol naast de canvas
   met `?vergelijk`.
+
+## Taak 3 — Landingspagina en hero herbouwd · 2026-09-23
+
+**Besluit van de eigenaar:** herocopy variant A (nieuwsgierigheid).
+
+### Wat er is veranderd
+- De kop van de site is nu de propositie ("De meeste mensen kennen hun patroon. Bijna niemand
+  kan het benoemen."), met de merknaam klein erboven en "Zelfinzicht dat je kunt narekenen" als
+  gouden regel. De knop heet "Begin met de 120 vragen"; de metaregel zegt erbij dat je kunt
+  pauzeren; de derde geruststelling is "Geen taalmodel — de test rekent".
+- Direct onder de hero staan de drie dingen die je wél kunt controleren (narekenen, van jou,
+  zegt zelf wat het niet weet), met het terzijde over zelfbeoordeling. Dat stond op 2.100 px;
+  nu op ongeveer 700.
+- De gravure staat daarna, als rustpunt; dan de cijfers als smalle donkere band
+  (`5.700+ woorden, met de cijfers erbij`).
+- De zes voordelen: kaart 1 noemt nu de uitzondering van de acht beschouwingen, kaart 2 zegt
+  "volgende week" en dat een gewijzigde berekening bij het rapport vermeld wordt, kaart 4
+  waarschuwt dat de eerste 72 het snelst gaan, kaart 6 noemt het deelbare hoofdstuk. Kaart 1
+  is de enige met een gouden bovenrand; het raster is asymmetrisch.
+- Hoe het werkt: stap 1 zegt dat stoppen mag, stap 4 dat de archetypenaam een leeswijzer is en
+  je ervaring voorgaat. Op een breed scherm staat de trechter naast de stappen.
+- Wat het meet: de twaalf dimensies staan in de vier kleurfamilies van het portret, met
+  familiesymbool en dimensiekleur, in dezelfde volgorde als het beeld. Geen hovereffect.
+- Wat je krijgt: een echt, getekend voorbeeldportret met verzonnen scores (bijschrift: "Dit is
+  een voorbeeld, geen echte uitslag") naast één lijst van de zes delen en de zes extra's.
+- Eerlijk gezegd: woordelijk ongewijzigd, nu als donker blok over de volle breedte.
+- Vragen: drie antwoorden bijgesteld (duur met 72/48, MBTI met "je ervaring gaat voor",
+  bewaren met "wij hebben geen kopie"), een negende vraag "Waarom is dit gratis?", de eerste
+  vraag staat open.
+- Slot: de tekst geeft het argument in plaats van de herhaalde geruststellingen.
+- Skip-link "Naar de inhoud" als eerste tab op elke pagina.
+- Zoekresultaat: titel `Persoonlijkheidstest die je kunt narekenen | Arcana Profile` (59
+  tekens, was 77) en een beschrijving van 156 tekens (was 264), afgestemd op de h1.
+
+### Wat er bewust niet is veranderd
+- De vier disclaimers, de statische `#root`-tekst, de `noscript`-regel, JSON-LD, canonical,
+  sitemap: onaangeraakt.
+- De sectie "Kijk het zelf na" (`E` §5.9) is niet gebouwd: die hangt aan het voorbeeldrapport
+  (taak 12).
+- De trechter is CSS gebleven; de vier accentkleuren op de banden zijn niet gedaan.
+- De slotzin van de negende FAQ-vraag ("dan staat het hier, vóórdat het gebeurt") staat er
+  niet: dat is een toezegging van de eigenaar.
+- De begroting blijft 75.000 B: de landing meet 65,7 KB, dus de verhoging naar 80.000 is niet
+  nodig.
+
+### Wat de bezoeker merkt
+- Een pagina die begint bij een herkenbare ervaring in plaats van bij de merknaam, en die
+  binnen één scherm laat zien wat je kunt controleren.
+- Vijf verschillende vlakken, twee donkere, en het portret vóórdat je één vraag beantwoordt.
+
+### Gemeten, vóór → na
+| Metriek | Voor | Na | Doel |
+|---|--:|--:|--:|
+| Paginahoogte landing (1440 px) | 7.083 px | **7.638 px** | ≤ 6.000 — **niet gehaald**, zie DECISIONS |
+| Positie van "narekenen" | ~2.100 px | ~700 px | boven de tweede schermvulling |
+| Hero t/m metaregel op 390 × 667 | — | eindigt op 611 px | binnen 667 |
+| JS landing (brotli q11) | 60,4 KB | 65,7 KB | ≤ 75 KB |
+| CSS (q11) | 10,1 KB | 11,3 KB | ≤ 14 KB |
+| Contrastfouten, 2 thema's × 3 breedtes | 0 (1 breedte) | 6 × 0 (254 knopen) | 0 |
+| h1 | merknaam | propositie, precies één | één |
+| Skip-link | ontbrak | aanwezig, doel `#inhoud` | aanwezig |
+| `<title>` | 77 tekens | 59 tekens | ≤ 60 |
+
+### Regressiepoort
+| Blok | Uitkomst |
+|---|---|
+| Determinisme — gouden master | groen, 0 gewijzigde fixtures |
+| Tests | 129 groen |
+| Contrast, 6 metingen | 6 × 0 fouten; één gevonden en gefixt (trechterband 2 op nacht, 4,31 → 5,0) |
+| Bundelbegroting | gehaald |
+| Domeincontrole | geslaagd |
+
+### Terugrollen
+`LandingPage.tsx`, `siteContent.ts` en het landingblok in `site.css` terug uit commit `756c3c6`;
+`PortraitSample.tsx` weg; de skip-link uit `App.tsx`; titel en beschrijving in `index.html`.
+Raakt geen gebruikersgegevens.
+
+### Wat dit openlaat
+- De paginahoogte: 7.638 px tegen een doel van 6.000. De inhoud uit `E` (controleerblok, het
+  portret ín "Wat je krijgt", negen vragen) past niet in de hoogte die `B` schatte. Inkorten is
+  inhoud schrappen of de ritmetokens kleiner zetten — een keuze voor de eigenaar.
+- De 5-secondentest uit `E` §6 is niet gedaan; variant A is de keuze van de eigenaar, niet een
+  gemeten uitkomst.
+- Het beeld is via de DOM gecontroleerd (kleuren, afmetingen, contrast), niet met het oog: het
+  browserpaneel in deze omgeving rendert geen frames.

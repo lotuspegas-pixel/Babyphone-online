@@ -120,7 +120,16 @@ Op 2026-08-19 is een klinische/UX/business-analyse van een live (willekeurig ing
   - [x] 2c: portret als SVG (`arcanaPortraitGeometry.ts` pure geometrie + `ArcanaPortrait.tsx`), kleuren uit de tokens, toetsenbord-focusbare pluimen met `<title>`, print als vector; canvas blijft tot taak 13 via `?vergelijk`
   - [x] Contrast rapport 0/0 in licht en donker, nu inclusief de tekst in het beeld (567 knopen)
   - [x] Checks: typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigd, build + domeincontrole + begroting geslaagd
-- [ ] **Rebuild taak 3 — Landingspagina en hero (variant A)** — daarna
+- [x] **Rebuild taak 3 — Landingspagina en hero (variant A)** (2026-09-23)
+  - [x] Copy uit `E` §5 met herovariant A: h1 = propositie, merknaam klein erboven, "Drie dingen die je hier wél kunt controleren" direct onder de hero, gravure op plek 3, statbalk `5.700+` / `met de cijfers erbij`, VOORDELEN 1/2/4/6, HOE_HET_WERKT 1/3/4, FAQ 1/5/8 + negende vraag, slot-tekst
+  - [x] Ritme uit `B` §4: elke sectie eigen vlak over de volle breedte (`--bg`/`--bg-veil`/`--bg-deep`/`--bg-band`/`--bg-ink`), twee donkere blokken (cijfers, Eerlijk gezegd), asymmetrisch raster, dimensies in de vier families met dimensiekleur en symbool, geen hover
+  - [x] Voorbeeldportret op de landing (`src/site/PortraitSample.tsx`, zelfde geometrie en CSS als het echte portret, statisch, +5,3 KB q11)
+  - [x] Skip-link naar `<main id="inhoud">`; precies één h1; koppen zonder sprongen
+  - [x] SEO-titel op de h1 afgestemd (`G` beslispunt 2): 59 tekens; beschrijving 156 tekens; og/twitter-titel volgen
+  - [x] Contrast 0 fouten in licht én donker op 1440/390/320 (254 knopen); trechterband 2 op nacht gefixt (4,31 → 5,0)
+  - [x] Checks: typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigd, build + domeincontrole + begroting (65,7 KB ≤ 75) geslaagd
+  - [ ] **Niet gehaald:** paginahoogte 7.638 px op 1440 (doel ≤ 6.000): het controleerblok, het portret in "Wat je krijgt" en de negende vraag passen niet in de hoogte die `B` schatte — keuze voor de eigenaar
+  - [ ] Niet gebouwd: sectie "Kijk het zelf na" (`E` §5.9) — wacht op het voorbeeldrapport (taak 12); trechter als SVG; slotzin FAQ 9 (toezegging van de eigenaar)
 - [ ] **Rebuild taak 4 — Rapport: herleesstructuur** — daarna
 - [ ] **Fase C — Scoremodel herijken** — bewust nog niet gestart, vereist expliciete instemming (breekt vergelijkbaarheid met bestaande rapporten). Extra aanleiding sinds 2026-09-21: op een echt rapport liggen de 12 dimensies tussen 42 en 72, waardoor het nieuwe portret bijna rond uitvalt en zijn zeggingskracht verliest.
 - [ ] **Fase D — Eerste betaalde laag (geen backend)** — nog niet gestart

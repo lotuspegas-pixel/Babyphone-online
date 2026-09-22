@@ -196,39 +196,72 @@
 
 /* ---------------------------------------------------------------- landing */
 
+/* Elke sectie loopt tot de schermrand en houdt zijn inhoud in een kolom van
+   1180 px — zo krijgen de donkere en getinte vlakken (B §4) de volle breedte
+   zonder het negatieve-marge-trucje, dat op Windows een horizontale
+   scrollbalk kan geven. */
 .landing {
+  width: 100%;
+}
+
+.landing__inner {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0 clamp(1rem, 4vw, 2.5rem) 0;
+  padding: 0 clamp(1rem, 4vw, 2.5rem);
 }
+
+.landing__inner--smal {
+  max-width: calc(48rem + 2 * clamp(1rem, 4vw, 2.5rem));
+}
+
+/* --------------------------------------------------------------------- hero */
 
 .landing__hero {
   text-align: center;
-  padding: clamp(2.75rem, 7vw, 5.5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(2.25rem, 5vw, 4rem) 0 clamp(1rem, 2.5vw, 1.5rem);
 }
 
-.landing__wordmark {
+.landing__merk {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0.9rem;
+}
+
+.landing__hero .landing__eyebrow {
+  justify-content: center;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+/* De propositie is het grootste element van de pagina; de twee zinnen
+   breken op hun eigen regel zolang er ruimte is. Minimum bewust laag zodat
+   de hele hero tot en met de metaregel op een telefoon van 667 px past. */
+.landing__titel {
   font-family: var(--font-display);
   font-weight: 500;
-  /* Minimum bewust laag: "Profile" moet op een 320px-scherm binnen de marges
-     passen, ook met de negatieve letterafstand. */
-  font-size: clamp(3.25rem, 12vw, 8.5rem);
-  line-height: 0.78;
-  letter-spacing: -0.055em;
-  margin: 0.6rem 0 0;
+  font-size: clamp(2rem, 5.2vw, 3.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 auto;
+  max-width: 34ch;
+  text-wrap: balance;
   display: grid;
 }
 
 .landing__belofte {
-  max-width: 34rem;
-  margin: clamp(1.25rem, 3vw, 2rem) auto 0;
+  max-width: 36rem;
+  margin: clamp(1.1rem, 2.5vw, 1.75rem) auto 0;
   font-size: clamp(1rem, 1.6vw, 1.15rem);
-  color: var(--color-ink-soft);
+  color: var(--ink-soft);
   line-height: 1.65;
 }
 
 .landing__cta-blok {
-  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  margin-top: clamp(1.25rem, 3vw, 2rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -242,19 +275,19 @@
 .landing__cta-meta {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--color-ink-soft);
+  color: var(--ink-soft);
 }
 
 .landing__vertrouwen {
   list-style: none;
-  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+  margin: clamp(1.25rem, 3vw, 2rem) 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.5rem clamp(1rem, 3vw, 2rem);
   font-size: 0.85rem;
-  color: var(--color-ink-soft);
+  color: var(--ink-soft);
 }
 
 .landing__vertrouwen li {
@@ -279,72 +312,135 @@
   -webkit-mask-position: center;
 }
 
-/* De gravure als sfeerband; multiply laat de crème van de plaat samenvallen
-   met de parchment-achtergrond, zodat er geen harde rand ontstaat. */
+/* --------------------------------------------------------- controleerbaar */
+
+/* Deel van de hero, geen sectie: geen kaarten, geen eyebrow, alleen een
+   haarlijn erboven en drie kolommen met elk een korte accentlijn. */
+.landing__controleer {
+  padding: clamp(1rem, 2.5vw, 1.5rem) 0 clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+.landing__controleer-kop {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 clamp(1.25rem, 2.5vw, 1.75rem);
+  padding-top: clamp(1.25rem, 2.5vw, 1.5rem);
+  border-top: 1px solid var(--color-hairline);
+  text-wrap: balance;
+}
+
+.landing__controleer-grid {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+@media (min-width: 720px) {
+  .landing__controleer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.landing__controleer-punt {
+  --accent: var(--ink-soft);
+  padding-top: 0.9rem;
+  position: relative;
+}
+
+.landing__controleer-punt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--accent);
+}
+
+.landing__controleer-punt--narekenen {
+  --accent: var(--gold);
+}
+
+.landing__controleer-punt--van-jou {
+  --accent: var(--growth);
+}
+
+.landing__controleer-punt h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+  line-height: 1.25;
+}
+
+.landing__controleer-punt p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Het terzijde: grijs, smal, zonder omkadering — geen disclaimer. */
+.landing__terzijde {
+  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+  max-width: 44rem;
+  font-size: 0.88rem;
+  color: var(--ink-faint);
+  line-height: 1.6;
+}
+
+/* De gravure als sfeerband, volle breedte; multiply laat de crème van de
+   plaat samenvallen met de perkament-achtergrond, zodat er geen harde rand
+   ontstaat. Rustpunt ná het argument (E §5.3). */
 .landing__landschap {
-  margin: clamp(1.5rem, 4vw, 3rem) 0 0;
   overflow: hidden;
   line-height: 0;
 }
 
 .landing__landschap img {
   width: 100%;
-  height: clamp(150px, 26vw, 330px);
+  height: clamp(140px, 20vw, 260px);
   object-fit: cover;
   mix-blend-mode: multiply;
 }
 
-/* ----------------------------------------------------------------- cijfers */
-
-.landing__stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1px;
-  background: var(--color-hairline);
-  border: 1px solid var(--color-hairline);
-  margin-top: clamp(2rem, 5vw, 3.5rem);
-}
-
-.landing__stat {
-  background: var(--color-parchment);
-  padding: clamp(1.1rem, 2.5vw, 1.6rem);
-  text-align: center;
-  display: grid;
-  gap: 0.35rem;
-}
-
-.landing__stat-getal {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 600;
-  line-height: 1;
-  color: var(--interaction-strong);
-  font-variant-numeric: tabular-nums;
-}
-
-.landing__stat-label {
-  font-size: 0.82rem;
-  color: var(--color-ink-soft);
-  line-height: 1.45;
-}
-
 /* ----------------------------------------------------------------- secties */
 
+/* Drie sectiehoogtes en vijf vlakken (B §4). De vlakken zijn tokens, dus
+   de donkere modus keert het "papierblok" vanzelf om. */
 .landing__sectie {
-  padding: clamp(3rem, 7vw, 5.5rem) 0;
-  border-top: 1px solid var(--color-hairline);
+  padding: var(--sectie-normaal) 0;
 }
 
-.landing__sectie:first-of-type {
-  border-top: none;
+.landing__sectie--kort {
+  padding: var(--sectie-kort) 0;
 }
 
-/* Volle-breedte tint: het negatieve marge-trucje laat de tint doorlopen tot
-   de schermrand terwijl de inhoud binnen de kolom blijft. */
+.landing__sectie--ruim {
+  padding: var(--sectie-ruim) 0;
+}
+
 .landing__sectie--veil {
-  background: var(--color-parchment-veil);
-  margin-inline: calc(clamp(1rem, 4vw, 2.5rem) * -1);
-  padding-inline: clamp(1rem, 4vw, 2.5rem);
+  background: var(--bg-veil);
+}
+
+.landing__sectie--deep {
+  background: var(--bg-deep);
+}
+
+.landing__sectie--band {
+  background: var(--bg-band);
+}
+
+.landing__sectie--ink {
+  background: var(--bg-ink);
+  color: var(--ink-inverse);
+}
+
+.landing__sectie--ink .arcana-eyebrow,
+.landing__sectie--ink .landing__lead {
+  color: var(--ink-inverse-soft);
 }
 
 .landing__sectie-kop {
@@ -362,11 +458,48 @@
 }
 
 .landing__lead {
-  color: var(--color-ink-soft);
+  color: var(--ink-soft);
   font-size: clamp(0.98rem, 1.5vw, 1.08rem);
   line-height: 1.65;
   margin: 0;
   max-width: 38rem;
+}
+
+/* ----------------------------------------------------------------- cijfers */
+
+/* Eerste ritmebreuk: een smalle donkere band, vier getallen op een rij,
+   twee bij twee op een telefoon. */
+.landing__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem 1rem;
+}
+
+@media (min-width: 720px) {
+  .landing__stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.landing__stat {
+  text-align: center;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.landing__stat-getal {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-inverse);
+  font-variant-numeric: tabular-nums;
+}
+
+.landing__stat-label {
+  font-size: 0.82rem;
+  color: var(--ink-inverse-soft);
+  line-height: 1.45;
 }
 
 /* -------------------------------------------------------------------- grid */
@@ -377,37 +510,41 @@
   grid-template-columns: 1fr;
 }
 
-/* Vaste kolomaantallen per breekpunt in plaats van auto-fit: bij vier of zes
-   vaste kaarten geeft auto-fit op sommige breedtes een weeskaart alleen op de
-   laatste rij (3+1, 4+2). Met een vast aantal kolommen per stap blijft de
-   rij altijd vol — 2 kolommen voor vier kaarten, 2 dan 3 voor zes. */
-.landing__grid--2 {
-  gap: clamp(1rem, 2.5vw, 1.5rem) clamp(1rem, 2.5vw, 1.5rem);
-}
-
 @media (min-width: 560px) {
   .landing__grid--2 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* Zes kaarten, asymmetrisch (B §4): de eerste twee krijgen dubbele breedte
+   op een raster van vier, de andere vier vullen de tweede rij. Op tablet
+   twee kolommen, op een telefoon één. */
 @media (min-width: 560px) {
-  .landing__grid--3 {
+  .landing__grid--waarom {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1000px) {
-  .landing__grid--3 {
-    grid-template-columns: repeat(3, 1fr);
+  .landing__grid--waarom {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .landing__grid--waarom > :nth-child(-n + 2) {
+    grid-column: span 2;
   }
 }
 
 .landing__kaart {
   background: var(--surface);
   border: 1px solid var(--color-hairline);
-  border-top: 3px solid var(--interaction);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-1);
   padding: clamp(1.2rem, 2.5vw, 1.6rem);
+}
+
+/* Alleen de kaart met de hoofdclaim draagt de gouden bovenrand. */
+.landing__kaart--hoofd {
+  border-top: 3px solid var(--gold);
 }
 
 .landing__kaart h3 {
@@ -420,23 +557,20 @@
 
 .landing__kaart p {
   margin: 0;
-  color: var(--color-ink-soft);
+  color: var(--ink-soft);
   font-size: 0.93rem;
   line-height: 1.6;
-}
-
-.landing__kaart--genummerd {
-  position: relative;
 }
 
 .landing__kaart-index {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: var(--interaction-strong);
+  color: var(--gold);
   letter-spacing: 0.08em;
   display: block;
   margin-bottom: 0.4rem;
 }
+
 
 /* ------------------------------------------------------------------ funnel */
 
@@ -599,6 +733,29 @@
 
 /* ----------------------------------------------------------------- stappen */
 
+/* Op een breed scherm staat de trechter (vorm boven legenda) links en de vier
+   stappen rechts; dat scheelt een schermhoogte. */
+.landing__hoe {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  align-items: start;
+}
+
+@media (min-width: 1000px) {
+  .landing__hoe {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  .landing__hoe .funnel {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    margin: 0;
+  }
+  .landing__hoe .funnel__legend {
+    max-width: 26rem;
+  }
+}
+
+
 .landing__stappen {
   list-style: none;
   margin: 0;
@@ -647,53 +804,202 @@
 
 /* --------------------------------------------------------------- dimensies */
 
+/* Vier families van drie, in de volgorde en de kleuren van het portret.
+   Geen hovereffect: dit zijn geen links. */
+.landing__families {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2rem);
+}
+
+@media (min-width: 640px) {
+  .landing__families {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .landing__families {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.landing__familie-kop {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.85rem;
+  line-height: 1.25;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.5rem;
+  align-items: baseline;
+}
+
+.landing__familie-symbool {
+  font-size: 0.8em;
+  color: var(--ink-soft);
+}
+
+.landing__familie-betekenis {
+  grid-column: 2;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--ink-faint);
+  line-height: 1.45;
+}
+
 .landing__dimensies {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-  gap: 1px;
-  background: var(--color-hairline);
-  border: 1px solid var(--color-hairline);
+  gap: 0.75rem;
 }
 
 .landing__dimensies li {
-  background: var(--color-parchment);
-  padding: clamp(1rem, 2vw, 1.35rem);
+  border-left: 3px solid var(--kleur, var(--gold));
+  padding: 0.15rem 0 0.15rem 0.9rem;
 }
 
-.landing__dimensies h3 {
+.landing__dimensies strong {
+  display: block;
   font-family: var(--font-display);
-  font-size: 1.12rem;
+  font-size: 1.08rem;
   font-weight: 600;
-  margin: 0 0 0.3rem;
+  line-height: 1.25;
+  margin-bottom: 0.2rem;
 }
 
 .landing__dimensies p {
   margin: 0;
   font-size: 0.88rem;
-  color: var(--color-ink-soft);
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+/* --------------------------------------------------------------- je rapport */
+
+/* Laten in plaats van beschrijven: het voorbeeldportret naast één lijst. */
+.landing__rapport {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .landing__rapport {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.landing__rapport-beeld {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.landing__rapport-beeld .landing__sectie-kop {
+  margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+/* Twee tekeningen, CSS kiest er één: de volle vanaf 620 px kolombreedte
+   (op de pagina: vanaf 640 px schermbreedte), anders de compacte. */
+.portret-voorbeeld {
+  margin: 0;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  background: var(--bg);
+}
+
+.portret-voorbeeld__svg {
+  max-width: none;
+  cursor: default;
+}
+
+.portret-voorbeeld__svg--full {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .portret-voorbeeld__svg--full {
+    display: block;
+  }
+  .portret-voorbeeld__svg--compact {
+    display: none;
+  }
+}
+
+/* De pluimen van het voorbeeld hebben geen interactie. */
+.portret-voorbeeld .arcana-portrait__dim {
+  cursor: default;
+}
+
+.landing__rapport-bijschrift {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
+
+.landing__groepen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.landing__groepen li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 0.8rem;
+  align-items: baseline;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.landing__groepen li:last-child {
+  border-bottom: none;
+}
+
+.landing__groepen .landing__kaart-index {
+  margin: 0;
+  padding-top: 0.2rem;
+}
+
+.landing__groepen h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0 0 0.2rem;
+  line-height: 1.25;
+}
+
+.landing__groepen p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
   line-height: 1.55;
 }
 
 /* ------------------------------------------------------------------ extras */
 
 .landing__extras {
-  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+  margin: clamp(1.25rem, 3vw, 1.75rem) 0 0;
   padding: 0;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-  gap: 0.7rem clamp(1rem, 3vw, 2rem);
+  gap: 0.6rem;
 }
 
 .landing__extras li {
   display: flex;
   gap: 0.6rem;
   align-items: flex-start;
-  font-size: 0.93rem;
-  color: var(--color-ink-soft);
+  font-size: 0.92rem;
+  color: var(--ink-soft);
   line-height: 1.55;
 }
 
@@ -716,7 +1022,8 @@
 
 /* ----------------------------------------------------------------- eerlijk */
 
-.landing__sectie--eerlijk .landing__eerlijk {
+/* Tweede donkere blok: de grens als statement, niet als kleine lettertjes. */
+.landing__eerlijk {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -725,19 +1032,17 @@
   gap: clamp(0.9rem, 2vw, 1.25rem);
 }
 
-/* Vier punten: bij auto-fit breekt dit op brede schermen 3+1. Vast op 2
-   kolommen vanaf tablet-breedte houdt de rij altijd vol. */
 @media (min-width: 560px) {
-  .landing__sectie--eerlijk .landing__eerlijk {
+  .landing__eerlijk {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 .landing__eerlijk li {
-  border-left: 3px solid var(--color-ink);
+  border-left: 3px solid var(--ink-inverse-soft);
   padding: 0.15rem 0 0.15rem 1rem;
-  font-size: 0.93rem;
-  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  color: var(--ink-inverse);
   line-height: 1.6;
 }
 
@@ -746,7 +1051,6 @@
 .landing__faq {
   display: grid;
   border-top: 1px solid var(--color-hairline);
-  max-width: 48rem;
 }
 
 .landing__faq details {
@@ -756,7 +1060,7 @@
 .landing__faq summary {
   cursor: pointer;
   list-style: none;
-  padding: 1.05rem 2.25rem 1.05rem 0;
+  padding: 0.85rem 2.25rem 0.85rem 0;
   min-height: 44px;
   display: flex;
   align-items: center;
@@ -778,20 +1082,20 @@
   width: 0.85rem;
   height: 0.85rem;
   background:
-    linear-gradient(var(--interaction-strong), var(--interaction-strong)) center / 100% 1.5px no-repeat,
-    linear-gradient(var(--interaction-strong), var(--interaction-strong)) center / 1.5px 100% no-repeat;
+    linear-gradient(var(--gold), var(--gold)) center / 100% 1.5px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) center / 1.5px 100% no-repeat;
   transition: transform 0.2s;
 }
 
 .landing__faq details[open] summary::after {
   transform: rotate(90deg);
-  background: linear-gradient(var(--interaction-strong), var(--interaction-strong)) center / 100% 1.5px no-repeat;
+  background: linear-gradient(var(--gold), var(--gold)) center / 100% 1.5px no-repeat;
 }
 
 .landing__faq p {
   margin: 0 0 1.15rem;
   padding-right: 2.25rem;
-  color: var(--color-ink-soft);
+  color: var(--ink-soft);
   font-size: 0.95rem;
   line-height: 1.65;
   max-width: 44rem;
@@ -799,12 +1103,8 @@
 
 /* ---------------------------------------------------------------- slot-cta */
 
-.landing__slot {
+.landing__slot .landing__inner {
   text-align: center;
-  padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 4vw, 2.5rem);
-  margin: 0 calc(clamp(1rem, 4vw, 2.5rem) * -1);
-  border-top: 1px solid var(--color-hairline);
-  background: var(--color-parchment-deep);
   display: grid;
   justify-items: center;
   gap: 0.75rem;
@@ -822,7 +1122,7 @@
 
 .landing__slot p {
   margin: 0;
-  color: var(--color-ink-soft);
+  color: var(--ink-soft);
   max-width: 34rem;
   line-height: 1.6;
 }
@@ -831,6 +1131,28 @@
   margin-top: 0.5rem;
   min-width: min(100%, 15rem);
 }
+
+/* --------------------------------------------------------------- skip-link */
+
+/* Eerste tab op de pagina: onzichtbaar tot hij focus krijgt, dan boven de
+   plakkende kop. */
+.arcana-skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border-radius: var(--radius-btn);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.arcana-skip-link:focus {
+  top: 0.75rem;
+}
+
 
 /* ------------------------------------------------------------------ footer */
 
@@ -990,6 +1312,24 @@
 .site-header__menu .arcana-theme-toggle {
   align-self: flex-start;
   margin-bottom: 0.5rem;
+}
+
+/* ------------------------------------- de trechter in donkere modus */
+
+/* Band 2 (de "30") mengt wash en goud; op nacht komt die menging op een
+   middentoon uit waar de lichte inkt 4,3:1 haalt op een telefoon (de tekst
+   is daar kleiner dan 24 px). Iets minder goud in de menging, alleen op
+   donker: 5,0:1. Op licht blijft de band zoals hij was. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .funnel__band--2,
+  :root:not([data-theme='light']) .funnel__legend-mark--2 {
+    background: color-mix(in srgb, var(--interaction-wash) 68%, var(--editorial-gold) 32%);
+  }
+}
+
+:root[data-theme='dark'] .funnel__band--2,
+:root[data-theme='dark'] .funnel__legend-mark--2 {
+  background: color-mix(in srgb, var(--interaction-wash) 68%, var(--editorial-gold) 32%);
 }
 
 /* ------------------------------------------- de gravure in donkere modus */

@@ -269,8 +269,11 @@ function App() {
   if (legalRoute) {
     return (
       <div className="site">
+        <a className="arcana-skip-link" href="#inhoud">
+          Naar de inhoud
+        </a>
         <SiteHeader onStart={handleStart} hasInProgress={hasInProgress} onResume={handleResume} />
-        <main className="site__main">
+        <main className="site__main" id="inhoud">
           {legalRoute === 'privacy' ? <PrivacyPage onBack={goToSite} /> : <TermsPage onBack={goToSite} />}
         </main>
         <SiteFooter onNavigate={openLegal} />
@@ -336,8 +339,11 @@ function App() {
 
   return (
     <div className="site">
+      <a className="arcana-skip-link" href="#inhoud">
+        Naar de inhoud
+      </a>
       <SiteHeader onStart={handleStart} hasInProgress={hasInProgress} onResume={handleResume} />
-      <main className="site__main">
+      <main className="site__main" id="inhoud">
         <LandingPage
           onStart={handleStart}
           onResume={handleResume}
