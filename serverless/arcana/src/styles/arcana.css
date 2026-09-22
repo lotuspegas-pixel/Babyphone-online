@@ -2310,3 +2310,282 @@ body {
   gap: 0.6rem;
   margin-top: 1.2rem;
 }
+
+/* ==========================================================================
+   Het portret als SVG
+   Kleuren komen uit de tokens (--kleur per pluim = var(--dim-…)), dus de
+   donkere modus vraagt geen tekenlogica. Alles wat hier staat is uiterlijk;
+   de vorm zit in src/lib/arcanaPortraitGeometry.ts.
+   ========================================================================== */
+
+.arcana-portrait__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 880px;
+  margin: 0 auto;
+  font-family: var(--font-body);
+  --portret-inkt: var(--ink);
+  --portret-zacht: var(--ink-soft);
+  --portret-grond: var(--bg);
+  --portret-bed: var(--bg-deep);
+}
+
+.arcana-portrait__svg text {
+  user-select: text;
+}
+
+.arcana-portrait__grond {
+  fill: var(--portret-grond);
+}
+
+.arcana-portrait__bed-stop {
+  stop-color: var(--portret-bed);
+}
+
+.arcana-portrait__gloed-stop {
+  stop-color: var(--kleur);
+}
+
+.arcana-portrait__raster line {
+  stroke: var(--portret-inkt);
+  stroke-opacity: 0.06;
+  stroke-width: 1;
+}
+
+/* Gloed: multiply verdiept op licht; op donker zou dat uitdoven, dus screen. */
+.arcana-portrait__glows {
+  mix-blend-mode: multiply;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .arcana-portrait__glows {
+    mix-blend-mode: screen;
+  }
+}
+
+:root[data-theme='dark'] .arcana-portrait__glows {
+  mix-blend-mode: screen;
+}
+
+.arcana-portrait__vaan {
+  fill: none;
+  stroke: var(--kleur);
+  stroke-linecap: round;
+}
+
+.arcana-portrait__schacht {
+  fill: var(--kleur);
+}
+
+.arcana-portrait__dim {
+  cursor: pointer;
+  outline: none;
+}
+
+.arcana-portrait__dim:focus-visible .arcana-portrait__schacht {
+  stroke: var(--focus);
+  stroke-width: 2.5;
+  paint-order: stroke;
+}
+
+.arcana-portrait__ring-buiten {
+  fill: none;
+  stroke: var(--portret-inkt);
+  stroke-opacity: 0.14;
+  stroke-width: 1;
+}
+
+.arcana-portrait__ring-halo {
+  fill: none;
+  stroke: var(--portret-grond);
+  stroke-opacity: 0.66;
+  stroke-width: 4.5;
+}
+
+.arcana-portrait__ring-midden {
+  fill: none;
+  stroke: var(--portret-inkt);
+  stroke-opacity: 0.48;
+  stroke-width: 1.1;
+}
+
+.arcana-portrait__kern-vlak {
+  fill: var(--portret-grond);
+  stroke: var(--portret-inkt);
+  stroke-opacity: 0.3;
+  stroke-width: 1.1;
+}
+
+.arcana-portrait__kern-binnen {
+  fill: none;
+  stroke: var(--portret-inkt);
+  stroke-opacity: 0.09;
+  stroke-width: 1;
+}
+
+.arcana-portrait__kern-eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  fill: var(--portret-zacht);
+  fill-opacity: 0.92;
+}
+
+.arcana-portrait__kern-naam {
+  font-family: var(--font-display);
+  font-weight: 500;
+  fill: var(--portret-inkt);
+}
+
+.arcana-portrait__kern-score {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  fill: var(--portret-inkt);
+}
+
+.arcana-portrait__kern-lijn {
+  stroke: var(--portret-inkt);
+  stroke-opacity: 0.18;
+  stroke-width: 1;
+}
+
+.arcana-portrait__kern-persoon {
+  fill: var(--portret-zacht);
+  fill-opacity: 0.95;
+}
+
+.arcana-portrait__pill rect {
+  fill: var(--portret-grond);
+  fill-opacity: 0.94;
+  stroke: var(--portret-inkt);
+  stroke-opacity: 0.15;
+  stroke-width: 1;
+}
+
+.arcana-portrait__pill.is-strong rect {
+  stroke-opacity: 0.36;
+}
+
+.arcana-portrait__pill text {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  fill: var(--portret-zacht);
+  fill-opacity: 0.95;
+}
+
+.arcana-portrait__pill.is-strong text {
+  fill: var(--portret-inkt);
+  fill-opacity: 1;
+}
+
+.arcana-portrait__ringetje-halo {
+  fill: none;
+  stroke: var(--portret-grond);
+  stroke-opacity: 0.9;
+  stroke-width: 3.4;
+}
+
+.arcana-portrait__ringetje-lijn {
+  fill: none;
+  stroke: var(--portret-inkt);
+  stroke-opacity: 0.82;
+  stroke-width: 1.3;
+}
+
+.arcana-portrait__label-naam {
+  fill: var(--portret-zacht);
+  fill-opacity: 0.97;
+}
+
+.arcana-portrait__label-score {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  fill: var(--portret-inkt);
+}
+
+.arcana-portrait__label-let {
+  font-family: var(--font-mono);
+  fill: var(--portret-zacht);
+  fill-opacity: 0.9;
+}
+
+/* Eén kant oplichten: de rest dimt, in het beeld én bij de labels. */
+.arcana-portrait__svg[data-focus] .arcana-portrait__dim:not(.is-focus),
+.arcana-portrait__svg[data-focus] .arcana-portrait__gloed:not(.is-focus) {
+  opacity: 0.13;
+}
+
+.arcana-portrait__svg[data-focus] .arcana-portrait__label:not(.is-focus) {
+  opacity: 0.28;
+}
+
+.arcana-portrait__dim,
+.arcana-portrait__gloed,
+.arcana-portrait__label {
+  transition: opacity var(--dur-snel) var(--ease-standaard);
+}
+
+/* De intekening: elke pluim groeit vanuit de kern, licht verschoven per
+   dimensie; de labels komen daarna. De eindstand is de basisstand, dus
+   zonder animatie staat het beeld er gewoon. */
+@keyframes arcana-portret-groei {
+  from {
+    transform: scale(0.42);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes arcana-portret-laat {
+  0%,
+  55% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .arcana-portrait__dim,
+  .arcana-portrait__gloed {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    animation: arcana-portret-groei var(--dur-verhaal) var(--ease-uit) both;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
+
+  .arcana-portrait__labels,
+  .arcana-portrait__ringetje,
+  .arcana-portrait__pill {
+    animation: arcana-portret-laat var(--dur-verhaal) linear both;
+  }
+}
+
+@media print {
+  .arcana-portrait__svg {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    max-width: 150mm;
+    break-inside: avoid;
+  }
+
+  /* mix-blend-mode is in de printpijplijn onvoorspelbaar; de gloed is decoratief. */
+  .arcana-portrait__glows {
+    display: none;
+  }
+
+  .arcana-portrait__dim,
+  .arcana-portrait__gloed,
+  .arcana-portrait__labels,
+  .arcana-portrait__ringetje,
+  .arcana-portrait__pill {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

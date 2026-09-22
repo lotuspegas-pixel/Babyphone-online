@@ -1,7 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 
 import { DIMENSION_FAMILIES, MAIN_DIMENSIONS } from '../data/arcanaDimensions';
-import { resolveTheme, subscribeTheme } from '../lib/arcanaTheme';
+import {
+  calibrationPoint,
+  plume,
+  portraitLayout,
+  sectorLine,
+  type PortraitLayout,
+  type PortraitMode,
+} from '../lib/arcanaPortraitGeometry';
 import type { MainDimensionId, MainDimensionScore } from '../types/arcana';
 
 interface Props {
@@ -13,43 +20,12 @@ interface Props {
   profileName: string;
 }
 
-interface PortraitDimension {
-  id: MainDimensionId;
-  label: string;
-  meaning: string;
-  color: string;
-  score: number;
-  pitfall: boolean;
-}
-
-interface PortraitCore {
-  archetypeName: string;
-  archetypeScore: number;
-  profileName: string;
-}
-
-/** Kleuren uit de cascade, één keer gelezen bij het opbouwen van de motor. */
-interface PortraitPalette {
-  ground: string;
-  bed: string;
-  ink: string;
-  inkSoft: string;
-  dark: boolean;
-}
-
-interface PortraitEngine {
-  setFocus: (index: number | null) => void;
-  replay: () => void;
-  destroy: () => void;
-}
-
 /**
  * Welke dimensie het open ringetje krijgt: de hoogst scorende hoofddimensie.
- * Dat is geen willekeurige keuze — in dit model is de sterkst uitgesproken kant
- * ook de kant die het vaakst doorschiet (dezelfde sterkte/valkuil-dualiteit die
- * de rapportteksten hanteren). Bij gelijke stand wint de eerste in de vaste
- * volgorde van MAIN_DIMENSIONS, zodat dezelfde antwoorden altijd hetzelfde
- * beeld geven.
+ * In dit model is de sterkst uitgesproken kant ook de kant die het vaakst
+ * doorschiet (dezelfde sterkte/valkuil-dualiteit die de rapportteksten
+ * hanteren). Bij gelijke stand wint de eerste in de vaste volgorde van
+ * MAIN_DIMENSIONS, zodat dezelfde antwoorden altijd hetzelfde beeld geven.
  */
 function pitfallIndex(scores: Record<MainDimensionId, MainDimensionScore>): number {
   let best = 0;
@@ -59,573 +35,82 @@ function pitfallIndex(scores: Record<MainDimensionId, MainDimensionScore>): numb
   return best;
 }
 
-/* ------------------------------------------------------------------
-   HET PORTRET — deterministisch getekend uit de twaalf hoofddimensies.
-   Geen Math.random(): elke vorm-eigenschap komt uit een concreet getal.
+const MAX_WIDTH = 880;
+const MIN_WIDTH = 260;
+const COMPACT_BELOW = 620;
 
-     plaats in de cirkel    <- index van de dimensie (1 = boven, dan met de klok mee)
-     lengte van de pluim    <- de score          r = r0 + (score/100) * (rMax - r0)
-     kleur                  <- de index          (vaste reeks indigo -> karmijn)
-     buiging van de schacht <- (score - 50)/50   positief = met de klok mee
-     aantal baarden         <- |score - 50|/50   11 bij 50, 26 bij 0 of 100
-     schuinte van de baard  <- |score - 50|/50   38 graden bij 50, 53 bij 0 of 100
-     lijndikte              <- |score - 50|/50   dunner bij het midden, zwaarder aan de randen
-     baardvariatie          <- de index j van de baard (sinus), niet uit toeval
+/** Geschatte breedte van monospace-tekst op 11 px, voor de ijkbolletjes. */
+function pillWidth(text: string, fontSize: number): number {
+  return text.length * fontSize * 0.62 + 14;
+}
 
-   Zelfde antwoorden -> zelfde scores -> exact hetzelfde beeld. Dat is een
-   harde projectregel, geen toevallige eigenschap van deze implementatie.
-------------------------------------------------------------------- */
-function createEngine(
-  canvas: HTMLCanvasElement,
-  field: HTMLElement,
-  dims: PortraitDimension[],
-  core: PortraitCore,
-  palette: PortraitPalette,
-  animate: boolean,
-): PortraitEngine | null {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return null;
+interface PillProps {
+  layout: PortraitLayout;
+  r: number;
+  text: string;
+  strong: boolean;
+}
 
-  const TAU = Math.PI * 2;
-  const SECTOR = TAU / 12;
-  const HALF = SECTOR / 2;
-  const GROND = palette.ground;
-  const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
-  const LEES = "'Inter', system-ui, -apple-system, sans-serif";
-  const TITEL = "'Cormorant Garamond', ui-serif, Georgia, serif";
-
-  function rgba(hex: string, a: number) {
-    const n = parseInt(hex.slice(1), 16);
-    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
-  }
-  // Inkt en inkt-zacht uit de tokens (--ink / --ink-soft), dus ook goed in donker.
-  function inkt(a: number) {
-    return rgba(palette.ink, a);
-  }
-  function zacht(a: number) {
-    return rgba(palette.inkSoft, a);
-  }
-  function klem(v: number, a: number, b: number) {
-    return v < a ? a : v > b ? b : v;
-  }
-  function uit(x: number) {
-    return 1 - Math.pow(1 - x, 3);
-  }
-
-  let W = 0;
-  let H = 0;
-  let cx = 0;
-  let cy = 0;
-  let rMax = 0;
-  let r0 = 0;
-  let rMid = 0;
-  let modus: 'full' | 'compact' = 'full';
-  let maat = 1;
-
-  function meetkunde() {
-    cx = W / 2;
-    cy = H / 2;
-    const padX = modus === 'full' ? 120 : 34;
-    const padY = modus === 'full' ? 64 : 52;
-    rMax = Math.max(40, Math.min(W / 2 - padX, H / 2 - padY));
-    r0 = rMax * (modus === 'full' ? 0.4 : 0.46);
-    rMid = r0 + (rMax - r0) * 0.5;
-    maat = rMax / 310;
-  }
-
-  function hoek(i: number) {
-    return -Math.PI / 2 + i * SECTOR;
-  }
-  function straal(score: number) {
-    return r0 + (score / 100) * (rMax - r0);
-  }
-
-  /** Punt op de schacht van pluim i, t in [0,1]. */
-  function punt(i: number, t: number, d: number, rt: number): [number, number, number] {
-    const a = hoek(i) + d * 0.235 * t * t;
-    const r = r0 + (rt - r0) * t;
-    return [cx + Math.cos(a) * r, cy + Math.sin(a) * r, r];
-  }
-
-  function waas(i: number, zicht: number, alfa: number) {
-    const D = dims[i];
-    const d = (D.score - 50) / 50;
-    const rt = straal(D.score);
-    const p = punt(i, 0.52 * zicht, d, rt);
-    const rad = (rt - r0) * 0.6 * zicht + r0 * 0.2;
-    if (rad < 2) return;
-    const g = ctx!.createRadialGradient(p[0], p[1], 0, p[0], p[1], rad);
-    g.addColorStop(0, rgba(D.color, 0.085 * alfa));
-    g.addColorStop(1, rgba(D.color, 0));
-    ctx!.fillStyle = g;
-    ctx!.beginPath();
-    ctx!.arc(p[0], p[1], rad, 0, TAU);
-    ctx!.fill();
-  }
-
-  function pluim(i: number, zicht: number, alfa: number) {
-    const D = dims[i];
-    const s = D.score;
-    const d = (s - 50) / 50;
-    const ad = Math.abs(d);
-    const rt = straal(s);
-    const nb = Math.round(11 + ad * 15);
-    const theta = ((38 + ad * 15) * Math.PI) / 180;
-    const Lmax = (rMax - r0) * 0.4;
-    const lijn = Math.max(0.55, (0.72 + ad * 0.85) * maat);
-    ctx!.lineCap = 'round';
-
-    for (let j = 0; j < nb; j += 1) {
-      const t = 0.05 + 0.93 * (j / (nb - 1));
-      if (t > zicht) break;
-      const w = Math.pow(Math.sin(Math.PI * Math.pow(t, 0.72)), 0.9);
-      const p = punt(i, t, d, rt);
-      const p2 = punt(i, Math.min(t + 0.02, 1), d, rt);
-      let tx = p2[0] - p[0];
-      let ty = p2[1] - p[1];
-      const tl = Math.sqrt(tx * tx + ty * ty) || 1;
-      tx /= tl;
-      ty /= tl;
-      const nx = -ty;
-      const ny = tx;
-      const grens = (p[2] * Math.sin(HALF) * 0.88) / Math.cos(theta);
-      const L = Math.min(Lmax * w, grens);
-      if (L < 1) continue;
-      const variatie = 0.8 + 0.2 * Math.abs(Math.sin(j * 1.9 + i));
-      ctx!.strokeStyle = rgba(D.color, (0.26 + 0.4 * w) * variatie * alfa);
-      ctx!.lineWidth = lijn;
-      for (let k = 0; k < 2; k += 1) {
-        const sgn = k ? -1 : 1;
-        const Ls = L * (1 + 0.14 * d * sgn); // lichte asymmetrie uit de score
-        const dx = nx * sgn * Math.cos(theta) - tx * Math.sin(theta);
-        const dy = ny * sgn * Math.cos(theta) - ty * Math.sin(theta);
-        ctx!.beginPath();
-        ctx!.moveTo(p[0], p[1]);
-        ctx!.quadraticCurveTo(
-          p[0] + dx * Ls * 0.55 - tx * Ls * 0.14,
-          p[1] + dy * Ls * 0.55 - ty * Ls * 0.14,
-          p[0] + dx * Ls,
-          p[1] + dy * Ls,
-        );
-        ctx!.stroke();
-      }
-    }
-
-    const K = 46;
-    let vorig = punt(i, 0, d, rt);
-    const basis = (1.5 + ad * 1.8) * maat;
-    ctx!.strokeStyle = rgba(D.color, alfa);
-    for (let m = 1; m <= K; m += 1) {
-      let tt = m / K;
-      let laatste = false;
-      if (tt >= zicht) {
-        tt = zicht;
-        laatste = true;
-      }
-      const q = punt(i, tt, d, rt);
-      ctx!.lineWidth = Math.max(0.7, basis * (1 - 0.7 * tt));
-      ctx!.beginPath();
-      ctx!.moveTo(vorig[0], vorig[1]);
-      ctx!.lineTo(q[0], q[1]);
-      ctx!.stroke();
-      vorig = q;
-      if (laatste) break;
-    }
-  }
-
-  function bus(x: number, y: number, b: number, h: number, r: number) {
-    ctx!.beginPath();
-    ctx!.moveTo(x + r, y);
-    ctx!.lineTo(x + b - r, y);
-    ctx!.quadraticCurveTo(x + b, y, x + b, y + r);
-    ctx!.lineTo(x + b, y + h - r);
-    ctx!.quadraticCurveTo(x + b, y + h, x + b - r, y + h);
-    ctx!.lineTo(x + r, y + h);
-    ctx!.quadraticCurveTo(x, y + h, x, y + h - r);
-    ctx!.lineTo(x, y + r);
-    ctx!.quadraticCurveTo(x, y, x + r, y);
-    ctx!.closePath();
-  }
-
-  /** Handmatige letterspatiëring; canvas kent geen letter-spacing overal. */
-  function spatie(tekst: string, x: number, y: number, sp: number, uitlijn: 'left' | 'center' | 'right') {
-    const c = String(tekst).split('');
-    let totaal = 0;
-    for (let i = 0; i < c.length; i += 1) totaal += ctx!.measureText(c[i]).width + sp;
-    totaal -= sp;
-    let sx = uitlijn === 'center' ? x - totaal / 2 : uitlijn === 'right' ? x - totaal : x;
-    const bewaar = ctx!.textAlign;
-    ctx!.textAlign = 'left';
-    for (let i = 0; i < c.length; i += 1) {
-      ctx!.fillText(c[i], sx, y);
-      sx += ctx!.measureText(c[i]).width + sp;
-    }
-    ctx!.textAlign = bewaar;
-  }
-
-  function breek(tekst: string, maxB: number) {
-    const woorden = tekst.split(' ');
-    const regels: string[] = [];
-    let nu = '';
-    for (let i = 0; i < woorden.length; i += 1) {
-      const proef = nu ? `${nu} ${woorden[i]}` : woorden[i];
-      if (nu && ctx!.measureText(proef).width > maxB) {
-        regels.push(nu);
-        nu = woorden[i];
-      } else nu = proef;
-    }
-    if (nu) regels.push(nu);
-    return regels;
-  }
-
-  function ijkbus(tekst: string, r: number, sterk: boolean, alfa: number) {
-    const a = (165 * Math.PI) / 180;
-    const x = cx + Math.cos(a) * r;
-    const y = cy + Math.sin(a) * r;
-    ctx!.font = `500 ${modus === 'full' ? 11 : 10}px ${MONO}`;
-    const b = ctx!.measureText(tekst).width + 14;
-    const h = modus === 'full' ? 19 : 17;
-    ctx!.fillStyle = rgba(GROND, 0.94 * alfa);
-    bus(x - b / 2, y - h / 2, b, h, h / 2);
-    ctx!.fill();
-    ctx!.strokeStyle = inkt((sterk ? 0.36 : 0.15) * alfa);
-    ctx!.lineWidth = 1;
-    ctx!.stroke();
-    ctx!.fillStyle = sterk ? inkt(alfa) : zacht(0.95 * alfa);
-    ctx!.textAlign = 'center';
-    ctx!.textBaseline = 'middle';
-    ctx!.fillText(tekst, x, y + 0.5);
-  }
-
-  function etiket(i: number, alfa: number) {
-    const D = dims[i];
-    const a = hoek(i);
-    const lr = rMax + (modus === 'full' ? 21 : 16);
-    const px = cx + Math.cos(a) * lr;
-    const py = cy + Math.sin(a) * lr;
-    ctx!.textBaseline = 'alphabetic';
-
-    if (modus !== 'full') {
-      ctx!.font = `500 ${klem(11.5 * (rMax / 118), 11, 15).toFixed(1)}px ${MONO}`;
-      ctx!.textAlign = 'center';
-      ctx!.textBaseline = 'middle';
-      ctx!.fillStyle = inkt(0.92 * alfa);
-      ctx!.fillText(String(D.score), px, py);
-      return;
-    }
-    const c = Math.cos(a);
-    const uitlijn: 'left' | 'center' | 'right' = c > 0.25 ? 'left' : c < -0.25 ? 'right' : 'center';
-    ctx!.font = `400 12.5px ${LEES}`;
-    const regels = breek(D.label, 94);
-    const lh = 15.5;
-    const hoogte = regels.length * lh + 17 + (D.pitfall ? 13 : 0);
-    let ty: number;
-    if (uitlijn === 'center') ty = Math.sin(a) < 0 ? py - hoogte + lh - 3 : py + lh + 3;
-    else ty = py - hoogte / 2 + lh - 3;
-    ctx!.textAlign = uitlijn;
-    ctx!.fillStyle = zacht(0.97 * alfa);
-    for (let j = 0; j < regels.length; j += 1) {
-      ctx!.fillText(regels[j], px, ty);
-      ty += lh;
-    }
-    ctx!.font = `500 13.5px ${MONO}`;
-    ctx!.fillStyle = inkt(alfa);
-    ctx!.fillText(String(D.score), px, ty + 1);
-    if (D.pitfall) {
-      ctx!.font = `400 9.5px ${MONO}`;
-      ctx!.fillStyle = zacht(0.9 * alfa);
-      spatie('LET HIER OP', px, ty + 14, 0.7, uitlijn);
-    }
-  }
-
-  function kern(alfa: number) {
-    ctx!.beginPath();
-    ctx!.arc(cx, cy, r0, 0, TAU);
-    ctx!.fillStyle = GROND;
-    ctx!.fill();
-    ctx!.strokeStyle = inkt(0.3 * alfa);
-    ctx!.lineWidth = 1.1;
-    ctx!.stroke();
-    ctx!.beginPath();
-    ctx!.arc(cx, cy, r0 * 0.9, 0, TAU);
-    ctx!.strokeStyle = inkt(0.09 * alfa);
-    ctx!.lineWidth = 1;
-    ctx!.stroke();
-
-    ctx!.textAlign = 'center';
-    ctx!.textBaseline = 'alphabetic';
-    if (modus === 'full') {
-      const g = Math.min(1, r0 / 124);
-      ctx!.font = `500 ${10 * g}px ${MONO}`;
-      ctx!.fillStyle = zacht(0.92 * alfa);
-      spatie('HOOFDPROFIEL', cx, cy - 46 * g, 2.1 * g, 'center');
-      ctx!.font = `500 ${33 * g}px ${TITEL}`;
-      ctx!.fillStyle = inkt(alfa);
-      ctx!.fillText(core.archetypeName, cx, cy - 10 * g);
-      ctx!.font = `500 ${27 * g}px ${MONO}`;
-      ctx!.fillStyle = inkt(alfa);
-      ctx!.fillText(String(core.archetypeScore), cx, cy + 25 * g);
-      if (core.profileName) {
-        ctx!.strokeStyle = inkt(0.18 * alfa);
-        ctx!.lineWidth = 1;
-        ctx!.beginPath();
-        ctx!.moveTo(cx - 28 * g, cy + 40 * g);
-        ctx!.lineTo(cx + 28 * g, cy + 40 * g);
-        ctx!.stroke();
-        ctx!.font = `400 ${12 * g}px ${LEES}`;
-        ctx!.fillStyle = zacht(0.95 * alfa);
-        ctx!.fillText(core.profileName, cx, cy + 59 * g);
-      }
-    } else {
-      const k = klem(r0 / 60, 0.55, 1.7);
-      ctx!.font = `500 ${18 * k}px ${TITEL}`;
-      ctx!.fillStyle = inkt(alfa);
-      ctx!.fillText(core.archetypeName, cx, cy - 1 * k);
-      ctx!.font = `500 ${16 * k}px ${MONO}`;
-      ctx!.fillText(String(core.archetypeScore), cx, cy + 21 * k);
-    }
-  }
-
-  let focus: number | null = null;
-  let p = 1;
-  let start = 0;
-  let bezig = false;
-  let frame = 0;
-  const rustig =
-    typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function zichtbaar(i: number) {
-    if (p >= 1) return 1;
-    return uit(klem((p - (i / 12) * 0.42) / 0.5, 0, 1));
-  }
-
-  function teken() {
-    if (!W || !H) return;
-    const laat = p >= 1 ? 1 : klem((p - 0.55) / 0.35, 0, 1);
-    const kernA = p >= 1 ? 1 : klem(p / 0.2, 0, 1);
-    let i: number;
-
-    ctx!.fillStyle = GROND;
-    ctx!.fillRect(0, 0, W, H);
-    /* Warm papierbed onder de rozet; dooft uit voor de rand, zodat het doek
-       naadloos in de pagina overgaat en het beeld ook los blijft kloppen. */
-    const vg = ctx!.createRadialGradient(cx, cy, 0, cx, cy, rMax * 1.24);
-    vg.addColorStop(0.0, rgba(palette.bed, 0.92));
-    vg.addColorStop(0.58, rgba(palette.bed, 0.8));
-    vg.addColorStop(0.86, rgba(palette.bed, 0.42));
-    vg.addColorStop(1.0, rgba(palette.bed, 0));
-    ctx!.fillStyle = vg;
-    ctx!.fillRect(0, 0, W, H);
-
-    /* Haarfijne sectorgrenzen: het raster waarop de twaalf staan. */
-    ctx!.lineWidth = 1;
-    for (i = 0; i < 12; i += 1) {
-      const a = hoek(i) + HALF;
-      ctx!.strokeStyle = inkt(0.06 * laat);
-      ctx!.beginPath();
-      ctx!.moveTo(cx + Math.cos(a) * r0 * 1.02, cy + Math.sin(a) * r0 * 1.02);
-      ctx!.lineTo(cx + Math.cos(a) * rMax, cy + Math.sin(a) * rMax);
-      ctx!.stroke();
-    }
-
-    const alfa = (n: number) => (focus === null || focus === n ? 1 : 0.13);
-
-    // Op licht verdiept multiply de gloed; op donker zou hij hem uitdoven.
-    ctx!.globalCompositeOperation = palette.dark ? 'screen' : 'multiply';
-    for (i = 0; i < 12; i += 1) waas(i, zichtbaar(i), alfa(i));
-    ctx!.globalCompositeOperation = 'source-over';
-    for (i = 0; i < 12; i += 1) pluim(i, zichtbaar(i), alfa(i));
-
-    /* IJkpunten: 100 als buitencirkel, 50 als stippelring dwars door het beeld. */
-    ctx!.setLineDash([]);
-    ctx!.strokeStyle = inkt(0.14 * laat);
-    ctx!.lineWidth = 1;
-    ctx!.beginPath();
-    ctx!.arc(cx, cy, rMax, 0, TAU);
-    ctx!.stroke();
-    ctx!.strokeStyle = rgba(GROND, 0.66 * laat);
-    ctx!.lineWidth = 4.5;
-    ctx!.beginPath();
-    ctx!.arc(cx, cy, rMid, 0, TAU);
-    ctx!.stroke();
-    ctx!.strokeStyle = inkt(0.48 * laat);
-    ctx!.lineWidth = 1.1;
-    ctx!.setLineDash([5 * maat + 2, 6 * maat + 2]);
-    ctx!.beginPath();
-    ctx!.arc(cx, cy, rMid, 0, TAU);
-    ctx!.stroke();
-    ctx!.setLineDash([]);
-
-    kern(kernA);
-
-    /* IJkbolletjes ná de kern: '0' ligt precies op de kernrand, en de kern
-       wordt dekkend gevuld — eerst tekenen zou dat bolletje halveren. */
-    if (modus === 'full') {
-      ijkbus('0', r0, false, laat);
-      ijkbus('100', rMax, false, laat);
-    }
-    ijkbus('50', rMid, true, laat);
-
-    /* Het aandachtspunt: open ring op de top van de hoogste pluim. */
-    for (i = 0; i < 12; i += 1) {
-      if (!dims[i].pitfall) continue;
-      if (zichtbaar(i) < 0.98) break;
-      const dd = (dims[i].score - 50) / 50;
-      const tip = punt(i, 1, dd, straal(dims[i].score));
-      const rr = modus === 'full' ? 8.5 : 5.5;
-      ctx!.strokeStyle = rgba(GROND, 0.9 * alfa(i));
-      ctx!.lineWidth = 3.4;
-      ctx!.beginPath();
-      ctx!.arc(tip[0], tip[1], rr, 0, TAU);
-      ctx!.stroke();
-      ctx!.strokeStyle = inkt(0.82 * alfa(i));
-      ctx!.lineWidth = 1.3;
-      ctx!.beginPath();
-      ctx!.arc(tip[0], tip[1], rr, 0, TAU);
-      ctx!.stroke();
-      break;
-    }
-
-    for (i = 0; i < 12; i += 1) etiket(i, laat * (focus === null || focus === i ? 1 : 0.28));
-  }
-
-  function pas() {
-    const b = Math.max(260, Math.min(field.clientWidth || 320, 880));
-    if (Math.round(b) === W) {
-      teken();
-      return;
-    }
-    W = Math.round(b);
-    // Breed genoeg voor buitenlabels? Dan mag het doek platter dan vierkant:
-    // de zijkanten hebben meer marge nodig (padX 120) dan boven en onder
-    // (padY 64), dus 0.88 scheelt dode ruimte zonder de rozet te verkleinen.
-    // Smal blijft het vierkant, anders krimpt de cirkel wél.
-    modus = W >= 620 ? 'full' : 'compact';
-    H = modus === 'full' ? Math.round(W * 0.88) : W;
-    canvas.style.width = `${W}px`;
-    canvas.style.height = `${H}px`;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
-    canvas.width = Math.round(W * dpr);
-    canvas.height = Math.round(H * dpr);
-    ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-    meetkunde();
-    teken();
-  }
-
-  function tik(nu: number) {
-    p = Math.min(1, (nu - start) / 1500);
-    teken();
-    if (p < 1) frame = requestAnimationFrame(tik);
-    else bezig = false;
-  }
-
-  function speel(force = false) {
-    // Bij een themawissel wordt de motor opnieuw opgebouwd; dan mag de
-    // intekenanimatie niet nog een keer lopen — alleen op verzoek (force).
-    if ((!animate && !force) || rustig || document.visibilityState !== 'visible') {
-      p = 1;
-      teken();
-      return;
-    }
-    p = 0;
-    start = performance.now();
-    if (!bezig) {
-      bezig = true;
-      frame = requestAnimationFrame(tik);
-    }
-  }
-
-  /* Printen: de intekening mag nooit halverwege op papier belanden, en de
-     printbreedte verschilt van de schermbreedte. Beide vóór het pagineren
-     afhandelen. */
-  function voorPrint() {
-    p = 1;
-    bezig = false;
-    cancelAnimationFrame(frame);
-    pas();
-  }
-  window.addEventListener('beforeprint', voorPrint);
-
-  /* Beide signalen, bewust. De ResizeObserver vangt het geval waarin de kaart
-     van breedte verandert zonder dat het venster meebeweegt; het resize-event
-     vangt het omgekeerde, én omgevingen waarin de observer niet afgaat (zoals
-     apparaat-emulatie in devtools). pas() doet niets als de breedte gelijk is
-     gebleven, dus dubbel luisteren kost niets. */
-  const observer =
-    typeof ResizeObserver === 'function'
-      ? new ResizeObserver(() => {
-          pas();
-        })
-      : null;
-  observer?.observe(field);
-  window.addEventListener('resize', pas);
-
-  pas();
-  speel();
-  if (document.fonts?.ready) {
-    void document.fonts.ready.then(() => {
-      teken();
-    });
-  }
-  // Vangnet: als een rAF-lus wordt gesmoord (achtergrondtab), staat het beeld
-  // alsnog compleet in plaats van half getekend.
-  const vangnet = window.setTimeout(() => {
-    if (p < 1) {
-      p = 1;
-      teken();
-    }
-  }, 3000);
-
-  return {
-    setFocus(index) {
-      focus = index;
-      teken();
-    },
-    replay: () => speel(true),
-    destroy() {
-      cancelAnimationFrame(frame);
-      window.clearTimeout(vangnet);
-      window.removeEventListener('beforeprint', voorPrint);
-      window.removeEventListener('resize', pas);
-      observer?.disconnect();
-    },
-  };
+function CalibrationPill({ layout, r, text, strong }: PillProps) {
+  const fontSize = layout.mode === 'full' ? 11 : 10;
+  const h = layout.mode === 'full' ? 19 : 17;
+  const w = pillWidth(text, fontSize);
+  const p = calibrationPoint(layout, r);
+  return (
+    <g className={`arcana-portrait__pill${strong ? ' is-strong' : ''}`} aria-hidden="true">
+      <rect x={p.x - w / 2} y={p.y - h / 2} width={w} height={h} rx={h / 2} />
+      <text x={p.x} y={p.y + 0.5} textAnchor="middle" dominantBaseline="middle" fontSize={fontSize}>
+        {text}
+      </text>
+    </g>
+  );
 }
 
 /**
- * Leest een kleurtoken uit de cascade. De canvas-tekening kan niet zelf naar
- * CSS-variabelen verwijzen, dus de kleuren worden bij het opbouwen van de
- * motor één keer opgehaald en bij een themawissel opnieuw. De tokens zijn
- * kale hexwaarden in tokens.css; de terugval is er alleen voor omgevingen
- * zonder stylesheet (tests).
- */
-function readToken(name: string, fallback: string): string {
-  if (typeof window === 'undefined') return fallback;
-  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  return /^#[0-9a-f]{6}$/i.test(value) ? value : fallback;
-}
-
-/**
- * Het portret: de twaalf hoofddimensies als één getekend beeld, met daaronder
- * de sleutel waarmee het af te lezen is. Zonder die sleutel is het decoratie.
+ * Het portret als SVG: de twaalf hoofddimensies als pluimen rond een kern.
  *
- * De twaalf waarden staan altijd ook als tekst op de pagina (de lijst hieronder
- * is de tekstversie van het beeld), zodat het rapport zonder canvas, zonder
- * JavaScript en met een schermlezer volledig blijft. Naast elke kleur staat
- * het familiesymbool, zodat kleur nooit de enige drager is.
+ * Waarom SVG en geen canvas meer: het print als vector (op papier bleef het
+ * canvas op ~150 dpi steken), de scores zijn echte, selecteerbare tekst, het
+ * schaalt met de browserzoom, en de kleuren komen rechtstreeks uit de tokens
+ * — de donkere modus vraagt dus geen hertekening. De geometrie zelf staat in
+ * src/lib/arcanaPortraitGeometry.ts en is een pure functie van de scores.
+ *
+ * De twaalf waarden staan altijd ook als tekst op de pagina (de lijst onder het
+ * beeld), zodat het rapport zonder SVG-ondersteuning, zonder JavaScript en met
+ * een schermlezer volledig blijft. Naast elke kleur staat het familiesymbool,
+ * zodat kleur nooit de enige drager is.
  */
 export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileName }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fieldRef = useRef<HTMLDivElement | null>(null);
-  const engineRef = useRef<PortraitEngine | null>(null);
+  const uid = useId();
+  const [width, setWidth] = useState(() =>
+    typeof window === 'undefined' ? MAX_WIDTH : Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, window.innerWidth - 80)),
+  );
+  const [hover, setHover] = useState<number | null>(null);
   const [locked, setLocked] = useState<number | null>(null);
-  // Loopt op bij elke themawissel, zodat de motor met de nieuwe kleuren
-  // opnieuw wordt opgebouwd — zonder de intekenanimatie te herhalen.
-  const [themeTick, setThemeTick] = useState(0);
+  // Loopt op bij "Teken opnieuw": de SVG wordt opnieuw gemonteerd en de
+  // CSS-animatie start opnieuw.
+  const [replay, setReplay] = useState(0);
 
-  useEffect(() => subscribeTheme(() => setThemeTick((tick) => tick + 1)), []);
+  useEffect(() => {
+    const field = fieldRef.current;
+    if (!field) return;
+    const meet = () => setWidth(Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, field.clientWidth || MAX_WIDTH)));
+    meet();
+    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(meet) : null;
+    observer?.observe(field);
+    window.addEventListener('resize', meet);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', meet);
+    };
+  }, []);
 
+  const mode: PortraitMode = width >= COMPACT_BELOW ? 'full' : 'compact';
+  const layout = portraitLayout(width, mode);
   const pitfall = pitfallIndex(scores);
+  const focus = locked ?? hover;
+
   const rows = MAIN_DIMENSIONS.map((dim, i) => ({
     id: dim.id,
     label: dim.label,
@@ -636,52 +121,18 @@ export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileN
     score: scores[dim.id].score,
     pitfall: i === pitfall,
   }));
+  const plumes = rows.map((row, i) => plume(layout, i, row.score, row.label));
 
-  // Alleen de waarden die het beeld bepalen in de sleutel, zodat de tekening
-  // niet bij elke render opnieuw wordt opgebouwd.
-  const signature = rows.map((d) => `${d.id}:${d.score}`).join('|');
+  function toggleLock(i: number) {
+    setLocked((cur) => (cur === i ? null : i));
+  }
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const field = fieldRef.current;
-    if (!canvas || !field) return;
-    const dims: PortraitDimension[] = rows.map((row) => ({
-      id: row.id,
-      label: row.label,
-      meaning: row.meaning,
-      color: readToken(row.token, '#574f47'),
-      score: row.score,
-      pitfall: row.pitfall,
-    }));
-    const palette: PortraitPalette = {
-      ground: readToken('--bg', '#fbf8f3'),
-      bed: readToken('--bg-deep', '#f4eee4'),
-      ink: readToken('--ink', '#292420'),
-      inkSoft: readToken('--ink-soft', '#574f47'),
-      dark: resolveTheme() === 'dark',
-    };
-    const engine = createEngine(
-      canvas,
-      field,
-      dims,
-      { archetypeName, archetypeScore, profileName },
-      palette,
-      themeTick === 0,
-    );
-    engineRef.current = engine;
-    return () => {
-      engine?.destroy();
-      engineRef.current = null;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signature, archetypeName, archetypeScore, profileName, themeTick]);
-
-  useEffect(() => {
-    engineRef.current?.setFocus(locked);
-  }, [locked]);
-
-  function hover(index: number | null) {
-    if (locked === null) engineRef.current?.setFocus(index);
+  function onKey(e: KeyboardEvent<SVGGElement>, i: number) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleLock(i);
+    }
+    if (e.key === 'Escape') setLocked(null);
   }
 
   const beschrijving =
@@ -690,16 +141,202 @@ export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileN
     `als de score van één gemeten kant, met een gestippelde ring op 50 als middenlijn. ` +
     `Alle twaalf waarden staan als tekst onder het beeld.`;
 
+  const { cx, cy, r0, rMid, rMax, maat } = layout;
+  const g = Math.min(1, r0 / 124);
+  const k = Math.max(0.55, Math.min(1.7, r0 / 60));
+  const titleId = `${uid}-titel`;
+  const descId = `${uid}-uitleg`;
+
   return (
     <div className="arcana-portrait">
       <div className="arcana-portrait__field" ref={fieldRef}>
-        <canvas
-          ref={canvasRef}
-          className="arcana-portrait__canvas"
+        <svg
+          key={replay}
+          className="arcana-portrait__svg"
+          viewBox={`0 0 ${layout.width} ${layout.height}`}
+          width="100%"
           role="img"
-          aria-describedby="arcana-portrait-list"
-          aria-label={beschrijving}
-        />
+          aria-labelledby={`${titleId} ${descId}`}
+          data-mode={mode}
+          data-focus={focus ?? undefined}
+        >
+          <title id={titleId}>Je portret in twaalf pluimen</title>
+          <desc id={descId}>{beschrijving}</desc>
+          <defs>
+            <radialGradient id={`${uid}-bed`} gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={rMax * 1.24}>
+              <stop offset="0" className="arcana-portrait__bed-stop" stopOpacity="0.92" />
+              <stop offset="0.58" className="arcana-portrait__bed-stop" stopOpacity="0.8" />
+              <stop offset="0.86" className="arcana-portrait__bed-stop" stopOpacity="0.42" />
+              <stop offset="1" className="arcana-portrait__bed-stop" stopOpacity="0" />
+            </radialGradient>
+            {plumes.map((p, i) => (
+              <radialGradient
+                key={rows[i].id}
+                id={`${uid}-gloed-${i}`}
+                gradientUnits="userSpaceOnUse"
+                cx={p.glow.x}
+                cy={p.glow.y}
+                r={p.glow.r}
+                style={{ '--kleur': `var(${rows[i].token})` } as CSSProperties}
+              >
+                <stop offset="0" className="arcana-portrait__gloed-stop" stopOpacity="0.085" />
+                <stop offset="1" className="arcana-portrait__gloed-stop" stopOpacity="0" />
+              </radialGradient>
+            ))}
+          </defs>
+
+          {/* Papier: de grond, met een warm bed dat vóór de rand uitdooft. */}
+          <rect className="arcana-portrait__grond" x="0" y="0" width={layout.width} height={layout.height} />
+          <rect x="0" y="0" width={layout.width} height={layout.height} fill={`url(#${uid}-bed)`} />
+
+          {/* Het raster waarop de twaalf staan. */}
+          <g className="arcana-portrait__raster" aria-hidden="true">
+            {plumes.map((_, i) => {
+              const l = sectorLine(layout, i);
+              return <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} />;
+            })}
+          </g>
+
+          {/* Gloed onder de pluimen; multiply op licht, screen op donker (CSS). */}
+          <g className="arcana-portrait__glows" aria-hidden="true">
+            {plumes.map((p, i) => (
+              <circle
+                key={rows[i].id}
+                className={`arcana-portrait__gloed${focus === i ? ' is-focus' : ''}`}
+                style={{ '--i': i } as CSSProperties}
+                cx={p.glow.x}
+                cy={p.glow.y}
+                r={p.glow.r}
+                fill={`url(#${uid}-gloed-${i})`}
+              />
+            ))}
+          </g>
+
+          {/* De twaalf pluimen: elk een groep die te focussen is. */}
+          {plumes.map((p, i) => (
+            <g
+              key={rows[i].id}
+              className={`arcana-portrait__dim${focus === i ? ' is-focus' : ''}${rows[i].pitfall ? ' is-pitfall' : ''}`}
+              style={{ '--kleur': `var(${rows[i].token})`, '--i': i } as CSSProperties}
+              data-dim={rows[i].id}
+              tabIndex={0}
+              role="img"
+              aria-label={`${rows[i].label}, score ${rows[i].score} van 100`}
+              onMouseEnter={() => setHover(i)}
+              onMouseLeave={() => setHover(null)}
+              onFocus={() => setHover(i)}
+              onBlur={() => setHover(null)}
+              onClick={() => toggleLock(i)}
+              onKeyDown={(e) => onKey(e, i)}
+            >
+              <title>{`${rows[i].symbol} ${rows[i].label} — ${rows[i].score}`}</title>
+              {p.vanes.map((v) => (
+                <path key={v.alpha} className="arcana-portrait__vaan" d={v.d} strokeOpacity={v.alpha} strokeWidth={p.vaneWidth} />
+              ))}
+              <path className="arcana-portrait__schacht" d={p.shaftPath} />
+            </g>
+          ))}
+
+          {/* IJkpunten: 100 als buitencirkel, 50 als stippelring dwars door het beeld. */}
+          <g className="arcana-portrait__ringen" aria-hidden="true">
+            <circle className="arcana-portrait__ring-buiten" cx={cx} cy={cy} r={rMax} />
+            <circle className="arcana-portrait__ring-halo" cx={cx} cy={cy} r={rMid} />
+            <circle
+              className="arcana-portrait__ring-midden"
+              cx={cx}
+              cy={cy}
+              r={rMid}
+              strokeDasharray={`${5 * maat + 2} ${6 * maat + 2}`}
+            />
+          </g>
+
+          {/* De kern met het hoofdprofiel. */}
+          <g className="arcana-portrait__kern" aria-hidden="true">
+            <circle className="arcana-portrait__kern-vlak" cx={cx} cy={cy} r={r0} />
+            <circle className="arcana-portrait__kern-binnen" cx={cx} cy={cy} r={r0 * 0.9} />
+            {mode === 'full' ? (
+              <>
+                <text className="arcana-portrait__kern-eyebrow" x={cx} y={cy - 46 * g} textAnchor="middle" fontSize={10 * g} letterSpacing={2.1 * g}>
+                  HOOFDPROFIEL
+                </text>
+                <text className="arcana-portrait__kern-naam" x={cx} y={cy - 10 * g} textAnchor="middle" fontSize={33 * g}>
+                  {archetypeName}
+                </text>
+                <text className="arcana-portrait__kern-score" x={cx} y={cy + 25 * g} textAnchor="middle" fontSize={27 * g}>
+                  {archetypeScore}
+                </text>
+                {profileName && (
+                  <>
+                    <line className="arcana-portrait__kern-lijn" x1={cx - 28 * g} y1={cy + 40 * g} x2={cx + 28 * g} y2={cy + 40 * g} />
+                    <text className="arcana-portrait__kern-persoon" x={cx} y={cy + 59 * g} textAnchor="middle" fontSize={12 * g}>
+                      {profileName}
+                    </text>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <text className="arcana-portrait__kern-naam" x={cx} y={cy - 1 * k} textAnchor="middle" fontSize={18 * k}>
+                  {archetypeName}
+                </text>
+                <text className="arcana-portrait__kern-score" x={cx} y={cy + 21 * k} textAnchor="middle" fontSize={16 * k}>
+                  {archetypeScore}
+                </text>
+              </>
+            )}
+          </g>
+
+          {mode === 'full' && <CalibrationPill layout={layout} r={r0} text="0" strong={false} />}
+          {mode === 'full' && <CalibrationPill layout={layout} r={rMax} text="100" strong={false} />}
+          <CalibrationPill layout={layout} r={rMid} text="50" strong />
+
+          {/* Het aandachtspunt: open ring op de top van de hoogste pluim. */}
+          {plumes[pitfall] && (
+            <g className="arcana-portrait__ringetje" aria-hidden="true">
+              <circle className="arcana-portrait__ringetje-halo" cx={plumes[pitfall].tip.x} cy={plumes[pitfall].tip.y} r={mode === 'full' ? 8.5 : 5.5} />
+              <circle className="arcana-portrait__ringetje-lijn" cx={plumes[pitfall].tip.x} cy={plumes[pitfall].tip.y} r={mode === 'full' ? 8.5 : 5.5} />
+            </g>
+          )}
+
+          {/* Buitenlabels: naam en score, of alleen de score op een smal scherm. */}
+          <g className="arcana-portrait__labels" aria-hidden="true">
+            {plumes.map((p, i) => {
+              const row = rows[i];
+              const cls = `arcana-portrait__label${focus === i ? ' is-focus' : ''}`;
+              if (mode === 'compact') {
+                const fs = Math.max(11, Math.min(15, 11.5 * (rMax / 118)));
+                return (
+                  <text key={row.id} className={cls} x={p.label.x} y={p.label.y} textAnchor="middle" dominantBaseline="middle" fontSize={fs}>
+                    <tspan className="arcana-portrait__label-score">{row.score}</tspan>
+                  </text>
+                );
+              }
+              const lh = 15.5;
+              const hoogte = p.label.lines.length * lh + 17 + (row.pitfall ? 13 : 0);
+              let ty: number;
+              if (p.label.anchor === 'middle') ty = p.label.above ? p.label.y - hoogte + lh - 3 : p.label.y + lh + 3;
+              else ty = p.label.y - hoogte / 2 + lh - 3;
+              const scoreY = ty + p.label.lines.length * lh + 1;
+              return (
+                <text key={row.id} className={cls} x={p.label.x} y={ty} textAnchor={p.label.anchor}>
+                  {p.label.lines.map((line, j) => (
+                    <tspan key={j} className="arcana-portrait__label-naam" x={p.label.x} y={ty + j * lh} fontSize={12.5}>
+                      {line}
+                    </tspan>
+                  ))}
+                  <tspan className="arcana-portrait__label-score" x={p.label.x} y={scoreY} fontSize={13.5}>
+                    {row.score}
+                  </tspan>
+                  {row.pitfall && (
+                    <tspan className="arcana-portrait__label-let" x={p.label.x} y={scoreY + 14} fontSize={9.5} letterSpacing={0.7}>
+                      LET HIER OP
+                    </tspan>
+                  )}
+                </text>
+              );
+            })}
+          </g>
+        </svg>
       </div>
 
       <p className="arcana-portrait__caption">
@@ -709,7 +346,7 @@ export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileN
         <button
           type="button"
           className="arcana-button arcana-button--text arcana-print-hide"
-          onClick={() => engineRef.current?.replay()}
+          onClick={() => setReplay((n) => n + 1)}
         >
           Teken opnieuw
         </button>
@@ -764,13 +401,13 @@ export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileN
             key={row.id}
             type="button"
             className={`arcana-portrait__row${row.pitfall ? ' is-pitfall' : ''}${locked === i ? ' is-active' : ''}`}
-            style={{ '--portrait-hue': `var(${row.token})` } as React.CSSProperties}
+            style={{ '--portrait-hue': `var(${row.token})` } as CSSProperties}
             aria-pressed={locked === i}
-            onPointerEnter={() => hover(i)}
-            onPointerLeave={() => hover(null)}
-            onFocus={() => engineRef.current?.setFocus(i)}
-            onBlur={() => engineRef.current?.setFocus(locked)}
-            onClick={() => setLocked((cur) => (cur === i ? null : i))}
+            onPointerEnter={() => setHover(i)}
+            onPointerLeave={() => setHover(null)}
+            onFocus={() => setHover(i)}
+            onBlur={() => setHover(null)}
+            onClick={() => toggleLock(i)}
           >
             <span className="arcana-portrait__swatch" aria-hidden="true" />
             <span className="arcana-portrait__row-text">
@@ -787,7 +424,7 @@ export function ArcanaPortrait({ scores, archetypeName, archetypeScore, profileN
         ))}
       </div>
       <p className="arcana-portrait__list-foot arcana-print-hide">
-        Kies een kant om hem in het beeld op te lichten; kies nogmaals om alles terug te zetten.
+        Kies een kant om hem in het beeld op te lichten; kies nogmaals of druk op Esc om alles terug te zetten.
       </p>
     </div>
   );

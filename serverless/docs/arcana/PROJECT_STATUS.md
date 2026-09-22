@@ -113,7 +113,13 @@ Op 2026-08-19 is een klinische/UX/business-analyse van een live (willekeurig ing
   - [x] Contrast: 0 fouten op landing/vragen/rapport in licht én donker; één echte fout gevonden en gefixt (trechterband 3)
   - [x] Corpustest u-vorm: vals positief op "weet u" hersteld
   - [x] Checks: typecheck 0, lint 0, 120 tests, gouden master 0 gewijzigd, build + domeincontrole geslaagd
-- [ ] **Rebuild taak 2 — Bundel splitsen, fonts subsetten, wiel naar SVG** — volgende
+- [x] **Rebuild taak 2 — Bundel splitsen, fonts subsetten, portret naar SVG** (2026-09-23; drie commits)
+  - [x] 2a: `React.lazy` voor intake/vragen/rapport, engine dynamisch en vóórgeladen bij de intake, foutscherm met antwoorden-download als de engine niet laadt, `QUESTION_COUNT` los van de vragenbank, bronniveau-test op de splitsing, `scripts/meet-bundel.mjs` als laatste stap van de build
+  - [x] Gemeten (q11): landing 60,4 KB (doel 75; was ~131 in één chunk), volledig bezoek 132,6, herlezen 74,3; in de browser haalt de landing alleen `index` + `vendor`
+  - [x] 2b: fonts gesubset met `scripts/subset-fonts.py` (basis + twee aanvullingen met `unicode-range`), Cormorant 400 rechtop en Inter 500 vervallen, preload op het woordmerkfont; landing 53,5 KB in 4 bestanden (doel 60; was 120,6 in 5)
+  - [x] 2c: portret als SVG (`arcanaPortraitGeometry.ts` pure geometrie + `ArcanaPortrait.tsx`), kleuren uit de tokens, toetsenbord-focusbare pluimen met `<title>`, print als vector; canvas blijft tot taak 13 via `?vergelijk`
+  - [x] Contrast rapport 0/0 in licht en donker, nu inclusief de tekst in het beeld (567 knopen)
+  - [x] Checks: typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigd, build + domeincontrole + begroting geslaagd
 - [ ] **Rebuild taak 3 — Landingspagina en hero (variant A)** — daarna
 - [ ] **Rebuild taak 4 — Rapport: herleesstructuur** — daarna
 - [ ] **Fase C — Scoremodel herijken** — bewust nog niet gestart, vereist expliciete instemming (breekt vergelijkbaarheid met bestaande rapporten). Extra aanleiding sinds 2026-09-21: op een echt rapport liggen de 12 dimensies tussen 42 en 72, waardoor het nieuwe portret bijna rond uitvalt en zijn zeggingskracht verliest.

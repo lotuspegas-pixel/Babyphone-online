@@ -1,3 +1,5 @@
+import { Suspense, lazy } from 'react';
+
 import { ARCHETYPES } from '../data/arcanaArchetypes';
 import { QUESTION_COUNT } from '../data/arcanaQuestionCount';
 import { DISCLAIMER_TEXT, PRIVACY_TEXT } from '../data/arcanaReportBlocks';
@@ -10,6 +12,12 @@ import { ArcanaMethod } from './ArcanaMethod';
 import { ArcanaPdfButton } from './ArcanaPdfButton';
 import { ArcanaPrintButton } from './ArcanaPrintButton';
 import { ArcanaPortrait } from './ArcanaPortrait';
+
+const ArcanaPortraitCanvas = lazy(() =>
+  import('./ArcanaPortraitCanvas').then((m) => ({ default: m.ArcanaPortraitCanvas })),
+);
+const vergelijkPortret =
+  typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('vergelijk');
 import { ArcanaReportGlance } from './ArcanaReportGlance';
 import { ArcanaReportSection } from './ArcanaReportSection';
 import { ArcanaReportToc } from './ArcanaReportToc';
@@ -156,6 +164,20 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
             archetypeScore={report.scores.archetypeScores[report.archetypes.primary].score}
             profileName={report.meta.profile.name}
           />
+          {/* Vergelijkstand tot het opruimen in taak 13: met ?vergelijk in de
+              URL staat de oude canvas-tekening eronder, met dezelfde scores,
+              om met het oog naast elkaar te leggen. Laadt anders niet mee. */}
+          {vergelijkPortret && (
+            <Suspense fallback={null}>
+              <p className="arcana-eyebrow">Ter vergelijking: de canvas-versie</p>
+              <ArcanaPortraitCanvas
+                scores={report.scores.mainDimensions}
+                archetypeName={primaryDef.name}
+                archetypeScore={report.scores.archetypeScores[report.archetypes.primary].score}
+                profileName={report.meta.profile.name}
+              />
+            </Suspense>
+          )}
         </div>
       </div>
 
