@@ -14,7 +14,7 @@ import { join } from 'node:path';
 import { brotliCompressSync, constants } from 'node:zlib';
 
 const ASSETS = join(process.cwd(), 'dist', 'assets');
-const BUDGET_LANDING_Q11 = 75_000; // bytes; wordt 80.000 vanaf taak 8 (het voorbeeldwiel)
+const BUDGET_LANDING_Q11 = 75_000; // bytes. De trap naar 80.000 uit G §3 (tegenspraak 9) is niet nodig gebleken: de landing meet 66,4 KB, ruim onder 75.
 const BUDGET_CSS_Q11 = 14_000;
 const BUDGET_FONTS = 60_000; // bytes op de lijn voor de basisbestanden samen
 
