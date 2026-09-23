@@ -124,6 +124,60 @@ Files affected: arcana/src/styles/arcana.css (herschreven), index.html (`color-s
 Risks: rangschikvragen leggen bij het openen al een antwoord vast (de beginvolgorde) en zouden zichzelf overslaan bij naïef automatisch doorschakelen — daarom schakelen alleen likert/forcedChoice/scenario automatisch door en houden rangschikvragen een eigen knop. Bij het teruglopen naar een al beantwoorde vraag verschijnt alsnog een "Volgende"-knop, anders zit de deelnemer klem. "Download als PDF" opent het printvenster (bestemming: Opslaan als PDF) in plaats van een eigen PDF te genereren: een PDF-bibliotheek zou honderden kilobytes toevoegen aan een app die verder alleen react en react-dom gebruikt.
 Follow-up: in `@media print` worden de tokens nu geforceerd naar het lichte palet. Zonder dat kreeg wie in donkere modus op "Download als PDF" klikte donkere kaartvlakken op papier, omdat `.arcana-card-clip` `background: var(--surface)` tekent én `print-color-adjust: exact` zet — die combinatie dwingt de browser die donkere vlakken juist wél af te drukken. Een echte print-preview kon in deze omgeving niet pixel-voor-pixel worden gecontroleerd; dat blijft een handmatige controle waard.
 
+## 2026-09-23 — Rebuild taak 9: de vragenflow
+
+Decision: vijf ingrepen uit `C` §4.7–§4.9 en `A` §3.9, geen van alle raakt de opslag of de
+engine. (1) Naamformulier: eyebrow, kop-body, veldhint en aanspreekvorm-toelichting letterlijk
+uit `C` §4.7, plus een nieuwe tekstknop `Liever zonder naam →` die de test met een leeg
+naamveld start — de engine had de naamloze aanspreekvariant al, alleen de knop ontbrak. (2)
+Blokaanduiding van "Deel 1 van 4" naar `Stellingen · {n} van 72` (en de drie varianten voor
+forcedChoice/scenario/ranking), berekend uit de werkelijke bloklengtes (72/24/16/8) in plaats van
+vier gelijke kwarten voor te wenden. (3) Voortgangslabel krijgt de resttijd
+(`arcana_started_at` × tempo tot nu toe), pas zichtbaar vanaf drie antwoorden. (4) Pauzeren- en
+laatste-knop uit `C` §4.8 rij 45–46. (5) De focuskader-bug uit `A` §3.9 gefixt: de vraagkop is nu
+het vaste focusdoel bij elke vraagwissel, in plaats van dat de browserfocus op de oude
+knoppositie bleef hangen. (6) Het laadscherm rekent nu meteen door (geen harde 6s-timeout meer)
+met een ondergrens van 1,2s en optie B uit `C` §4.9 (vier regels met echte getallen).
+Reason: 120 vragen is lang; `A` §3.4/§3.5 noemden de intake-drempel en de wachttijd na de laatste
+vraag als concrete afhaakpunten, en `A` §3.9 de focusbug als "verwarrend, en mogelijk sturend".
+Files affected: src/components/ArcanaIntake.tsx, ArcanaTest.tsx, ArcanaProgress.tsx,
+ArcanaResultLoading.tsx (herschreven), src/App.tsx (`generateReport` geeft een boolean terug in
+plaats van zelf het scherm te wisselen; `handleLoadingDone` doet nu alleen de schermwissel),
+src/styles/arcana.css (focusring op de vraagkop, verkorte pauzeknop onder 420px).
+Risks:
+- **`App.tsx` is aangeraakt buiten de oorspronkelijk opgegeven schrijfmap.** Dat was nodig om het
+  rekenen (compute) los te koppelen van de schermwissel (reveal): zonder die knip zou
+  `generateReport` bij een razendsnelle berekening het laadscherm binnen enkele tientallen
+  milliseconden laten flitsen, wat de ondergrens van 1,2s zinloos maakt. De bestaande
+  `loadingDoneRef`-bescherming en het `engine-unavailable`-pad zijn functioneel ongewijzigd
+  overgenomen, alleen verschoven van "start het rekenen" naar "wissel het scherm".
+- **De focusfix kiest de vraagkop, niet de eerste radio-optie.** Beide lezingen van de
+  acceptatiecriteria ("de focus op de nieuwe vraag/eerste optie") zijn geldig; de kop is gekozen
+  omdat het één herstelpunt in de gezamenlijke ouder is (werkt voor alle vier vraagtypes,
+  inclusief rangschikking, die geen radiogroup is) in plaats van vier losse ingrepen per
+  vraagcomponent, en omdat hij de nieuwe vraagtekst direct aan een schermlezer aankondigt.
+- **De `engine-unavailable`-foutpad is niet opnieuw met een echte kapotte chunk in de browser
+  getest** — de gecachete dev-chunk laat zich niet makkelijk laten falen. De catch-structuur in
+  `generateReport` is ongewijzigd (geeft nu `false` terug in plaats van zelf `setScreen` aan te
+  roepen); typecheck en de bestaande tests geven er vertrouwen in, geen browserbewijs.
+- **Geen scherm-lezer beschikbaar in deze omgeving** om VoiceOver letterlijk te testen; de
+  focusfix is geverifieerd via `document.activeElement`, ARIA-rollen/labels en een volledige
+  toetsenbordronde (landing → intake → 5 vragen).
+Verificatie: typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigde fixtures (fixture
+`naamloos` dekt de nieuwe knop, want die geeft hetzelfde profiel als nu al met een leeg
+naamveld). Build + domeincontrole + begroting geslaagd. Contrastscript uit `A` §5 op het
+vragenscherm: 0 fouten op 1440/390/320px, licht én donker (6 metingen, 16–17 knopen per meting).
+In de browser: "Liever zonder naam" start de test met een leeg naamveld; blokaanduiding toont de
+juiste tekst per blok (getest bij de eerste vraag van elk van de vier blokken); resttijd
+verschijnt vanaf het derde antwoord en verdwijnt op de laatste vraag; met het toetsenbord
+(Tab/pijltjestoetsen) landt de focus na elke automatische doorschakeling op de nieuwe vraagkop en
+géén Likert-optie toont `is-selected`; rangschikking blijft met de bestaande ↑/↓-knoppen werken;
+het laadscherm doorloopt de vier regels en toont het rapport na ongeveer 2 seconden in plaats van
+6+.
+Follow-up: het tussenscherm "Zestig gehad, zestig te gaan" (`C` §5.3) staat niet in taak 9 en is
+niet gebouwd. Een echte VoiceOver-test en een browsertest van het foutpad met een echt kapotte
+chunk blijven open voor een omgeving waarin dat kan.
+
 ## 2026-09-23 — Rebuild taak 4: herleesstructuur van het rapport
 
 Decision: vier ingrepen uit `C` §3, en de gouden master is er bewust voor bijgewerkt in dezelfde commit. (1) De samenvatting staat direct onder de masthead, vóór het portret, met een eigen anker (`#samenvatting`), zonder één verwijzing naar iets erboven, met de betrouwbaarheidszin in dezelfde kaart en drie knoppen die geen van drieën iets vernietigen; "Opnieuw beginnen" en "Antwoorden wissen" staan nu in de voettekst van het rapport. (2) De per-archetype troosttekst `ifItDoesNotFit` is verhuisd van hoofdstuk 33 naar direct onder de valkuilenlijst, met de regel "Eén van deze vijf herken je waarschijnlijk meteen … Neem die ene." ervoor; daarvoor is een optioneel veld `outro` op `ArcanaReportSection` gekomen (tekst ná de opsomming), dat de export en de weergave kennen en dat oudere opgeslagen rapporten gewoon missen. (3) Het hoofdstuk `understood-by-others` heet nu "Wat ik je zou willen uitleggen" (het "moeten" is weg), krijgt een herkomstalinea met de twee scores, en is als losse pagina te openen op `#/delen`: eigen aanhef aan de ontvanger, "Wat mensen aan mij missen", "Waar dit vandaan komt", "Wat dit niet is", en drie handelingen (PDF van één pagina, kopiëren als tekst, printen). (4) De overgangszinnen zijn omgedraaid: de vier terugkijkende banken ("zoals hierboven al genoemd") dragen nu het cijfer en het hoofdstuk ("Directheid (85/100 — hetzelfde cijfer als bij wie je bent; hier telt het als sterk punt)"), en er zijn twee vooruitwijzende banken bij (wie je bent → onder druk/valkuilen; sterke punten → valkuilen). Daarbovenop de zes deelopeningen uit `C` §3.2 laag 1 als vaste tekst in `arcanaSectionGroups.ts`, en de betrouwbaarheidszin "Dit rapport staat stevig" vervangen door "Dat betekent dat de scores hieronder stabiel zijn — niet dat ze waar zijn" (`C` §6.5), op één plek gedefinieerd. `REPORT_VERSION` 2.0.0 → 2.1.0.

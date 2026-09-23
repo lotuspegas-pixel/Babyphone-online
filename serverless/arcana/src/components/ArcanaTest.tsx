@@ -1,6 +1,13 @@
-import { useRef, useState } from 'react';
-import { ARCANA_QUESTIONS } from '../data/arcanaQuestions';
-import type { ArcanaAnswer, ArcanaAnswerMap } from '../types/arcana';
+import { useEffect, useRef, useState } from 'react';
+import {
+  ARCANA_QUESTIONS,
+  FORCED_CHOICE_QUESTIONS,
+  LIKERT_QUESTIONS,
+  RANKING_QUESTIONS,
+  SCENARIO_QUESTIONS,
+} from '../data/arcanaQuestions';
+import { loadStartedAt } from '../lib/arcanaStorage';
+import type { ArcanaAnswer, ArcanaAnswerMap, QuestionType } from '../types/arcana';
 import { ArcanaProgress } from './ArcanaProgress';
 import { ArcanaQuestionRenderer } from './ArcanaQuestionRenderer';
 
@@ -13,16 +20,61 @@ interface Props {
   onPause: () => void;
 }
 
-// Vaste bloktypering van de 120 vragen: eerst 72 korte stellingen, dan 24
-// keuzes tussen twee, dan 16 situaties en tot slot 8 rangschikkingen. Dit
-// label geeft de deelnemer ritme en zicht op afwisseling in plaats van één
-// uniforme reeks van 120 gelijke vragen.
-const BLOCK_LABELS: Record<string, string> = {
-  likert: 'Deel 1 van 4 — korte stellingen',
-  forcedChoice: 'Deel 2 van 4 — kiezen tussen twee',
-  scenario: 'Deel 3 van 4 — situaties',
-  ranking: 'Deel 4 van 4 — op volgorde zetten',
+/**
+ * Vaste bloktypering van de 120 vragen: eerst 72 korte stellingen, dan 24
+ * keuzes tussen twee, dan 16 situaties en tot slot 8 rangschikkingen — in die
+ * volgorde in `ARCANA_QUESTIONS`. Geen vier gelijke kwarten: de blokaanduiding
+ * telt daarom binnen het eigen blok (`{n} van 72`) in plaats van "Deel 1 van
+ * 4", wat bij vraag 40 zou suggereren dat er nog driemaal zoveel komt.
+ */
+const BLOCK_ORDER: QuestionType[] = ['likert', 'forcedChoice', 'scenario', 'ranking'];
+const BLOCK_LENGTHS: Record<QuestionType, number> = {
+  likert: LIKERT_QUESTIONS.length,
+  forcedChoice: FORCED_CHOICE_QUESTIONS.length,
+  scenario: SCENARIO_QUESTIONS.length,
+  ranking: RANKING_QUESTIONS.length,
 };
+const BLOCK_TITLES: Record<QuestionType, string> = {
+  likert: 'Stellingen',
+  forcedChoice: 'Kiezen tussen twee',
+  scenario: 'Situaties',
+  ranking: 'Op volgorde zetten',
+};
+const BLOCK_STARTS: Record<QuestionType, number> = (() => {
+  let offset = 0;
+  const starts = {} as Record<QuestionType, number>;
+  for (const type of BLOCK_ORDER) {
+    starts[type] = offset;
+    offset += BLOCK_LENGTHS[type];
+  }
+  return starts;
+})();
+
+function blockLabelFor(index: number, type: QuestionType): string {
+  const positionInBlock = index - BLOCK_STARTS[type] + 1;
+  return `${BLOCK_TITLES[type]} · ${positionInBlock} van ${BLOCK_LENGTHS[type]}`;
+}
+
+/** Pas tonen als er genoeg tempo bekend is om een schatting op te baseren. */
+const MIN_ANSWERS_FOR_ESTIMATE = 3;
+
+/**
+ * Resttijd uit het tempo tot nu toe: verstreken tijd sinds `arcana_started_at`
+ * gedeeld door het aantal beantwoorde vragen, maal het aantal resterende
+ * vragen. Zelfbijstellend — hoe verder iemand komt, hoe preciezer.
+ */
+function estimateRemainingMinutes(answeredCount: number, totalCount: number): number | undefined {
+  if (answeredCount < MIN_ANSWERS_FOR_ESTIMATE) return undefined;
+  const remaining = totalCount - answeredCount;
+  if (remaining <= 0) return undefined;
+  const startedAt = loadStartedAt();
+  if (!startedAt) return undefined;
+  const elapsedMs = Date.now() - new Date(startedAt).getTime();
+  if (!Number.isFinite(elapsedMs) || elapsedMs <= 0) return undefined;
+  const msPerAnswer = elapsedMs / answeredCount;
+  const remainingMinutes = Math.round((msPerAnswer * remaining) / 60000);
+  return Math.max(1, remainingMinutes);
+}
 
 /**
  * Pauze tussen het aanklikken van een antwoord en het doorschakelen. Lang
@@ -35,7 +87,25 @@ export function ArcanaTest({ currentIndex, answers, onAnswer, onNext, onPrevious
   const question = ARCANA_QUESTIONS[currentIndex];
   const answer = answers[question.id];
   const isLast = currentIndex === ARCANA_QUESTIONS.length - 1;
-  const blockLabel = BLOCK_LABELS[question.type];
+  const blockLabel = blockLabelFor(currentIndex, question.type);
+  const remainingMinutes = estimateRemainingMinutes(Object.keys(answers).length, ARCANA_QUESTIONS.length);
+
+  /**
+   * Focuskader-fix (A §3.9): de radiogroup-opties gebruiken per vraagtype
+   * steeds dezelfde React-keys (1–7 voor Likert, de eigen optiesleutels voor
+   * de rest), dus React hergebruikt hetzelfde DOM-knopelement over vragen
+   * heen. Daardoor bleef de browserfocus na het doorschakelen op dezelfde
+   * plek staan — wat er zonder toelichting uitziet alsof de nieuwe vraag al
+   * beantwoord is. Bij elke wisseling van vraag verplaatst dit de focus
+   * expliciet naar de kop van de nieuwe vraag, ongeacht het vraagtype: dat
+   * werkt voor alle vier de vormen (incl. rangschikking, die geen
+   * radiogroup is) en kondigt de nieuwe vraagtekst meteen aan voor
+   * schermlezers.
+   */
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    headingRef.current?.focus({ preventScroll: true });
+  }, [currentIndex]);
 
   /**
    * Rangschikvragen schakelen NIET automatisch door. Ze leggen bij het openen
@@ -110,9 +180,16 @@ export function ArcanaTest({ currentIndex, answers, onAnswer, onNext, onPrevious
   return (
     <div className="arcana-screen arcana-test">
       <div className="arcana-card arcana-test__card">
-        <ArcanaProgress current={currentIndex + 1} total={ARCANA_QUESTIONS.length} blockLabel={blockLabel} />
+        <ArcanaProgress
+          current={currentIndex + 1}
+          total={ARCANA_QUESTIONS.length}
+          blockLabel={blockLabel}
+          remainingMinutes={remainingMinutes}
+        />
 
-        <h2 className="arcana-question-text">{question.text}</h2>
+        <h2 className="arcana-question-text" ref={headingRef} tabIndex={-1}>
+          {question.text}
+        </h2>
 
         <div className="arcana-question-body">
           <ArcanaQuestionRenderer question={question} answer={answer} onAnswer={handleAnswer} />
@@ -131,8 +208,13 @@ export function ArcanaTest({ currentIndex, answers, onAnswer, onNext, onPrevious
           >
             Vorige
           </button>
-          <button type="button" className="arcana-button arcana-button--text" onClick={handlePause}>
-            Pauzeren
+          <button
+            type="button"
+            className="arcana-button arcana-button--text"
+            onClick={handlePause}
+            aria-label="Pauzeren — je antwoorden blijven bewaard"
+          >
+            Pauzeren<span className="arcana-test__pause-hint"> — je antwoorden blijven bewaard</span>
           </button>
           {showForwardButton && (
             <button
@@ -141,7 +223,7 @@ export function ArcanaTest({ currentIndex, answers, onAnswer, onNext, onPrevious
               onClick={onNext}
               disabled={!answer}
             >
-              {isLast ? 'Afronden' : 'Volgende'}
+              {isLast ? 'Afronden — laat mijn rapport zien' : 'Volgende'}
             </button>
           )}
         </div>

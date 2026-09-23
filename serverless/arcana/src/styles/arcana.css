@@ -603,6 +603,14 @@ body {
   margin: 4px 0 8px;
 }
 
+/* Los van de primaire/secundaire knoppen: een uitweg voor wie geen naam wil
+   opgeven, zonder er evenveel gewicht aan te geven als "Begin met de 120
+   vragen". Eigen regel, gecentreerd, dezelfde tekstknopstijl als elders. */
+.arcana-intake__skip-name {
+  align-self: center;
+  margin: 0 0 4px;
+}
+
 /* Zichtbare, ontworpen focusring voor alle interactieve elementen in de
    testflow en het rapport. --focus (--interaction-strong) haalt >=7:1 op
    zowel wit als parchment (nagerekend), dus dezelfde regel werkt overal. */
@@ -615,9 +623,18 @@ body {
 .arcana-report-toc__list a:focus-visible,
 .arcana-report-glance__item a:focus-visible,
 .arcana-card-nav a:focus-visible,
-.arcana-back-to-toc:focus-visible {
+.arcana-back-to-toc:focus-visible,
+.arcana-question-text:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
+}
+
+/* De vraagkop is programmatisch focusbaar (zie ArcanaTest: de focusfix bij
+   het wisselen van vraag) maar niet via Tab bereikbaar — outline: none
+   buiten :focus-visible voorkomt een dubbele/verkeerde ring in browsers die
+   :focus-visible niet zelf al op :focus toepassen. */
+.arcana-question-text {
+  outline: none;
 }
 
 /* ==========================================================================
@@ -719,6 +736,15 @@ body {
   flex-wrap: wrap;
   padding-top: 4px;
   border-top: 1px solid var(--border);
+}
+
+/* Bij krappe breedte valt de geruststelling weg uit de zichtbare knoptekst
+   (blijft alleen "Pauzeren") — de aria-label op de knop zelf blijft altijd
+   de volledige tekst dragen, dus voor schermlezers verandert er niets. */
+@media (max-width: 420px) {
+  .arcana-test__pause-hint {
+    display: none;
+  }
 }
 
 /* Likert: horizontale schaal van 7 vierkante knoppen met alleen

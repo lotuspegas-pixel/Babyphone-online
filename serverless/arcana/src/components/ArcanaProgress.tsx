@@ -2,9 +2,11 @@ interface ArcanaProgressProps {
   current: number;
   total: number;
   blockLabel?: string;
+  /** Geschatte resterende tijd in hele minuten; ontbreekt zolang er te weinig tempo bekend is. */
+  remainingMinutes?: number;
 }
 
-export function ArcanaProgress({ current, total, blockLabel }: ArcanaProgressProps) {
+export function ArcanaProgress({ current, total, blockLabel, remainingMinutes }: ArcanaProgressProps) {
   const percent = Math.round((current / total) * 100);
   return (
     <div
@@ -21,6 +23,8 @@ export function ArcanaProgress({ current, total, blockLabel }: ArcanaProgressPro
       </div>
       <span className="arcana-progress__label">
         Vraag {current} van {total}
+        {remainingMinutes != null &&
+          ` · nog ongeveer ${remainingMinutes} ${remainingMinutes === 1 ? 'minuut' : 'minuten'}`}
       </span>
     </div>
   );

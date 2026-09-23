@@ -332,3 +332,93 @@ Eén commit terug: tekst, `outro`-veld en de twaalf fixtures gaan samen. Opgesla
 - De u-vorm heeft twee oude fouten in de traitteksten ("uw zelf", "tot uw de") die al in de
   vorige fixtures stonden — de omzetter, niet deze taak.
 - Geen nulmeting van de rapporthoogte vóór deze taak; nu 23.021 px op 1508 px breed.
+
+## Taak 9 — De vragenflow · 2026-09-23
+
+### Wat er is veranderd
+- Naamformulier (`ArcanaIntake.tsx`): eyebrow "Eén scherm, dan beginnen we", kop-body met de
+  reden waaróm er een naam wordt gevraagd, kortere veldhint, en een toelichting bij de
+  aanspreekvorm ("Dit verandert je scores niet, alleen de toon van je rapport") — letterlijk
+  `C` §4.7 rij 36–40. Nieuwe tekstknop `Liever zonder naam →` onder de submit-knop, die met een
+  leeg naamveld bevestigt.
+- Blokaanduiding (`ArcanaTest.tsx` + `ArcanaProgress.tsx`): `Stellingen · {n} van 72` met de
+  varianten `Kiezen tussen twee · {n} van 24`, `Situaties · {n} van 16`, `Op volgorde zetten ·
+  {n} van 8`, in plaats van "Deel 1 van 4". Blok en positie-binnen-blok komen uit de lengtes van
+  `LIKERT_QUESTIONS`/`FORCED_CHOICE_QUESTIONS`/`SCENARIO_QUESTIONS`/`RANKING_QUESTIONS`, niet uit
+  hardgecodeerde grenzen.
+- Voortgangslabel krijgt de resttijd erbij: `Vraag {n} van 120 · nog ongeveer {m} minuten`,
+  berekend uit `arcana_started_at` (verstreken tijd / aantal antwoorden × resterende vragen,
+  afgerond, minimaal 1). Verschijnt pas vanaf 3 antwoorden.
+- Pauzeren-knop toont `Pauzeren — je antwoorden blijven bewaard`; onder 420px valt het tweede
+  deel visueel weg (blijft alleen "Pauzeren"), maar de volledige tekst staat altijd in
+  `aria-label`. Laatste knop: `Afronden — laat mijn rapport zien`.
+- Focuskader-fix (`A` §3.9): de vraagkop (`<h2 tabIndex={-1}>`) krijgt de focus bij elke wissel
+  van `currentIndex`. Grondoorzaak was dat de radiogroup-knoppen voor Likert dezelfde React-keys
+  (1–7) over alle 72 vragen delen, waardoor React hetzelfde DOM-knopelement hergebruikte en de
+  browserfocus op dezelfde plek bleef staan — de nieuwe vraag zag er zo uit alsof er al een
+  antwoord op stond. Eén herstelpunt in de gezamenlijke ouder in plaats van vier losse
+  vraagcomponenten.
+- Laadscherm herbouwd (`ArcanaResultLoading.tsx`): geen harde `setTimeout(onDone, 6000)` meer.
+  Het rekenen start meteen (`run()`, in `App.tsx` de omgedoopte `generateReport`, die nu een
+  boolean teruggeeft in plaats van zelf het scherm te wisselen) en loopt parallel aan een
+  ondergrens van 1.200 ms. Optie B uit `C` §4.9: `120 antwoorden opgeteld` → `30 eigenschappen
+  berekend` → `12 dimensies samengevoegd` → `Je rapport is klaar`, met een slotrust van 350 ms
+  zodat die laatste regel ook echt gelezen kan worden. `App.tsx`'s `handleLoadingDone` vuurt pas
+  als beide voorwaarden gelden en behoudt de bestaande `loadingDoneRef`-bescherming en het
+  `engine-unavailable`-pad.
+
+### Wat er bewust niet is veranderd
+- De opslag: dezelfde zes `STORAGE_KEYS`, geen nieuwe sleutel, geen hernoeming.
+- De scoring engine en de rapportgenerator: geen enkele regel aangeraakt.
+- Rangschikkingsvragen: nog steeds ↑/↓-knoppen per regel (`ArcanaRankingQuestion.tsx`
+  ongewijzigd); de focusfix zit in de gezamenlijke ouder en raakt hun interne toetsenbordlogica
+  niet.
+- De vraagteksten, de disclaimer en de privacytekst.
+- Het tussenscherm "Zestig gehad, zestig te gaan" uit `C` §5.3 (halverwege-onderbreking): niet in
+  taak 9 genoemd, niet gebouwd.
+
+### Wat de bezoeker merkt
+- Bij vraag 40 staat er "Stellingen · 40 van 72" in plaats van "Deel 1 van 4" — geen suggestie
+  meer dat er nog driemaal zoveel komt terwijl 40% al gedaan is.
+- Na een paar antwoorden verschijnt een schatting van de resterende tijd die zichzelf bijstelt.
+- Met het toetsenbord landt de focus na elk antwoord zichtbaar op de nieuwe vraag; geen optie
+  ziet er meer uit alsof hij al is aangeklikt.
+- Het laadscherm na vraag 120 duurt nog maar circa 1,5–2 seconden (was 6+) en telt zichtbaar af
+  in vier concrete stappen in plaats van vage lijdende-vorm-zinnen.
+
+### Gemeten, vóór → na
+| Metriek | Voor | Na | Doel |
+|---|--:|--:|--:|
+| Laadscherm, vaste wachttijd | 6.000 ms hard, ongeacht rekentijd | max(rekentijd, 1.200 ms) + 350 ms slotrust | geen vaste 6s |
+| Laadscherm, gemeten totaal (balanced-seed) | ~6.000+ ms | ~1.950 ms | < 6.000 ms |
+| Focus na antwoord (Likert, toetsenbord) | blijft op oude knoppositie | op de nieuwe vraagkop | op de nieuwe vraag |
+| `ArcanaIntake` chunk (brotli q11) | 1,0 KB | 1,1 KB | — |
+| `ArcanaTest` chunk (brotli q11) | 1,9 KB | 2,2 KB | — |
+| `index` chunk, incl. laadscherm (brotli q11) | 16,2 KB | 16,4 KB | — |
+| Contrastfouten, vragenscherm × 3 breedtes × 2 thema's | — | 0 op alle 6 metingen | 0 |
+
+### Regressiepoort
+| Blok | Uitkomst |
+|---|---|
+| Typecheck | 0 |
+| Lint | 0 |
+| Tests | 129 groen |
+| Determinisme — gouden master | 0 gewijzigde fixtures |
+| Contrast, vragenscherm, 1440/390/320 × licht/donker | 6 × 0 fouten (16–17 knopen per meting) |
+| Build + domeincontrole + begroting | geslaagd (landing → test starten: 75,4 KB q11, doel ≤ 75) |
+
+### Terugrollen
+Vijf componentbestanden plus `App.tsx`, geen opslagwijziging. `ArcanaResultLoading` teruggeven
+aan de vorige versie (vaste 6s) vraagt ook `App.tsx`'s `generateReport`/`handleLoadingDone` terug
+te zetten naar de vorige vorm (screen-wissel binnen `generateReport` zelf) — die twee horen
+samen bij een terugrol.
+
+### Wat dit openlaat
+- Het tussenscherm "Zestig gehad, zestig te gaan" (`C` §5.3) en de skip-mogelijkheid daarvan zijn
+  geen onderdeel van taak 9 en staan nog open.
+- VoiceOver zelf is in deze omgeving niet te bedienen (geen scherm-lezer beschikbaar in het
+  browserpaneel); de focusfix is geverifieerd via `document.activeElement`, ARIA-rollen/labels en
+  een volledige toetsenbordronde landing → intake → 5 vragen, niet met een echte schermlezer.
+- De `engine-unavailable`-foutpad is niet opnieuw met een echte kapotte chunk getest (de
+  gecachete dev-chunk laat zich niet makkelijk laten falen); de code-inspectie en het ongewijzigd
+  blijven van de catch-structuur geven vertrouwen, geen browserbewijs.

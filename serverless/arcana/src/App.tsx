@@ -226,23 +226,31 @@ function App() {
     setScreen('landing');
   }
 
-  async function generateReport() {
+  /**
+   * Het echte rekenwerk, los van het laadscherm: `ArcanaResultLoading` roept
+   * dit meteen bij het tonen aan, in plaats van pas na een vaste wachttijd.
+   * Geeft alleen terug of het gelukt is — de schermwissel zelf gebeurt in
+   * `handleLoadingDone`, zodat die pas vuurt als ook de ondergrens van het
+   * laadscherm is verstreken (anders zou een razendsnelle berekening het
+   * laadscherm meteen laten flitsen).
+   */
+  async function generateReport(): Promise<boolean> {
     try {
       const engine = await loadEngine();
       const result = engine.calculateArcanaResult(answers);
       const generated = engine.generateArcanaReport(result, profile, new Date().toISOString());
       saveResult(generated);
       setReport(generated);
-      setScreen('report');
+      return true;
     } catch {
-      setScreen('engine-unavailable');
+      return false;
     }
   }
 
-  function handleLoadingDone() {
+  function handleLoadingDone(success: boolean) {
     if (loadingDoneRef.current) return;
     loadingDoneRef.current = true;
-    void generateReport();
+    setScreen(success ? 'report' : 'engine-unavailable');
   }
 
   function handleRestart() {
@@ -335,7 +343,7 @@ function App() {
   }
 
   if (screen === 'loading') {
-    return <ArcanaResultLoading onDone={handleLoadingDone} />;
+    return <ArcanaResultLoading run={generateReport} onDone={handleLoadingDone} />;
   }
 
   if (screen === 'engine-unavailable') {

@@ -30,14 +30,25 @@ export function ArcanaIntake({ initialProfile, onConfirm, onBack }: Props) {
     onConfirm({ name: trimmedName, addressForm, lifePhase });
   }
 
+  /**
+   * De engine heeft voor elke aanspreekzin al een naamloze variant
+   * (`et()`/`addressed()`); deze knop hoeft alleen met een lege naam te
+   * bevestigen. Fixture `naamloos` in de gouden master dekt het rapport dat
+   * hieruit voortkomt.
+   */
+  function handleSkipName() {
+    onConfirm({ name: '', addressForm, lifePhase });
+  }
+
   return (
     <div className="arcana-screen arcana-intake">
       <form className="arcana-card arcana-intake__card" onSubmit={handleSubmit}>
-        <p className="arcana-eyebrow">Voordat we beginnen</p>
+        <p className="arcana-eyebrow">Eén scherm, dan beginnen we</p>
         <h1 className="arcana-title">Hoe mogen we je aanspreken?</h1>
         <p className="arcana-body">
-          Je rapport wordt op jouw naam geschreven. Deze gegevens blijven, net als je antwoorden,
-          alleen in deze browser en worden nergens naartoe gestuurd.
+          Dit is geen account en het gaat nergens heen — het blijft in deze browser, net als je
+          antwoorden. We vragen het omdat een rapport dat je bij je naam noemt zachter aankomt op
+          de plekken waar het over je valkuilen gaat.
         </p>
 
         <label className="arcana-field">
@@ -54,7 +65,8 @@ export function ArcanaIntake({ initialProfile, onConfirm, onBack }: Props) {
             required
           />
           <span className="arcana-field__hint">
-            Een voornaam of bijnaam is genoeg. Verzin gerust iets als je liever anoniem blijft.
+            Een voornaam of bijnaam is genoeg. Of verzin iets — het rapport merkt het verschil
+            niet.
           </span>
         </label>
 
@@ -73,6 +85,9 @@ export function ArcanaIntake({ initialProfile, onConfirm, onBack }: Props) {
               </button>
             ))}
           </div>
+          <span className="arcana-field__hint">
+            Dit verandert je scores niet, alleen de toon van je rapport.
+          </span>
         </fieldset>
 
         <label className="arcana-field">
@@ -101,6 +116,14 @@ export function ArcanaIntake({ initialProfile, onConfirm, onBack }: Props) {
             Begin met de 120 vragen
           </button>
         </div>
+
+        <button
+          type="button"
+          className="arcana-button arcana-button--text arcana-intake__skip-name"
+          onClick={handleSkipName}
+        >
+          Liever zonder naam →
+        </button>
 
         <p className="arcana-fineprint">{PRIVACY_TEXT}</p>
       </form>
