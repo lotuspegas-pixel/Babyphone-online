@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { SECTION_NAV_REASONS } from '../data/arcanaSectionNavReasons';
 import type { ArcanaReportSection as Section } from '../types/arcana';
 
 interface Props {
@@ -61,6 +62,10 @@ export function ArcanaReportSection({ section, index, total, prevId, prevTitle, 
   const kind = sectionKind(section.id);
   const titleId = `${section.id}-title`;
   const showNav = typeof index === 'number' && typeof total === 'number';
+  // Een halve regel context per richting (C §3.2, laag 3). Bestaat de reden
+  // niet voor dit paar — het vangnet buiten SECTION_GROUPS, of een kant die
+  // (nog) niet in de tabel staat — dan valt de link terug op de kale titel.
+  const navReason = SECTION_NAV_REASONS[section.id];
 
   return (
     <article
@@ -106,7 +111,16 @@ export function ArcanaReportSection({ section, index, total, prevId, prevTitle, 
         {showNav && (
           <nav className="arcana-card-nav arcana-print-hide" aria-label={`Kaartnavigatie: ${section.title}`}>
             {prevId ? (
-              <a href={`#${prevId}`}>← {prevTitle ?? 'Vorige'}</a>
+              navReason?.backward ? (
+                <a href={`#${prevId}`} className="arcana-card-nav__link arcana-card-nav__link--prev">
+                  <span className="arcana-card-nav__label">Waar dit vandaan komt ←</span>
+                  <span className="arcana-card-nav__detail">
+                    <em>{prevTitle}</em> — {navReason.backward}
+                  </span>
+                </a>
+              ) : (
+                <a href={`#${prevId}`}>← {prevTitle ?? 'Vorige'}</a>
+              )
             ) : (
               <span className="arcana-card-nav__stub">← Vorige</span>
             )}
@@ -114,7 +128,16 @@ export function ArcanaReportSection({ section, index, total, prevId, prevTitle, 
               {index} / {total}
             </span>
             {nextId ? (
-              <a href={`#${nextId}`}>{nextTitle ?? 'Volgende'} →</a>
+              navReason?.forward ? (
+                <a href={`#${nextId}`} className="arcana-card-nav__link arcana-card-nav__link--next">
+                  <span className="arcana-card-nav__label">Waar dit naartoe leidt →</span>
+                  <span className="arcana-card-nav__detail">
+                    <em>{nextTitle}</em> — {navReason.forward}
+                  </span>
+                </a>
+              ) : (
+                <a href={`#${nextId}`}>{nextTitle ?? 'Volgende'} →</a>
+              )
             ) : (
               <span className="arcana-card-nav__stub">Volgende →</span>
             )}

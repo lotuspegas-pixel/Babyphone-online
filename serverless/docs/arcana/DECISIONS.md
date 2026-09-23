@@ -124,6 +124,92 @@ Files affected: arcana/src/styles/arcana.css (herschreven), index.html (`color-s
 Risks: rangschikvragen leggen bij het openen al een antwoord vast (de beginvolgorde) en zouden zichzelf overslaan bij naïef automatisch doorschakelen — daarom schakelen alleen likert/forcedChoice/scenario automatisch door en houden rangschikvragen een eigen knop. Bij het teruglopen naar een al beantwoorde vraag verschijnt alsnog een "Volgende"-knop, anders zit de deelnemer klem. "Download als PDF" opent het printvenster (bestemming: Opslaan als PDF) in plaats van een eigen PDF te genereren: een PDF-bibliotheek zou honderden kilobytes toevoegen aan een app die verder alleen react en react-dom gebruikt.
 Follow-up: in `@media print` worden de tokens nu geforceerd naar het lichte palet. Zonder dat kreeg wie in donkere modus op "Download als PDF" klikte donkere kaartvlakken op papier, omdat `.arcana-card-clip` `background: var(--surface)` tekent én `print-color-adjust: exact` zet — die combinatie dwingt de browser die donkere vlakken juist wél af te drukken. Een echte print-preview kon in deze omgeving niet pixel-voor-pixel worden gecontroleerd; dat blijft een handmatige controle waard.
 
+## 2026-09-23 — Rebuild taak 10 (presentatiedeel): navigatieregel, wisdialoog, knoplabels, versiecontrole
+
+Decision: het presentatie-/robuustheidsdeel van `G` taak 10 dat na het tekstdeel nog openstond,
+in één stap afgemaakt, zonder de rapportgenerator, de tekstdata of de gouden master aan te raken.
+(1) **Navigatieregel met inhoud** (`C` §3.2 laag 3): een vaste tabel
+(`src/data/arcanaSectionNavReasons.ts`) koppelt aan elk van de 32 hoofdstukken een halve-regel
+reden vooruit en/of achteruit, gekeyed op section-id, gebaseerd op de vaste volgorde in
+`arcanaSectionGroups.ts`. `ArcanaReportSection.tsx` toont die reden naast de bestaande "Kaart X/Y"
+en de titel; ontbreekt de reden (eerste/laatste kaart, of een niet-ingedeelde vangnet-sectie), dan
+blijft de kale titel-link zoals voorheen. (2) **Wisdialoog**: `ArcanaConfirmDialog.tsx` (nieuw,
+herbruikbaar) vervangt beide `window.confirm`-aanroepen in `ArcanaReport.tsx`, met de letterlijke
+teksten uit `C` §5 "Bevestigingen" — bewust **twee** knoppen (de opdracht voor deze taak vroeg
+daar expliciet om), niet de drie uit de spec: de derde knop ("Eerst bewaren als PDF") is
+weggelaten, de zin "Bewaar eerst wat je wilt houden" staat wel in de dialoogtekst. Focus gaat bij
+openen naar de veilige (annuleer-)knop, een Tab-val houdt de focus in de dialoog, Escape annuleert,
+en bij sluiten (ongeacht hoe) gaat de focus terug naar de knop die de dialoog opende — via een
+`returnFocusRef`-prop, niet via `document.activeElement`, omdat een klik op een knop in Safari op
+macOS die knop niet altijd focust. (3) **Knoplabels**: `Download als PDF` → `Bewaar als PDF` met de
+instructie die eerder alleen in een onzichtbaar `title`-attribuut stond nu als zichtbare tekst
+eronder; `Rapport printen` → `Printen op papier`; `Rapport downloaden` → `Downloaden als
+tekstbestand (.md)`; masthead-eyebrow `Jouw archetype` → `Het patroon dat het sterkst naar voren
+kwam`. De achttien archetypenamen zelf zijn niet vertaald — expliciet buiten deze opdracht, `C`
+§4.11 rij 55 noemt dat een apart eigenaarsbesluit. (4) **Versiecontrole**: `arcanaReportCompat.ts`
+vergelijkt alleen de hoofdversie van `meta.version` met wat de code kent (nu 2) — een hogere
+minor/patch blijft dus altijd renderbaar (additief, zoals de rapportgenerator zelf al werkt), geen
+harde 3.0.0-blokkade die oudere rapporten zou wissen. Bij een onbekende/hogere hoofdversie, of bij
+een echte renderfout ongeacht de versie, toont `ArcanaReportGate.tsx` (nieuw, de lazy-chunk die nu
+in `App.tsx` in de plaats van `ArcanaReport` komt) het uitlegscherm `ArcanaReportIncompatible.tsx`:
+een downloadknop (probeert eerst de bestaande markdown-export, valt terug op de ruwe JSON als zelfs
+die crasht) en "De test opnieuw doen". `ArcanaReportErrorBoundary.tsx` (class component — React
+kent geen hook-equivalent voor foutgrenzen) vangt renderfouten op die de versiecheck niet aftoetst.
+Reason: `window.confirm` maakt van een destructieve bevestiging het woord "OK" — een twintig jaar
+oud, breed gedocumenteerd UX-antipatroon (`C` §5.6). Een kale "← Wie je bent / 14 / 33 / Je
+valkuilen →"-navigatie werkt alleen voor wie lineair leest, terwijl het rapport zelf zegt dat dat
+niet hoeft; een halve regel per richting maakt van een bladerwijzer een reden om door te klikken
+(`C` §3.2). De PDF-instructie in een `title`-attribuut is onzichtbaar op elk touchscreen, dus voor
+een fors deel van de doelgroep nooit gelezen. Zonder een versiecontrole zou een toekomstige
+structuurwijziging in de rapportgenerator elk bestaand `arcana_result` in het veld stil laten
+crashen naar een lege pagina — het zwaarste risico dat `G` taak 10 zelf benoemt.
+Files affected: arcana/src/data/arcanaSectionNavReasons.ts (nieuw), arcana/src/lib/arcanaReportCompat.ts
+(nieuw), arcana/src/components/ArcanaConfirmDialog.tsx (nieuw), ArcanaReportErrorBoundary.tsx
+(nieuw), ArcanaReportIncompatible.tsx (nieuw), ArcanaReportGate.tsx (nieuw), ArcanaReportSection.tsx
+(navigatieregel), ArcanaReport.tsx (dialogen, eyebrow, datumregel), ArcanaPdfButton.tsx,
+ArcanaPrintButton.tsx, ArcanaExportButton.tsx (labels), App.tsx (`ArcanaReportGate` i.p.v.
+`ArcanaReport` als lazy-chunk), arcana/src/styles/arcana.css (nieuwe selectors: `.arcana-dialog*`,
+`.arcana-card-nav__link/__label/__detail`, `.arcana-pdf-button*` — geen bestaande selector
+gewijzigd).
+Risks:
+- **De reden-tabel is handgeschreven per hoofdstukpaar, niet afgeleid uit scores.** Dat is bewust:
+  de opdracht vroeg om "deterministisch, geen scores nodig" en de tabel telt niet mee in de gouden
+  master. Wijzigt de indeling in `arcanaSectionGroups.ts` ooit (een sectie verhuist naar een andere
+  plek in de volgorde), dan klopt de bijbehorende reden-tekst niet meer vanzelf — er is geen
+  geautomatiseerde koppeling tussen de twee bestanden, alleen de gedeelde aanname dat de volgorde
+  identiek is.
+- **Twee knoppen in plaats van drie.** `C` §5.6 laat "Eerst bewaren als PDF" als eigen knop zien;
+  hier is dat weggelaten op expliciete instructie. Wie de dialoog ziet en nog niets bewaarde, moet
+  eerst annuleren en dan de PDF-knop in de masthead gebruiken — één stap meer dan de volledige
+  spec.
+- **Geen viewport-resize beschikbaar in het browserpaneel van deze sessie**: 1440/390/320 px kon
+  niet apart gemeten worden (de echte layoutviewport bleek steeds 1280×720, bevestigd met
+  `window.innerWidth`). Het contrastscript is op die breedte gedraaid, in licht én donker, met en
+  zonder open dialoog: 0 fouten op 688–693 knopen. Mobielveiligheid van de nieuwe CSS is met
+  broncode-review geverifieerd (dezelfde relatieve eenheden en `flex-wrap`-patronen als de rest van
+  het bestand, één nieuwe `max-width: 480px`-regel voor de kaartnavigatie), niet met het oog op een
+  echt smal scherm.
+- **Screenshots op grote scrolldiepte (ruwweg > 2.000 px) gaven in deze sessie herhaaldelijk een
+  leeg beeld**, ook na meerdere pogingen — bevestigd als omgevingsbeperking, niet als bug: op
+  dezelfde scrollpositie gaf `getComputedStyle`/`elementFromPoint` wél de juiste, correct gekleurde
+  content terug. Verificatie van diep-gescrolde content liep daarom via de DOM in plaats van via
+  het oog.
+Verificatie: typecheck 0, lint 0, 129 tests groen (0 gewijzigd), gouden master 0 gewijzigde
+fixtures, build + domeincontrole + bundelbegroting geslaagd (landingbundel ongewijzigd: alle nieuwe
+code zit in de lazy rapportchunk). In de browser: kaartnavigatie toont de juiste titel + reden per
+richting (geverifieerd op de `core-pattern`-sectie); beide dialogen geopend met de exacte teksten
+en knopnamen uit de spec; Tab/Shift+Tab houdt de focus binnen de dialoog en cirkelt tussen de twee
+knoppen; Escape sluit en herstelt de focus zonder iets te wissen; Enter op de bevestigingsknop
+voert de handeling toetsenbord-only uit; een rapport met een verzonnen `meta.version: "9.9.9"`
+toont het uitlegscherm in plaats van te crashen; een rapport met een geldige versie maar een kapotte
+`sections`-structuur wordt door `ArcanaReportErrorBoundary` opgevangen (bevestigd via de
+console-log) in plaats van een blanco scherm te geven; de downloadknop op het uitlegscherm bouwt
+een geldig `.txt`-bestand. Contrastscript: 0 fouten in licht (688 knopen) en donker (693 knopen,
+inclusief open dialoog).
+Follow-up: de terugkeerondersteuning uit `C` §3.4 A/B/C (welkom-terug-kaart, leesmarkering,
+vergelijken na opnieuw invullen) en de leesinstructie bij de `profile`-kaarten staan nog open. Een
+echte 320/390 px-controle met het oog vraagt een sessie met viewport-resize in het browserpaneel.
+
 ## 2026-09-23 — Rebuild taak 10 (tekst-deel): afsluiters per hoofdstuktype en de u-vorm-fix
 
 Decision: alleen het tekstgedeelte van `G` taak 10 uitgevoerd — de andere onderdelen

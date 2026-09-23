@@ -1069,6 +1069,34 @@ body {
   justify-content: flex-end;
 }
 
+/* De helptekst onder "Bewaar als PDF" (voorheen verstopt in een title-attribuut,
+   dat op touch nooit verschijnt). Eigen wrapper zodat de knop en de tekst
+   samen één flex-item vormen in .arcana-report__masthead-buttons. */
+.arcana-pdf-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.arcana-pdf-button__hint {
+  max-width: 22rem;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .arcana-pdf-button {
+    align-items: flex-start;
+  }
+
+  .arcana-pdf-button__hint {
+    text-align: left;
+  }
+}
+
 /* Kleiner ogende, minder nadrukkelijke variant voor "Opnieuw beginnen" /
    "Antwoorden wissen" — maar min-height blijft op 44px: een raakdoel mag er
    compacter uitzien dan de primaire knoppenrij, maar niet kleiner zijn dan
@@ -1347,6 +1375,62 @@ body {
 
 .arcana-card-nav__stub {
   visibility: hidden;
+}
+
+/* De verrijkte navigatielinks (C §3.2, laag 3): label + titel + halve regel
+   reden, gestapeld in plaats van op één regel. Hogere specificiteit dan
+   ".arcana-card-nav a" (display/align-items daar zijn voor de kale
+   titel-only links, hieronder gewenst anders) zodat beide vormen naast
+   elkaar kunnen bestaan zonder de bestaande regel aan te raken. */
+.arcana-card-nav .arcana-card-nav__link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+  min-height: 44px;
+  text-align: left;
+  white-space: normal;
+}
+
+.arcana-card-nav .arcana-card-nav__link--next {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.arcana-card-nav__label {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+.arcana-card-nav__detail {
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.arcana-card-nav__detail em {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+@media (max-width: 480px) {
+  .arcana-card-nav {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  .arcana-card-nav .arcana-card-nav__link,
+  .arcana-card-nav .arcana-card-nav__link--next {
+    flex: 1 1 100%;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .arcana-card-nav__count {
+    order: 3;
+    flex-basis: 100%;
+  }
 }
 
 /* ==========================================================================
@@ -2705,4 +2789,64 @@ body {
 
 .arcana-deelpagina__blad .arcana-fineprint {
   margin-top: 2rem;
+}
+
+/* ==========================================================================
+   ArcanaConfirmDialog — vervangt window.confirm bij "Opnieuw beginnen" en
+   "Antwoorden wissen" (C §5.6)
+   ========================================================================== */
+
+.arcana-dialog-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgb(var(--shadow-color) / 0.45);
+}
+
+.arcana-dialog {
+  width: 100%;
+  max-width: 30rem;
+  padding: 1.5rem;
+  display: grid;
+  gap: 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--arc-radius-panel);
+  box-shadow: var(--shadow-4);
+}
+
+.arcana-dialog h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+.arcana-dialog__body {
+  display: grid;
+  gap: 0.6rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.arcana-dialog__body p {
+  margin: 0;
+}
+
+.arcana-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+@media print {
+  .arcana-dialog-scrim {
+    display: none;
+  }
 }

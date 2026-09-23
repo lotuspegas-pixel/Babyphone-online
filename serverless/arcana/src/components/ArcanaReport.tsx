@@ -1,12 +1,14 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useRef, useState } from 'react';
 
 import { ARCHETYPES } from '../data/arcanaArchetypes';
 import { QUESTION_COUNT } from '../data/arcanaQuestionCount';
 import { DISCLAIMER_TEXT, PRIVACY_TEXT } from '../data/arcanaReportBlocks';
 import { SECTION_GROUPS } from '../data/arcanaSectionGroups';
+import { formatReportDate } from '../lib/arcanaExport';
 import type { ArcanaReport as ReportType, ArcanaReportSection as ReportSectionType } from '../types/arcana';
 import { ArcanaArchetypeCard } from './ArcanaArchetypeCard';
 import { ArcanaBackToTocButton } from './ArcanaBackToTocButton';
+import { ArcanaConfirmDialog } from './ArcanaConfirmDialog';
 import { ArcanaExportButton } from './ArcanaExportButton';
 import { ArcanaMethod } from './ArcanaMethod';
 import { ArcanaPdfButton } from './ArcanaPdfButton';
@@ -44,6 +46,11 @@ const SHAREABLE_SECTION_ID = 'understood-by-others';
 
 export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }: Props) {
   const primaryDef = ARCHETYPES.find((a) => a.id === report.archetypes.primary)!;
+  // Welke bevestigingsdialoog open staat (C §5.6) — vervangt de twee
+  // window.confirm-aanroepen die hier stonden.
+  const [openDialog, setOpenDialog] = useState<'restart' | 'clear' | null>(null);
+  const restartButtonRef = useRef<HTMLButtonElement>(null);
+  const clearButtonRef = useRef<HTMLButtonElement>(null);
 
   // Groepeer de 32 niet-hero secties volgens de vaste indeling in
   // arcanaSectionGroups.ts, in de volgorde waarin ze al in report.sections
@@ -123,9 +130,16 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
 
       <header className="arcana-report__masthead" id="arcana-report-hero">
         <div className="arcana-report__masthead-text">
-          <p className="arcana-eyebrow">Jouw archetype</p>
+          <p className="arcana-eyebrow">Het patroon dat het sterkst naar voren kwam</p>
           <h1>{primaryDef.name}</h1>
           <p className="arcana-report__masthead-quote">{report.sections[0].intro}</p>
+          {/* Kleiner, maar gratis (C §3.4-D): wat een naslagwerk hoort te
+              hebben, en nu voor het eerst ook in de interface staat, niet
+              alleen in de markdown-export. */}
+          <p className="arcana-fineprint">
+            Gemaakt op {formatReportDate(report.meta.generatedAt)} · {QUESTION_COUNT} antwoorden · versie{' '}
+            {report.meta.version} van de berekening
+          </p>
         </div>
         <div className="arcana-report__masthead-actions arcana-print-hide">
           {/* Drie knoppen die geen van drieën iets vernietigen. Het eerste wat
@@ -261,31 +275,17 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
           </button>
           <button
             type="button"
+            ref={restartButtonRef}
             className="arcana-button arcana-button--ghost"
-            onClick={() => {
-              if (
-                window.confirm(
-                  'Weet je zeker dat je opnieuw wilt beginnen? Je huidige antwoorden en rapport gaan verloren. Overweeg eerst "Rapport downloaden".',
-                )
-              ) {
-                onRestart();
-              }
-            }}
+            onClick={() => setOpenDialog('restart')}
           >
             Opnieuw beginnen
           </button>
           <button
             type="button"
+            ref={clearButtonRef}
             className="arcana-button arcana-button--text"
-            onClick={() => {
-              if (
-                window.confirm(
-                  'Weet je zeker dat je al je antwoorden en dit rapport wilt wissen? Dit kan niet ongedaan worden gemaakt. Overweeg eerst "Rapport downloaden".',
-                )
-              ) {
-                onClearAnswers();
-              }
-            }}
+            onClick={() => setOpenDialog('clear')}
           >
             Antwoorden wissen
           </button>
@@ -293,6 +293,48 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
         <p className="arcana-fineprint">{PRIVACY_TEXT}</p>
         <p className="arcana-fineprint arcana-fineprint--disclaimer">{DISCLAIMER_TEXT}</p>
       </footer>
+
+      {openDialog === 'restart' && (
+        <ArcanaConfirmDialog
+          titleText="Opnieuw beginnen?"
+          description={
+            <p>
+              Je huidige antwoorden en je rapport verdwijnen. Je naam en aanspreekvorm blijven staan, zodat je niet
+              opnieuw hoeft in te vullen.
+            </p>
+          }
+          confirmLabel="Ja, opnieuw beginnen"
+          cancelLabel="Nee, terug naar mijn rapport"
+          returnFocusRef={restartButtonRef}
+          onCancel={() => setOpenDialog(null)}
+          onConfirm={() => {
+            setOpenDialog(null);
+            onRestart();
+          }}
+        />
+      )}
+      {openDialog === 'clear' && (
+        <ArcanaConfirmDialog
+          titleText="Al je antwoorden en je rapport wissen?"
+          description={
+            <>
+              <p>
+                Dit wist je {QUESTION_COUNT} antwoorden en het rapport dat eruit volgde, uit deze browser. Wij hebben
+                geen kopie — er is geen server. Dit kan niet ongedaan worden gemaakt.
+              </p>
+              <p>Bewaar eerst wat je wilt houden.</p>
+            </>
+          }
+          confirmLabel="Ja, wis alles"
+          cancelLabel="Nee, laat staan"
+          returnFocusRef={clearButtonRef}
+          onCancel={() => setOpenDialog(null)}
+          onConfirm={() => {
+            setOpenDialog(null);
+            onClearAnswers();
+          }}
+        />
+      )}
     </div>
   );
 }

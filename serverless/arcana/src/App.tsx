@@ -41,7 +41,11 @@ import { PrivacyPage, TermsPage } from './site/LegalPages';
  */
 const ArcanaIntake = lazy(() => import('./components/ArcanaIntake').then((m) => ({ default: m.ArcanaIntake })));
 const ArcanaTest = lazy(() => import('./components/ArcanaTest').then((m) => ({ default: m.ArcanaTest })));
-const ArcanaReport = lazy(() => import('./components/ArcanaReport').then((m) => ({ default: m.ArcanaReport })));
+// ArcanaReportGate is de poortwachter (versiecheck + foutgrens) vóór de
+// eigenlijke rapportweergave; zie ArcanaReportGate.tsx.
+const ArcanaReportGate = lazy(() =>
+  import('./components/ArcanaReportGate').then((m) => ({ default: m.ArcanaReportGate })),
+);
 const ArcanaSharePage = lazy(() =>
   import('./components/ArcanaSharePage').then((m) => ({ default: m.ArcanaSharePage })),
 );
@@ -361,7 +365,7 @@ function App() {
   if (screen === 'report' && report) {
     return (
       <Suspense fallback={<ScreenFallback />}>
-        <ArcanaReport
+        <ArcanaReportGate
           report={report}
           onRestart={handleRestart}
           onClearAnswers={handleClearAnswers}

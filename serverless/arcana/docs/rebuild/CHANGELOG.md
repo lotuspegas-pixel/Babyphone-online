@@ -528,3 +528,85 @@ blijven renderbaar (het `outro`-veld bestond al; er is geen sectie hernoemd of v
   schrijfdomein. Een volledige audit van elke "je" gevolgd door een niet-werkwoord in alle
   ~1.000+ tekstvarianten is niet gedaan; dat zou een uitbreiding van de herkende woorden in
   `arcanaVoice.ts` vragen, niet meer brontekst-patches.
+
+## Taak 10 (presentatiedeel) — Navigatieregel, wisdialoog, knoplabels, versiecontrole · 2026-09-23
+
+**Het presentatie-/robuustheidsdeel dat na het tekstdeel nog openstond.** De rapporttekst, de
+rapportgenerator en de gouden master zijn in deze stap niet aangeraakt.
+
+### Wat er is veranderd
+- De kaartnavigatie onderaan elk hoofdstuk (`C` §3.2 laag 3) toont nu een halve regel context per
+  richting in plaats van alleen een titel: "Waar dit naartoe leidt → *Je valkuilen* — dezelfde
+  eigenschappen, nu vanaf de kant waar ze tegen je gaan werken" en "Waar dit vandaan komt ← *Wie
+  je bent* — …". Een vaste tabel (`src/data/arcanaSectionNavReasons.ts`, sectie-id → reden
+  vooruit/achteruit) koppelt dit aan elk van de 31 overgangen tussen de 32 hoofdstukken;
+  deterministisch, geen scores, telt niet mee in de gouden master (de navigatie staat niet in de
+  markdown-export). Waar geen reden in de tabel staat (het eerste en laatste hoofdstuk, en een
+  eventuele niet-ingedeelde sectie), valt de link terug op de kale titel zoals voorheen. De "Kaart
+  X / Y"-teller en de bestaande anker-/toetsenbordwerking zijn ongewijzigd.
+- `window.confirm` bij "Opnieuw beginnen" en "Antwoorden wissen" is vervangen door een eigen
+  `ArcanaConfirmDialog` (`role="dialog"`, `aria-modal`, focus-trap met Tab/Shift+Tab, Escape sluit,
+  focus gaat bij openen naar de veilige knop en keert bij sluiten terug naar de knop die de dialoog
+  opende). Beide dialogen gebruiken de letterlijke teksten en knopnamen uit `C` §5 "Bevestigingen"
+  — twee knoppen die de handeling benoemen (`Ja, wis alles` / `Nee, laat staan` en `Ja, opnieuw
+  beginnen` / `Nee, terug naar mijn rapport`) in plaats van "OK"/"Annuleren". De derde knop uit de
+  spec ("Eerst bewaren als PDF") is niet gebouwd — de opdracht voor deze taak vroeg expliciet om
+  twee knoppen; de zin "Bewaar eerst wat je wilt houden" staat wel in de dialoogtekst.
+- Knoplabels: `Download als PDF` → `Bewaar als PDF`, met de instructie die eerder alleen in een
+  `title`-attribuut stond (verschijnt op touch nooit) nu als zichtbare tekst eronder. `Rapport
+  printen` → `Printen op papier`. `Rapport downloaden` → `Downloaden als tekstbestand (.md)`.
+  Masthead-eyebrow: `Jouw archetype` → `Het patroon dat het sterkst naar voren kwam`. De
+  archetypenamen zelf zijn niet vertaald — dat is een apart eigenaarsbesluit (`C` §4.11 rij 55) en
+  viel buiten deze taak.
+- Datumregel bovenaan het rapport (`C` §3.4-D), nu ook in de interface in plaats van alleen in de
+  markdown-export: `Gemaakt op {datum} · 120 antwoorden · versie {n} van de berekening`.
+- Versiecontrole zodat een `arcana_result` dat deze build niet kent nooit een leeg of kapot scherm
+  geeft: `arcanaReportCompat.ts` keurt een rapport goed zolang de hoofdversie van `meta.version`
+  bekend is (nu 2), ongeacht het minor/patch-cijfer — additieve rapportwijzigingen blijven dus
+  gewoon renderbaar, geen harde 3.0.0-blokkade. Bij een onbekende of hogere hoofdversie, én als
+  laatste vangnet bij een echte renderfout (`ArcanaReportErrorBoundary`, een class component),
+  verschijnt `ArcanaReportIncompatible`: een uitlegscherm met een downloadknop (probeert eerst de
+  bestaande markdown-export, valt terug op de ruwe opgeslagen data als zelfs dat struikelt) en "De
+  test opnieuw doen". `ArcanaReportGate.tsx` voegt de versiecheck en de foutgrens samen vóór
+  `ArcanaReport`, als één nieuwe lazy chunk in plaats van rechtstreeks `ArcanaReport`.
+
+### Wat er bewust niet is veranderd
+- De rapporttekst, de rapportgenerator, de scores, `REPORT_VERSION` (blijft 2.2.0): niet
+  aangeraakt. De gouden master heeft 0 gewijzigde fixtures.
+- De terugkeerondersteuning uit `C` §3.4 A/B/C (welkom-terug-kaart, leesmarkering, vergelijken na
+  opnieuw invullen): staat nog open, alleen onderdeel D (de datumregel) zat in deze taak.
+- De zes `STORAGE_KEYS` en hun vorm: ongewijzigd.
+
+### Wat de bezoeker merkt
+- Onderaan elk hoofdstuk staat nu een reden om door te klikken, niet alleen een titel.
+- Wissen of opnieuw beginnen vraagt een bevestiging met knoppen die zeggen wat ze doen, niet "OK".
+- "Bewaar als PDF" legt zelf uit wat er in het printvenster moet gebeuren, ook op een telefoon.
+- Een rapport dat is opgeslagen met een andere versie van de berekening dan de app nu gebruikt,
+  geeft nooit een lege pagina — altijd een uitleg, een download en een uitweg.
+
+### Regressiepoort
+| Blok | Uitkomst |
+|---|---|
+| Typecheck | 0 |
+| Lint | 0 |
+| Tests | 129 groen, 0 gewijzigd |
+| Determinisme — gouden master | 0 gewijzigde fixtures |
+| Contrast, rapport, licht/donker, incl. open dialoog | 0 fouten (688–693 knopen) |
+| Build + domeincontrole + begroting | geslaagd (landingbundel ongewijzigd: alles nieuw zit in de rapportchunk) |
+
+### Terugrollen
+Zeven bestanden gewijzigd, vijf nieuw, alles in één commit. Geen opslagwijziging: terugdraaien
+raakt geen `arcana_result`, `arcana_answers` of andere sleutel.
+
+### Wat dit openlaat
+- De terugkeerondersteuning (`C` §3.4 A/B/C) en de leesinstructie bij de `profile`-kaarten.
+- Geen viewport-resize beschikbaar in het browserpaneel van deze sessie: 1440/390/320 px is niet
+  apart gemeten. Wel geverifieerd: de echte layoutviewport was 1280×720 (bevestigd via
+  `window.innerWidth`), het contrastscript liep daar met 0 fouten in licht én donker (ook met de
+  dialoog open), en alle nieuwe CSS gebruikt dezelfde relatieve eenheden en `flex-wrap`-patronen
+  als de rest van het bestand, plus één nieuwe `max-width: 480px`-regel voor het stapelen van de
+  kaartnavigatie op smalle schermen. Niet met het oog op 320/390 px gecontroleerd.
+- Screenshots op grote scrolldiepte (> ~2.000 px) leverden in deze sessie herhaaldelijk een leeg
+  beeld op, los van de code (bevestigd via `getComputedStyle`/`elementFromPoint`: de content stond
+  er wel, met de juiste kleuren). Waar een screenshot nodig was is dat opgevangen door dicht bij de
+  paginatop te blijven of door de gerenderde HTML/computed styles direct te lezen.

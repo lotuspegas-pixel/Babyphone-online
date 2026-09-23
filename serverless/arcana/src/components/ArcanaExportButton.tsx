@@ -31,7 +31,7 @@ export function ArcanaExportButton({ report }: Props) {
       className="arcana-button arcana-button--ghost arcana-print-hide"
       onClick={handleExport}
     >
-      Rapport downloaden
+      Downloaden als tekstbestand (.md)
     </button>
   );
 }
