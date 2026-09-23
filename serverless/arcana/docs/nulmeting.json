@@ -1,0 +1,29 @@
+{
+  "_toelichting": "Hermeting bij taak 13 (opruimen). De nulsituatie en de doelen komen uit A-baseline.md §1 / G-rebuild-spec.md taak 13. 'gemeten_na' is de stand na taak 1-13, gemeten met scripts/meet-bundel.mjs (brotli q11), het contrastscript uit A §5, en telling in de bron. Wat een draaiende, gehoste site vereist (TTFB, DOM interactive, PageSpeed) is niet in deze omgeving te meten en blijft een eigenaarsstap.",
+  "datum": "2026-09-23",
+  "metrieken": [
+    { "metriek": "JS over de lijn (landing)", "nulsituatie": "139,5 KB", "doel": "≤ 95 KB", "gemeten_na": "66,4 KB q11", "gehaald": true },
+    { "metriek": "CSS over de lijn", "nulsituatie": "9,2 KB", "doel": "≤ 14 KB", "gemeten_na": "11,9 KB q11", "gehaald": true },
+    { "metriek": "Fonts op de landing", "nulsituatie": "94,0 KB", "doel": "≤ 60 KB", "gemeten_na": "53,5 KB (4 basisbestanden)", "gehaald": true },
+    { "metriek": "Totaal eerste render (landing)", "nulsituatie": "~243 KB", "doel": "≤ 170 KB", "gemeten_na": "~132 KB (66,4 JS + 11,9 CSS + 53,5 fonts)", "gehaald": true },
+    { "metriek": "TTFB", "nulsituatie": "1.202 ms", "doel": "< 600 ms", "gemeten_na": "eigenaarsstap (hosting; geen front-endtaak lost dit op, G taak 13)", "gehaald": null },
+    { "metriek": "DOM interactive", "nulsituatie": "1.225 ms", "doel": "< 900 ms", "gemeten_na": "eigenaarsstap (live meting nodig)", "gehaald": null },
+    { "metriek": "Paginahoogte landing (1440 px)", "nulsituatie": "7.083 px", "doel": "≤ 6.000 px", "gemeten_na": "≥ 7.638 px (taak 3-meting; hoger na het controleerblok, het voorbeeldportret, 9 FAQ en de sectie 'Kijk het zelf na')", "gehaald": false, "opmerking": "Boven het doel. De spec vraagt om meer inhoud (E §5.2, §5.8, §5.9, 9e FAQ) dan in 6.000 px past; inkorten betekent inhoud schrappen of de ritmetokens verkleinen. Bekende eigenaarsbeslissing." },
+    { "metriek": "WCAG-AA contrast", "nulsituatie": "0 fouten op 693 knopen", "doel": "0 fouten", "gemeten_na": "0 fouten per scherm, licht én donker (landing, vragen, rapport, voorbeeldpagina); de volledige 18-metingenmatrix draait de eindcontrole-agent", "gehaald": true },
+    { "metriek": "prefers-color-scheme-regels", "nulsituatie": "0", "doel": "> 0", "gemeten_na": "5", "gehaald": true },
+    { "metriek": "prefers-reduced-motion-regels", "nulsituatie": "5", "doel": "≥ 5", "gemeten_na": "8", "gehaald": true },
+    { "metriek": "Skip-link", "nulsituatie": "ontbreekt", "doel": "aanwezig", "gemeten_na": "aanwezig (.arcana-skip-link, beide renderpaden)", "gehaald": true },
+    { "metriek": "Wachttijd na laatste vraag", "nulsituatie": "> 10 s", "doel": "< 2 s of eerlijk gevuld", "gemeten_na": "~2 s (echte rekentijd, ondergrens 1,2 s; taak 9)", "gehaald": true }
+  ],
+  "opgeruimd_bij_taak_13": [
+    "Het canvas-portret (ArcanaPortraitCanvas.tsx) en de ?vergelijk-vlag: verwijderd, de SVG-versie staat sinds taak 6.",
+    "De dode .arcana-portrait__canvas-CSS: verwijderd (.arcana-portrait__field blijft, die gebruikt de SVG-versie).",
+    "arcana-rebuild.patch (472 KB oude patch met speaktoart-verwijzingen): verwijderd.",
+    "meet-bundel.mjs: het canvas uit de optionele-chunk-filter gehaald."
+  ],
+  "bewust_niet_verwijderd": [
+    "console.error in ArcanaReportErrorBoundary.tsx: een legitiem foutlogboek in een error boundary, geen debug-cruft.",
+    "De token-aliassen (--color-parchment, --teal, ...): ze worden nog door bestaande selectors gebruikt; een dekkingssweep met DevTools om ongebruikte tokens/CSS te vinden is niet met zekerheid in deze omgeving te draaien en is als vervolgstap genoteerd.",
+    "tools/engine-uit-bundel.cjs: bestaat niet in deze repo (stond in de referentie-bronstructuur)."
+  ]
+}

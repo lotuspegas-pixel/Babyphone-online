@@ -1742,15 +1742,6 @@ body {
   page-break-inside: avoid;
 }
 
-.arcana-portrait__canvas {
-  display: block;
-  max-width: 100%;
-  /* Vangnet: als max-width de breedte ooit klemt voordat de motor opnieuw
-     heeft gemeten, moet de hoogte meeschalen. Zonder dit blijft de inline
-     hoogte staan en wordt het portret uitgerekt. */
-  height: auto;
-}
-
 .arcana-portrait__caption {
   display: flex;
   flex-wrap: wrap;
@@ -2264,13 +2255,6 @@ body {
      browser hem desgewenst grijs af; met deze regel komt het beeld mee zoals
      het op het scherm staat. De motor tekent bij 'beforeprint' opnieuw op de
      printbreedte, zodat het doek niet half of op schermmaat op papier belandt. */
-  .arcana-portrait__canvas {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-    max-width: 150mm;
-    height: auto;
-  }
-
   /* De rijen zijn op papier geen knoppen meer, alleen nog de leesbare lijst
      met de twaalf waarden. */
   .arcana-portrait__row {

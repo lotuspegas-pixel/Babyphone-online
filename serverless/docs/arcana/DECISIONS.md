@@ -326,6 +326,18 @@ Follow-up: het tussenscherm "Zestig gehad, zestig te gaan" (`C` §5.3) staat nie
 niet gebouwd. Een echte VoiceOver-test en een browsertest van het foutpad met een echt kapotte
 chunk blijven open voor een omgeving waarin dat kan.
 
+## 2026-09-23 — Taak 13: opruimen en hermeten
+
+Decision: het dode canvas-portret (`ArcanaPortraitCanvas.tsx`) en de `?vergelijk`-vlag zijn verwijderd (de SVG-versie staat sinds taak 6), samen met de dode `.arcana-portrait__canvas`-CSS, de cruft-patch `arcana-rebuild.patch` (472 KB), en het canvas uit de optionele-chunk-filter van `meet-bundel.mjs`. De metrieken uit A §1 zijn opnieuw gemeten en vastgelegd in `docs/nulmeting.json` naast de nulsituatie.
+Reason: G taak 13 — het canvas, de functievlaggen en de dode CSS mochten pas weg nadat alles eronder aantoonbaar werkte; dat is nu zo (taak 1-12 groen).
+Files affected: src/components/ArcanaPortraitCanvas.tsx (verwijderd), src/components/ArcanaReport.tsx (lazy import + vergelijk-vlag + vergelijkblok weg, Suspense/lazy-import weg), src/styles/arcana.css (dode canvas-CSS weg), scripts/meet-bundel.mjs (canvas uit isOptional), arcana-rebuild.patch (verwijderd), docs/nulmeting.json (nieuw).
+Risks:
+- Twee doelen zijn niet gehaald en staan eerlijk in de hermeting: (1) de paginahoogte van de landing (≥ 7.638 px tegen doel ≤ 6.000) — de spec vraagt meer inhoud dan in 6.000 px past; inkorten is een eigenaarsbeslissing. (2) TTFB / DOM interactive / PageSpeed — die vereisen een draaiende, gehoste site en zijn eigenaarsstappen.
+- De token-aliassen en een volledige dode-CSS-dekkingssweep zijn bewust niet aangepakt: een DevTools-coverage-run is in deze omgeving niet betrouwbaar te draaien, en tokens/CSS blind verwijderen is een regressierisico voor weinig winst. Genoteerd als vervolgstap.
+- De `console.error` in de error-boundary blijft (legitiem foutlogboek).
+Verificatie: typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigd, build + domeincontrole (19 bestanden) + JSON-LD + begroting geslaagd; landingbundel 66,4 KB q11, CSS 11,9 KB, fonts 53,5 KB — alle onder de begroting; a11y-regels prefers-color-scheme 5, prefers-reduced-motion 8, skip-link aanwezig.
+Follow-up: dode-CSS/token-sweep met DevTools-coverage; de paginahoogte en de live-metingen (TTFB/PageSpeed) door de eigenaar.
+
 ## 2026-09-23 — Taak 12: het voorbeeldrapport als tweede, crawlbare URL
 
 Decision: er is een tweede indexeerbare pagina bijgekomen, `/voorbeeld/`, met een volledig voorbeeldrapport (33 hoofdstukken, ~7.500 woorden). Hij wordt bij de build gegenereerd (`scripts/genereer-voorbeeldpagina.mjs`, draait na `vite build`) uit een bestaande gouden fixture (`balanced-je.md`) — geen engine-run in de build, en de tekst is per definitie identiek aan wat een echte deelnemer krijgt. De markdown wordt naar semantische HTML omgezet, het score-overzicht toont leesbare dimensienamen in plaats van interne id's, en de pagina linkt de gebouwde stylesheet (tokens, licht én donker) plus een klein inline stijlblok. Bovenaan én onderaan staat expliciet dat het een voorbeeld is. De landing kreeg de sectie "Kijk het zelf na" (E §5.9) met drie controleerbare dingen; hero, die sectie en de slot-CTA linken alle drie naar `/voorbeeld/`. De sitemap noemt nu twee URL's.

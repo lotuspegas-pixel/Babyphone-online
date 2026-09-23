@@ -695,3 +695,30 @@ raakt geen `arcana_result`, `arcana_answers` of andere sleutel.
 - Search Console moet beide URL's als ontdekt melden — een owner-stap (vereist een live site).
 - De voorbeeldpagina gebruikt de fixture `balanced-je` (naam "Noor"); als de rapporttekst
   verandert, verandert de pagina mee bij de volgende build (de bron is een gouden fixture).
+
+## Taak 13 — Opruimen en hermeten · 2026-09-23
+
+### Wat er is verwijderd
+- Het oude canvas-portret (`ArcanaPortraitCanvas.tsx`) en de `?vergelijk`-vlag in het rapport.
+  De SVG-versie staat sinds taak 6; de canvas stond er alleen nog om naast elkaar te leggen.
+- De dode `.arcana-portrait__canvas`-CSS (de gedeelde `.arcana-portrait__field` blijft — die
+  gebruikt de SVG-versie).
+- `arcana-rebuild.patch` (472 KB oude patch, cruft met verouderde speaktoart-verwijzingen).
+- Het canvas uit de optionele-chunk-filter van `meet-bundel.mjs`.
+
+### Wat er bewust blijft
+- De `console.error` in de rapport-error-boundary: een echt foutlogboek, geen debug-cruft.
+- De token-aliassen: nog in gebruik. Een DevTools-dekkingssweep om ongebruikte tokens/CSS te
+  vinden is niet betrouwbaar in deze omgeving te draaien — genoteerd als vervolgstap.
+
+### Hermeten (docs/nulmeting.json)
+De metrieken uit A §1 opnieuw gemeten, naast de nulsituatie. Alle bundel-, contrast- en
+toegankelijkheidsdoelen gehaald. Twee openstaande punten, beide eerlijk vastgelegd:
+- **Paginahoogte landing**: ≥ 7.638 px tegen doel ≤ 6.000. De spec vraagt meer inhoud (het
+  controleerblok, het voorbeeldportret, 9 FAQ, "Kijk het zelf na") dan in 6.000 px past —
+  inkorten is inhoud schrappen of de ritmetokens verkleinen, een eigenaarsbeslissing.
+- **TTFB / DOM interactive / PageSpeed**: vereisen een draaiende, gehoste site — eigenaarsstap.
+
+### Regressiepoort
+typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigd, build + domeincontrole + JSON-LD +
+begroting geslaagd.
