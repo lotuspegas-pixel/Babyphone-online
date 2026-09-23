@@ -453,6 +453,6 @@ Jouw groei zit niet in meer worden wie je zou moeten zijn, maar in minder verber
 
 ---
 
-Je antwoorden worden standaard alleen in deze browser opgeslagen om je rapport te maken. Verwijder je je browserdata of klik je op 'Antwoorden wissen', dan verdwijnen je antwoorden.
+Je antwoorden worden alleen in deze browser opgeslagen, om je rapport te maken. Wis ze via 'Antwoorden wissen', of door je browsergegevens te verwijderen.
 
 Arcana Profile is bedoeld voor zelfreflectie en persoonlijke ontwikkeling. Het is geen medisch, psychologisch of therapeutisch diagnose-instrument.

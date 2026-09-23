@@ -1,5 +1,7 @@
 # Eindcontrole — de negen vinkjes uit A-baseline.md §7
 
+> **Opgelost na de QA-ronde (2026-09-23):** de privacy-disclaimer (PRIVACY_TEXT) werd rauw getoond zonder je→u-omzetting, waardoor u-gebruikers de je-vorm zagen op de intake, in de rapportvoettekst en in de export. Nu haalt elke plek de tekst door applyVoice; de bronzin is herformuleerd zodat de omzetter hem grammaticaal correct maakt (de omzetter struikelt over aangrenzende "je je" en over subject-je los van zijn werkwoord). Geverifieerd in de browser (intake volgt de keuze live) en in alle drie de u-fixtures (0 resterende je-vormen).
+
 Bijgehouden vanaf taak 11. Elk vinkje met de stand op het moment van vastleggen en hoe het is
 gecontroleerd. Wat "QA" heet, wordt door de aparte eindcontrole-agent nog integraal nagemeten
 (18 contrastmetingen, netwerktrace, offline-doorloop).

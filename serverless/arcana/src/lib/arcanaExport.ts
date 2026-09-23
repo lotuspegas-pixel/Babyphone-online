@@ -1,6 +1,7 @@
 import { ARCHETYPES, STRESS_ARCHETYPES } from '../data/arcanaArchetypes';
 import { DISCLAIMER_TEXT, PRIVACY_TEXT } from '../data/arcanaReportBlocks';
 import type { ArcanaReport } from '../types/arcana';
+import { applyVoice } from './arcanaVoice';
 
 /**
  * Bouwt een platte, leesbare Markdown-weergave van het volledige rapport.
@@ -67,7 +68,7 @@ export function buildArcanaExportText(report: ArcanaReport): string {
 
   lines.push('---');
   lines.push('');
-  lines.push(PRIVACY_TEXT);
+  lines.push(applyVoice(PRIVACY_TEXT, report.meta.profile.addressForm));
   lines.push('');
   lines.push(DISCLAIMER_TEXT);
   lines.push('');

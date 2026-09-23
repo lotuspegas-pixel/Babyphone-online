@@ -326,6 +326,17 @@ Follow-up: het tussenscherm "Zestig gehad, zestig te gaan" (`C` §5.3) staat nie
 niet gebouwd. Een echte VoiceOver-test en een browsertest van het foutpad met een echt kapotte
 chunk blijven open voor een omgeving waarin dat kan.
 
+## 2026-09-23 — Naregel: de privacy-disclaimer in de u-vorm (QA-bevinding B1)
+
+Decision: `PRIVACY_TEXT` wordt nu op alle drie de renderplekken (intake, rapportvoettekst, markdown-export) door `applyVoice(text, addressForm)` gehaald, en de bronzin is herformuleerd zodat de je→u-omzetter hem grammaticaal correct maakt. `REPORT_VERSION` → 2.3.0; alle 12 gouden fixtures bewust bijgewerkt (uitsluitend de privacy-regel).
+Reason: de eindcontrole vond dat de enige disclaimer met je/uw-voornaamwoorden rauw werd getoond — wie "u" koos zag de je-vorm op de intake, onderaan het rapport en in de export. Op een product dat op narekenbaarheid en eerlijkheid verkoopt is een disclaimer in de verkeerde aanspreekvorm een geloofwaardigheidsprobleem. De gouden master was er blind voor (determinisme, geen grammatica; de fout stond al bevroren).
+Files affected: src/data/arcanaReportBlocks.ts (PRIVACY_TEXT herformuleerd), src/components/ArcanaIntake.tsx + ArcanaReport.tsx + src/lib/arcanaExport.ts (applyVoice), src/lib/arcanaReportGenerator.ts (versie), 12 gouden fixtures + HASHES.
+Risks:
+- De omzetter (`arcanaVoice.ts`) blijft fragiel: hij zet aangrenzende "je je" verkeerd om ("uw u") en maakt van een subject-"je" die niet direct door zijn werkwoord wordt gevolgd ten onrechte "uw". De fix omzeilt dat door de bronzin alleen possessieve "je" vóór een zelfstandig naamwoord te laten gebruiken; de omzetter zelf is niet aangepast (dat zou alle u-fixtures onvoorspelbaar raken). Als iemand later een subject-"je" of "je je" in een gedeelde tekstconstante zet, kan dezelfde klasse fout terugkomen — een corpus-test die de daadwerkelijke productie-render toetst (niet alleen `toFormal` in isolatie) zou dit vangen; genoteerd als vervolgstap.
+- De je-vorm van de disclaimer is licht ingekort ("Verwijder je je browserdata of klik je op …" → "Wis ze via 'Antwoorden wissen', of door je browsergegevens te verwijderen"); dezelfde betekenis, en nu in beide aanspreekvormen correct.
+Verificatie: intake in de browser — bij het kiezen van "U" flipt de fineprint live naar de correcte u-vorm, 0 resterende "je"; alle drie de u-fixtures 0 je-vormen; harde helft onaangeraakt (129 tests groen); typecheck 0, lint 0, build + domeincontrole + JSON-LD + begroting geslaagd.
+Follow-up: een productie-render-corpus-test voor de aanspreekvorm; de bredere omzetter-fragiliteit (`arcanaVoice.ts`) blijft een bekend aandachtspunt.
+
 ## 2026-09-23 — Taak 13: opruimen en hermeten
 
 Decision: het dode canvas-portret (`ArcanaPortraitCanvas.tsx`) en de `?vergelijk`-vlag zijn verwijderd (de SVG-versie staat sinds taak 6), samen met de dode `.arcana-portrait__canvas`-CSS, de cruft-patch `arcana-rebuild.patch` (472 KB), en het canvas uit de optionele-chunk-filter van `meet-bundel.mjs`. De metrieken uit A §1 zijn opnieuw gemeten en vastgelegd in `docs/nulmeting.json` naast de nulsituatie.

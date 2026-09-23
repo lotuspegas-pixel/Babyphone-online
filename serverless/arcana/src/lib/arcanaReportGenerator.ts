@@ -28,7 +28,7 @@ import type {
 // Alleen tekst toegevoegd/hersteld, geen sectie hernoemd of verwijderd — een
 // oudere `arcana_result` blijft dus renderbaar, hij toont alleen de nieuwe
 // afsluiters niet totdat het rapport opnieuw wordt gegenereerd.
-const REPORT_VERSION = '2.2.0';
+const REPORT_VERSION = '2.3.0';
 
 /** Subdimensies die, wanneer ze hoog uitvallen, schaduw- en valkuilmateriaal zijn. */
 const RISK_DIMENSIONS: SubDimensionId[] = [

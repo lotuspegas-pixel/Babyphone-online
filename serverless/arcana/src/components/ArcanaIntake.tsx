@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PRIVACY_TEXT } from '../data/arcanaReportBlocks';
+import { applyVoice } from '../lib/arcanaVoice';
 import type { AddressForm, ArcanaProfile, LifePhase } from '../types/arcana';
 
 interface Props {
@@ -125,7 +126,8 @@ export function ArcanaIntake({ initialProfile, onConfirm, onBack }: Props) {
           Liever zonder naam →
         </button>
 
-        <p className="arcana-fineprint">{PRIVACY_TEXT}</p>
+        {/* Volgt de gekozen aanspreekvorm live, net als de rest van de tekst. */}
+        <p className="arcana-fineprint">{applyVoice(PRIVACY_TEXT, addressForm)}</p>
       </form>
     </div>
   );

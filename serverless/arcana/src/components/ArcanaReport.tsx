@@ -5,6 +5,7 @@ import { QUESTION_COUNT } from '../data/arcanaQuestionCount';
 import { DISCLAIMER_TEXT, PRIVACY_TEXT } from '../data/arcanaReportBlocks';
 import { SECTION_GROUPS } from '../data/arcanaSectionGroups';
 import { formatReportDate } from '../lib/arcanaExport';
+import { applyVoice } from '../lib/arcanaVoice';
 import type { ArcanaReport as ReportType, ArcanaReportSection as ReportSectionType } from '../types/arcana';
 import { ArcanaArchetypeCard } from './ArcanaArchetypeCard';
 import { ArcanaBackToTocButton } from './ArcanaBackToTocButton';
@@ -272,7 +273,7 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
             Antwoorden wissen
           </button>
         </div>
-        <p className="arcana-fineprint">{PRIVACY_TEXT}</p>
+        <p className="arcana-fineprint">{applyVoice(PRIVACY_TEXT, report.meta.profile.addressForm)}</p>
         <p className="arcana-fineprint arcana-fineprint--disclaimer">{DISCLAIMER_TEXT}</p>
       </footer>
 

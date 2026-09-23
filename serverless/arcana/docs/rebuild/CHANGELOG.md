@@ -722,3 +722,19 @@ toegankelijkheidsdoelen gehaald. Twee openstaande punten, beide eerlijk vastgele
 ### Regressiepoort
 typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigd, build + domeincontrole + JSON-LD +
 begroting geslaagd.
+
+## Naregel na de eindcontrole — de privacy-disclaimer in de u-vorm · 2026-09-23
+
+De eindcontrole vond dat `PRIVACY_TEXT` (de enige disclaimer met je/uw-voornaamwoorden) op drie
+plekken rauw werd getoond zonder de je→u-omzetting: op het intakescherm, in de rapportvoettekst
+en in de markdown-export. Wie "u" koos zag daar de je-vorm — precies het soort narekenbare belofte
+dat niet mag falen. De gouden master was er blind voor omdat die determinisme bewaakt, niet
+grammatica, en de fout al bevroren stond.
+
+**Fix:** elke plek haalt de tekst nu door `applyVoice(PRIVACY_TEXT, addressForm)`; op de intake
+volgt de disclaimer de keuze live. De bronzin is herformuleerd zodat de omzetter hem correct
+maakt — hij struikelt over aangrenzende "je je" en over een subject-"je" die niet direct door zijn
+werkwoord wordt gevolgd, dus de nieuwe zin gebruikt alleen possessieve "je" vóór een zelfstandig
+naamwoord. `REPORT_VERSION` → 2.3.0. Alle 12 gouden fixtures bewust bijgewerkt (alleen de
+privacy-regel; de harde helft onaangeraakt), 0 resterende je-vormen in de drie u-fixtures.
+Poort groen: typecheck 0, lint 0, 129 tests, build + domeincontrole + JSON-LD + begroting.
