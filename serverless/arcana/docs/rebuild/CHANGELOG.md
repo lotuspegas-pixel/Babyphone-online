@@ -422,3 +422,109 @@ samen bij een terugrol.
 - De `engine-unavailable`-foutpad is niet opnieuw met een echte kapotte chunk getest (de
   gecachete dev-chunk laat zich niet makkelijk laten falen); de code-inspectie en het ongewijzigd
   blijven van de catch-structuur geven vertrouwen, geen browserbewijs.
+
+## Taak 10 (tekst-deel) — Afsluiters per hoofdstuktype en de u-vorm-fix · 2026-09-23
+
+**Alleen het tekstgedeelte van taak 10.** De navigatieregel met inhoud (`C` §3.2 laag 3), de
+terugkeerondersteuning (`C` §3.4) en de knoppenherschikking/wisdialoog uit `G` taak 10 zijn niet
+in deze stap gedaan — zie "Wat dit openlaat".
+
+### Wat er is veranderd
+- Elk van de 33 hoofdstukken krijgt nu een afsluiter die bij zijn kaartsoort past (`C` §3.3):
+  `insight` (13/14 hoofdstukken) krijgt "Wat je hiermee kunt: dit hoofdstuk rust op {label} ({score})
+  en {label} ({score})…" met de twee subdimensies waar het hoofdstuk al op steunde; de vijf
+  hoofdstukken over anderen krijgen in plaats daarvan "Wat je hiermee kunt: dit gaat over wat
+  anderen van je merken…"; de vier zware hoofdstukken naast "Je valkuilen" (stress, jungian,
+  tensions, blind-spots) krijgen een geruststelling zonder een aantal te noemen dat daar niet
+  klopt; de vier groei-hoofdstukken krijgen "Van de {n} punten hierboven is er één die vandaag al
+  kan…"; de acht beschouwingen krijgen "Waar dit vandaan komt: de inleiding is algemeen — de
+  {n} alinea's daarna zijn gekozen op jouw scores: {label} ({score}) en {label} ({score})…", met
+  een eigen fallback-zin wanneer geen enkele regel matcht.
+- De valkuilenafsluiter (shadow) is herschreven tot wat `C` "de belangrijkste tekst in dit hele
+  document" noemt: "Wat je hiermee kunt" (neem er één, de rest mag wachten), dan "Als dit niet
+  klopt" met de bestaande per-archetype troosttekst (`ifItDoesNotFit`, al verplaatst in taak 4),
+  dan de vaste slotzin "Een lage score op een valkuil betekent niet dat hij er niet is… niet de
+  plekken waar je faalt." Geen doublure: het bestaande `outro`-veld ís de afsluiter, er is geen
+  tweede kopie ernaast gezet.
+- De afsluiters staan als gewone alinea's in het bestaande `outro`-veld, in dezelfde
+  "Label: zin"-vorm die de herkomstzin bij "Wat ik je zou willen uitleggen" al gebruikte — geen
+  nieuw veld, geen `**`-markdown die ongerenderd op het scherm zou verschijnen. Ze verschijnen dus
+  meteen op het scherm (bestaande weergave) en in de markdown-export (bestaande exportcode).
+- Twee u-vorm-fouten gefixt bij de bron: "tot je de logica" en "sneller dan je zelf zou wensen"
+  werden in de u-vorm "tot uw de logica" en "sneller dan uw zelf" — allebei grammaticaal fout,
+  allebei al genoemd in taak 4 als bekende fout van de omzetter. Bij het narekenen van hetzelfde
+  patroon ("je" direct gevolgd door "de"/"het"/"zelf" waar "je" onderwerp of lijdend voorwerp is)
+  bleken er nog 24 andere zinnen met dezelfde omzetfout te staan, verspreid over alle vijf de
+  tekstdatabestanden — allemaal hersteld door de brontekst te herschrijven (nooit de omzetter
+  zelf), meestal door "je" op die ene plek te vervangen door "jij" of "jou", wat in de je-vorm
+  even natuurlijk leest en in de u-vorm altijd goed omzet.
+- Een echte fout ontdekt tijdens het bouwen: de afsluiters van hetzelfde hoofdstuktype kozen
+  allemaal dezelfde formulering binnen één rapport (dezelfde `pick`-sleutel voor alle ~14
+  insight-hoofdstukken), dus las iemand veertien keer letterlijk dezelfde zin met alleen het
+  cijfer anders. Opgelost met een sectie-id als salt (dezelfde truc als `T()`), plus een derde
+  variant bij de twee-variant-teksten om de kans op toevallige herhaling verder te verkleinen.
+- `REPORT_VERSION`: 2.1.0 → 2.2.0. Puur tekst toegevoegd, geen sectie hernoemd of verwijderd; een
+  oudere `arcana_result` blijft renderbaar en toont de nieuwe afsluiters pas na opnieuw genereren.
+
+### Wat er bewust niet is veranderd
+- De navigatieregel onderaan elk hoofdstuk (`C` §3.2 laag 3): dat raakt `ArcanaReportSection.tsx`
+  (presentatielaag), niet de rapporttekst — en telt volgens `C` zelf niet mee in de gouden master.
+  Blijft open voor de volgende stap.
+- De terugkeerondersteuning (`C` §3.4: welkom-terug-kaart, leesmarkering, vergelijken na opnieuw
+  invullen) en de knoppenherschikking/eigen wisdialoog uit `G` taak 10: allebei presentatie- en
+  opslaglaag, niet tekst.
+- De leesinstructie "Hoe je dit leest" bij de `profile`-kaarten (scorewiel/portret, methodekaart):
+  die kaarten zijn geen `ArcanaReportSection` en lopen niet door de generator — dat hoort bij de
+  kaarten zelf (`ArcanaMethod.tsx` zegt het al; het portret nog niet, verkort).
+- De berekening, de scores, de archetypen, de spanningsvelden: byte voor byte gelijk (harde helft
+  van `npm test` bleef groen tijdens de hele stap).
+- "Wat ik je zou willen uitleggen" (understood-by-others) krijgt geen generieke insight-afsluiter
+  erbij: die sectie heeft al een eigen "Waar dit vandaan komt"-zin met twee scores uit taak 4, en
+  een tweede afsluiter ernaast zou dezelfde functie dubbel vervullen.
+- Het 30-dagenplan krijgt geen nieuwe afsluiter: `thirty-day.note` zegt al bijna letterlijk wat
+  `C` als afsluiter voorstelt.
+
+### Wat de bezoeker merkt
+- Onder elke lijst met bullets staat nu een korte, concrete vervolgstap in plaats van niets.
+- De valkuilenkaart eindigt met dezelfde geruststelling als voorheen, nu explicieter opgebouwd.
+- Twee zinnen die eerder kromme u-vorm gaven, lezen nu correct voor wie de test in de u-vorm doet.
+
+### Gemeten, vóór → na
+| Metriek | Voor | Na | Doel |
+|---|--:|--:|--:|
+| Woorden per fixture (12) | 6.058–6.837 | 7.402–8.215 | — |
+| Gemiddelde groei per rapport | — | +1.356 woorden (~+22%) | — |
+| Cross-rapport tekstoverlap (`npm run overlap`) | 28,8% | 28,8% | onveranderd — afsluiters staan in `outro`, dat telt niet mee in deze meting |
+| U-vorm-omzetfouten (`uw de`/`uw het`/`uw een`/`uw zelf`) in de zes tekstbestanden | 26 (automatische scan) | 0 | 0 |
+
+### Regressiepoort
+| Blok | Uitkomst |
+|---|---|
+| Typecheck | 0 |
+| Lint | 0 |
+| Determinisme — harde helft (scores, archetypen, spanningsvelden) | onveranderd |
+| Determinisme — gouden master | bewust bijgewerkt in dezelfde commit, diff gelezen |
+| Tests | 129 groen (u-corpus en grammaticatest ongewijzigd gebleven, dus ook op de nieuwe teksten getest) |
+| Build + domeincontrole + begroting | geslaagd |
+
+### Terugrollen
+Eén commit: tekst, twaalf fixtures en `REPORT_VERSION` gaan samen. Opgeslagen rapporten uit 2.1.0
+blijven renderbaar (het `outro`-veld bestond al; er is geen sectie hernoemd of verwijderd).
+
+### Wat dit openlaat
+- Alles onder "Wat er bewust niet is veranderd" hierboven: de navigatieregel, de
+  terugkeerondersteuning, de wisdialoog, de knoppenherschikking en de leesinstructie bij de
+  profielkaarten.
+- Geen browsertool beschikbaar in deze sessie: geen visuele screenshot-controle en geen
+  Playwright-contrastmeting op het rapport. Geverifieerd via de gegenereerde markdown-export
+  (dezelfde tekst die `ArcanaReportSection.tsx` ongewijzigd als platte alinea's rendert) en via
+  broncode-inspectie van die renderfunctie.
+- De u-vorm-fix is gericht op het letterlijke patroon "je" + "de"/"het"/"zelf", plus alle gevallen
+  die een volledige corpusscan (elke "je"-zin in de zes bestanden, automatisch omgezet en
+  gecontroleerd op "uw" + die vier woorden) opleverde. Twee losstaande gevallen die tijdens het
+  handmatig lezen zijn gevonden (de zin "put je snel uit" gaf door een dubbele-t-fout in de
+  omzetter zelf "putt u"; "plaats je een project" mist een stam in de omzetter) zijn omzeild door
+  de brontekst te herschrijven, niet door de omzetter te repareren — die staat niet in dit
+  schrijfdomein. Een volledige audit van elke "je" gevolgd door een niet-werkwoord in alle
+  ~1.000+ tekstvarianten is niet gedaan; dat zou een uitbreiding van de herkende woorden in
+  `arcanaVoice.ts` vragen, niet meer brontekst-patches.

@@ -102,7 +102,7 @@ export const REFLECTION_THEMES: ReflectionTheme[] = [
     rules: [
       {
         when: [{ id: 'conflictAvoidance', min: 65 }, { id: 'criticismSensitivity', min: 65 }],
-        text: 'Bij jou blijft wrok het langst zitten, om een eenvoudige reden: je zegt het niet, dus het gaat niet weg. Wat je inslikt verdwijnt niet, het verhuist. Meestal naar een toon die je zelf niet herkent, maanden later, over iets kleins.',
+        text: 'Bij jou blijft wrok het langst zitten, om een eenvoudige reden: je zegt het niet, dus het gaat niet weg. Wat je inslikt verdwijnt niet, het verhuist. Meestal naar een toon die jij zelf niet herkent, maanden later, over iets kleins.',
       },
       {
         when: [{ id: 'shadowDefensiveness', min: 65 }],
@@ -296,9 +296,9 @@ export const REFLECTION_THEMES: ReflectionTheme[] = [
     fallback:
       'Je scores wijzen niet op een uitgesproken patroon in hoe je met tegenslag omgaat. Dat maakt de vraag interessanter dan het antwoord: kijk terug op de laatste keer dat iets misging en let op wie je toen werd.',
     question: [
-      'Welk deel van wat je overkwam was werkelijk van jou — en heb je de rest al teruggegeven aan het toeval?',
-      'Welk deel van wat er gebeurde had werkelijk met jou te maken — en heb je de rest al aan het toeval overgelaten?',
-      'Wat van wat je is overkomen was echt aan jou toe te schrijven, en heb je de rest al losgelaten als puur toeval?',
+      'Welk deel van wat er met je gebeurde was werkelijk van jou — en heb jij de rest al teruggegeven aan het toeval?',
+      'Welk deel van wat er gebeurde had werkelijk met jou te maken — en heb jij de rest al aan het toeval overgelaten?',
+      'Wat van wat je is overkomen was echt aan jou toe te schrijven, en heb jij de rest al losgelaten als puur toeval?',
     ],
   },
   {

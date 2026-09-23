@@ -1,8 +1,13 @@
 import { ARCHETYPES, STRESS_ARCHETYPES } from '../data/arcanaArchetypes';
 import { ARCHETYPE_CONTENT, STRESS_ARCHETYPE_CONTENT } from '../data/arcanaArchetypeContent';
 import { SUB_DIMENSION_IDS, TENSION_DEFINITIONS } from '../data/arcanaDimensions';
-import { CLOSING_SENTENCE_FALLBACK, MAIN_DIMENSION_GLOSS } from '../data/arcanaReportBlocks';
-import { REFLECTION_THEMES, type ReflectionTheme } from '../data/arcanaReflections';
+import {
+  CLOSING_SENTENCE_FALLBACK,
+  GROWTH_MEANING_NOTE,
+  MAIN_DIMENSION_GLOSS,
+  SHADOW_NOT_FAILURE_NOTE,
+} from '../data/arcanaReportBlocks';
+import { REFLECTION_THEMES, type ReflectionRule, type ReflectionTheme } from '../data/arcanaReflections';
 import { SECTION_PHRASINGS } from '../data/arcanaSectionPhrasings';
 import { TRAIT_CONTENT, type TraitContent } from '../data/arcanaTraitContent';
 import { scoreBand } from './arcanaScoringEngine';
@@ -19,7 +24,11 @@ import type {
   SubDimensionScore,
 } from '../types/arcana';
 
-const REPORT_VERSION = '2.1.0';
+// 2.1.0 → 2.2.0: afsluiters per hoofdstuktype (C §3.3) en de u-vorm-fixes.
+// Alleen tekst toegevoegd/hersteld, geen sectie hernoemd of verwijderd — een
+// oudere `arcana_result` blijft dus renderbaar, hij toont alleen de nieuwe
+// afsluiters niet totdat het rapport opnieuw wordt gegenereerd.
+const REPORT_VERSION = '2.2.0';
 
 /** Subdimensies die, wanneer ze hoog uitvallen, schaduw- en valkuilmateriaal zijn. */
 const RISK_DIMENSIONS: SubDimensionId[] = [
@@ -223,6 +232,70 @@ function S(result: ArcanaScoreResult, key: string): string {
 }
 
 /**
+ * Zoals `S()`, maar met een salt. De afsluiters hieronder hergebruiken
+ * dezelfde sectietekst-sleutel in tot wel veertien hoofdstukken; zonder salt
+ * kiest `pick` daar overal dezelfde variant (zelfde seed, zelfde sleutel) en
+ * leest elke afsluiter in het rapport woordelijk hetzelfde. De sectie-id als
+ * salt is dezelfde truc als `T()` met zijn `salt`-parameter hierboven.
+ */
+function Sc(result: ArcanaScoreResult, key: string, salt: string): string {
+  const phrasing = SECTION_PHRASINGS[key];
+  if (!phrasing) throw new Error(`Onbekende sectietekst "${key}"`);
+  return pick(phrasing, result.variantSeed, `section.${key}:${salt}`);
+}
+
+/**
+ * Afsluiters per hoofdstuktype (C §3.3): één regel die zegt wat de lezer met
+ * het hoofdstuk kan, in hetzelfde "label: zin"-patroon dat de bestaande
+ * herkomstzin bij "understood-by-others" al gebruikt. Ze komen als losse
+ * `outro`-regel na de opsomming, dus de bestaande platte weergave volstaat —
+ * er is geen apart kopveld nodig en er verschijnt nergens een letterlijke "**".
+ */
+function insightCloser(
+  result: ArcanaScoreResult,
+  salt: string,
+  labelA: string,
+  scoreA: number,
+  labelB: string,
+  scoreB: number,
+): string {
+  return Sc(result, 'closer.insight', salt)
+    .replace('{labelA}', labelA)
+    .replace('{scoreA}', String(scoreA))
+    .replace('{labelB}', labelB)
+    .replace('{scoreB}', String(scoreB));
+}
+
+/** Insight-afsluiter voor het gangbare geval: twee subdimensies met hun score. */
+function insightCloserForDims(result: ArcanaScoreResult, salt: string, a: SubDimensionId, b: SubDimensionId): string {
+  return insightCloser(
+    result,
+    salt,
+    TRAIT_CONTENT[a].label,
+    result.subDimensions[a].score,
+    TRAIT_CONTENT[b].label,
+    result.subDimensions[b].score,
+  );
+}
+
+/** Variant voor de hoofdstukken die letterlijk over "wat anderen van je merken" gaan. */
+function aboutOthersCloser(result: ArcanaScoreResult, salt: string): string {
+  return Sc(result, 'closer.insight-about-others', salt);
+}
+
+/** Voor de zware hoofdstukken naast "Je valkuilen" zelf: dezelfde geruststelling, zonder een aantal te noemen. */
+function shadowNoteCloser(result: ArcanaScoreResult, salt: string): string {
+  return Sc(result, 'closer.shadow-note', salt);
+}
+
+/** Groei-afsluiter; zonder puntenlijst valt de "van de {n} punten"-opening weg. */
+function growthCloser(result: ArcanaScoreResult, salt: string, bulletCount: number): string {
+  return bulletCount > 0
+    ? Sc(result, 'closer.growth', salt).replace('{n}', String(bulletCount))
+    : Sc(result, 'closer.growth-no-bullets', salt);
+}
+
+/**
  * De velden in TRAIT_CONTENT staan in hoofdzinsvolgorde ("mensen weten precies waar
  * ze aan toe zijn"). Het Nederlands vraagt in een bijzin een andere woordvolgorde,
  * dus zulke fragmenten mogen nooit achter "dat" of "waardoor" geplakt worden. In
@@ -323,6 +396,7 @@ function generateWhoYouAreSection(result: ArcanaScoreResult, profile: ArcanaProf
     ),
     paragraphs,
     bullets,
+    [insightCloserForDims(result, 'who-you-are', first, second)],
   );
 }
 
@@ -360,6 +434,7 @@ function generateCorePatternSection(result: ArcanaScoreResult): ArcanaReportSect
       'Dat wil niet zeggen dat de rest van je profiel er niet toe doet — het betekent dat deze combinatie de meeste verklaringskracht heeft voor waarom je doet wat je doet, en waarom bepaalde situaties meer bij je binnenkomen dan andere.',
     ],
     bullets,
+    [insightCloser(result, 'core-pattern', labels[top[0]], main[top[0]].score, labels[top[1]], main[top[1]].score)],
   );
 }
 
@@ -377,6 +452,7 @@ function generateSeenByOthersSection(result: ArcanaScoreResult): ArcanaReportSec
       S(result, 'seen-by-others.persona'),
     ],
     bullets,
+    [insightCloserForDims(result, 'seen-by-others', top[0], top[1])],
   );
 }
 
@@ -394,6 +470,7 @@ function generateHiddenInnerWorldSection(result: ArcanaScoreResult): ArcanaRepor
       S(result, 'hidden-inner-world.note'),
     ],
     bullets,
+    [insightCloserForDims(result, 'hidden-inner-world', top[0], top[1])],
   );
 }
 
@@ -421,6 +498,7 @@ function generateAloneSection(result: ArcanaScoreResult): ArcanaReportSection {
     S(result, 'alone.intro'),
     paragraphs,
     bullets,
+    [insightCloserForDims(result, 'alone', top[0], top[1])],
   );
 }
 
@@ -448,6 +526,7 @@ function generateWithOthersSection(result: ArcanaScoreResult): ArcanaReportSecti
     `Je sociale patroon scoort ${scoreBand(social)} (${social}/100) — dat zegt niet of je aardig gevonden wordt, maar hoeveel van jezelf je meeneemt naar het contact.`,
     paragraphs,
     bullets,
+    [aboutOthersCloser(result, 'with-others')],
   );
 }
 
@@ -473,6 +552,7 @@ function generateAtWorkSection(result: ArcanaScoreResult): ArcanaReportSection {
       `Betekenis speelt hierbij een rol die je niet moet onderschatten (${result.subDimensions.meaningNeed.score}/100): ${T(result, 'meaningNeed').behavior}. Werk dat daar haaks op staat kost je meer energie dan de taak zelf rechtvaardigt.`,
     ],
     bullets,
+    [aboutOthersCloser(result, 'work-style')],
   );
 }
 
@@ -499,6 +579,7 @@ function generateCloseCircleSection(result: ArcanaScoreResult): ArcanaReportSect
     S(result, 'close-circle.intro'),
     paragraphs,
     bullets,
+    [aboutOthersCloser(result, 'close-circle')],
   );
 }
 
@@ -537,6 +618,8 @@ function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
       `Concreet vertaalt zich dat naar: ${t.behavior}. ${driveSentence}`,
       `De valkuil daarbij: ${t.pitfall}. Groeisleutel: ${t.growthKey}. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.`,
     ],
+    [],
+    [shadowNoteCloser(result, 'stress')],
   );
 }
 
@@ -567,6 +650,7 @@ function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile
       bridge,
     ],
     bullets,
+    [insightCloserForDims(result, 'at-ease', first, second)],
   );
 }
 
@@ -606,6 +690,7 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
       S(result, 'strengths.vooruit'),
     ],
     bullets,
+    [insightCloserForDims(result, 'strengths', top[0], top[1])],
   );
 }
 
@@ -650,7 +735,7 @@ function generateShadowSection(result: ArcanaScoreResult): ArcanaReportSection {
       S(result, 'shadow.disclaimer'),
     ],
     bullets,
-    [S(result, 'shadow.neem-die-ene'), content.ifItDoesNotFit],
+    [S(result, 'shadow.neem-die-ene'), `Als dit niet klopt: ${content.ifItDoesNotFit}`, SHADOW_NOT_FAILURE_NOTE],
   );
 }
 
@@ -685,6 +770,7 @@ function generateJungianSection(result: ArcanaScoreResult): ArcanaReportSection 
       'Een bruikbare vuistregel: irritatie die groter is dan de aanleiding, wijst naar binnen. En bewondering die groter is dan de prestatie, wijst naar iets wat je jezelf nog niet toestaat.',
     ],
     bullets,
+    [shadowNoteCloser(result, 'jungian')],
   );
 }
 
@@ -707,6 +793,8 @@ function generateRelationshipSection(result: ArcanaScoreResult): ArcanaReportSec
         ? S(result, 'relationship.conflict-bridge-high')
         : S(result, 'relationship.conflict-bridge-low'),
     ],
+    [],
+    [aboutOthersCloser(result, 'relationship')],
   );
 }
 
@@ -734,6 +822,8 @@ function generateCommunicationSection(result: ArcanaScoreResult): ArcanaReportSe
         ? `Je valkuil: ${T(result, 'directness').pitfall}. Groeisleutel: ${T(result, 'directness').growthKey}.`
         : `Je valkuil: ${T(result, 'conflictAvoidance').pitfall}. Groeisleutel: ${T(result, 'conflictAvoidance').growthKey}.`,
     ],
+    [],
+    [aboutOthersCloser(result, 'communication')],
   );
 }
 
@@ -774,6 +864,7 @@ function generateTensionsSection(result: ArcanaScoreResult): ArcanaReportSection
       'Jung noemde dit het spanningspaar, en hij zag er de motor van ontwikkeling in. Wie zo\'n paar te snel platslaat door één kant te kiezen, verliest niet alleen de andere kant maar ook de beweging. Wie de spanning lang genoeg verdraagt, ziet er soms een derde weg uit ontstaan die hij vooraf niet had kunnen bedenken.',
     ],
     bullets,
+    [shadowNoteCloser(result, 'tensions')],
   );
 }
 
@@ -800,6 +891,7 @@ function generateBlindSpotsSection(result: ArcanaScoreResult): ArcanaReportSecti
       S(result, 'blind-spots.note'),
     ],
     bullets,
+    [shadowNoteCloser(result, 'blind-spots')],
   );
 }
 
@@ -827,6 +919,8 @@ function generateWhoYouCanBecomeSection(result: ArcanaScoreResult, profile: Arca
       'Dit is geen belofte en geen doel dat je moet halen. Het is de rijpe versie van het patroon dat je al hebt.',
     ),
     paragraphs,
+    [],
+    [growthCloser(result, 'who-you-can-become', 0), GROWTH_MEANING_NOTE],
   );
 }
 
@@ -847,6 +941,7 @@ function generateWhatYouNeedSection(result: ArcanaScoreResult): ArcanaReportSect
       S(result, 'what-you-need.note'),
     ],
     bullets,
+    [growthCloser(result, 'what-you-need', bullets.length), GROWTH_MEANING_NOTE],
   );
 }
 
@@ -866,6 +961,10 @@ function generateGrowthPathSection(result: ArcanaScoreResult): ArcanaReportSecti
       S(result, 'growth-path.note'),
     ],
     bullets,
+    // Alleen de eerste zin van de groei-afsluiter: de tweede ("groei betekent
+    // niet dat het patroon verdwijnt") staat hierboven al bijna letterlijk in
+    // growth-path.note — nog een keer zou een doublure zijn.
+    [growthCloser(result, 'growth-path', bullets.length)],
   );
 }
 
@@ -907,7 +1006,8 @@ function generateUnderstoodByOthersSection(result: ArcanaScoreResult, profile: A
 
 function generateUnderstandYourselfSection(result: ArcanaScoreResult): ArcanaReportSection {
   const content = ARCHETYPE_CONTENT[result.primaryArchetype];
-  const topShadow = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 1)[0];
+  const topShadowPair = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 2);
+  const topShadow = topShadowPair[0];
 
   const bullets = [
     ...content.howToUnderstandYourself,
@@ -923,21 +1023,66 @@ function generateUnderstandYourselfSection(result: ArcanaScoreResult): ArcanaRep
     S(result, 'understand-yourself.intro'),
     [],
     bullets,
+    [insightCloserForDims(result, 'understand-yourself', topShadowPair[0], topShadowPair[1])],
   );
 }
 
-/** Kiest de duidingen waarvan alle scorecondities gelden. */
-function matchingReflections(theme: ReflectionTheme, sub: Record<SubDimensionId, SubDimensionScore>): string[] {
-  const matches = theme.rules
-    .filter((rule) =>
-      rule.when.every((condition) => {
-        const value = sub[condition.id].score;
-        return value >= (condition.min ?? 0) && value <= (condition.max ?? 100);
-      }),
-    )
-    .map((rule) => rule.text);
+/** Geeft de regels waarvan alle scorecondities gelden. */
+function matchingRules(theme: ReflectionTheme, sub: Record<SubDimensionId, SubDimensionScore>): ReflectionRule[] {
+  return theme.rules.filter((rule) =>
+    rule.when.every((condition) => {
+      const value = sub[condition.id].score;
+      return value >= (condition.min ?? 0) && value <= (condition.max ?? 100);
+    }),
+  );
+}
 
-  return matches.length > 0 ? matches.slice(0, 3) : [theme.fallback];
+/**
+ * "Waar dit vandaan komt"-afsluiter voor een beschouwing (C §3.3): benoemt
+ * dat de opening algemeen is en dat alleen de middenstukken op de eigen
+ * scores zijn gekozen, met de twee subdimensies die de gebruikte regels
+ * samen aandragen. Zonder match (fallback-alinea) is er niets score-gedreven
+ * om naar te wijzen; dat wordt dan ook letterlijk gezegd.
+ */
+function reflectionCloser(
+  result: ArcanaScoreResult,
+  theme: ReflectionTheme,
+  matched: ReflectionRule[],
+  anchorId: SubDimensionId | undefined,
+): string {
+  if (matched.length === 0) return S(result, 'closer.reflection-fallback');
+
+  const usedIds = Array.from(
+    new Set<SubDimensionId>([
+      ...(anchorId ? [anchorId] : []),
+      ...matched.flatMap((rule) => rule.when.map((condition) => condition.id)),
+    ]),
+  );
+  const ranked = usedIds
+    .slice()
+    .sort((a, b) => result.subDimensions[b].score - result.subDimensions[a].score || usedIds.indexOf(a) - usedIds.indexOf(b));
+  let [labelIdA, labelIdB] = ranked;
+  if (!labelIdB) {
+    // Zeldzaam: alle matchende regels wijzen samen naar maar één subdimensie.
+    // Vul aan met de op-één-na-hoogste uit de rest van dit thema.
+    const allThemeIds = Array.from(new Set(theme.rules.flatMap((rule) => rule.when.map((c) => c.id))));
+    labelIdB =
+      allThemeIds
+        .filter((id) => id !== labelIdA)
+        .sort((a, b) => result.subDimensions[b].score - result.subDimensions[a].score)[0] ?? labelIdA;
+  }
+
+  const n = matched.length;
+  const stukjeAantal = n === 1 ? 'De alinea' : `De ${n} alinea's`;
+  const isZijn = n === 1 ? 'is' : 'zijn';
+
+  return Sc(result, 'closer.reflection', theme.id)
+    .replace('{stukjeAantal}', stukjeAantal)
+    .replace('{isZijn}', isZijn)
+    .replace('{label1}', TRAIT_CONTENT[labelIdA].label)
+    .replace('{score1}', String(result.subDimensions[labelIdA].score))
+    .replace('{label2}', TRAIT_CONTENT[labelIdB].label)
+    .replace('{score2}', String(result.subDimensions[labelIdB].score));
 }
 
 function generateReflectionSections(result: ArcanaScoreResult): ArcanaReportSection[] {
@@ -957,12 +1102,15 @@ function generateReflectionSections(result: ArcanaScoreResult): ArcanaReportSect
       pick(paragraph, essenceSeed, `reflectie.${theme.id}.essence${i}`),
     );
     const question = pick(theme.question, seed, `reflectie.${theme.id}.question`);
+    const matched = matchingRules(theme, result.subDimensions).slice(0, 3);
+    const bullets = matched.length > 0 ? matched.map((rule) => rule.text) : [theme.fallback];
     return section(
       `reflectie-${theme.id}`,
       theme.title,
       essence[0],
       [...essence.slice(1), `Vraag om bij stil te staan: ${question}`],
-      matchingReflections(theme, result.subDimensions),
+      bullets,
+      [reflectionCloser(result, theme, matched, anchorId)],
     );
   });
 }

@@ -39,6 +39,21 @@ export const CLOSING_SENTENCE_FALLBACK =
   'Jouw groei zit niet in meer worden wie je zou moeten zijn, maar in minder verbergen wie je al bent.';
 
 /**
+ * De slotalinea onder de valkuilenlijst (C §3.3, "de belangrijkste tekst in
+ * dit hele document"). Bewust niet gevarieerd: de precieze formulering is
+ * wat hier telt, niet de afwisseling.
+ */
+export const SHADOW_NOT_FAILURE_NOTE =
+  'Een lage score op een valkuil betekent niet dat hij er niet is, en een hoge score betekent niet dat je hem elke dag hebt. Dit zijn de plekken waar jouw patroon het snelst doorslaat, niet de plekken waar je faalt.';
+
+/**
+ * Tweede zin van de groei-afsluiter (C §3.3). Voor "growth-path" niet
+ * hergebruikt: die sectie zegt dit al bijna letterlijk in `growth-path.note`.
+ */
+export const GROWTH_MEANING_NOTE =
+  'Groei betekent hier niet dat dit patroon verdwijnt. Het betekent dat je eerder doorhebt wanneer het aan het stuur zit, en dat kiezen dan weer kan.';
+
+/**
  * Eén zinsdeel per hoofddimensie dat concreet maakt wát een hoge score daar
  * betekent, los van de naam en het cijfer zelf. Gebruikt in de bullets bij
  * "Jouw kernpatroon" zodat die iets toevoegen aan wat de alinea al zegt,
@@ -50,7 +65,7 @@ export const MAIN_DIMENSION_GLOSS: Record<string, string> = {
   thinkingStyle: 'dit bepaalt of je sneller naar het patroon springt of eerst de feiten op een rij wilt hebben',
   emotionalSensitivityMain: 'dit bepaalt hoe snel de stemming van een ander ook jouw stemming wordt',
   controlAndSecurity: 'dit bepaalt hoeveel onzekerheid je verdraagt voordat je naar houvast grijpt',
-  conflictStyle: 'dit bepaalt of je een aanvaring aangaat of er liever omheen beweegt',
+  conflictStyle: 'dit bepaalt of jij een aanvaring aangaat of er liever omheen beweegt',
   selfImage: 'dit bepaalt hoeveel bevestiging van buitenaf je nodig hebt om jezelf te vertrouwen',
   shadowPattern: 'dit bepaalt welk deel van jezelf je het liefst niet onder ogen ziet',
   relationshipPattern: 'dit bepaalt hoe snel je iemand toelaat en hoeveel ruimte je daarna nog nodig hebt',

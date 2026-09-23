@@ -124,6 +124,68 @@ Files affected: arcana/src/styles/arcana.css (herschreven), index.html (`color-s
 Risks: rangschikvragen leggen bij het openen al een antwoord vast (de beginvolgorde) en zouden zichzelf overslaan bij naïef automatisch doorschakelen — daarom schakelen alleen likert/forcedChoice/scenario automatisch door en houden rangschikvragen een eigen knop. Bij het teruglopen naar een al beantwoorde vraag verschijnt alsnog een "Volgende"-knop, anders zit de deelnemer klem. "Download als PDF" opent het printvenster (bestemming: Opslaan als PDF) in plaats van een eigen PDF te genereren: een PDF-bibliotheek zou honderden kilobytes toevoegen aan een app die verder alleen react en react-dom gebruikt.
 Follow-up: in `@media print` worden de tokens nu geforceerd naar het lichte palet. Zonder dat kreeg wie in donkere modus op "Download als PDF" klikte donkere kaartvlakken op papier, omdat `.arcana-card-clip` `background: var(--surface)` tekent én `print-color-adjust: exact` zet — die combinatie dwingt de browser die donkere vlakken juist wél af te drukken. Een echte print-preview kon in deze omgeving niet pixel-voor-pixel worden gecontroleerd; dat blijft een handmatige controle waard.
 
+## 2026-09-23 — Rebuild taak 10 (tekst-deel): afsluiters per hoofdstuktype en de u-vorm-fix
+
+Decision: alleen het tekstgedeelte van `G` taak 10 uitgevoerd — de andere onderdelen
+(navigatieregel met inhoud, terugkeerondersteuning, knoppenherschikking, eigen wisdialoog) raken
+`src/components/*` en horen bij een aparte stap. Wat wél is gedaan: (1) elk van de 33
+hoofdstukken krijgt een afsluiter die bij zijn kaartsoort past (`C` §3.3): `insight` krijgt "Wat
+je hiermee kunt" met de twee subdimensies waar het hoofdstuk op rust; de vijf hoofdstukken die
+letterlijk over anderen gaan krijgen in plaats daarvan een vraag-het-na-variant zonder cijfers;
+de vier zware hoofdstukken naast "Je valkuilen" krijgen een geruststelling zonder een vast aantal
+te noemen; de vier groei-hoofdstukken krijgen "van de {n} punten is er één die vandaag al kan";
+de acht beschouwingen krijgen een herkomstzin met de twee scores achter de gekozen duidingen, of
+een eerlijke fallback-zin wanneer geen enkele regel matchte. (2) De valkuilenafsluiter zelf is
+herschreven volgens het letterlijke sjabloon uit `C` (het bestaande `outro`-veld, geen tweede
+kopie): "Wat je hiermee kunt" (neem er één), dan "Als dit niet klopt" met de al-verplaatste
+`ifItDoesNotFit`-tekst, dan de vaste slotzin over "niet de plekken waar je faalt". (3) Twee
+gemelde u-vorm-fouten hersteld ("tot je de logica" → "tot uw de logica", "sneller dan je zelf
+zou wensen" → "sneller dan uw zelf") plus 24 andere zinnen met hetzelfde patroon, gevonden met
+een volledige scan van alle "je"-zinnen in de zes tekstbestanden.
+Reason: `C` §3.3 noemt de valkuilenafsluiter expliciet "de belangrijkste tekst in dit hele
+document" en de andere vier afsluitertypes lossen hetzelfde probleem op voor de rest van het
+rapport — een lezer die klaar is met een hoofdstuk krijgt nu een concreet antwoord op "wat doe ik
+hiermee" in plaats van niets. De u-vorm-fout was al twee keer met naam genoemd in taak 4's
+changelog als bekend, nog niet gerepareerd probleem.
+Files affected: arcana/src/lib/arcanaReportGenerator.ts (afsluiterlogica, `Sc()`-helper met salt,
+`matchingRules`/`reflectionCloser`, `REPORT_VERSION` → 2.2.0), arcana/src/data/arcanaSectionPhrasings.ts
+(11 nieuwe `closer.*`-sleutels, `shadow.neem-die-ene` uitgebreid), arcana/src/data/arcanaReportBlocks.ts
+(`SHADOW_NOT_FAILURE_NOTE`, `GROWTH_MEANING_NOTE`, vaste teksten zonder varianten omdat de precieze
+woorden hier telden), arcana/src/data/arcanaTraitContent.ts, arcanaArchetypeContent.ts,
+arcanaReflections.ts (u-vorm-fixes), en de twaalf bestanden onder arcana/src/test/golden/
+(bewust bijgewerkt in dezelfde commit).
+Risks:
+- **Variant-botsing binnen één rapport, niet tussen rapporten.** De eerste versie liet alle ~14
+  insight-afsluiters in één rapport letterlijk dezelfde formulering kiezen, omdat `S()` overal
+  dezelfde `pick`-sleutel gebruikte. Verholpen met een sectie-id als salt (`Sc()`, dezelfde truc
+  als `T()`'s `salt`-parameter). Met maar 2–3 varianten per sjabloon blijft een toevallige
+  herhaling tussen twee hoofdstukken in hetzelfde rapport mogelijk (waargenomen in de
+  steekproef); een vierde/vijfde variant per sjabloon zou dat verder verkleinen maar is niet
+  gedaan (zelfde afweging als de 2026-08-20-beslissing: meer varianten per veld is een apart
+  besluit).
+- **`npm run overlap` bleef bewust ongewijzigd (28,8% → 28,8%).** De afsluiters staan in het
+  `outro`-veld; die meting kijkt alleen naar `intro`/`paragraphs`/`bullets`. Dat is geen gat in de
+  afsluiters zelf, wel een gat in wat die meting ziet — vastgelegd hier zodat het niet als
+  toeval wordt gelezen.
+- **Twee omzetter-bugs ontdekt die niet met brontekst alleen op te lossen zijn**, en dus niet
+  gerepareerd: `conjugateForInversion('put')` levert `"putt"` op (dubbele stam-t bij een stam die
+  al op -t eindigt) en `'plaats'` ontbreekt in `INVERSION_STEMS`. Beide sneden geraakt: de ene zin
+  is herschreven met een ander werkwoord, de andere met een andere zinsbouw. Een volledige
+  oplossing hoort in `arcanaVoice.ts`, dat buiten dit schrijfdomein valt.
+- **Geen browsertool beschikbaar in deze sessie.** Geverifieerd via de gegenereerde
+  markdown-export (`buildArcanaExportText`, dezelfde tekst die de bestaande, ongewijzigde
+  `ArcanaReportSection.tsx` als platte alinea's rendert) en broncode-inspectie van die
+  renderfunctie, niet met een screenshot of een Playwright-contrastmeting.
+Verificatie: typecheck 0, lint 0, 129 tests (harde helft ongewijzigd; u-corpus- en
+grammaticatest — die alle "je"-zinnen in de broncode omzetten en controleren — bleven groen op
+de nieuwe teksten zonder aanpassing, dus ook zij zijn getest). Gouden master: 12 fixtures bewust
+bijgewerkt (+810/−90 regels), diff regel voor regel gelezen; gemiddeld +1.356 woorden per rapport
+(~+22%), verklaard door 31 nieuwe alinea's. Build + domeincontrole + bundelbegroting geslaagd.
+Follow-up: de navigatieregel met inhoud (`C` §3.2 laag 3), de terugkeerondersteuning (`C` §3.4),
+de leesinstructie bij de `profile`-kaarten en de knoppenherschikking/wisdialoog uit `G` taak 10
+staan nog open — allemaal presentatielaag, niet tekst. Contrastmeting en visuele controle op het
+rapport staan ook nog open, voor een sessie met browsertoegang.
+
 ## 2026-09-23 — Rebuild taak 9: de vragenflow
 
 Decision: vijf ingrepen uit `C` §4.7–§4.9 en `A` §3.9, geen van alle raakt de opslag of de

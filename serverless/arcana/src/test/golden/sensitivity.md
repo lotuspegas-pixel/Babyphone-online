@@ -45,6 +45,8 @@ Dezelfde drie scores komen terug bij je sterke punten en bij je valkuilen — da
 - Intuïtief denken (94/100): je voelt patronen aan voordat je ze kunt onderbouwen.
 - Kritiekgevoeligheid (88/100): kritiek blijft lang nazinderen, ook als je het niet laat merken.
 
+Wat je hiermee kunt: dit hoofdstuk rust op Emotionele gevoeligheid (96) en Intuïtief denken (94). Leg het naast één concrete situatie van de afgelopen maand — klopte het daar, of was het daar juist de uitzondering? Beide antwoorden zijn bruikbaar, want de uitzondering vertelt je waar de grens van dit patroon ligt.
+
 ## Jouw kernpatroon
 
 Drie hoofddimensies steken het scherpst boven de rest uit en vormen samen de kern van hoe jij in het leven staat.
@@ -57,6 +59,8 @@ Dat wil niet zeggen dat de rest van je profiel er niet toe doet — het betekent
 - je denkstijl scoort hoog (72/100): dit bepaalt of je sneller naar het patroon springt of eerst de feiten op een rij wilt hebben
 - je relatiepatroon scoort hoog (69/100): dit bepaalt hoe snel je iemand toelaat en hoeveel ruimte je daarna nog nodig hebt
 
+Wat je hiermee kunt: dit hoofdstuk steunt op je emotionele gevoeligheid (88) en je denkstijl (72). Zet het naast één concrete situatie van de afgelopen maand — klopte het toen, of was dat juist de uitzondering? Allebei is bruikbaar, want de uitzondering laat zien waar dit patroon ophoudt.
+
 ## Wat anderen aan jou zien
 
 Dit is wat er van je overkomt voordat iemand de moeite heeft genomen je te leren kennen.
@@ -67,6 +71,8 @@ Deze eigenschappen zijn niet je hele verhaal, maar wel het deel dat als eerste i
 - Directheid: je uit je mening zonder er lang omheen te draaien. Mensen weten precies waar ze aan toe zijn bij jou.
 - Creatief denken: je ontdekt moeiteloos nieuwe combinaties en mogelijkheden. Mensen worden aangestoken door je manier van denken.
 
+Wat je hiermee kunt: dit hoofdstuk komt uit Verbinding (85) en Directheid (70). Toets het aan één concrete situatie van de afgelopen maand — klopte het, of was dat de uitzondering? Beide antwoorden helpen, want de uitzondering laat de grens van dit patroon zien.
+
 ## Wat mensen vaak niet aan jou zien
 
 Hieronder ligt het deel dat je zelden hardop maakt, zelfs niet tegen wie je vertrouwt.
@@ -76,6 +82,8 @@ Dit is niet iets wat je verbergt om te misleiden — het is vaak zo vertrouwd ge
 - Emotionele gevoeligheid: van binnen draait dit om de behoefte aan oprechtheid over wat er emotioneel speelt. Van buiten zien mensen iets anders — je pikt sfeer en onderhuidse spanning eerder op dan de meeste anderen — en niet hoe sterk dat vanbinnen speelt.
 - Kritiekgevoeligheid: van binnen draait dit om de behoefte om erkend te worden als voldoende goed. Van buiten zien mensen iets anders — kritiek blijft je nog lang bezighouden, zelfs als je het niet laat blijken — en niet hoe sterk dat vanbinnen speelt.
 - Intimiteitsbehoefte: van binnen draait dit om de behoefte aan een gevoel van echt gekend zijn. Van buiten zien mensen iets anders — je verlangt naar contact en gesprekken die dieper gaan dan de oppervlakte — en niet hoe sterk dat vanbinnen speelt.
+
+Wat je hiermee kunt: dit hoofdstuk komt uit Emotionele gevoeligheid (96) en Kritiekgevoeligheid (88). Toets het aan één concrete situatie van de afgelopen maand — klopte het, of was dat de uitzondering? Beide antwoorden helpen, want de uitzondering laat de grens van dit patroon zien.
 
 ## Hoe je bent wanneer je alleen bent
 
@@ -89,6 +97,8 @@ Je behoefte aan stilte scoort 74/100. Alleen zijn is voor jou geen leegte maar h
 - Behoefte aan stilte: je merkt een duidelijk verschil in helderheid voor en na een moment van stilte.
 - Analytisch denken: je denkt een beslissing stap voor stap door voordat je hem neemt.
 
+Wat je hiermee kunt: dit hoofdstuk rust op Intuïtief denken (94) en Behoefte aan stilte (74). Leg het naast één concrete situatie van de afgelopen maand — klopte het daar, of was het daar juist de uitzondering? Beide antwoorden zijn bruikbaar, want de uitzondering vertelt je waar de grens van dit patroon ligt.
+
 ## Hoe je bent met anderen
 
 Je sociale patroon scoort gemiddeld (54/100) — dat zegt niet of je aardig gevonden wordt, maar hoeveel van jezelf je meeneemt naar het contact.
@@ -100,6 +110,8 @@ Lees dit met de vraag erbij: geldt dit overal, of alleen waar je je veilig voelt
 - Emotionele gevoeligheid: je voelt onuitgesproken ongemak aan, ook wanneer iedereen doet alsof er niets aan de hand is.
 - Verbinding: je zoekt oogcontact en persoonlijke gesprekken, ook in korte ontmoetingen met vreemden.
 - Pleasen: je past je mening of voorkeur stilzwijgend aan die van de groep aan.
+
+Wat je hiermee kunt: hier gaat het om wat anderen aan je zien. Controleren hoeft geen gissen te zijn — vraag het aan iemand die je goed kent, en vraag door tot het schuurt.
 
 ## Hoe je bent op werk
 
@@ -113,6 +125,8 @@ Betekenis speelt hierbij een rol die je niet moet onderschatten (61/100): je wil
 - Autonomie: je herschikt taken of aanpak naar je eigen logica, ook als er al een vaste procedure ligt.
 - Controlebehoefte: je wilt betrokken zijn bij elke stap van een project in plaats van een deel volledig los te laten.
 
+Wat je hiermee kunt: hier gaat het om wat anderen aan je zien. Controleren hoeft geen gissen te zijn — vraag het aan iemand die je goed kent, en vraag door tot het schuurt.
+
 ## Hoe je bent met familie en vrienden
 
 Bij mensen die je lang kent, val je makkelijker terug in oude rollen dan waar dan ook.
@@ -125,15 +139,19 @@ In vertrouwde kring komt jouw kwetsbaarste combinatie naar boven: hoge verbindin
 - Verbinding: je onderhoudt contact met vrienden en familie ook als de ander weinig initiatief toont.
 - Intimiteitsbehoefte: je verlangt naar gesprekken met familie en vrienden die verder gaan dan het laatste nieuws.
 
+Wat je hiermee kunt: dit gaat over wat anderen van je merken. Dat is het enige stuk van je rapport dat je kunt controleren zonder te gissen — vraag het aan iemand die je goed kent, en vraag door tot het ongemakkelijk wordt.
+
 ## Hoe je bent onder druk
 
 Onder druk laat jij vooral het patroon van The Defender zien: verdedigt zich onder druk tegen kritiek.
 
-Zichtbaar reageer je sneller met een tegenargument of uitleg zodra er kritiek komt, nog voordat je de opmerking echt hebt overwogen. Van binnen speelt de angst dat kritiek betekent dat je tekortschiet, een angst die groter is dan de opmerking zelf rechtvaardigt.
+Zichtbaar reageer je sneller met een tegenargument of uitleg zodra er kritiek komt, nog voordat je die opmerking echt hebt overwogen. Van binnen speelt de angst dat kritiek betekent dat je tekortschiet, een angst die groter is dan de opmerking zelf rechtvaardigt.
 
 Concreet vertaalt zich dat naar: je schiet bij kritiek sneller in de verdediging dan je eigenlijk zou willen. De drijfveer eronder is de behoefte om niet gezien te worden als onbekwaam of ontoereikend (78/100, hoog).
 
 De valkuil daarbij: je mist waardevolle feedback omdat je eerste reactie verdediging is. Groeisleutel: wacht bewust even voordat je op kritiek reageert. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.
+
+Wat je hiermee kunt: hierboven staat niet alles even zwaar. Neem wat je raakt en laat de rest liggen — dat mag ook. Een lage score wil niet zeggen dat iets afwezig is, en een hoge score niet dat het speelt op elk moment: dit zijn de plekken waar jouw patroon het snelst doorslaat, niet de plekken waar je faalt.
 
 ## Hoe je bent op je gemak
 
@@ -149,19 +167,23 @@ Het zijn dezelfde cijfers als bij wie je bent — emotionele gevoeligheid (96), 
 - Intuïtief denken: je deelt je aanvoelen rustig, ook zonder het volledig te kunnen onderbouwen.
 - Kritiekgevoeligheid: je kunt kritiek wegen op feiten en het sneller relativeren.
 
+Wat je hiermee kunt: dit hoofdstuk rust op Emotionele gevoeligheid (96) en Intuïtief denken (94). Leg het naast één concrete situatie van de afgelopen maand — klopte het daar, of was het daar juist de uitzondering? Beide antwoorden zijn bruikbaar, want de uitzondering vertelt je waar de grens van dit patroon ligt.
+
 ## Jouw sterke punten
 
 Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar je patroon het sterkst en meest natuurlijk naar buiten komt.
 
 Sterk betekent hier niet goed. Dit is wat je het snelst inzet — ook wanneer iets anders verstandiger was geweest.
 
-Bij je valkuilen zie je een deel van deze vijf opnieuw, met hetzelfde cijfer, maar dan waar het schuurt.
+Bij je valkuilen zie jij een deel van deze vijf opnieuw, met hetzelfde cijfer, maar dan waar het schuurt.
 
 - Emotionele gevoeligheid (96/100 — dezelfde score als bij wie je bent, hier gelezen als kracht): je voelt emoties in een ruimte al aan voordat iemand iets zegt. Dit komt voort uit de behoefte aan een omgeving die emotioneel eerlijk is. Mensen voelen zich begrepen door je, maar je neemt onbewust ook hun lading over.
 - Intuïtief denken (94/100 — net als bij wie je bent; hier zie je wat dat cijfer je oplevert): je herkent patronen nog voordat je ze kunt verklaren. Dit komt voort uit de behoefte om te vertrouwen op wat je aanvoelt, ook zonder bewijs. Mensen raken onder de indruk van je scherpte, maar kunnen je redenering niet altijd volgen.
 - Kritiekgevoeligheid (88/100 — dezelfde score als bij wie je bent, hier gelezen als kracht): kritiek blijft je nog lang bezighouden, zelfs als je het niet laat blijken. Dit komt voort uit de behoefte aan het gevoel dat je goed genoeg bent zoals je bent. Mensen merken zelden hoeveel effect hun opmerking op je heeft.
 - Verbinding (85/100, zeer hoog): je zoekt actief nabijheid en oprecht contact met de mensen om je heen. Dit komt voort uit de behoefte om er niet alleen voor te staan. Mensen voelen zich bij je op hun gemak, maar gaan daardoor soms te veel op je steunen.
 - Intimiteitsbehoefte (79/100, hoog): je zoekt naar gesprekken die voorbij het oppervlakkige gaan. Dit komt voort uit de behoefte om werkelijk gezien en gekend te worden. Mensen die dichtbij komen, voelen een diepe verbinding met je.
+
+Wat je hiermee kunt: dit hoofdstuk komt uit Emotionele gevoeligheid (96) en Intuïtief denken (94). Toets het aan één concrete situatie van de afgelopen maand — klopte het, of was dat de uitzondering? Beide antwoorden helpen, want de uitzondering laat de grens van dit patroon zien.
 
 ## Je valkuilen
 
@@ -175,9 +197,11 @@ Lees dit niet als een oordeel. Het is een kaart van waar aandacht het hardst aan
 - Terugtrekken onder druk (74/100, hoog): valkuil — je isoleert jezelf net op het moment dat steun je het meest zou helpen. Groeisleutel: benoem kort dat je ruimte nodig hebt, in plaats van stilzwijgend te verdwijnen.
 - Pleasen (72/100, hoog): valkuil — je grens verschuift net zo lang tot je jezelf bent kwijtgeraakt. Groeisleutel: oefen met weigeren bij iets kleins, op een moment dat er weinig van afhangt.
 
-Meestal is er één van deze vijf die je direct herkent. Begin daar; de rest mag wachten.
+Wat je hiermee kunt: meestal is er één van deze vijf die je direct herkent. Begin daar; de rest mag wachten — of blijkt bij nader inzien niet van toepassing, en ook dat mag.
 
-Het kan zijn dat je in een omgeving leeft waar gevoeligheid als zwakte wordt gezien, waardoor je haar bij jezelf hebt afgesloten of gebagatelliseerd. Ook is het mogelijk dat je deze gevoeligheid pas herkent als je terugkijkt op een gesprek, en niet op het moment zelf, waardoor het patroon minder aanwezig lijkt dan het is.
+Als dit niet klopt: Het kan zijn dat je in een omgeving leeft waar gevoeligheid als zwakte wordt gezien, waardoor je haar bij jezelf hebt afgesloten of gebagatelliseerd. Ook is het mogelijk dat je deze gevoeligheid pas herkent als je terugkijkt op een gesprek, en niet op het moment zelf, waardoor het patroon minder aanwezig lijkt dan het is.
+
+Een lage score op een valkuil betekent niet dat hij er niet is, en een hoge score betekent niet dat je hem elke dag hebt. Dit zijn de plekken waar jouw patroon het snelst doorslaat, niet de plekken waar je faalt.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -193,6 +217,8 @@ Een bruikbare vuistregel: irritatie die groter is dan de aanleiding, wijst naar 
 - Jezelf verdedigen bij kritiek: Snelle verdediging beschermt vaak een schaduw waarin het idee van incompetentie of afwijzing verborgen ligt.
 - Sociale energie (50/100) en praktisch denken (56/100) steken er allebei opvallend laag uit. Jung zou bij beide vragen of ze werkelijk ontbreken, of dat je ze hebt weggelegd — en wat je bij anderen op precies die twee punten afkeurt of juist bewondert, wijst meestal naar het antwoord.
 
+Wat je hiermee kunt: hierboven staat niet alles even zwaar. Neem wat je raakt en laat de rest liggen — dat mag ook. Een lage score wil niet zeggen dat iets afwezig is, en een hoge score niet dat het speelt op elk moment: dit zijn de plekken waar jouw patroon het snelst doorslaat, niet de plekken waar je faalt.
+
 ## Je relatiepatroon
 
 Je relatiepatroon scoort hoog (69/100) op de combinatie van verbinding, vertrouwen en intimiteit.
@@ -201,6 +227,8 @@ Je vertrouwensbehoefte (70/100) en intimiteitsbehoefte (79/100) bepalen samen ho
 
 Hier houdt conflictvermijding je weinig tegen: je durft een botsing rechtstreeks aan te gaan, waardoor irritatie minder kans krijgt zich op te stapelen. Hoe dat uitpakt in gesprekken, lees je bij je communicatiestijl.
 
+Wat je hiermee kunt: dit gaat over wat anderen van je merken. Dat is het enige stuk van je rapport dat je kunt controleren zonder te gissen — vraag het aan iemand die je goed kent, en vraag door tot het ongemakkelijk wordt.
+
 ## Je communicatiestijl
 
 Je communicatiestijl is het best te omschrijven als zorgvuldig en aftastend — je weegt eerst de sfeer voordat je iets zegt.
@@ -208,6 +236,8 @@ Je communicatiestijl is het best te omschrijven als zorgvuldig en aftastend — 
 Directheid (70/100), pleasen (72/100) en conflictvermijding (59/100) bepalen samen hoeveel filter er zit tussen wat je denkt en wat je uitspreekt.
 
 Je valkuil: je boodschap landt soms scherper dan de bedoeling erachter. Groeisleutel: oefen met dezelfde eerlijkheid, maar met meer ruimte voor de ontvanger.
+
+Wat je hiermee kunt: dit hoofdstuk gaat over wat er bij anderen van je binnenkomt. Het is het enige deel dat je zonder gissen kunt narekenen — vraag het na bij iemand die je goed kent, en blijf doorvragen tot het ongemakkelijk wordt.
 
 ## Je spanningsvelden
 
@@ -221,6 +251,8 @@ Jung noemde dit het spanningspaar, en hij zag er de motor van ontwikkeling in. W
 - Controle versus overgave (actief aanwezig): Controle scoort 67/100, overgave scoort 96/100. Beide trekken tegelijk aan je, en geen van beide wint definitief.
 - Zorg voor anderen versus eigen grenzen (actief aanwezig): Zorg voor anderen scoort 72/100, eigen grenzen scoort 85/100. Beide trekken tegelijk aan je, en geen van beide wint definitief.
 
+Wat je hiermee kunt: hierboven staat niet alles even zwaar. Neem wat je raakt en laat de rest liggen — dat mag ook. Een lage score wil niet zeggen dat iets afwezig is, en een hoge score niet dat het speelt op elk moment: dit zijn de plekken waar jouw patroon het snelst doorslaat, niet de plekken waar je faalt.
+
 ## Je blinde vlekken
 
 Blinde vlekken zijn de patronen die net onder de radar blijven — niet groot genoeg om als schaduwkant op te vallen, maar wel invloedrijk.
@@ -229,6 +261,8 @@ Je merkt een blinde vlek meestal niet aan jezelf, maar aan hoe anderen reageren.
 
 - Zelftwijfel (69/100): dit patroon is minder op de voorgrond, maar je laat oude beslissingen nog rondmalen, terwijl ze allang afgerond zijn — vaak juist omdat het weinig aandacht krijgt.
 - Controlebehoefte (67/100): dit patroon is minder op de voorgrond, maar je houdt vast aan grip op momenten waarop loslaten juist nodig is — vaak juist omdat het weinig aandacht krijgt.
+
+Wat je hiermee kunt: niet alles hierboven raakt je even hard. Neem wat wél klopt en laat de rest liggen — dat mag ook. Een lage score betekent niet dat een patroon er niet is, en een hoge score niet dat je het elke dag hebt: dit zijn de plekken waar het bij jou het snelst kan doorslaan, niet de plekken waar je faalt.
 
 ## Hoe je kunt worden
 
@@ -241,6 +275,10 @@ Individuatie — Jungs woord voor dit proces — gaat niet over iemand anders wo
 Dat proces gaat niet over harder werken maar over ruimte maken: hoeveel je jezelf toestaat, bepaalt de snelheid. Waar dit precies naartoe leidt, lees je bij je groeipad.
 
 Dit is de fase waarin de meeste mensen hun patronen voor het eerst tegenkomen als iets wat hen in de weg zit in plaats van iets wat hen vooruithelpt. Dat is geen achteruitgang; dat is het moment waarop het werk begint.
+
+Wat je hiermee kunt: dit hoofdstuk beschrijft een richting, geen checklist. Vandaag al haalbaar is meestal maar één ding — de rest is voor later of voor nooit.
+
+Groei betekent hier niet dat dit patroon verdwijnt. Het betekent dat je eerder doorhebt wanneer het aan het stuur zit, en dat kiezen dan weer kan.
 
 ## Wat je nodig hebt om dat te worden
 
@@ -255,6 +293,10 @@ Eén is genoeg. Wie de hele lijst tegelijk oppakt, komt zelden verder dan de eer
 - Kritiekgevoeligheid: leer opmerkingen te beoordelen op inhoud, niet op het gevoel erna.
 - Jezelf verdedigen bij kritiek: bouw bewust een pauze in tussen het horen van kritiek en je reactie erop.
 
+Wat je hiermee kunt: van de 6 punten hierboven kan er vandaag al minstens één. Zoek die op. De rest mag wachten tot later, of voorgoed blijven liggen — dit is een lijst met mogelijkheden, geen lijst met verplichtingen.
+
+Groei betekent hier niet dat dit patroon verdwijnt. Het betekent dat je eerder doorhebt wanneer het aan het stuur zit, en dat kiezen dan weer kan.
+
 ## Je groeipad
 
 Je groeibereidheid scoort hoog (69/100) — dat bepaalt hoeveel ruimte je jezelf momenteel geeft om naar deze patronen te kijken.
@@ -263,6 +305,8 @@ Groei is hier geen verandering van karakter, maar snelheid van herkennen. Wie op
 
 - Zelftwijfel: laat een genomen besluit bewust rusten, zelfs als er nog een stemmetje twijfel blijft.
 - Controlebehoefte: oefen bewust met kleine dingen loslaten die je niet écht hoeft te controleren.
+
+Wat je hiermee kunt: van de 2 punten hierboven is er waarschijnlijk één die vandaag al kan. Zoek die. De rest is voor later of voor nooit — dit is een lijst met mogelijkheden, geen lijst met verplichtingen.
 
 ## Wat ik je zou willen uitleggen
 
@@ -288,6 +332,8 @@ Je leert jezelf niet kennen door erover na te denken, maar door terug te kijken 
 - Let deze maand op momenten waarop dit gebeurt: kritiek blijft lang nazinderen, ook als je het niet laat merken. Noteer wat er vlak daarvoor gebeurde — daar zit de trigger, niet in het gedrag zelf.
 - Vraag aan twee mensen die je vertrouwen: wat merk jij aan mij dat ik zelf waarschijnlijk niet doorheb? Vraag door tot het ongemakkelijk wordt; daar begint de informatie.
 
+Wat je hiermee kunt: dit hoofdstuk steunt op Kritiekgevoeligheid (88) en Jezelf verdedigen bij kritiek (78). Zet het naast één concrete situatie van de afgelopen maand — klopte het toen, of was dat juist de uitzondering? Allebei is bruikbaar, want de uitzondering laat zien waar dit patroon ophoudt.
+
 ## Over liefde
 
 Wie verliefd wordt, is meestal aan het projecteren: er wordt een beeld op de ander gelegd dat allang klaarlag, lang voordat deze persoon bestond. Op een gegeven moment scheurt dat beeld en staat de werkelijke ander ineens bloot. De meesten schrikken daarvan en noemen het de liefde die stukloopt. Precies daar begint ze pas echt.
@@ -299,6 +345,8 @@ Vraag om bij stil te staan: Welke vraag stel je impliciet aan wie je liefhebt, t
 - Je verlangt naar diepte en je hebt tijd nodig voordat je die toelaat. Dat is geen tegenstrijdigheid maar een tempo. Het wordt pas een probleem wanneer je van een ander verwacht dat die het verschil aanvoelt zonder dat je het hebt uitgelegd.
 - Je hebt nabijheid nodig en je raakt er benauwd van. Je hebt geen partner nodig die minder vraagt, maar een die het uithoudt wanneer je even weg bent — en je hebt jezelf nodig om te zeggen dat je terugkomt, in plaats van het te laten raden.
 - Een terloopse opmerking van iemand die je liefhebt, kan bij jou een gebeurtenis worden die dagen nawerkt. De ander weet dat meestal niet. Dat is geen overgevoeligheid die je moet wegwerken; het is informatie die je mag delen.
+
+Waar dit vandaan komt: de inleiding van deze beschouwing is algemeen — ze staat in elk rapport. De 3 alinea's daarna zijn gekozen op jouw scores: Kritiekgevoeligheid (88) en Verbinding (85). De vraag onderaan is van jou.
 
 ## Over haat
 
@@ -312,6 +360,8 @@ Vraag om bij stil te staan: Aan wie denk je met een hitte die groter is dan wat 
 - Jij blust sneller dan de meeste mensen: je zegt het, het is eruit, en je ligt er niet wakker van. Wees je ervan bewust dat de ander soms wél wakker ligt — jouw opluchting is niet automatisch een gedeelde opluchting.
 - Jij hoort waarschijnlijk bij de mensen die zeggen dat ze nooit haten. Kijk daar eens goed naar. Wie zichzelf niet toestaat boos te worden op wie hem beschadigde, wordt vaak boos op zichzelf omdat hij het liet gebeuren. Dat is geen mildheid, dat is haat die de verkeerde kant op wijst.
 
+Waar dit vandaan komt: de inleiding van deze beschouwing is algemeen — ze staat in elk rapport. De 3 alinea's daarna zijn gekozen op jouw scores: Jezelf verdedigen bij kritiek (78) en Pleasen (72). De vraag onderaan is van jou.
+
 ## Over pijn
 
 Pijn en lijden lopen vaak door elkaar, maar zijn niet identiek. Pijn is wat je is overkomen; lijden is de laag verhaal die je eromheen bouwt. Dat is geen pleidooi om pijn te ontkennen — sommige dingen doen gewoon pijn en dat verandert niet. Alleen dat tweede verhaal, dat "dit had niet mogen gebeuren", laat zich soms bijstellen. De gebeurtenis zelf ligt vast.
@@ -321,6 +371,8 @@ Pijn die je niet voelt, verdwijnt niet. Hij verhuist: naar je lichaam, naar je k
 Vraag om bij stil te staan: Wat draag je al zo lang dat je vergeten bent dat het gewicht heeft?
 
 - Je voelt veel en je deelt weinig. Dat is de eenzaamste combinatie in dit hele model, en het is er een die van buiten nauwelijks te zien is. Eén mens die het mag weten, is genoeg om het verschil te maken.
+
+Waar dit vandaan komt: het begin van deze beschouwing staat in elk rapport, ongeacht de scores. De alinea daarna is wel op jou toegesneden: Emotionele gevoeligheid (96) en Vertrouwensbehoefte (70). De vraag onderaan is van jou.
 
 ## Over intuïtie
 
@@ -334,6 +386,8 @@ Vraag om bij stil te staan: Op welk moment wist je het al, en hoe lang heb je je
 - Dit is de pijnlijkste variant: je wist het wel, maar je durfde het niet. Meestal is dat niet omdat je jezelf onbetrouwbaar vond, maar omdat iemand ooit vroeg hoe je het wist en "ik voel het" onvoldoende bleek. Houd een half jaar bij wat je aanvoelde en wat er daarna gebeurde. Dan heb je bewijs dat niemand je kan afpakken.
 - Je vangt meer op dan de meeste mensen — ook wat er niet is. Hoge gevoeligheid versterkt je signaal én je ruis. Toets daarom vaker dan je nodig acht: vraag na of klopte wat je opving.
 
+Waar dit vandaan komt: de opening van deze beschouwing is voor iedereen gelijk. De 3 alinea's daarna zijn niet — die komen uit jouw scores: Emotionele gevoeligheid (96) en Intuïtief denken (94). De vraag onderaan is van jou.
+
 ## Over verdriet
 
 Wie zich hecht, betaalt op een dag met verdriet — een vaste prijs zonder korting. Wat opvalt, is hoe onhandig we daarmee omgaan, bij onszelf net zo goed als bij een ander. Na enkele maanden volgen de vragende blikken, na een half jaar de suggestie dat het welletjes is, alsof rouw een schema volgt. Maar verdriet gaat niet over; het wordt hooguit te dragen, en dat moet volstaan.
@@ -346,15 +400,19 @@ Vraag om bij stil te staan: Wie mag jou zien huilen, en wanneer heb je dat voor 
 - Jij draagt andermans verdriet terwijl je eigen verdriet in de wachtkamer zit. Op een begrafenis ben jij degene die koffie inschenkt. Dat is waardevol, en het is ook een manier om er niet aan toe te komen.
 - Je voelt het diep en je kunt het delen. Dat is, ondanks alles wat het je kost, een gelukkige combinatie in zware tijden: verdriet dat genoemd mag worden, hoeft zich niet te verstoppen.
 
+Waar dit vandaan komt: de opening van deze beschouwing is voor iedereen gelijk. De 3 alinea's daarna zijn niet — die komen uit jouw scores: Emotionele gevoeligheid (96) en Intimiteitsbehoefte (79). De vraag onderaan is van jou.
+
 ## Over tegenslagen
 
 Er bestaat een geruststellend klinkende gedachte die veel kwaad doet: alles gebeurt met een reden. Dat klopt niet. Heel veel gebeurt zonder enige reden. Wie ervan uitgaat dat het leven verdiensten beloont, komt vroeg of laat voor de opgave te staan zijn eigen ongeluk te moeten verklaren — en dan blijft er nog maar één schuldige over.
 
 Wat wél waar is: gebeurtenissen hebben geen betekenis, maar mensen maken betekenis. Niet "dit moest zo zijn", maar "dit is wat ik hiermee ga doen". En tegenslag vormt je karakter zelden; ze onthult het. Onder druk verdwijnt je persona als eerste, want je hebt de energie niet meer om hem overeind te houden.
 
-Vraag om bij stil te staan: Welk deel van wat er gebeurde had werkelijk met jou te maken — en heb je de rest al aan het toeval overgelaten?
+Vraag om bij stil te staan: Welk deel van wat er gebeurde had werkelijk met jou te maken — en heb jij de rest al aan het toeval overgelaten?
 
 - Jij maakt van elke tegenslag een bewijsstuk tegen jezelf. Daar moet je actief tegen inleggen, want je doet het sneller dan je het merkt. Scheid het deel dat je overkwam van het deel waar je aan meewerkte, en geef de rest terug aan het toeval.
+
+Waar dit vandaan komt: de inleiding van deze beschouwing is algemeen — ze staat in elk rapport. De alinea daarna is gekozen op jouw scores: Zelftwijfel (69) en Jezelf verdedigen bij kritiek (78). De vraag onderaan is van jou.
 
 ## Over geluk
 
@@ -365,6 +423,8 @@ Ongeluk in zijn stilste vorm heeft geen aanleiding nodig: een leven dat er aan d
 Vraag om bij stil te staan: Wanneer was je gelukkig zonder het te merken — en wat was er toen aanwezig dat er nu niet is?
 
 - Een gouden kooi blijft voor jou een kooi, hoe goud ook. Dat maakt je moeilijk tevreden te stellen met omstandigheden die anderen benijden, en het is geen ondankbaarheid — het is een correcte meting van wat jij nodig hebt.
+
+Waar dit vandaan komt: het begin van deze beschouwing staat in elk rapport, ongeacht de scores. De alinea daarna is wel op jou toegesneden: Autonomie (70) en Betekenis (61). De vraag onderaan is van jou.
 
 ## Over blijdschap
 
@@ -377,6 +437,8 @@ Vraag om bij stil te staan: Wanneer heb je voor het laatst iets gedaan wat nerge
 - Jij voelt de kleine dingen scherper dan de meeste mensen. Dat werkt beide kanten op, en het betekent dat de goede momenten bij jou ook echt harder aankomen. Dat is geen schrale troost; dat is de rekening die de andere kant opvalt.
 - Jij hebt de makkelijkste toegang van allemaal: maak iets zonder doel en kijk wat er gebeurt. Niet om het af te maken, niet om het te laten zien. De blijdschap zit in het maken, niet in het resultaat — en dat vergeet je zodra er een deadline bij komt.
 - Jouw blijdschap zit vaker in afwezigheid van gezelschap dan erin. Dat is geen tekort aan gezelligheid. Wie zich uit plichtsbesef in drukte begeeft omdat het hoort, mist beide vormen tegelijk.
+
+Waar dit vandaan komt: de opening van deze beschouwing is voor iedereen gelijk. De 3 alinea's daarna zijn niet — die komen uit jouw scores: Emotionele gevoeligheid (96) en Behoefte aan stilte (74). De vraag onderaan is van jou.
 
 ## 30-dagen actieplan
 

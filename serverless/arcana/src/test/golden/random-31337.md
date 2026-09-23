@@ -45,6 +45,8 @@ Bij hoe u bent onder druk zie uw dezelfde eigenschappen in een ander licht; bij 
 - Zelfvertrouwen (83/100): u vertrouwt op uw eigen oordeel, ook als het spannend is.
 - Groeibereidheid (83/100): u durft uw eigen patronen onder ogen te zien, ook wanneer dat confronterend is.
 
+Wat u hiermee kunt: dit hoofdstuk steunt op Versnellen onder druk (87) en Zelfvertrouwen (83). Zet het naast één concrete situatie van de afgelopen maand — klopte het toen, of was dat juist de uitzondering? Allebei is bruikbaar, want de uitzondering laat zien waar dit patroon ophoudt.
+
 ## Uw kernpatroon
 
 Drie hoofddimensies steken het scherpst boven de rest uit en vormen samen de kern van hoe u in het leven staat.
@@ -57,6 +59,8 @@ Dat wil niet zeggen dat de rest van uw profiel er niet toe doet — het betekent
 - uw stressreactie scoort hoog (74/100): dit bepaalt wat uw eerste, automatische reactie is zodra de druk oploopt
 - uw werkstijl scoort hoog (73/100): dit bepaalt in wat voor omgeving werk uw energie geeft in plaats van kost
 
+Wat u hiermee kunt: dit hoofdstuk rust op uw behoefte aan controle en zekerheid (76) en uw stressreactie (74). Leg het naast één concrete situatie van de afgelopen maand — klopte het daar, of was het daar juist de uitzondering? Beide antwoorden zijn bruikbaar, want de uitzondering vertelt uw waar de grens van dit patroon ligt.
+
 ## Wat anderen aan u zien
 
 Dit is wat er van u overkomt voordat iemand de moeite heeft genomen u te leren kennen.
@@ -66,6 +70,8 @@ Deze eigenschappen zijn niet uw hele verhaal, maar wel het deel dat als eerste i
 - Zelfvertrouwen: u gaat af op uw eigen inschatting, ook wanneer dat spanning met zich meebrengt. Mensen putten steun uit de zekerheid die u uitstraalt.
 - Directheid: u zegt wat u vindt zonder het lang in te pakken. Mensen weten bij u meteen waar ze staan.
 - Creatief denken: u herkent zonder moeite onverwachte combinaties en nieuwe mogelijkheden. Mensen laten zich inspireren door uw kijk op dingen.
+
+Wat u hiermee kunt: dit hoofdstuk steunt op Zelfvertrouwen (83) en Directheid (75). Zet het naast één concrete situatie van de afgelopen maand — klopte het toen, of was dat juist de uitzondering? Allebei is bruikbaar, want de uitzondering laat zien waar dit patroon ophoudt.
 
 ## Wat mensen vaak niet aan u zien
 
@@ -77,17 +83,21 @@ Dit is niet iets wat u verbergt om te misleiden — het is vaak zo vertrouwd gew
 - Terugtrekken onder druk: van binnen draait dit om de behoefte aan ruimte om zelf orde te scheppen in wat er speelt. Van buiten zien mensen iets anders — u valt onder druk stil en zoekt afstand in plaats van erover te praten — en niet hoe sterk dat vanbinnen speelt.
 - Emotionele gevoeligheid: van binnen draait dit om de behoefte om in een omgeving te zijn waar gevoelens niet verstopt worden. Van buiten zien mensen iets anders — u pikt sfeer en onderhuidse spanning eerder op dan de meeste anderen — en niet hoe sterk dat vanbinnen speelt.
 
+Wat u hiermee kunt: dit hoofdstuk komt uit Vertrouwensbehoefte (75) en Terugtrekken onder druk (73). Toets het aan één concrete situatie van de afgelopen maand — klopte het, of was dat de uitzondering? Beide antwoorden helpen, want de uitzondering laat de grens van dit patroon zien.
+
 ## Hoe u bent wanneer u alleen bent
 
 Zonder toeschouwers valt de bijstelling weg. Dit is de versie van u waar u zelden iets over zegt.
 
-In uw eentje bent u bezig met ordenen: een lijst maken, een systeem verbeteren, iets uitzoeken tot u het helemaal begrijpt. Dat werkt herstellend zolang het uw een gevoel van grip geeft. Duurt het te lang, dan verwordt ordenen tot controlebehoefte over dingen die niet beheersbaar zijn, en dat vreet energie in plaats van dat het rust geeft.
+In uw eentje bent u bezig met ordenen: een lijst maken, een systeem verbeteren, iets uitzoeken tot u het helemaal begrijpt. Dat werkt herstellend zolang het u een gevoel van grip geeft. Duurt het te lang, dan verwordt ordenen tot controlebehoefte over dingen die niet beheersbaar zijn, en dat vreet energie in plaats van dat het rust geeft.
 
 Uw behoefte aan stilte scoort 57/100. U verdraagt alleen zijn goed zonder het op te zoeken — u gebruikt het functioneel, als de omstandigheden erom vragen.
 
 - Analytisch denken: u denkt een beslissing stap voor stap door voordat u hem neemt.
 - Creatief denken: u bedenkt spontaan alternatieve manieren om iets aan te pakken, ook zonder dat het nodig is.
 - Betekenis: u denkt na over waarom u iets doet voordat u er echt in opgaat.
+
+Wat u hiermee kunt: dit hoofdstuk komt uit Analytisch denken (74) en Creatief denken (73). Toets het aan één concrete situatie van de afgelopen maand — klopte het, of was dat de uitzondering? Beide antwoorden helpen, want de uitzondering laat de grens van dit patroon zien.
 
 ## Hoe u bent met anderen
 
@@ -101,6 +111,8 @@ Weeg dit af tegen het gezelschap. Bij vertrouwde mensen bent u vrijwel zeker iem
 - Vertrouwensbehoefte: u houdt in een eerste ontmoeting bewust een deel van uzelf verborgen.
 - Emotionele gevoeligheid: u voelt onuitgesproken ongemak aan, ook wanneer iedereen doet alsof er niets aan de hand is.
 
+Wat u hiermee kunt: hier gaat het om wat anderen aan uw zien. Controleren hoeft geen gissen te zijn — vraag het aan iemand die u goed kent, en vraag door tot het schuurt.
+
 ## Hoe u bent op werk
 
 Uw werkstijl scoort hoog (73/100); het sterkste onderdeel daarin is structureren en plannen (76/100).
@@ -112,6 +124,8 @@ Betekenis speelt hierbij een rol die u niet moet onderschatten (71/100): u zoekt
 - Controlebehoefte: u wilt betrokken zijn bij elke stap van een project in plaats van een deel volledig los te laten.
 - Analytisch denken: u vraagt om data of onderbouwing voordat uw akkoord gaat met een voorstel.
 - Creatief denken: u stelt een andere aanpak voor terwijl het project al in een vaste vorm zat.
+
+Wat u hiermee kunt: dit hoofdstuk gaat over wat er bij anderen van u binnenkomt. Het is het enige deel dat u zonder gissen kunt narekenen — vraag het na bij iemand die u goed kent, en blijf doorvragen tot het ongemakkelijk wordt.
 
 ## Hoe u bent met familie en vrienden
 
@@ -125,6 +139,8 @@ Verbinding scoort 65/100 en pleasen 49/100. Dat maakt u in vertrouwde kring rede
 - Onafhankelijkheid: u verzwijgt tegenover familie en vrienden dat iets zwaar is, ook als zij graag zouden willen helpen.
 - Emotionele gevoeligheid: u voelt aan wanneer een vriend of familielid iets dwarszit, ook zonder dat diegene iets zegt.
 
+Wat u hiermee kunt: hier gaat het om wat anderen aan uw zien. Controleren hoeft geen gissen te zijn — vraag het aan iemand die u goed kent, en vraag door tot het schuurt.
+
 ## Hoe u bent onder druk
 
 Onder druk laat u vooral het patroon van The Sprinter zien: versnelt onder druk en doet te veel tegelijk.
@@ -134,6 +150,8 @@ Zichtbaar versnelt u: meer praten, meer beslissen, sneller reageren, soms harder
 Concreet vertaalt zich dat naar: u verhoogt onder druk uw tempo en neemt meer taken tegelijk op u. De drijfveer eronder is de behoefte om een gevoel van machteloosheid te overstemmen met actie (87/100). Hetzelfde cijfer staat bij wie u bent; hier ziet u wat het doet zodra het spannend wordt.
 
 De valkuil daarbij: uw nauwkeurigheid en uw rust komen in de knel door het tempo dat uw uzelf oplegt. Groeisleutel: las bewust een korte adempauze in voordat de volgende taak begint. Jung zou hier wijzen op enantiodromie: elke houding die u te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.
+
+Wat u hiermee kunt: hierboven staat niet alles even zwaar. Neem wat u raakt en laat de rest liggen — dat mag ook. Een lage score wil niet zeggen dat iets afwezig is, en een hoge score niet dat het speelt op elk moment: dit zijn de plekken waar uw patroon het snelst doorslaat, niet de plekken waar u faalt.
 
 ## Hoe u bent op uw gemak
 
@@ -149,6 +167,8 @@ Dezelfde kern, met dezelfde cijfers — versnellen onder druk (87), zelfvertrouw
 - Zelfvertrouwen: u gebruikt uw zelfvertrouwen om ook onzekerheid van anderen ruimte te geven.
 - Groeibereidheid: u kunt tevreden zijn met wie u al bent, naast de wens om verder te groeien.
 
+Wat u hiermee kunt: dit hoofdstuk rust op Versnellen onder druk (87) en Zelfvertrouwen (83). Leg het naast één concrete situatie van de afgelopen maand — klopte het daar, of was het daar juist de uitzondering? Beide antwoorden zijn bruikbaar, want de uitzondering vertelt uw waar de grens van dit patroon ligt.
+
 ## Uw sterke punten
 
 Dit zijn de vijf subdimensies waar u het hoogst op scoort — de plekken waar uw patroon het sterkst en meest natuurlijk naar buiten komt.
@@ -163,6 +183,8 @@ Hoe dit uitpakt als het doorschiet, staat bij uw valkuilen.
 - Zekerheid (78/100, hoog): u zoekt eerst overzicht en een voorspelbaar kader voordat uw stappen zet. Dit komt voort uit de behoefte aan bescherming tegen onverwachte wendingen die alles overhoop halen. Mensen voelen zich rustig in uw buurt, maar zien u soms als terughoudend.
 - Uzelf verdedigen bij kritiek (78/100, hoog): u schiet bij kritiek sneller in de verdediging dan u eigenlijk zou willen. Dit komt voort uit de behoefte om niet als incompetent of verkeerd gezien te worden. Mensen krijgen soms het gevoel dat feedback bij uw moeilijk binnenkomt.
 
+Wat u hiermee kunt: dit hoofdstuk rust op Versnellen onder druk (87) en Zelfvertrouwen (83). Leg het naast één concrete situatie van de afgelopen maand — klopte het daar, of was het daar juist de uitzondering? Beide antwoorden zijn bruikbaar, want de uitzondering vertelt uw waar de grens van dit patroon ligt.
+
 ## Uw valkuilen
 
 Doorgeslagen kracht wordt last. Dit zijn de patronen waar dat kantelpunt bij u het dichtstbij ligt.
@@ -175,9 +197,11 @@ Er wordt hier niets over u vastgesteld. Dit zijn simpelweg de plekken waar oplet
 - Perfectionisme (73/100, hoog): valkuil — u vertraagt uzelf door net dat laatste beetje af te willen maken. Groeisleutel: bepaal vooraf wanneer "goed genoeg" ook echt genoeg is.
 - Terugtrekken onder druk (73/100, hoog): valkuil — u zondert u juist af op het moment dat steun het hardst nodig is. Groeisleutel: benoem kort dat uw ruimte nodig hebt, in plaats van stilzwijgend te verdwijnen.
 
-Meestal is er één van deze vijf die u direct herkent. Begin daar; de rest mag wachten.
+Wat u hiermee kunt: meestal is er één van deze vijf die u direct herkent. Begin daar; de rest mag wachten — of blijkt bij nader inzien niet van toepassing, en ook dat mag.
 
-Mogelijk leeft u in een omgeving waar structuur bieden niet gewaardeerd of zelfs onmogelijk is, waardoor dit patroon zich niet kan tonen. Het kan ook zijn dat u die behoefte aan grip vroeger hebt afgeleerd omdat vasthouden aan controle destijds averechts werkte, waardoor u haar nu niet meer als van u herkent.
+Als dit niet klopt: Mogelijk leeft u in een omgeving waar structuur bieden niet gewaardeerd of zelfs onmogelijk is, waardoor dit patroon zich niet kan tonen. Het kan ook zijn dat u die behoefte aan grip vroeger hebt afgeleerd omdat vasthouden aan controle destijds averechts werkte, waardoor u haar nu niet meer als van u herkent.
+
+Een lage score op een valkuil betekent niet dat hij er niet is, en een hoge score betekent niet dat u hem elke dag hebt. Dit zijn de plekken waar uw patroon het snelst doorslaat, niet de plekken waar u faalt.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -193,13 +217,17 @@ Een bruikbare vuistregel: irritatie die groter is dan de aanleiding, wijst naar 
 - Uzelf verdedigen bij kritiek: Snelle verdediging beschermt vaak een schaduw waarin het idee van incompetentie of afwijzing verborgen ligt.
 - Pleasen (49/100) en kritiekgevoeligheid (52/100) steken er allebei opvallend laag uit. Jung zou bij beide vragen of ze werkelijk ontbreken, of dat u ze hebt weggelegd — en wat u bij anderen op precies die twee punten afkeurt of juist bewondert, wijst meestal naar het antwoord.
 
+Wat u hiermee kunt: hierboven staat niet alles even zwaar. Neem wat u raakt en laat de rest liggen — dat mag ook. Een lage score wil niet zeggen dat iets afwezig is, en een hoge score niet dat het speelt op elk moment: dit zijn de plekken waar uw patroon het snelst doorslaat, niet de plekken waar u faalt.
+
 ## Uw relatiepatroon
 
 Uw relatiepatroon scoort gemiddeld (59/100) op de combinatie van verbinding, vertrouwen en intimiteit.
 
 Uw vertrouwensbehoefte (75/100) en intimiteitsbehoefte (61/100) bepalen samen hoe snel uw mensen echt dichtbij laat komen: u laat pas iets van uzelf zien nadat uw veiligheid hebt gevoeld.
 
-Conflictvermijding drukt hier stevig door: liever houd uw de lieve vrede dan dat uw een aanvaring aangaat, wat meteen opluchting geeft maar op termijn onuitgesproken irritatie kan laten opstapelen. Uw communicatiestijl laat zien wat dat met uw woorden doet.
+Conflictvermijding drukt hier stevig door: liever houdt u de lieve vrede dan dat u een aanvaring aangaat, wat meteen opluchting geeft maar op termijn onuitgesproken irritatie kan laten opstapelen. Uw communicatiestijl laat zien wat dat met uw woorden doet.
+
+Wat u hiermee kunt: dit hoofdstuk gaat over wat er bij anderen van u binnenkomt. Het is het enige deel dat u zonder gissen kunt narekenen — vraag het na bij iemand die u goed kent, en blijf doorvragen tot het ongemakkelijk wordt.
 
 ## Uw communicatiestijl
 
@@ -208,6 +236,8 @@ Uw communicatiestijl is het best te omschrijven als direct en helder — u zegt 
 Directheid (75/100), pleasen (49/100) en conflictvermijding (64/100) bepalen samen hoeveel filter er zit tussen wat u denkt en wat u uitspreekt.
 
 Uw valkuil: uw woorden komen soms harder binnen dan u bedoeld had. Groeisleutel: oefen met dezelfde eerlijkheid, maar met meer ruimte voor de ontvanger.
+
+Wat u hiermee kunt: hier gaat het om wat anderen aan uw zien. Controleren hoeft geen gissen te zijn — vraag het aan iemand die u goed kent, en vraag door tot het schuurt.
 
 ## Uw spanningsvelden
 
@@ -221,6 +251,8 @@ Jung noemde dit het spanningspaar, en hij zag er de motor van ontwikkeling in. W
 - Creativiteit versus afmaken (actief aanwezig): Creativiteit scoort 73/100, afmaken scoort 73/100. Beide trekken tegelijk aan u, en geen van beide wint definitief.
 - Intuïtie versus bewijsdrang (actief aanwezig): Intuïtie scoort 70/100, bewijsdrang scoort 74/100. Beide trekken tegelijk aan u, en geen van beide wint definitief.
 
+Wat u hiermee kunt: niet elk punt hierboven zal uw evenveel zeggen. Neem wat herkenbaar is en laat de rest rusten — dat mag ook. Een lage score wil niet zeggen dat iets ontbreekt, en een hoge score niet dat het dagelijks speelt: dit zijn de plekken waar uw patroon het snelst doorslaat, niet de plekken waar u faalt.
+
 ## Uw blinde vlekken
 
 Blinde vlekken zijn de patronen die net onder de radar blijven — niet groot genoeg om als schaduwkant op te vallen, maar wel invloedrijk.
@@ -229,6 +261,8 @@ U merkt een blinde vlek meestal niet aan uzelf, maar aan hoe anderen reageren. K
 
 - Grip zoeken onder druk (70/100): dit patroon is minder op de voorgrond, maar uw grip verhardt zich net wanneer flexibiliteit nodig is — vaak juist omdat het weinig aandacht krijgt.
 - Vastlopen onder druk (66/100): dit patroon is minder op de voorgrond, maar u blijft vastzitten in overdenken terwijl één kleine stap al beweging zou geven — vaak juist omdat het weinig aandacht krijgt.
+
+Wat u hiermee kunt: hierboven staat niet alles even zwaar. Neem wat u raakt en laat de rest liggen — dat mag ook. Een lage score wil niet zeggen dat iets afwezig is, en een hoge score niet dat het speelt op elk moment: dit zijn de plekken waar uw patroon het snelst doorslaat, niet de plekken waar u faalt.
 
 ## Hoe u kunt worden
 
@@ -241,6 +275,10 @@ Individuatie — Jungs woord voor dit proces — gaat niet over iemand anders wo
 Vooral de snelheid van dit proces hangt af van hoeveel ruimte uw uzelf gunt, niet het eindpunt zelf — daar leest u meer over bij uw groeipad.
 
 In deze fase levert bijstellen doorgaans het meest op. U kent uw patronen inmiddels goed genoeg om ze te herkennen, en u hebt nog ruim de tijd om er iets anders mee te doen.
+
+Wat u hiermee kunt: dit hoofdstuk beschrijft een richting, geen checklist. Vandaag al haalbaar is meestal maar één ding — de rest is voor later of voor nooit.
+
+Groei betekent hier niet dat dit patroon verdwijnt. Het betekent dat u eerder doorhebt wanneer het aan het stuur zit, en dat kiezen dan weer kan.
 
 ## Wat u nodig hebt om dat te worden
 
@@ -255,6 +293,10 @@ Eén is genoeg. Wie de hele lijst tegelijk oppakt, komt zelden verder dan de eer
 - Versnellen onder druk: bouw bewust een korte pauze in vóórdat u aan de volgende taak begint.
 - Uzelf verdedigen bij kritiek: wacht bewust even voordat u op kritiek reageert.
 
+Wat u hiermee kunt: van de 6 punten hierboven is er waarschijnlijk één die vandaag al kan. Zoek die. De rest is voor later of voor nooit — dit is een lijst met mogelijkheden, geen lijst met verplichtingen.
+
+Groei betekent hier niet dat dit patroon verdwijnt. Het betekent dat u eerder doorhebt wanneer het aan het stuur zit, en dat kiezen dan weer kan.
+
 ## Uw groeipad
 
 Uw groeibereidheid scoort zeer hoog (83/100) — dat bepaalt hoeveel ruimte uw uzelf momenteel geeft om naar deze patronen te kijken.
@@ -263,6 +305,8 @@ Groei betekent hier niet dat een patroon verdwijnt, maar dat u sneller herkent w
 
 - Grip zoeken onder druk: oefen met bewust een deel van de controle aan een ander overlaten.
 - Vastlopen onder druk: kies een piepklein eerste stapje, in plaats van meteen naar een totaaloplossing te zoeken.
+
+Wat u hiermee kunt: van de 2 punten hierboven kan er vandaag al minstens één. Zoek die op. De rest mag wachten tot later, of voorgoed blijven liggen — dit is een lijst met mogelijkheden, geen lijst met verplichtingen.
 
 ## Wat ik u zou willen uitleggen
 
@@ -288,6 +332,8 @@ Zelfkennis komt zelden uit nadenken. Ze komt uit terugkijken op wat u deed toen 
 - Let deze maand op momenten waarop dit gebeurt: u gaat onder druk sneller en doet meer tegelijk. Noteer wat er vlak daarvoor gebeurde — daar zit de trigger, niet in het gedrag zelf.
 - Vraag aan twee mensen die uw vertrouwen: wat merkt u aan mij dat ik zelf waarschijnlijk niet doorheb? Vraag door tot het ongemakkelijk wordt; daar begint de informatie.
 
+Wat u hiermee kunt: dit hoofdstuk komt uit Versnellen onder druk (87) en Uzelf verdedigen bij kritiek (78). Toets het aan één concrete situatie van de afgelopen maand — klopte het, of was dat de uitzondering? Beide antwoorden helpen, want de uitzondering laat de grens van dit patroon zien.
+
 ## Over liefde
 
 In het begin van verliefdheid ziet u zelden de ander — u ziet een projectie, een beeld dat u al meedroeg voordat u deze persoon kende. Er breekt onvermijdelijk een moment aan waarop dat beeld scheurt en degene die eronder zat zichtbaar wordt. Veel mensen ervaren dat scheuren als het uiteenvallen van de liefde. Het is eerder het moment waarop ze kan beginnen.
@@ -297,6 +343,8 @@ De manier waarop u van uzelf houdt, is ook de manier waarop u van een ander kunt
 Vraag om bij stil te staan: Wat verwacht u stilzwijgend van de mensen die u liefhebt, zonder dat u het ooit met woorden hebt gevraagd?
 
 - U hebt nabijheid nodig en u raakt er benauwd van. U hebt geen partner nodig die minder vraagt, maar een die het uithoudt wanneer u even weg bent — en u hebt uzelf nodig om te zeggen dat u terugkomt, in plaats van het te laten raden.
+
+Waar dit vandaan komt: het begin van deze beschouwing staat in elk rapport, ongeacht de scores. De alinea daarna is wel op u toegesneden: Onafhankelijkheid (73) en Verbinding (65). De vraag onderaan is van u.
 
 ## Over haat
 
@@ -309,6 +357,8 @@ Vraag om bij stil te staan: Wie roept bij u een woede op die groter is dan de ro
 - Bij een aanval wilt u eerst gelijk hebben en voelt u pas veel later wat er werkelijk geraakt werd. Die volgorde kost uw informatie. De vraag die de deur opent is niet "heb ik gelijk?" maar "waarom raakt dit mij zo hard?".
 - U blust sneller dan de meeste mensen: u zegt het, het is eruit, en u ligt er niet wakker van. Wees u ervan bewust dat de ander soms wél wakker ligt — uw opluchting is niet automatisch een gedeelde opluchting.
 
+Waar dit vandaan komt: de opening van deze beschouwing is voor iedereen gelijk. De 2 alinea's daarna zijn niet — die komen uit uw scores: Uzelf verdedigen bij kritiek (78) en Directheid (75). De vraag onderaan is van u.
+
 ## Over pijn
 
 Pijn en lijden zijn niet hetzelfde. Pijn is de gebeurtenis zelf; lijden is het verhaal dat eromheen wordt gebouwd. Dat betekent niet dat uw pijn moet wegredeneren — sommige dingen doen simpelweg pijn en dat blijft zo. Maar de tweede laag, de gedachte dat het niet had mogen gebeuren, is soms te herschrijven. De gebeurtenis zelf niet.
@@ -320,6 +370,8 @@ Vraag om bij stil te staan: Wat draagt u al zo lang dat u vergeten bent dat het 
 - U voelt veel en u deelt weinig. Dat is de eenzaamste combinatie in dit hele model, en het is er een die van buiten nauwelijks te zien is. Eén mens die het mag weten, is genoeg om het verschil te maken.
 - U bent bereid naar uzelf te kijken, en er zit een risico in dat het een prestatie wordt. Aan uzelf werken kan een manier worden om nooit ergens aan te komen. Soms is niet-werken aan uzelf het werk.
 
+Waar dit vandaan komt: de inleiding van deze beschouwing is algemeen — ze staat in elk rapport. De 2 alinea's daarna zijn gekozen op uw scores: Groeibereidheid (83) en Vertrouwensbehoefte (75). De vraag onderaan is van u.
+
 ## Over intuïtie
 
 Er zit weinig mysterie in intuïtie — ze is gewoon eerder dan uw woorden. Wat u voelt aankomen, is vaak informatie die de omweg via het bewuste denken niet nodig had: een gezicht dat iets anders zei dan de mond, een patroon dat u al vaak zag maar nooit onder woorden bracht. U weet het wel degelijk; u kunt alleen niet uitleggen hoe.
@@ -329,6 +381,8 @@ Toch is intuïtie geen orakel; angst en verlangen vertroebelen haar makkelijk. H
 Vraag om bij stil te staan: Wanneer wist u het, en hoe lang hebt u gedaan alsof u het niet wist?
 
 - U voelt het meteen en gelooft het pas als het klopt. Dat kost uw tijd die u soms niet had. De werkbare volgorde is: laat uw intuïtie de hypothese leveren en uw verstand de toetsing doen — niet andersom, want dan komt de hypothese nooit.
+
+Waar dit vandaan komt: het begin van deze beschouwing staat in elk rapport, ongeacht de scores. De alinea daarna is wel op u toegesneden: Analytisch denken (74) en Intuïtief denken (70). De vraag onderaan is van u.
 
 ## Over verdriet
 
@@ -342,17 +396,21 @@ Vraag om bij stil te staan: Voor wie staat u toe dat u huilt, en wanneer is dat 
 - U vlucht in beweging en werk, en u haalt maanden later in wat u oversloeg. Die rekening komt altijd. Plan bewust momenten waarop er niets te doen is, ook al is dat precies wat u op dat moment niet wilt.
 - U vraagt niet. Dat heeft u vaak goed gediend en het werkt in rouw tegen u, omdat mensen om u heen uw zelfstandigheid lezen als "het gaat wel". Zij wachten op een signaal dat u niet van plan bent te geven.
 
+Waar dit vandaan komt: de opening van deze beschouwing is voor iedereen gelijk. De 3 alinea's daarna zijn niet — die komen uit uw scores: Versnellen onder druk (87) en Terugtrekken onder druk (73). De vraag onderaan is van u.
+
 ## Over tegenslagen
 
 Er bestaat een geruststellend klinkende gedachte die veel kwaad doet: alles gebeurt met een reden. Dat klopt niet. Heel veel gebeurt zonder enige reden. Wie ervan uitgaat dat het leven verdiensten beloont, komt vroeg of laat voor de opgave te staan zijn eigen ongeluk te moeten verklaren — en dan blijft er nog maar één schuldige over.
 
 Wat wél waar is: gebeurtenissen hebben geen betekenis, maar mensen maken betekenis. Niet "dit moest zo zijn", maar "dit is wat ik hiermee ga doen". En tegenslag vormt uw karakter zelden; ze onthult het. Onder druk verdwijnt uw persona als eerste, want u hebt de energie niet meer om hem overeind te houden.
 
-Vraag om bij stil te staan: Welk deel van wat uw overkwam was werkelijk van u — en heb uw de rest al teruggegeven aan het toeval?
+Vraag om bij stil te staan: Welk deel van wat er met uw gebeurde was werkelijk van u — en hebt u de rest al teruggegeven aan het toeval?
 
 - Voor u is tegenslag dubbel zwaar: niet alleen het verlies, ook het besef dat u het niet in de hand had. Dat tweede is vaak het zwaarste, en het is het deel waar geen enkele hoeveelheid vooruitdenken tegen helpt.
 - De eerste weken zullen traag zijn. Straf uzelf daar niet extra voor. Kies één kleine stap in plaats van de hele weg — niet omdat dat genoeg is, maar omdat dat het enige is wat op zo'n moment werkt.
 - U bent iemand die van een slecht jaar iets kan maken. Dat is een echte kracht en er zit een addertje bij: de neiging om te snel naar de les te springen, voordat u het verlies hebt gevoeld. Betekenis geven werkt beter als het niet haastig gebeurt.
+
+Waar dit vandaan komt: de opening van deze beschouwing is voor iedereen gelijk. De 3 alinea's daarna zijn niet — die komen uit uw scores: Groeibereidheid (83) en Controlebehoefte (76). De vraag onderaan is van u.
 
 ## Over geluk
 
@@ -366,6 +424,8 @@ Vraag om bij stil te staan: Op welk moment was uw gelukkig zonder het te beseffe
 - U stelt geluk voortdurend uit tot na de volgende voltooiing, en er is altijd een volgende. Dat is geen karakterfout maar een rekenfout: de voorwaarde die u stelt, wordt per definitie nooit bereikt.
 - U hebt een vorm van leven nodig die stabiel is zonder vast te zitten. Die bestaat, maar u zult hem zelf moeten bouwen, want de kant-en-klare varianten kiezen altijd één van de twee.
 
+Waar dit vandaan komt: de opening van deze beschouwing is voor iedereen gelijk. De 3 alinea's daarna zijn niet — die komen uit uw scores: Zekerheid (78) en Perfectionisme (73). De vraag onderaan is van u.
+
 ## Over blijdschap
 
 Waar geluk zich over jaren uitstrekt, duurt blijdschap een handvol seconden. Zonlicht dat door een raam valt. Iemand die uw naam zegt op precies de juiste toon. Blijdschap heeft geen reden nodig en trekt zich niets aan van verdienste — ze vindt de rouwende net zo makkelijk als de gelukkige.
@@ -377,6 +437,8 @@ Vraag om bij stil te staan: Wanneer hebt u voor het laatst iets gedaan wat nerge
 - Bij u is blijdschap iets geworden wat uw verdienen moet: eerst af, dan pas genieten. Dat is precies het misverstand. Probeer het een keer om te draaien en kijk of het werk eronder lijdt. Dat doet het meestal niet.
 - U voelt de kleine dingen scherper dan de meeste mensen. Dat werkt beide kanten op, en het betekent dat de goede momenten bij u ook echt harder aankomen. Dat is geen schrale troost; dat is de rekening die de andere kant opvalt.
 - U hebt de makkelijkste toegang van allemaal: maak iets zonder doel en kijk wat er gebeurt. Niet om het af te maken, niet om het te laten zien. De blijdschap zit in het maken, niet in het resultaat — en dat vergeet u zodra er een deadline bij komt.
+
+Waar dit vandaan komt: het begin van deze beschouwing staat in elk rapport, ongeacht de scores. De 3 alinea's daarna zijn wel op u toegesneden: Controlebehoefte (76) en Perfectionisme (73). De vraag onderaan is van u.
 
 ## 30-dagen actieplan
 

@@ -92,7 +92,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
       'je schuift keuzes voor je uit tot alle onzekerheid weg is, en dat moment blijft uit',
       'je wacht met beslissen tot je overal zeker van bent, een punt dat nooit echt komt',
     ],
-    alone: 'je bouwt vaste routines en gewoontes op die je een gevoel van houvast geven',
+    alone: 'je bouwt vaste routines en gewoontes op die jou een gevoel van houvast geven',
     withOthers: 'je vraagt door naar wat er precies gaat gebeuren voordat je instemt met een plan',
     atWork: 'je wilt een duidelijk stappenplan voordat je aan een taak begint',
     closeCircle: 'je voelt je op je gemak bij vaste patronen en terugkerende afspraken met familie en vrienden',
@@ -277,9 +277,9 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
   analyticalThinking: {
     label: 'Analytisch denken',
     behavior: [
-      'je ontleedt situaties tot je de logica en de risico\'s helder hebt',
+      'je ontleedt situaties tot jij de logica en de risico\'s helder hebt',
       'je pluist situaties uit tot de logica en de risico\'s duidelijk zijn',
-      'je analyseert situaties tot je grip hebt op logica en risico\'s',
+      'je analyseert situaties tot jij grip hebt op logica en risico\'s',
     ],
     hiddenNeed: [
       'de behoefte om grip te hebben via begrip',
@@ -407,7 +407,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     growthKey: [
       'neem bewust een moment om het waarom te checken voordat je begint met het hoe',
       'check eerst bewust het waarom voordat je met het hoe aan de slag gaat',
-      'pauzeer even bij de bedoeling voordat je de uitvoering start',
+      'pauzeer even bij de bedoeling voordat je aan de uitvoering begint',
     ],
   },
   emotionalSensitivity: {
@@ -731,7 +731,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     effect: [
       'mensen zien je als zelfstandig en betrouwbaar, maar weten niet altijd wanneer je hulp nodig hebt',
       'mensen ervaren je als capabel en solide, maar merken niet altijd wanneer steun welkom zou zijn',
-      'mensen vertrouwen op je zelfstandigheid, maar zien lang niet altijd wanneer je zelf hulp kunt gebruiken',
+      'mensen vertrouwen op je zelfstandigheid, maar zien lang niet altijd wanneer jij zelf hulp kunt gebruiken',
     ],
     pitfall: [
       'je vraagt te laat om hulp, ook als de last al te zwaar is geworden',
@@ -909,7 +909,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
       'je zorgvuldigheid en je herstel lijden onder het hoge tempo dat je jezelf oplegt',
     ],
     alone: 'je begint aan meerdere taken tegelijk zodra je merkt dat de druk toeneemt',
-    withOthers: 'je jaagt het tempo van een gesprek of vergadering op wanneer je zelf onder druk staat',
+    withOthers: 'je jaagt het tempo van een gesprek of vergadering op wanneer jij zelf onder druk staat',
     atWork: 'je neemt extra taken op je in plaats van te vertragen wanneer een deadline dreigt',
     closeCircle: 'je stelt jezelf en familie of vrienden onder tijdsdruk bij het organiseren van dingen die eigenlijk rustig konden',
     atEase: 'je kunt bewust vertragen zonder het gevoel te hebben dat je iets laat liggen',
@@ -959,7 +959,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
     behavior: [
       'je verdedigt jezelf sneller dan je zou willen wanneer er kritiek komt',
       'je schiet bij kritiek sneller in de verdediging dan je eigenlijk zou willen',
-      'je gaat bij kritiek automatisch in de tegenaanval, sneller dan je zelf zou wensen',
+      'je gaat bij kritiek automatisch in de tegenaanval, sneller dan jij zelf zou wensen',
     ],
     hiddenNeed: [
       'de behoefte om niet als incompetent of verkeerd gezien te worden',
@@ -977,7 +977,7 @@ export const TRAIT_CONTENT: Record<SubDimensionId, TraitContent> = {
       'je loopt nuttige feedback mis, doordat verdediging telkens je eerste reactie is',
     ],
     alone: 'je herhaalt in gedachten waarom een kritische opmerking eigenlijk niet klopte',
-    withOthers: 'je reageert op feedback met een uitleg of tegenargument voordat je de opmerking echt hebt overwogen',
+    withOthers: 'je reageert op feedback met een uitleg of tegenargument voordat je die opmerking echt hebt overwogen',
     atWork: 'je wijst kritiek op je werk snel af als oneerlijk of ongenuanceerd',
     closeCircle: 'je voelt je aangevallen bij goedbedoelde opmerkingen van familie of vrienden',
     atEase: 'je kunt een adempauze nemen tussen het horen van kritiek en je reactie erop',

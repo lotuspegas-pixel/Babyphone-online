@@ -17,7 +17,7 @@ export const SECTION_PHRASINGS: Record<string, Phrasing> = {
   ],
   'seen-by-others.persona': [
     'Deze eigenschappen zijn niet je hele verhaal, maar wel het deel dat als eerste indruk blijft hangen. In Jungs taal is dit je persona: het gezicht dat je meeneemt naar buiten. Een persona is niet oneerlijk — je hebt er een nodig. Hij wordt pas een probleem wanneer je hem thuis niet meer af krijgt.',
-    'Dit is niet alles wat je bent, maar het is wel wat beklijft. Jung noemde dit de persona: de kant die je meeneemt de deur uit. Daar is niets mis mee — zonder persona kom je een werkdag niet door. Het wringt pas wanneer je hem \'s avonds niet meer afzet.',
+    'Dit is niet alles wat je bent, maar het is wel wat beklijft. Jung noemde dit de persona: de kant die je meeneemt de deur uit. Daar is niets mis mee — zonder persona kom jij een werkdag niet door. Het wringt pas wanneer je hem \'s avonds niet meer afzet.',
     'Wat hier staat is de buitenlaag, niet de kern. Jung sprak van de persona, het masker dat je voor de wereld draagt. Iedereen heeft er een nodig. De vraag is alleen of jij hem nog kunt uitzetten wanneer er niemand meer kijkt.',
   ],
   'hidden-inner-world.intro': [
@@ -27,7 +27,7 @@ export const SECTION_PHRASINGS: Record<string, Phrasing> = {
   ],
   'hidden-inner-world.note': [
     'Dit is niet iets wat je verbergt om te misleiden — het is vaak zo vertrouwd geworden dat je het zelf nauwelijks meer opmerkt.',
-    'Je houdt dit niet bewust achter. Het is zo eigen geworden dat het je zelf niet meer opvalt.',
+    'Je houdt dit niet bewust achter. Het is zo eigen geworden dat het jou zelf niet meer opvalt.',
     'Er zit geen opzet achter. Wat je lang genoeg met je meedraagt, wordt op een dag onzichtbaar — ook voor jezelf.',
   ],
   'alone.intro': [
@@ -130,10 +130,10 @@ export const SECTION_PHRASINGS: Record<string, Phrasing> = {
     'Niet het einddoel staat hier ter discussie, maar het tempo ernaartoe — en dat tempo hangt vooral af van de ruimte die je jezelf gunt. Je groeipad gaat daar verder op in.',
   ],
   'relationship.conflict-bridge-high': [
-    'Conflictvermijding speelt hier een grote rol: je bewaart liever de sfeer dan dat je spanning aangaat, wat op korte termijn rust geeft maar op lange termijn onuitgesproken irritatie kan laten opstapelen. Hoe dat doorwerkt in wat je wel en niet hardop zegt, lees je bij je communicatiestijl.',
-    'Hier speelt conflictvermijding een grote rol: liever bewaar je de sfeer dan dat je spanning opzoekt, wat kortstondig rust geeft maar op termijn onuitgesproken irritatie kan laten opstapelen. Je communicatiestijl gaat verder in op wat dat met je gesprekken doet.',
+    'Conflictvermijding speelt hier een grote rol: je bewaart liever de sfeer dan dat jij spanning aangaat, wat op korte termijn rust geeft maar op lange termijn onuitgesproken irritatie kan laten opstapelen. Hoe dat doorwerkt in wat je wel en niet hardop zegt, lees je bij je communicatiestijl.',
+    'Hier speelt conflictvermijding een grote rol: liever bewaar jij de sfeer dan dat jij spanning opzoekt, wat kortstondig rust geeft maar op termijn onuitgesproken irritatie kan laten opstapelen. Je communicatiestijl gaat verder in op wat dat met je gesprekken doet.',
     'Conflictvermijding weegt hier zwaar: je kiest eerder voor rust dan voor confrontatie, wat op het moment zelf prettig voelt maar op termijn onuitgesproken irritatie kan laten opstapelen. Daarover meer bij je communicatiestijl.',
-    'Conflictvermijding drukt hier stevig door: liever houd je de lieve vrede dan dat je een aanvaring aangaat, wat meteen opluchting geeft maar op termijn onuitgesproken irritatie kan laten opstapelen. Je communicatiestijl laat zien wat dat met je woorden doet.',
+    'Conflictvermijding drukt hier stevig door: liever houd jij de lieve vrede dan dat jij een aanvaring aangaat, wat meteen opluchting geeft maar op termijn onuitgesproken irritatie kan laten opstapelen. Je communicatiestijl laat zien wat dat met je woorden doet.',
     'Er zit hier veel conflictvermijding in: je kiest doorgaans voor kalmte boven een botsing, wat op het moment zelf goed voelt maar op termijn onuitgesproken irritatie kan laten opstapelen. Meer daarover bij je communicatiestijl.',
   ],
   'relationship.conflict-bridge-low': [
@@ -160,13 +160,51 @@ export const SECTION_PHRASINGS: Record<string, Phrasing> = {
   'strengths.vooruit': [
     'Waar deze vijf toe leiden als ze te ver doorslaan, staat bij je valkuilen — met hetzelfde cijfer erbij.',
     'Dezelfde eigenschappen komen terug bij je valkuilen, daar van de kant waar ze tegen je werken.',
-    'Bij je valkuilen zie je een deel van deze vijf opnieuw, met hetzelfde cijfer, maar dan waar het schuurt.',
-    'Wat hier kracht heet, kan bij je valkuilen dezelfde naam en hetzelfde cijfer dragen — daar lees je de keerzijde.',
+    'Bij je valkuilen zie jij een deel van deze vijf opnieuw, met hetzelfde cijfer, maar dan waar het schuurt.',
+    'Wat hier kracht heet, kan bij je valkuilen dezelfde naam en hetzelfde cijfer dragen — daar lees jij de keerzijde.',
     'Hoe dit uitpakt als het doorschiet, staat bij je valkuilen.',
   ],
   'shadow.neem-die-ene': [
-    'Eén van deze vijf herken je waarschijnlijk meteen, en de andere vier niet. Neem die ene.',
-    'Waarschijnlijk springt er één van deze vijf meteen uit en zeggen de andere vier je weinig. Die ene is genoeg.',
-    'Meestal is er één van deze vijf die je direct herkent. Begin daar; de rest mag wachten.',
+    'Wat je hiermee kunt: één van deze vijf herken je waarschijnlijk meteen, en de andere vier niet. Neem die ene. De rest kan wachten, of kan niet kloppen — dat mag ook.',
+    'Wat je hiermee kunt: waarschijnlijk springt er één van deze vijf meteen uit en zeggen de andere vier je weinig. Die ene is genoeg. De rest mag wachten, of hoeft misschien niet eens te kloppen.',
+    'Wat je hiermee kunt: meestal is er één van deze vijf die je direct herkent. Begin daar; de rest mag wachten — of blijkt bij nader inzien niet van toepassing, en ook dat mag.',
   ],
+  /**
+   * Afsluiters per hoofdstuktype (C §3.3). Vorm: één regel proza die met een
+   * label begint ("Wat je hiermee kunt:", "Waar dit vandaan komt:", …), naar
+   * het patroon dat "understood-by-others.origin" al gebruikt — geen aparte
+   * kopvelden nodig, dus de bestaande outro-weergave (plat <p>) volstaat en
+   * er komt geen letterlijke "**" op het scherm.
+   */
+  'closer.insight': [
+    'Wat je hiermee kunt: dit hoofdstuk rust op {labelA} ({scoreA}) en {labelB} ({scoreB}). Leg het naast één concrete situatie van de afgelopen maand — klopte het daar, of was het daar juist de uitzondering? Beide antwoorden zijn bruikbaar, want de uitzondering vertelt je waar de grens van dit patroon ligt.',
+    'Wat je hiermee kunt: dit hoofdstuk steunt op {labelA} ({scoreA}) en {labelB} ({scoreB}). Zet het naast één concrete situatie van de afgelopen maand — klopte het toen, of was dat juist de uitzondering? Allebei is bruikbaar, want de uitzondering laat zien waar dit patroon ophoudt.',
+    'Wat je hiermee kunt: dit hoofdstuk komt uit {labelA} ({scoreA}) en {labelB} ({scoreB}). Toets het aan één concrete situatie van de afgelopen maand — klopte het, of was dat de uitzondering? Beide antwoorden helpen, want de uitzondering laat de grens van dit patroon zien.',
+  ],
+  'closer.insight-about-others': [
+    'Wat je hiermee kunt: dit gaat over wat anderen van je merken. Dat is het enige stuk van je rapport dat je kunt controleren zonder te gissen — vraag het aan iemand die je goed kent, en vraag door tot het ongemakkelijk wordt.',
+    'Wat je hiermee kunt: dit hoofdstuk gaat over wat er bij anderen van je binnenkomt. Het is het enige deel dat je zonder gissen kunt narekenen — vraag het na bij iemand die je goed kent, en blijf doorvragen tot het ongemakkelijk wordt.',
+    'Wat je hiermee kunt: hier gaat het om wat anderen aan je zien. Controleren hoeft geen gissen te zijn — vraag het aan iemand die je goed kent, en vraag door tot het schuurt.',
+  ],
+  /** Voor de vier zware hoofdstukken naast "Je valkuilen" zelf (stress, jungian, tensions, blind-spots): dezelfde geruststelling, zonder een aantal te noemen dat daar niet klopt. */
+  'closer.shadow-note': [
+    'Wat je hiermee kunt: niet alles hierboven raakt je even hard. Neem wat wél klopt en laat de rest liggen — dat mag ook. Een lage score betekent niet dat een patroon er niet is, en een hoge score niet dat je het elke dag hebt: dit zijn de plekken waar het bij jou het snelst kan doorslaan, niet de plekken waar je faalt.',
+    'Wat je hiermee kunt: niet elk punt hierboven zal je evenveel zeggen. Neem wat herkenbaar is en laat de rest rusten — dat mag ook. Een lage score wil niet zeggen dat iets ontbreekt, en een hoge score niet dat het dagelijks speelt: dit zijn de plekken waar jouw patroon het snelst doorslaat, niet de plekken waar je faalt.',
+    'Wat je hiermee kunt: hierboven staat niet alles even zwaar. Neem wat je raakt en laat de rest liggen — dat mag ook. Een lage score wil niet zeggen dat iets afwezig is, en een hoge score niet dat het speelt op elk moment: dit zijn de plekken waar jouw patroon het snelst doorslaat, niet de plekken waar je faalt.',
+  ],
+  'closer.growth': [
+    'Wat je hiermee kunt: van de {n} punten hierboven is er waarschijnlijk één die vandaag al kan. Zoek die. De rest is voor later of voor nooit — dit is een lijst met mogelijkheden, geen lijst met verplichtingen.',
+    'Wat je hiermee kunt: van de {n} punten hierboven kan er vandaag al minstens één. Zoek die op. De rest mag wachten tot later, of voorgoed blijven liggen — dit is een lijst met mogelijkheden, geen lijst met verplichtingen.',
+    'Wat je hiermee kunt: er is van de {n} punten hierboven vermoedelijk één die nu al lukt. Zoek die eruit. De rest mag rusten tot later, of voorgoed — dit is een lijst met mogelijkheden, geen lijst met verplichtingen.',
+  ],
+  'closer.growth-no-bullets': [
+    'Wat je hiermee kunt: dit hoofdstuk beschrijft een richting, geen checklist. Vandaag al haalbaar is meestal maar één ding — de rest is voor later of voor nooit.',
+  ],
+  'closer.reflection': [
+    'Waar dit vandaan komt: de inleiding van deze beschouwing is algemeen — ze staat in elk rapport. {stukjeAantal} daarna {isZijn} gekozen op jouw scores: {label1} ({score1}) en {label2} ({score2}). De vraag onderaan is van jou.',
+    'Waar dit vandaan komt: het begin van deze beschouwing staat in elk rapport, ongeacht de scores. {stukjeAantal} daarna {isZijn} wel op jou toegesneden: {label1} ({score1}) en {label2} ({score2}). De vraag onderaan is van jou.',
+    'Waar dit vandaan komt: de opening van deze beschouwing is voor iedereen gelijk. {stukjeAantal} daarna {isZijn} niet — die komen uit jouw scores: {label1} ({score1}) en {label2} ({score2}). De vraag onderaan is van jou.',
+  ],
+  'closer.reflection-fallback':
+    'Waar dit vandaan komt: op dit thema wijzen je scores niet naar één duidelijk patroon. Deze beschouwing is daarom algemener dan de andere hoofdstukken in je rapport. Dat is geen tekort aan informatie — het betekent dat de context bij jou meer bepaalt dan je aanleg.',
 };
