@@ -336,3 +336,54 @@ export const SLOT_CTA = {
     'Twintig minuten, 120 vragen, en een rapport waarin bij elke uitspraak het cijfer staat waar hij uit volgt. Stoppen mag onderweg — je komt terug waar je gebleven was.',
   cta: 'Start de test',
 } as const;
+
+/** De losse, statische voorbeeldrapport-pagina (taak 12). Echt pad, geen hash-route. */
+export const VOORBEELD_URL = '/voorbeeld/';
+export const VOORBEELD_LINK = 'Liever eerst kijken? Lees het voorbeeldrapport';
+
+/**
+ * "Kijk het zelf na" (E §5.9): geen verzonnen bewijs, maar drie dingen die de
+ * bezoeker zelf kan controleren vóór hij één vraag beantwoordt. De eerste
+ * verwijst naar het voorbeeldrapport, de derde weg voor wie geen 25 minuten heeft.
+ */
+interface KijkNaBlok {
+  titel: string;
+  tekst: string;
+  cta?: string;
+  href?: string;
+}
+
+export const KIJK_NA: {
+  eyebrow: string;
+  titel: string;
+  lead: string;
+  blokken: KijkNaBlok[];
+  slotregel: string;
+} = {
+  eyebrow: 'Kijk het zelf na',
+  titel: 'Je hoeft ons niets te geloven',
+  lead: 'Drie dingen die je kunt controleren voordat je één vraag beantwoordt.',
+  blokken: [
+    {
+      titel: 'Lees eerst een heel hoofdstuk',
+      tekst:
+        'Een volledig voorbeeldrapport, geschreven uit verzonnen antwoorden. Alle 33 hoofdstukken, de cijfers erbij, niets weggelaten. Als het je niets zegt, kost dat je vijf minuten in plaats van vijfentwintig.',
+      cta: 'Lees het voorbeeldrapport',
+      href: VOORBEELD_URL,
+    },
+    {
+      titel: 'Kijk hoe er gerekend wordt',
+      tekst:
+        'Alle scores lopen van 0 tot 100, met 50 als midden. Elk antwoord verschuift meerdere scores tegelijk, elk met een eigen gewicht. In je rapport staat per dimensie op hoeveel antwoorden hij steunt, en hoe betrouwbaar dat is — ook wanneer dat weinig is.',
+      cta: 'Zo wordt het gerekend',
+      href: '#hoe-het-werkt',
+    },
+    {
+      titel: 'Controleer of het hetzelfde blijft',
+      tekst:
+        'Maak je rapport, bewaar het als tekstbestand, wis je antwoorden en vul dezelfde antwoorden opnieuw in. Je krijgt hetzelfde document terug. Dat is wat "de test rekent" betekent, en het is de enige claim op deze pagina die je binnen een uur zelf kunt falsificeren.',
+    },
+  ],
+  slotregel:
+    'We hebben geen bezoekcijfers, geen recensies en geen normgroep om je te laten zien. Wat we wel hebben is een rapport dat je van tevoren mag lezen.',
+};

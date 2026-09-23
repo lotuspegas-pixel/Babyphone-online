@@ -1132,6 +1132,78 @@
   min-width: min(100%, 15rem);
 }
 
+/* ------------------------------------------------------- kijk het zelf na */
+
+/* Drie controleerbare dingen (E §5.9); het eerste blok is het zwaarst en draagt
+   de knop naar het voorbeeldrapport. */
+.landing__na {
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+@media (min-width: 760px) {
+  .landing__na {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+}
+
+.landing__na-blok h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+  line-height: 1.25;
+}
+
+.landing__na-blok p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.landing__na-blok--eerst {
+  padding: clamp(1.1rem, 2.5vw, 1.5rem);
+  background: var(--surface);
+  border: 1px solid var(--color-hairline);
+  border-top: 3px solid var(--gold);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-1);
+}
+
+.landing__na-cta {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--gold);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.landing__na-cta:not(.arcana-button):hover {
+  text-decoration: underline;
+}
+
+/* De ghost-knop in het eerste blok is de enige secundaire CTA op de pagina. */
+.landing__na-cta.arcana-button {
+  margin-top: 0.9rem;
+}
+
+/* Klein tekstlinkje onder de hero- en slot-CTA naar het voorbeeldrapport. */
+.landing__voorbeeld-link {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-hairline);
+}
+
+.landing__voorbeeld-link:hover {
+  color: var(--gold);
+  text-decoration-color: currentColor;
+}
+
 /* --------------------------------------------------------------- skip-link */
 
 /* Eerste tab op de pagina: onzichtbaar tot hij focus krijgt, dan boven de

@@ -35,9 +35,11 @@ const PUBLIC = join(dirname(fileURLToPath(import.meta.url)), '..', 'public');
 const lastmod = new Date().toISOString().slice(0, 10);
 
 // De pagina's die geïndexeerd mogen worden. Zolang er één publieke pagina is,
-// staat hier één URL; het voorbeeldrapport (taak 12) voegt hier zijn eigen
-// regel toe.
-const PAGINAS = [{ pad: '/', changefreq: 'monthly', priority: '1.0' }];
+// staan hier de landingspagina en het voorbeeldrapport (taak 12).
+const PAGINAS = [
+  { pad: '/', changefreq: 'monthly', priority: '1.0' },
+  { pad: '/voorbeeld/', changefreq: 'monthly', priority: '0.8' },
+];
 
 const robots = `User-agent: *
 Allow: /

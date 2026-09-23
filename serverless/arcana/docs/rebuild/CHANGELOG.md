@@ -656,3 +656,42 @@ raakt geen `arcana_result`, `arcana_answers` of andere sleutel.
 - Rich Results Test en Schema Markup Validator vereisen internet — een handmatige owner-stap.
 - `arcana-rebuild.patch` (cruft met oude speaktoart-verwijzingen) wordt in taak 13 verwijderd.
 - De volledige 18-contrastmatrix draait de eindcontrole-agent.
+
+## Taak 12 — Het voorbeeldrapport als tweede URL · 2026-09-23
+
+### Wat er is veranderd
+- Er is nu een tweede, statische pagina: `/voorbeeld/` toont een volledig voorbeeldrapport (alle
+  33 hoofdstukken, ~7.500 woorden) dat een bezoeker kan lezen vóór hij één vraag beantwoordt.
+- De pagina is crawlbaar zonder JavaScript: de hele tekst staat in de HTML (gegenereerd bij de
+  build uit een bestaande, geteste gouden fixture — geen engine in de build, dezelfde tekst die
+  een echte deelnemer krijgt). Het score-overzicht toont leesbare dimensienamen in plaats van
+  interne id's.
+- Bovenaan én onderaan staat expliciet dat het een voorbeeld is, met een knop terug naar de test.
+- De landingspagina heeft een nieuwe sectie "Kijk het zelf na — Je hoeft ons niets te geloven"
+  (E §5.9): drie controleerbare dingen, waarvan het eerste blok naar het voorbeeldrapport linkt.
+- Hero en slot-CTA hebben een klein "Liever eerst kijken? Lees het voorbeeldrapport"-linkje — de
+  derde weg voor wie geen 25 minuten heeft.
+- De sitemap noemt nu twee URL's.
+
+### Wat er bewust niet is veranderd
+- Geen SPA-route: de voorbeeldpagina is een echt statisch bestand (`/voorbeeld/index.html`),
+  zodat een crawler hem zonder JavaScript volledig ziet — dezelfde techniek als de `#root`-fallback.
+- Geen verzonnen bewijs op de "Kijk het zelf na"-sectie (geen recensies, sterren of afnamecijfers).
+
+### Gemeten
+| Metriek | Voor | Na | Doel |
+|---|--:|--:|--:|
+| Indexeerbare URL's | 1 | 2 | 2 |
+| Voorbeeldpagina zonder JS | — | 7.461 woorden in de HTML | volledige tekst |
+| Contrast voorbeeldpagina, licht / donker | — | 0 / 0 (273 knopen) | 0 |
+| Landingbundel (q11) | 65,8 KB | 66,4 KB | ≤ 75 KB |
+
+### Regressiepoort
+- typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigd, build + domeincontrole + JSON-LD +
+  begroting geslaagd. `genereer-voorbeeldpagina.mjs` draait na `vite build`; `check-domains`
+  scant nu 20 bestanden inclusief de voorbeeldpagina.
+
+### Wat dit openlaat
+- Search Console moet beide URL's als ontdekt melden — een owner-stap (vereist een live site).
+- De voorbeeldpagina gebruikt de fixture `balanced-je` (naam "Noor"); als de rapporttekst
+  verandert, verandert de pagina mee bij de volgende build (de bron is een gouden fixture).

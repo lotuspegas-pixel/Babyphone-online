@@ -11,7 +11,10 @@ import {
   HOE_HET_WERKT,
   RAPPORT,
   SITE_STATS,
+  KIJK_NA,
   SLOT_CTA,
+  VOORBEELD_LINK,
+  VOORBEELD_URL,
   STATS_STRIP,
   VOORDELEN,
   VOOR_WIE,
@@ -87,6 +90,9 @@ export function LandingPage({
               </button>
             )}
             <p className="landing__cta-meta">{HERO.ctaMeta}</p>
+            <a className="landing__voorbeeld-link" href={VOORBEELD_URL}>
+              {VOORBEELD_LINK}
+            </a>
           </div>
 
           <ul className="landing__vertrouwen">
@@ -261,6 +267,38 @@ export function LandingPage({
         </div>
       </section>
 
+      {/* --------------------------------------------------------- kijk het zelf na */}
+      {/* E §5.9: geen verzonnen bewijs, wél drie controleerbare dingen. De eerste
+          leidt naar het statische voorbeeldrapport — de derde weg voor wie geen
+          25 minuten heeft. */}
+      <section className="landing__sectie landing__sectie--band" id="kijk-na" aria-labelledby="kijk-na-kop">
+        <div className="landing__inner">
+          <header className="landing__sectie-kop">
+            <p className="arcana-eyebrow">{KIJK_NA.eyebrow}</p>
+            <h2 id="kijk-na-kop">{KIJK_NA.titel}</h2>
+            <p className="landing__lead">{KIJK_NA.lead}</p>
+          </header>
+
+          <div className="landing__na">
+            {KIJK_NA.blokken.map((blok, i) => (
+              <div key={blok.titel} className={`landing__na-blok${i === 0 ? ' landing__na-blok--eerst' : ''}`}>
+                <h3>{blok.titel}</h3>
+                <p>{blok.tekst}</p>
+                {blok.href && (
+                  <a
+                    className={`landing__na-cta${i === 0 ? ' arcana-button arcana-button--ghost' : ''}`}
+                    href={blok.href}
+                  >
+                    {blok.cta} →
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="landing__terzijde">{KIJK_NA.slotregel}</p>
+        </div>
+      </section>
+
       {/* ---------------------------------------------------------------- voor wie */}
       <section className="landing__sectie landing__sectie--kort" id="voor-wie">
         <div className="landing__inner landing__inner--smal">
@@ -333,6 +371,9 @@ export function LandingPage({
             {hasInProgress ? 'Verdergaan met de test' : SLOT_CTA.cta}
           </button>
           <p className="landing__cta-meta">{HERO.ctaMeta}</p>
+          <a className="landing__voorbeeld-link" href={VOORBEELD_URL}>
+            {VOORBEELD_LINK}
+          </a>
         </div>
       </section>
     </div>
