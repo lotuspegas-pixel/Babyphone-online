@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/check-domains.mjs dist && node scripts/meet-bundel.mjs",
+    "build": "node scripts/generate-seo-files.mjs && tsc -b && vite build && node scripts/check-domains.mjs dist && node scripts/controleer-jsonld.mjs && node scripts/meet-bundel.mjs",
     "lint": "oxlint",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest run",

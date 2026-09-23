@@ -610,3 +610,49 @@ raakt geen `arcana_result`, `arcana_answers` of andere sleutel.
   beeld op, los van de code (bevestigd via `getComputedStyle`/`elementFromPoint`: de content stond
   er wel, met de juiste kleuren). Waar een screenshot nodig was is dat opgevangen door dicht bij de
   paginatop te blijven of door de gerenderde HTML/computed styles direct te lezen.
+
+## Taak 11 — Disclaimers, SEO en JSON-LD · 2026-09-23
+
+### Wat er is veranderd
+- De JSON-LD is één samenhangende graaf geworden: een `Organization` met `publisher`-verwijzingen
+  vanuit `WebSite` en `WebApplication`, plus `inLanguage`, `audience`, `about` en `dateModified`.
+- De `FAQPage` in de markup is aangevuld van 5 naar 9 vragen — exact de 9 die zichtbaar op de
+  pagina staan (voorwaarde van Google). De accordeons houden hun antwoordtekst in de HTML, ook
+  dicht.
+- Het woordental "5.500" is op alle vier de plekken in `index.html` (og-, twitter-beschrijving,
+  featureList, `#root`-fallback) `5.700` geworden, consistent met de statbalk en de meting.
+- `og:image:alt` toegevoegd; de sitemap heeft nu een `lastmod`.
+- Het domein staat nog op één bron: `.env.production` met `VITE_SITE_URL`. `robots.txt` en
+  `sitemap.xml` worden daaruit gegenereerd (`scripts/generate-seo-files.mjs`), niet met de hand
+  getypt. Een nieuwe `scripts/controleer-jsonld.mjs` parseert de JSON-LD uit de gebouwde bundel
+  en faalt de build als een type ontbreekt of een URL van het eigen domein afwijkt.
+
+### Wat er bewust niet is veranderd
+- Geen `AggregateRating`, geen `Review`, geen gezondheids-/medisch type, geen `Quiz` (E §7.4
+  verbiedt ze; verzonnen beoordelingen zijn het tegenovergestelde van waar dit merk voor staat).
+- De `#root`-fallback en `noscript` blijven inhoudelijk gelijk, op de feitelijke woordental-
+  correctie na. De drie disclaimersecties staan op dezelfde plek.
+- De archetypenamen blijven Engels (eigenaarsbeslissing, §4.11 rij 55).
+
+### Gemeten
+| Metriek | Voor | Na | Doel |
+|---|--:|--:|--:|
+| `<title>` | 59 tekens | 59 tekens | ≤ 60 |
+| `meta description` | 159 tekens | 159 tekens | ≤ 160 |
+| FAQ-vragen in de markup | 5 | 9 | = 9 zichtbaar |
+| JSON-LD-entiteiten / types | 3 | 4 (Organization erbij) | graaf met publisher |
+| "5.500" in dist/index.html | 4 | 0 | 0 |
+| speaktoart in verzendbare uitvoer | 0 | 0 | 0 |
+
+### Regressiepoort
+- `npm run build` draait nu `generate-seo-files` (eerst) en `controleer-jsonld` (na de build):
+  beide geslaagd, domeincontrole geslaagd, begroting gehaald.
+- **Bewezen:** een vreemde host in `dist/index.html` geeft `check-domains.mjs` exit 1; na
+  verwijderen exit 0.
+- typecheck 0, lint 0, 129 tests groen, gouden master 0 gewijzigd.
+- De negen A §7-vinkjes staan in `docs/eindcontrole.md`.
+
+### Wat dit openlaat
+- Rich Results Test en Schema Markup Validator vereisen internet — een handmatige owner-stap.
+- `arcana-rebuild.patch` (cruft met oude speaktoart-verwijzingen) wordt in taak 13 verwijderd.
+- De volledige 18-contrastmatrix draait de eindcontrole-agent.

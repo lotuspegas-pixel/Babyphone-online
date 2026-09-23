@@ -54,18 +54,19 @@
     <meta property="og:title" content="Persoonlijkheidstest die je kunt narekenen | Arcana Profile" />
     <meta
       property="og:description"
-      content="120 vragen, 33 hoofdstukken, ruim 5.500 woorden over jou. Elke uitspraak hangt aan een gemeten score. Gratis, zonder account, en je antwoorden blijven op je eigen apparaat."
+      content="120 vragen, 33 hoofdstukken, ruim 5.700 woorden over jou. Elke uitspraak hangt aan een gemeten score. Gratis, zonder account, en je antwoorden blijven op je eigen apparaat."
     />
     <meta property="og:url" content="https://arcanaprofile.com/" />
     <meta property="og:image" content="https://arcanaprofile.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Arcana Profile — een persoonlijkheidstest met een herleidbaar rapport" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Persoonlijkheidstest die je kunt narekenen | Arcana Profile" />
     <meta
       name="twitter:description"
-      content="120 vragen, 33 hoofdstukken, ruim 5.500 woorden over jou. Gratis en privé."
+      content="120 vragen, 33 hoofdstukken, ruim 5.700 woorden over jou. Gratis en privé."
     />
     <meta name="twitter:image" content="https://arcanaprofile.com/og-image.jpg" />
 
@@ -74,11 +75,19 @@
         "@context": "https://schema.org",
         "@graph": [
           {
+            "@type": "Organization",
+            "@id": "https://arcanaprofile.com/#organisatie",
+            "name": "Arcana Profile",
+            "url": "https://arcanaprofile.com/",
+            "logo": "https://arcanaprofile.com/favicon.svg"
+          },
+          {
             "@type": "WebSite",
             "@id": "https://arcanaprofile.com/#website",
             "url": "https://arcanaprofile.com/",
             "name": "Arcana Profile",
             "inLanguage": "nl-NL",
+            "publisher": { "@id": "https://arcanaprofile.com/#organisatie" },
             "description": "Gratis persoonlijkheidstest van 120 vragen met een uitgebreid, herleidbaar persoonlijk rapport."
           },
           {
@@ -92,11 +101,21 @@
             "isAccessibleForFree": true,
             "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
             "inLanguage": "nl-NL",
+            "publisher": { "@id": "https://arcanaprofile.com/#organisatie" },
+            "audience": {
+              "@type": "Audience",
+              "audienceType": "Volwassenen die zichzelf willen onderzoeken"
+            },
+            "about": [
+              { "@type": "Thing", "name": "Zelfreflectie" },
+              { "@type": "Thing", "name": "Persoonlijkheid" }
+            ],
+            "dateModified": "2026-09-23",
             "description": "Arcana Profile is een zelfreflectie-instrument: 120 vragen in vier vraagsoorten worden omgerekend naar 30 eigenschappen en 12 hoofddimensies, en daaruit volgt een persoonlijk rapport van 33 hoofdstukken. Elke uitspraak in het rapport is herleidbaar naar een gemeten score. Alle gegevens blijven in de browser van de gebruiker. Het is geen diagnose- of selectie-instrument.",
             "featureList": [
               "120 vragen in vier vraagsoorten",
               "30 gemeten eigenschappen en 12 hoofddimensies",
-              "Rapport van 33 hoofdstukken en ruim 5.500 woorden",
+              "Rapport van 33 hoofdstukken en ruim 5.700 woorden",
               "Scorewiel, sterke punten, valkuilen en spanningsvelden",
               "Actieplan van vier weken",
               "Opslaan als PDF, printen of downloaden",
@@ -112,7 +131,7 @@
                 "name": "Hoe lang duurt de test?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Ongeveer 20 tot 25 minuten voor 120 vragen. Je kunt tussendoor pauzeren; je voortgang blijft in je browser bewaard."
+                  "text": "Ongeveer 20 tot 25 minuten voor 120 vragen. De eerste 72 zijn korte stellingen en gaan het snelst; de laatste 48 zijn afwisselender. Je kunt tussendoor pauzeren: je voortgang blijft in je browser bewaard."
                 }
               },
               {
@@ -128,7 +147,7 @@
                 "name": "Wat gebeurt er met mijn antwoorden?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Die blijven in de opslag van je eigen browser. Er is geen server waar ze naartoe gaan. Wis je je browsergegevens, dan zijn ze definitief weg."
+                  "text": "Die blijven in de opslag van je eigen browser. Er is geen server waar ze naartoe gaan en geen account waarin ze bewaard worden. Wis je je browsergegevens of klik je op \"Antwoorden wissen\", dan zijn ze definitief weg."
                 }
               },
               {
@@ -136,7 +155,15 @@
                 "name": "Is dit wetenschappelijk gevalideerd?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Nee. Het is een reflectie-instrument, geen gevalideerde psychologische test. De berekeningen zijn herleidbaar, maar er is geen normgroep en geen validatiestudie."
+                  "text": "Nee, en dat zeggen we liever eerlijk. Dit is een reflectie-instrument, geen gevalideerde psychologische test. De vragen en berekeningen zijn zorgvuldig opgebouwd en volledig herleidbaar, maar er is geen normgroep en geen validatiestudie."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is dit hetzelfde als MBTI, DISC of Insights?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nee. Die systemen delen je in bij een vast type. Hier wordt per eigenschap een score berekend en staat die score in je rapport; het archetype is niet meer dan een samenvattende leeswijzer daarover. Waar het archetype en je eigen score elkaar tegenspreken, gaat je score voor."
                 }
               },
               {
@@ -144,7 +171,31 @@
                 "name": "Kan ik dit gebruiken om iemand aan te nemen of te beoordelen?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Nee. Het is niet gemaakt of getoetst voor selectie of beoordeling van anderen."
+                  "text": "Nee. Het is niet gemaakt of getoetst voor selectie, beoordeling of welke beslissing over iemand anders dan ook. Gebruik het alleen voor jezelf, of samen met iemand die er vrijwillig aan meedoet."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Krijg ik hetzelfde rapport als iemand anders met dezelfde uitslag?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Niet helemaal. De teksten kennen meerdere gelijkwaardige formuleringen, en welke je krijgt hangt af van je specifieke antwoordenpatroon — niet alleen van je scores. Twee mensen met vergelijkbare uitslagen lezen dus niet hetzelfde stuk tekst."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Kan ik mijn rapport bewaren?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ja. Je kunt het opslaan als PDF, printen, of downloaden als tekstbestand. Het staat verder alleen in deze browser, en wij hebben geen kopie. Eén hoofdstuk kun je apart opslaan om door te sturen naar iemand die dichtbij staat."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Waarom is dit gratis? Waar verdienen jullie aan?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nergens aan. Er is geen betaalmuur, geen advertentie, geen nieuwsbrief en geen doorverkoop van gegevens — dat laatste kan ook niet, want er komen geen gegevens bij ons binnen. Dit is gebouwd omdat het gebouwd moest worden."
                 }
               }
             ]
@@ -169,7 +220,7 @@
           werkstijl, stressreactie en groeipad.
         </p>
         <p>
-          Daaruit volgt een persoonlijk rapport van 33 hoofdstukken en ruim 5.500 woorden, met je sterke
+          Daaruit volgt een persoonlijk rapport van 33 hoofdstukken en ruim 5.700 woorden, met je sterke
           punten, je valkuilen, je stresspatroon, je spanningsvelden en een actieplan van vier weken. Elke
           uitspraak is herleidbaar naar een gemeten score.
         </p>
