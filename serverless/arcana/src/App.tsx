@@ -42,6 +42,9 @@ import { PrivacyPage, TermsPage } from './site/LegalPages';
 const ArcanaIntake = lazy(() => import('./components/ArcanaIntake').then((m) => ({ default: m.ArcanaIntake })));
 const ArcanaTest = lazy(() => import('./components/ArcanaTest').then((m) => ({ default: m.ArcanaTest })));
 const ArcanaReport = lazy(() => import('./components/ArcanaReport').then((m) => ({ default: m.ArcanaReport })));
+const ArcanaSharePage = lazy(() =>
+  import('./components/ArcanaSharePage').then((m) => ({ default: m.ArcanaSharePage })),
+);
 
 interface Engine {
   calculateArcanaResult: typeof import('./lib/arcanaScoringEngine').calculateArcanaResult;
@@ -90,6 +93,8 @@ function preloadEngine() {
 
 type Screen = 'landing' | 'intake' | 'test' | 'loading' | 'engine-unavailable' | 'report';
 type LegalRoute = 'privacy' | 'voorwaarden';
+/** De losse pagina's: de twee juridische, en de ene deelbare rapportpagina. */
+type HashRoute = LegalRoute | 'delen';
 
 /**
  * De losse pagina's hangen aan een hash zodat ze deelbaar en herlaadbaar zijn
@@ -97,13 +102,14 @@ type LegalRoute = 'privacy' | 'voorwaarden';
  * wordt als statische map geüpload, en een pad als /privacy zou daar een 404
  * geven tenzij de host apart geconfigureerd wordt.
  */
-const LEGAL_HASHES: Record<string, LegalRoute> = {
+const HASH_ROUTES: Record<string, HashRoute> = {
   '#/privacy': 'privacy',
   '#/voorwaarden': 'voorwaarden',
+  '#/delen': 'delen',
 };
 
-function readLegalRoute(): LegalRoute | null {
-  return LEGAL_HASHES[window.location.hash] ?? null;
+function readHashRoute(): HashRoute | null {
+  return HASH_ROUTES[window.location.hash] ?? null;
 }
 
 /** Rustige tussenstand terwijl een chunk binnenkomt; geen tekstwand, geen spinner-theater. */
@@ -113,8 +119,8 @@ function ScreenFallback() {
 
 function App() {
   const [screen, setScreen] = useState<Screen>('landing');
-  const [legalRoute, setLegalRoute] = useState<LegalRoute | null>(() =>
-    typeof window === 'undefined' ? null : readLegalRoute(),
+  const [legalRoute, setLegalRoute] = useState<HashRoute | null>(() =>
+    typeof window === 'undefined' ? null : readHashRoute(),
   );
   const [answers, setAnswers] = useState<ArcanaAnswerMap>({});
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -136,7 +142,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const onHash = () => setLegalRoute(readLegalRoute());
+    const onHash = () => setLegalRoute(readHashRoute());
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
@@ -264,9 +270,29 @@ function App() {
     setLegalRoute(route);
   }
 
+  // De deelbare pagina: één hoofdstuk uit het rapport, op een eigen adres
+  // zodat printen en "Opslaan als PDF" precies die pagina opleveren. Zonder
+  // rapport is er niets te delen en valt de route terug op de site.
+  if (legalRoute === 'delen') {
+    if (report) {
+      return (
+        <Suspense fallback={<ScreenFallback />}>
+          <ArcanaSharePage
+            report={report}
+            onBack={() => {
+              goToSite();
+              setScreen('report');
+            }}
+          />
+        </Suspense>
+      );
+    }
+    goToSite();
+  }
+
   // De losse pagina's staan los van de testflow: ook midden in de test kun je
   // de privacyverklaring openen zonder je voortgang kwijt te raken.
-  if (legalRoute) {
+  if (legalRoute === 'privacy' || legalRoute === 'voorwaarden') {
     return (
       <div className="site">
         <a className="arcana-skip-link" href="#inhoud">

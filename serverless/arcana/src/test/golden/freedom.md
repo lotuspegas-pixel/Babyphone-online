@@ -39,6 +39,8 @@ De sterkste daarvan is autonomie. Daaronder zit de behoefte om wie u bent te beh
 
 Dat patroon wordt in dit rapport samengevat als The Visionary, met The Seeker als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat uw uzelf erin herkent. Waar de naam en uw eigen ervaring uiteenlopen, is uw ervaring leidend.
 
+Wat deze drie doen zodra er druk op komt, leest u bij hoe u bent onder druk; waar ze doorslaan, bij uw valkuilen.
+
 - Autonomie (97/100): u bepaalt het liefst zelf de koers in plaats van een vastgelegd pad te volgen.
 - Onafhankelijkheid (97/100): u regelt liever zelf uw zaken dan op een ander te leunen.
 - Creatief denken (89/100): u herkent zonder moeite onverwachte combinaties en nieuwe mogelijkheden.
@@ -141,7 +143,7 @@ Ontspannen bent u speels, associatief, vol verhalen en verbanden die niemand and
 
 Voelt dit vreemd, blijf daar dan even bij stilstaan. Wie zelden lang genoeg op zijn gemak is, leert deze versie van zichzelf nooit goed kennen — en dat is iets om serieus te nemen, geen tekortkoming.
 
-De drie eigenschappen die u hierboven al zag — autonomie, onafhankelijkheid en creatief denken — komen hier terug, ditmaal ontspannen.
+De drie scores waar uw rapport op rust — autonomie (97), onafhankelijkheid (97) en creatief denken (89) — komen hier terug, ditmaal ontspannen.
 
 - Autonomie: u werkt soepel samen zolang u het gevoel hebt dat u vrijwillig meedoet.
 - Onafhankelijkheid: u kunt hulp accepteren zonder het als een teken van zwakte te ervaren.
@@ -153,9 +155,11 @@ Dit zijn de vijf subdimensies waar u het hoogst op scoort — de plekken waar uw
 
 Sterk betekent hier niet goed. Dit is wat u het snelst inzet — ook wanneer iets anders verstandiger was geweest.
 
-- Autonomie (hierboven al genoemd, bij wie u bent): u kiest liever uw eigen route dan een voorgeschreven pad te volgen. Dit komt voort uit de behoefte om wie u bent te behouden, ook onder druk van buitenaf. Mensen zien u als onafhankelijk, maar soms ook als moeilijk te sturen.
-- Onafhankelijkheid (die naam viel al bij wie u bent): u regelt liever zelf uw zaken dan op een ander te leunen. Dit komt voort uit de behoefte om niet weerloos te voelen door op een ander te moeten leunen. Mensen ervaren u als capabel en solide, maar merken niet altijd wanneer steun welkom zou zijn.
-- Creatief denken (hierboven al genoemd, bij wie u bent): u herkent zonder moeite onverwachte combinaties en nieuwe mogelijkheden. Dit komt voort uit de behoefte aan vrijheid om met ideeën te spelen. Mensen laten zich inspireren door uw kijk op dingen.
+Bij uw valkuilen zie uw een deel van deze vijf opnieuw, met hetzelfde cijfer, maar dan waar het schuurt.
+
+- Autonomie (97/100 — dezelfde score als bij wie u bent — wat verandert is waar hij op uitkomt): u kiest liever uw eigen route dan een voorgeschreven pad te volgen. Dit komt voort uit de behoefte om wie u bent te behouden, ook onder druk van buitenaf. Mensen zien u als onafhankelijk, maar soms ook als moeilijk te sturen.
+- Onafhankelijkheid (97/100 — net als bij wie u bent; hier ziet u wat dat cijfer u oplevert): u regelt liever zelf uw zaken dan op een ander te leunen. Dit komt voort uit de behoefte om niet weerloos te voelen door op een ander te moeten leunen. Mensen ervaren u als capabel en solide, maar merken niet altijd wanneer steun welkom zou zijn.
+- Creatief denken (89/100 — dezelfde score als bij wie u bent — wat verandert is waar hij op uitkomt): u herkent zonder moeite onverwachte combinaties en nieuwe mogelijkheden. Dit komt voort uit de behoefte aan vrijheid om met ideeën te spelen. Mensen laten zich inspireren door uw kijk op dingen.
 - Directheid (88/100, zeer hoog): u uit uw mening zonder er lang omheen te draaien. Dit komt voort uit de behoefte aan oprechtheid boven een mooi gepolijst verhaal. Mensen weten bij u meteen waar ze staan.
 - Uzelf verdedigen bij kritiek (85/100, zeer hoog): u verdedigt uzelf sneller dan u zou willen wanneer er kritiek komt. Dit komt voort uit de behoefte om niet gezien te worden als onbekwaam of ontoereikend. Mensen krijgen soms het gevoel dat feedback bij uw moeilijk binnenkomt.
 
@@ -165,11 +169,15 @@ Doorgeslagen kracht wordt last. Dit zijn de patronen waar dat kantelpunt bij u h
 
 Dit is geen diagnose en geen tekortkoming — het zijn de plekken waar bewustwording het meeste oplevert.
 
-- Uzelf verdedigen bij kritiek — dezelfde eigenschap stond hierboven nog bij uw sterke punten en laat hier een keerzijde zien. Valkuil: u laat bruikbare feedback liggen doordat uw eerste reflex verdediging is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren.
+- Uzelf verdedigen bij kritiek (85/100 — het cijfer dat bij uw sterke punten stond, hier gelezen als keerzijde). Valkuil: u laat bruikbare feedback liggen doordat uw eerste reflex verdediging is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren.
 - Grip zoeken onder druk (76/100, hoog): valkuil — uw vasthoudendheid neemt toe precies op het moment dat soepelheid nodig is. Groeisleutel: geef bewust een deel van de sturing uit handen, ook al voelt dat ongemakkelijk.
 - Kritiekgevoeligheid (70/100, hoog): valkuil — u onthoudt een afkeurende opmerking langer dan een compliment. Groeisleutel: leer kritiek te wegen op feiten in plaats van op het gevoel dat het achterlaat.
 - Controlebehoefte (70/100, hoog): valkuil — u klemt u aan controle vast terwijl de situatie juist om loslaten vraagt. Groeisleutel: geef bewust stukjes overzicht uit handen die u niet écht hoeft te bewaken.
 - Uitstellen wat ongemakkelijk is (65/100, hoog): valkuil — hoe langer het wordt uitgesteld, hoe groter het probleem uiteindelijk wordt. Groeisleutel: spreek deze week bewust één klein, ongemakkelijk punt uit in plaats van het te laten liggen.
+
+Meestal is er één van deze vijf die u direct herkent. Begin daar; de rest mag wachten.
+
+Mogelijk zit u in een fase van uw leven waarin u vooral uitvoerend werk doet, waardoor deze kant van u weinig ruimte krijgt om zich te tonen. Het kan ook zijn dat u hebt geleerd uw ideeën voor uzelf te houden omdat ze eerder als onrealistisch werden afgedaan, waardoor u ze nu minder snel herkent als een kernkwaliteit.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -257,23 +265,23 @@ Groei betekent hier niet dat een patroon verdwijnt, maar dat u sneller herkent w
 - Terugtrekken onder druk: zeg kort dat er ruimte nodig is, in plaats van zonder uitleg te verdwijnen.
 - Versnellen onder druk: las bewust een korte adempauze in voordat de volgende taak begint.
 
-## Hoe anderen u zouden moeten begrijpen
+## Wat ik u zou willen uitleggen
 
-Van Dijk, dit is het deel dat u zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.
+Van Dijk, dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van uw rapport gaat niet mee.
 
 Dit is geen excuusbriefje. Het moment waarop u dit gebruikt om een gesprek te beëindigen, werkt het tegen u.
 
 - Mijn enthousiasme voor een nieuw idee betekent niet dat het oude waardeloos was.
 - Ik heb hulp nodig bij de uitvoering, niet omdat ik niet kan, maar omdat mijn aandacht van nature vooruit wil.
 - Als ik iets weer verander, vraag me eerst waarom, voor u het als onbetrouwbaar bestempelt.
-- Wat mensen makkelijk missen: de behoefte om echt gekend te worden. Van buiten zien ze vooral het gedrag — u zoekt naar gesprekken die voorbij het oppervlakkige gaan — en niet de behoefte eronder.
-- Wat mensen makkelijk missen: de behoefte om eerst bewijs van betrouwbaarheid te zien voordat u opent. Van buiten zien ze vooral het gedrag — u stelt u pas open zodra u zeker weet dat het veilig aanvoelt — en niet de behoefte eronder.
+- Van buiten ziet u vooral het gedrag — u zoekt naar gesprekken die voorbij het oppervlakkige gaan. Wat daaronder zit is de behoefte om echt gekend te worden — en dat is het deel dat zelden hardop gaat.
+- Van buiten ziet u vooral het gedrag — u stelt u pas open zodra u zeker weet dat het veilig aanvoelt. Wat daaronder zit is de behoefte om eerst bewijs van betrouwbaarheid te zien voordat u opent — en dat is het deel dat zelden hardop gaat.
+
+Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit intimiteitsbehoefte (59/100) en vertrouwensbehoefte (58/100) — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.
 
 ## Hoe uw uzelf beter kunt begrijpen
 
 De bruikbaarste informatie over uzelf zit niet in uw overwegingen, maar in wat u deed voordat u ging overwegen.
-
-Mogelijk zit u in een fase van uw leven waarin u vooral uitvoerend werk doet, waardoor deze kant van u weinig ruimte krijgt om zich te tonen. Het kan ook zijn dat u hebt geleerd uw ideeën voor uzelf te houden omdat ze eerder als onrealistisch werden afgedaan, waardoor u ze nu minder snel herkent als een kernkwaliteit.
 
 - Welk project van mij is bijna af, en wat houdt me tegen het laatste stuk te doen?
 - Verander ik dit plan omdat het beter is, of omdat de uitvoering ongemakkelijk wordt?

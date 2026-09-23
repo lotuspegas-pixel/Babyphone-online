@@ -10,14 +10,12 @@ import { ArcanaBackToTocButton } from './ArcanaBackToTocButton';
 import { ArcanaExportButton } from './ArcanaExportButton';
 import { ArcanaMethod } from './ArcanaMethod';
 import { ArcanaPdfButton } from './ArcanaPdfButton';
-import { ArcanaPrintButton } from './ArcanaPrintButton';
 import { ArcanaPortrait } from './ArcanaPortrait';
 
 const ArcanaPortraitCanvas = lazy(() =>
   import('./ArcanaPortraitCanvas').then((m) => ({ default: m.ArcanaPortraitCanvas })),
 );
-const vergelijkPortret =
-  typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('vergelijk');
+const vergelijkPortret = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('vergelijk');
 import { ArcanaReportGlance } from './ArcanaReportGlance';
 import { ArcanaReportSection } from './ArcanaReportSection';
 import { ArcanaReportToc } from './ArcanaReportToc';
@@ -41,6 +39,9 @@ const LEGEND_ITEMS: { kind: string; label: string }[] = [
   { kind: 'profile', label: 'Profiel' },
 ];
 
+/** Het ene hoofdstuk dat als losse pagina (#/delen) door te geven is. */
+const SHAREABLE_SECTION_ID = 'understood-by-others';
+
 export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }: Props) {
   const primaryDef = ARCHETYPES.find((a) => a.id === report.archetypes.primary)!;
 
@@ -62,7 +63,9 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
   // of in welke volgorde — dat blijft SECTION_GROUPS + de vangnet-lijst.
   const orderedSections: ReportSectionType[] = [
     ...SECTION_GROUPS.flatMap((group) =>
-      group.ids.map((id) => sectionById.get(id)).filter((section): section is ReportSectionType => section !== undefined),
+      group.ids
+        .map((id) => sectionById.get(id))
+        .filter((section): section is ReportSectionType => section !== undefined),
     ),
     ...ungroupedSections,
   ];
@@ -82,6 +85,12 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
     };
   }
 
+  const shareAction = (
+    <a className="arcana-button arcana-button--primary" href="#/delen">
+      Deze pagina delen
+    </a>
+  );
+
   const groupedSectionElements = SECTION_GROUPS.flatMap((group) => {
     const groupSections = group.ids
       .map((id) => sectionById.get(id))
@@ -93,8 +102,17 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
       <h2 key={`title-${group.id}`} id={`arcana-report-group-${group.id}`} className="arcana-report-group__title">
         {group.title}
       </h2>,
+      // De deelopening: één zin die zegt waarom dit deel hier staat (C §3.2).
+      <p key={`lead-${group.id}`} className="arcana-report-group__lead">
+        {group.lead}
+      </p>,
       ...groupSections.map((section) => (
-        <ArcanaReportSection key={section.id} section={section} {...cardNavProps(section)} />
+        <ArcanaReportSection
+          key={section.id}
+          section={section}
+          {...cardNavProps(section)}
+          action={section.id === SHAREABLE_SECTION_ID ? shareAction : undefined}
+        />
       )),
     ];
   });
@@ -110,47 +128,32 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
           <p className="arcana-report__masthead-quote">{report.sections[0].intro}</p>
         </div>
         <div className="arcana-report__masthead-actions arcana-print-hide">
+          {/* Drie knoppen die geen van drieën iets vernietigen. Het eerste wat
+              iemand na 25 minuten ziet mag geen knop zijn die dat werk wist;
+              "Opnieuw beginnen" en "Antwoorden wissen" staan in de voettekst. */}
           <div className="arcana-report__masthead-buttons">
             <ArcanaPdfButton />
-            <ArcanaPrintButton />
             <ArcanaExportButton report={report} />
+            <a className="arcana-button arcana-button--ghost" href="#/delen">
+              Deel één pagina
+            </a>
           </div>
           {/* Het rapport is lang en wordt 's avonds gelezen: hier is de
               schakelaar een leeshulp, geen instelling. */}
           <ArcanaThemeToggle />
-          <div className="arcana-report__masthead-buttons arcana-report__masthead-buttons--secondary">
-            <button type="button" className="arcana-button arcana-button--ghost" onClick={onBackToSite}>
-              Terug naar de website
-            </button>
-            <button
-              type="button"
-              className="arcana-button arcana-button--ghost"
-              onClick={() => {
-                if (window.confirm('Weet je zeker dat je opnieuw wilt beginnen? Je huidige antwoorden en rapport gaan verloren. Overweeg eerst "Rapport downloaden".')) {
-                  onRestart();
-                }
-              }}
-            >
-              Opnieuw beginnen
-            </button>
-            <button
-              type="button"
-              className="arcana-button arcana-button--text"
-              onClick={() => {
-                if (window.confirm('Weet je zeker dat je al je antwoorden en dit rapport wilt wissen? Dit kan niet ongedaan worden gemaakt. Overweeg eerst "Rapport downloaden".')) {
-                  onClearAnswers();
-                }
-              }}
-            >
-              Antwoorden wissen
-            </button>
-          </div>
         </div>
       </header>
 
-      {/* Het portret is de voorkant van het rapport: één beeld waarin de twaalf
-          gemeten kanten samen zichtbaar zijn, met de sleutel eronder. Alles
-          daarna is verdieping, en dat wordt verderop ook zo aangekondigd. */}
+      {/* De samenvatting staat op zichzelf en komt vóór het beeld: wie hier
+          stopt met lezen, heeft het antwoord (C §3.1). */}
+      <div className="arcana-card-shell arcana-report-glance" data-kind="profile" id="samenvatting">
+        <div className="arcana-card-clip">
+          <ArcanaReportGlance report={report} questionCount={QUESTION_COUNT} />
+        </div>
+      </div>
+
+      {/* Het portret: één beeld waarin de twaalf gemeten kanten samen
+          zichtbaar zijn, met de sleutel eronder. */}
       <div className="arcana-card-shell arcana-report__portrait" data-kind="profile" id="portret">
         <div className="arcana-card-clip">
           <p className="arcana-card-kicker">
@@ -193,12 +196,6 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
         </div>
       </div>
 
-      <div className="arcana-card-shell arcana-report-glance" data-kind="profile" id="in-het-kort">
-        <div className="arcana-card-clip">
-          <ArcanaReportGlance report={report} />
-        </div>
-      </div>
-
       {/* De verantwoording staat bewust vóór de verdieping: wie straks 32
           hoofdstukken met cijfers in gaat, moet eerst weten wat die cijfers
           betekenen en wat dit rapport níet beweert. */}
@@ -215,7 +212,7 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
         <p className="arcana-eyebrow">Vanaf hier de verdieping</p>
         <h2>Het volledige rapport</h2>
         <p>
-          Het portret, de kern en de verantwoording hierboven zijn samen het korte antwoord. Wat nu volgt is de
+          De samenvatting, het portret en de verantwoording hierboven zijn samen het korte antwoord. Wat nu volgt is de
           uitwerking: {deckTotal} hoofdstukken, gegroepeerd in {SECTION_GROUPS.length} delen. Je hoeft ze niet op
           volgorde te lezen — gebruik de inhoudsopgave om te springen naar wat je zoekt.
         </p>
@@ -258,6 +255,41 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
       </div>
 
       <footer className="arcana-report__footer">
+        <div className="arcana-report__footer-actions arcana-print-hide">
+          <button type="button" className="arcana-button arcana-button--ghost" onClick={onBackToSite}>
+            Terug naar de website
+          </button>
+          <button
+            type="button"
+            className="arcana-button arcana-button--ghost"
+            onClick={() => {
+              if (
+                window.confirm(
+                  'Weet je zeker dat je opnieuw wilt beginnen? Je huidige antwoorden en rapport gaan verloren. Overweeg eerst "Rapport downloaden".',
+                )
+              ) {
+                onRestart();
+              }
+            }}
+          >
+            Opnieuw beginnen
+          </button>
+          <button
+            type="button"
+            className="arcana-button arcana-button--text"
+            onClick={() => {
+              if (
+                window.confirm(
+                  'Weet je zeker dat je al je antwoorden en dit rapport wilt wissen? Dit kan niet ongedaan worden gemaakt. Overweeg eerst "Rapport downloaden".',
+                )
+              ) {
+                onClearAnswers();
+              }
+            }}
+          >
+            Antwoorden wissen
+          </button>
+        </div>
         <p className="arcana-fineprint">{PRIVACY_TEXT}</p>
         <p className="arcana-fineprint arcana-fineprint--disclaimer">{DISCLAIMER_TEXT}</p>
       </footer>

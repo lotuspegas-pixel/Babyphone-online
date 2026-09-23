@@ -39,6 +39,8 @@ De sterkste daarvan is erkenning. Daaronder zit de behoefte om te weten dat je b
 
 Dat patroon wordt in dit rapport samengevat als The Flame, met The Performer als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.
 
+Hoe dit uitpakt onder spanning, staat bij hoe je bent onder druk. Waar het te ver doorschiet, staat bij je valkuilen.
+
 - Erkenning (97/100): je zet je in op een manier die gezien mag worden.
 - Sociale energie (97/100): je krijgt energie zodra er actie en contact ontstaat om je heen.
 - Zelfvertrouwen (93/100): je durft op je eigen mening te bouwen, zelfs als de situatie onzeker aanvoelt.
@@ -143,7 +145,7 @@ Ontspannen ben je grappig, scherp en genereus met complimenten aan anderen. Je h
 
 Herken je dit niet, dan zegt dat ook iets. Misschien is er te weinig rust geweest om deze kant van je te leren kennen. Dat is geen gebrek, maar het is het opmerken waard.
 
-Deze drie kwam je hierboven al tegen — erkenning, sociale energie en zelfvertrouwen — en ze laten zich hier van een andere kant zien.
+Het zijn dezelfde cijfers als bij wie je bent — erkenning (97), sociale energie (97) en zelfvertrouwen (93) — alleen laten ze zich hier van een ontspannen kant zien.
 
 - Erkenning: je kunt oprecht blij zijn voor anderen zonder jaloers te worden op hun aandacht.
 - Sociale energie: je kunt ook even stil zijn zonder dat het meteen als saai voelt.
@@ -155,9 +157,11 @@ Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar j
 
 Sterk betekent hier niet goed. Dit is wat je het snelst inzet — ook wanneer iets anders verstandiger was geweest.
 
-- Erkenning (zoals hierboven al genoemd bij wie je bent): je zorgt dat je inspanning zichtbaar is voor anderen. Dit komt voort uit de behoefte om te weten dat je bijdrage ertoe doet. Mensen ervaren je betrokkenheid, maar merken soms dat je wacht op een compliment.
-- Sociale energie (zoals hierboven al genoemd bij wie je bent): je krijgt energie zodra er actie en contact ontstaat om je heen. Dit komt voort uit de behoefte aan levendigheid en energie die je samen met anderen opbouwt. Mensen laten zich meeslepen door je energie.
-- Zelfvertrouwen (al even genoemd bij wie je bent): je gaat af op je eigen inschatting, ook wanneer dat spanning met zich meebrengt. Dit komt voort uit de behoefte om te kunnen steunen op je eigen kracht. Mensen voelen zich gesteund door je zekerheid.
+Bij je valkuilen zie je een deel van deze vijf opnieuw, met hetzelfde cijfer, maar dan waar het schuurt.
+
+- Erkenning (97/100 — dezelfde score als bij wie je bent, hier gelezen als kracht): je zorgt dat je inspanning zichtbaar is voor anderen. Dit komt voort uit de behoefte om te weten dat je bijdrage ertoe doet. Mensen ervaren je betrokkenheid, maar merken soms dat je wacht op een compliment.
+- Sociale energie (97/100 — dezelfde score als bij wie je bent, hier gelezen als kracht): je krijgt energie zodra er actie en contact ontstaat om je heen. Dit komt voort uit de behoefte aan levendigheid en energie die je samen met anderen opbouwt. Mensen laten zich meeslepen door je energie.
+- Zelfvertrouwen (93/100 — het cijfer dat bij wie je bent al stond, nu van de kant waar het voor je werkt): je gaat af op je eigen inschatting, ook wanneer dat spanning met zich meebrengt. Dit komt voort uit de behoefte om te kunnen steunen op je eigen kracht. Mensen voelen zich gesteund door je zekerheid.
 - Directheid (91/100, zeer hoog): je uit je mening zonder er lang omheen te draaien. Dit komt voort uit de behoefte aan eerlijkheid boven schone schijn. Mensen weten bij jou meteen waar ze staan.
 - Perfectionisme (80/100, zeer hoog): je stelt hoge eisen aan jezelf en aan wat je aflevert. Dit komt voort uit de behoefte aan zekerheid dat er niets misgaat. Mensen zien je hoge kwaliteit, maar moeten soms lang op het resultaat wachten.
 
@@ -167,11 +171,15 @@ Wat je goed kunt, kun je ook te veel doen. Dit zijn de plekken waar dat gebeurt.
 
 Er wordt hier niets over je vastgesteld. Dit zijn simpelweg de plekken waar opletten het meeste verschil maakt.
 
-- Perfectionisme — dezelfde eigenschap stond hierboven nog bij je sterke punten en laat hier een keerzijde zien. Valkuil: je vertraagt jezelf door net dat laatste beetje af te willen maken. Groeisleutel: bepaal vooraf wanneer "goed genoeg" ook echt genoeg is.
+- Perfectionisme (80/100 — het cijfer dat bij je sterke punten stond, hier gelezen als keerzijde). Valkuil: je vertraagt jezelf door net dat laatste beetje af te willen maken. Groeisleutel: bepaal vooraf wanneer "goed genoeg" ook echt genoeg is.
 - Jezelf verdedigen bij kritiek (78/100, hoog): valkuil — je laat bruikbare feedback liggen doordat je eerste reflex verdediging is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren.
 - Versnellen onder druk (78/100, hoog): valkuil — je nauwkeurigheid en je rust komen in de knel door het tempo dat je jezelf oplegt. Groeisleutel: las bewust een korte adempauze in voordat de volgende taak begint.
 - Grip zoeken onder druk (76/100, hoog): valkuil — je vasthoudendheid neemt toe precies op het moment dat soepelheid nodig is. Groeisleutel: oefen met bewust een deel van de controle aan een ander overlaten.
 - Controlebehoefte (73/100, hoog): valkuil — je blijft vasthouden aan sturing net op momenten dat loslaten beter zou zijn. Groeisleutel: geef bewust stukjes overzicht uit handen die je niet écht hoeft te bewaken.
+
+Waarschijnlijk springt er één van deze vijf meteen uit en zeggen de andere vier je weinig. Die ene is genoeg.
+
+Mogelijk is jouw omgeving zo terughoudend dat zichtbaarheid daar niet beloond of zelfs afgestraft wordt, waardoor je dit deel van jezelf hebt ingehouden. Het kan ook zijn dat je die drang naar erkenning als ongepast bent gaan zien en haar daardoor niet meer als van jou herkent, terwijl ze onder de oppervlakte nog volop aanwezig is.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -259,23 +267,23 @@ Groei betekent hier niet dat een patroon verdwijnt, maar dat je sneller herkent 
 - Zelftwijfel: laat een genomen besluit bewust rusten, zelfs als er nog een stemmetje twijfel blijft.
 - Kritiekgevoeligheid: leer kritiek te wegen op feiten in plaats van op het gevoel dat het achterlaat.
 
-## Hoe anderen jou zouden moeten begrijpen
+## Wat ik je zou willen uitleggen
 
-Noor, dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.
+Noor, dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van je rapport gaat niet mee.
 
 Dit is geen excuusbriefje. Het moment waarop je dit gebruikt om een gesprek te beëindigen, werkt het tegen je.
 
 - Mijn directheid is geen aanval, het is hoe ik snel duidelijkheid creëer.
 - Als ik stiller word, is er waarschijnlijk iets serieus mis, want stilte kost mij moeite.
 - Ik heb erkenning nodig, maar leer me erop wijzen als ik er te veel om vraag.
-- Wat mensen makkelijk missen: de behoefte aan ruimte om zelf orde te scheppen in wat er speelt. Van buiten zien ze vooral het gedrag — je trekt je onder spanning terug en wordt zwijgzamer in plaats van open te delen — en niet de behoefte eronder.
-- Wat mensen makkelijk missen: de behoefte aan zekerheid over iemands betrouwbaarheid voordat je kwetsbaar wordt. Van buiten zien ze vooral het gedrag — je laat pas iets van jezelf zien nadat je veiligheid hebt gevoeld — en niet de behoefte eronder.
+- Van buiten zie je vooral het gedrag — je trekt je onder spanning terug en wordt zwijgzamer in plaats van open te delen. Wat daaronder zit is de behoefte aan ruimte om zelf orde te scheppen in wat er speelt — en dat is het deel dat zelden hardop gaat.
+- Van buiten zie je vooral het gedrag — je laat pas iets van jezelf zien nadat je veiligheid hebt gevoeld. Wat daaronder zit is de behoefte aan zekerheid over iemands betrouwbaarheid voordat je kwetsbaar wordt — en dat is het deel dat zelden hardop gaat.
+
+Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit terugtrekken onder druk (62/100) en vertrouwensbehoefte (62/100) — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.
 
 ## Hoe je jezelf beter kunt begrijpen
 
 Je leert jezelf niet kennen door erover na te denken, maar door terug te kijken op wat je deed zonder na te denken.
-
-Mogelijk is jouw omgeving zo terughoudend dat zichtbaarheid daar niet beloond of zelfs afgestraft wordt, waardoor je dit deel van jezelf hebt ingehouden. Het kan ook zijn dat je die drang naar erkenning als ongepast bent gaan zien en haar daardoor niet meer als van jou herkent, terwijl ze onder de oppervlakte nog volop aanwezig is.
 
 - Zocht ik nu naar aandacht omdat de situatie erom vroeg, of omdat ik het zelf nodig had?
 - Wanneer heb ik voor het laatst iets goed gedaan zonder dat iemand het zag, en hoe voelde dat?

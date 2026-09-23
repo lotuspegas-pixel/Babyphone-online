@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import type { ArcanaReportSection as Section } from '../types/arcana';
 
 interface Props {
@@ -9,6 +11,8 @@ interface Props {
   prevTitle?: string;
   nextId?: string;
   nextTitle?: string;
+  /** Eén handeling die bij dit hoofdstuk hoort, zoals "Deze pagina delen". */
+  action?: ReactNode;
 }
 
 /** De 5 "kinden" die de CSS gebruikt voor de randaccenten en het merkteken. */
@@ -52,7 +56,7 @@ function sectionKind(id: string): SectionKind | undefined {
   return SECTION_KIND[id];
 }
 
-export function ArcanaReportSection({ section, index, total, prevId, prevTitle, nextId, nextTitle }: Props) {
+export function ArcanaReportSection({ section, index, total, prevId, prevTitle, nextId, nextTitle, action }: Props) {
   const isReflection = section.id.startsWith('reflectie-');
   const kind = sectionKind(section.id);
   const titleId = `${section.id}-title`;
@@ -90,6 +94,14 @@ export function ArcanaReportSection({ section, index, total, prevId, prevTitle, 
             ))}
           </ul>
         )}
+        {/* Tekst die bij de lijst hoort en erna komt (de troost onder de
+            valkuilen); oudere opgeslagen rapporten hebben dit veld niet. */}
+        {section.outro?.map((o, i) => (
+          <p key={`outro-${i}`} className="arcana-body arcana-report-section__outro">
+            {o}
+          </p>
+        ))}
+        {action && <div className="arcana-report-section__action arcana-print-hide">{action}</div>}
         <div className="arcana-card-spacer" />
         {showNav && (
           <nav className="arcana-card-nav arcana-print-hide" aria-label={`Kaartnavigatie: ${section.title}`}>

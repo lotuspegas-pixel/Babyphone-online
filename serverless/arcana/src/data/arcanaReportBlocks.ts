@@ -1,3 +1,5 @@
+import type { ConfidenceLevel } from '../types/arcana';
+
 export const PRIVACY_TEXT =
   "Je antwoorden worden standaard alleen in deze browser opgeslagen om je rapport te maken. Verwijder je je browserdata of klik je op 'Antwoorden wissen', dan verdwijnen je antwoorden.";
 
@@ -19,6 +21,19 @@ export const THIRTY_DAY_WEEK_TITLES: ThirtyDayWeek[] = [
   { week: 3, title: 'Eén nieuw gedrag oefenen', goal: '', task: '', reflection: '' },
   { week: 4, title: 'Nieuwe richting verankeren', goal: '', task: '', reflection: '' },
 ];
+
+/**
+ * Wat de consistentiescore zegt — en niet zegt. De hoge variant zei "dit
+ * rapport staat stevig"; consistentie meet of iemand zichzelf tegenspreekt,
+ * niet of het zelfbeeld klopt (C §6.5). Staat in de samenvatting én in de
+ * verantwoording, dus op één plek gedefinieerd.
+ */
+export const CONFIDENCE_TEXT: Record<ConfidenceLevel, string> = {
+  high: 'Je antwoorden waren consistent. Dat betekent dat de scores hieronder stabiel zijn — niet dat ze waar zijn.',
+  medium:
+    'Je antwoorden waren grotendeels consistent, met een paar twijfelgevallen. Lees de scores als richting, niet als precisie.',
+  low: 'Je antwoorden liepen op meerdere punten uiteen. Dit rapport geeft een indruk, geen scherpe meting — een tweede keer invullen op een rustiger moment geeft een betrouwbaarder beeld.',
+};
 
 export const CLOSING_SENTENCE_FALLBACK =
   'Jouw groei zit niet in meer worden wie je zou moeten zijn, maar in minder verbergen wie je al bent.';

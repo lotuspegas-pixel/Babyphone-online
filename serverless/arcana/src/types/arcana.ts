@@ -220,6 +220,12 @@ export interface ArcanaReportSection {
   intro: string;
   paragraphs: string[];
   bullets: string[];
+  /**
+   * Tekst die ná de opsomming hoort, zoals de troosttekst onder de
+   * valkuilenlijst. Optioneel: oudere opgeslagen rapporten hebben dit veld
+   * niet en renderen gewoon zonder.
+   */
+  outro?: string[];
 }
 
 /** Hoe iemand aangesproken wil worden in het rapport. */

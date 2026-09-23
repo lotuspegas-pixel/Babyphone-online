@@ -39,6 +39,8 @@ De sterkste daarvan is emotionele gevoeligheid. Daaronder zit de behoefte aan op
 
 Dat patroon wordt in dit rapport samengevat als The Mirror, met The Wounded Healer als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.
 
+Dezelfde drie scores komen terug bij je sterke punten en bij je valkuilen — daar telkens van een andere kant.
+
 - Emotionele gevoeligheid (96/100): je voelt emoties in een ruimte al aan voordat iemand iets zegt.
 - Intuïtief denken (94/100): je voelt patronen aan voordat je ze kunt onderbouwen.
 - Kritiekgevoeligheid (88/100): kritiek blijft lang nazinderen, ook als je het niet laat merken.
@@ -141,7 +143,7 @@ Ontspannen ben je speels en warm, met een scherp gevoel voor humor dat inspeelt 
 
 Voelt dit vreemd, blijf daar dan even bij stilstaan. Wie zelden lang genoeg op zijn gemak is, leert deze versie van zichzelf nooit goed kennen — en dat is iets om serieus te nemen, geen tekortkoming.
 
-Deze drie kwam je hierboven al tegen — emotionele gevoeligheid, intuïtief denken en kritiekgevoeligheid — en ze laten zich hier van een andere kant zien.
+Het zijn dezelfde cijfers als bij wie je bent — emotionele gevoeligheid (96), intuïtief denken (94) en kritiekgevoeligheid (88) — alleen laten ze zich hier van een ontspannen kant zien.
 
 - Emotionele gevoeligheid: je gebruikt je gevoeligheid om gericht steun te bieden zonder zelf overspoeld te raken.
 - Intuïtief denken: je deelt je aanvoelen rustig, ook zonder het volledig te kunnen onderbouwen.
@@ -153,9 +155,11 @@ Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar j
 
 Sterk betekent hier niet goed. Dit is wat je het snelst inzet — ook wanneer iets anders verstandiger was geweest.
 
-- Emotionele gevoeligheid (zoals hierboven al genoemd bij wie je bent): je voelt emoties in een ruimte al aan voordat iemand iets zegt. Dit komt voort uit de behoefte aan een omgeving die emotioneel eerlijk is. Mensen voelen zich begrepen door je, maar je neemt onbewust ook hun lading over.
-- Intuïtief denken (die naam viel al bij wie je bent): je herkent patronen nog voordat je ze kunt verklaren. Dit komt voort uit de behoefte om te vertrouwen op wat je aanvoelt, ook zonder bewijs. Mensen raken onder de indruk van je scherpte, maar kunnen je redenering niet altijd volgen.
-- Kritiekgevoeligheid (zoals hierboven al genoemd bij wie je bent): kritiek blijft je nog lang bezighouden, zelfs als je het niet laat blijken. Dit komt voort uit de behoefte aan het gevoel dat je goed genoeg bent zoals je bent. Mensen merken zelden hoeveel effect hun opmerking op je heeft.
+Bij je valkuilen zie je een deel van deze vijf opnieuw, met hetzelfde cijfer, maar dan waar het schuurt.
+
+- Emotionele gevoeligheid (96/100 — dezelfde score als bij wie je bent, hier gelezen als kracht): je voelt emoties in een ruimte al aan voordat iemand iets zegt. Dit komt voort uit de behoefte aan een omgeving die emotioneel eerlijk is. Mensen voelen zich begrepen door je, maar je neemt onbewust ook hun lading over.
+- Intuïtief denken (94/100 — net als bij wie je bent; hier zie je wat dat cijfer je oplevert): je herkent patronen nog voordat je ze kunt verklaren. Dit komt voort uit de behoefte om te vertrouwen op wat je aanvoelt, ook zonder bewijs. Mensen raken onder de indruk van je scherpte, maar kunnen je redenering niet altijd volgen.
+- Kritiekgevoeligheid (88/100 — dezelfde score als bij wie je bent, hier gelezen als kracht): kritiek blijft je nog lang bezighouden, zelfs als je het niet laat blijken. Dit komt voort uit de behoefte aan het gevoel dat je goed genoeg bent zoals je bent. Mensen merken zelden hoeveel effect hun opmerking op je heeft.
 - Verbinding (85/100, zeer hoog): je zoekt actief nabijheid en oprecht contact met de mensen om je heen. Dit komt voort uit de behoefte om er niet alleen voor te staan. Mensen voelen zich bij je op hun gemak, maar gaan daardoor soms te veel op je steunen.
 - Intimiteitsbehoefte (79/100, hoog): je zoekt naar gesprekken die voorbij het oppervlakkige gaan. Dit komt voort uit de behoefte om werkelijk gezien en gekend te worden. Mensen die dichtbij komen, voelen een diepe verbinding met je.
 
@@ -165,11 +169,15 @@ Elke kracht heeft een keerzijde. Dit zijn de patronen die, als ze te sterk worde
 
 Lees dit niet als een oordeel. Het is een kaart van waar aandacht het hardst aankomt.
 
-- Kritiekgevoeligheid — deze eigenschap kwam al langs als sterk punt en toont hier zijn keerzijde. Valkuil: kritiek blijft zwaarder en langer hangen dan een compliment. Groeisleutel: leer kritiek te wegen op feiten in plaats van op het gevoel dat het achterlaat.
+- Kritiekgevoeligheid (88/100 — bij je sterke punten telde dit cijfer als kracht, hier als valkuil). Valkuil: kritiek blijft zwaarder en langer hangen dan een compliment. Groeisleutel: leer kritiek te wegen op feiten in plaats van op het gevoel dat het achterlaat.
 - Jezelf verdedigen bij kritiek (78/100, hoog): valkuil — je laat bruikbare feedback liggen doordat je eerste reflex verdediging is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren.
 - Grip zoeken onder druk (76/100, hoog): valkuil — je vasthoudendheid neemt toe precies op het moment dat soepelheid nodig is. Groeisleutel: leer bewust een stuk van de regie uit handen te geven aan een ander.
 - Terugtrekken onder druk (74/100, hoog): valkuil — je isoleert jezelf net op het moment dat steun je het meest zou helpen. Groeisleutel: benoem kort dat je ruimte nodig hebt, in plaats van stilzwijgend te verdwijnen.
 - Pleasen (72/100, hoog): valkuil — je grens verschuift net zo lang tot je jezelf bent kwijtgeraakt. Groeisleutel: oefen met weigeren bij iets kleins, op een moment dat er weinig van afhangt.
+
+Meestal is er één van deze vijf die je direct herkent. Begin daar; de rest mag wachten.
+
+Het kan zijn dat je in een omgeving leeft waar gevoeligheid als zwakte wordt gezien, waardoor je haar bij jezelf hebt afgesloten of gebagatelliseerd. Ook is het mogelijk dat je deze gevoeligheid pas herkent als je terugkijkt op een gesprek, en niet op het moment zelf, waardoor het patroon minder aanwezig lijkt dan het is.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -256,23 +264,23 @@ Groei is hier geen verandering van karakter, maar snelheid van herkennen. Wie op
 - Zelftwijfel: laat een genomen besluit bewust rusten, zelfs als er nog een stemmetje twijfel blijft.
 - Controlebehoefte: oefen bewust met kleine dingen loslaten die je niet écht hoeft te controleren.
 
-## Hoe anderen jou zouden moeten begrijpen
+## Wat ik je zou willen uitleggen
 
-Noor, dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.
+Noor, dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van je rapport gaat niet mee.
 
 Let op wat je hiermee doet. "Zo zit ik nu eenmaal in elkaar" sluit een gesprek af in plaats van het te openen. Dit is bedoeld om iets uit te leggen, niet om iets af te dekken.
 
 - Als ik stil word, heb ik waarschijnlijk te veel opgepikt en heb ik ruimte nodig, geen probing.
 - Ik voel spanning vaak eerder dan jij hem benoemt, neem dat serieus in plaats van het weg te wuiven.
 - Vraag af en toe expliciet hoe het met mij is, want ik vraag het jou vanzelf.
-- Wat mensen makkelijk missen: de behoefte aan ruimte om in je eentje overzicht te krijgen op wat speelt. Van buiten zien ze vooral het gedrag — je trekt je onder spanning terug en wordt zwijgzamer in plaats van open te delen — en niet de behoefte eronder.
-- Wat mensen makkelijk missen: de behoefte om eerst bewijs van betrouwbaarheid te zien voordat je opent. Van buiten zien ze vooral het gedrag — je stelt je pas open zodra je zeker weet dat het veilig aanvoelt — en niet de behoefte eronder.
+- Van buiten zie je vooral het gedrag — je trekt je onder spanning terug en wordt zwijgzamer in plaats van open te delen. Wat daaronder zit is de behoefte aan ruimte om in je eentje overzicht te krijgen op wat speelt — en dat is het deel dat zelden hardop gaat.
+- Van buiten zie je vooral het gedrag — je stelt je pas open zodra je zeker weet dat het veilig aanvoelt. Wat daaronder zit is de behoefte om eerst bewijs van betrouwbaarheid te zien voordat je opent — en dat is het deel dat zelden hardop gaat.
+
+Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit terugtrekken onder druk (74/100) en vertrouwensbehoefte (70/100) — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.
 
 ## Hoe je jezelf beter kunt begrijpen
 
 Je leert jezelf niet kennen door erover na te denken, maar door terug te kijken op wat je deed zonder na te denken.
-
-Het kan zijn dat je in een omgeving leeft waar gevoeligheid als zwakte wordt gezien, waardoor je haar bij jezelf hebt afgesloten of gebagatelliseerd. Ook is het mogelijk dat je deze gevoeligheid pas herkent als je terugkijkt op een gesprek, en niet op het moment zelf, waardoor het patroon minder aanwezig lijkt dan het is.
 
 - Is dit gevoel dat ik nu heb echt van mij, of heb ik het net opgepikt van iemand anders?
 - Waar in mijn week heb ik mijn grens niet gesteld uit angst iemand te kwetsen?

@@ -19,7 +19,7 @@ import type {
   SubDimensionScore,
 } from '../types/arcana';
 
-const REPORT_VERSION = '2.0.0';
+const REPORT_VERSION = '2.1.0';
 
 /** Subdimensies die, wanneer ze hoog uitvallen, schaduw- en valkuilmateriaal zijn. */
 const RISK_DIMENSIONS: SubDimensionId[] = [
@@ -176,8 +176,9 @@ function section(
   intro: string,
   paragraphs: string[],
   bullets: string[] = [],
+  outro?: string[],
 ): ArcanaReportSection {
-  return { id, title, intro, paragraphs, bullets };
+  return outro && outro.length > 0 ? { id, title, intro, paragraphs, bullets, outro } : { id, title, intro, paragraphs, bullets };
 }
 
 /** Een subdimensie met alle formuleringen al gekozen — platte strings. */
@@ -308,6 +309,9 @@ function generateWhoYouAreSection(result: ArcanaScoreResult, profile: ArcanaProf
       `Kanttekening: ${strongest.label.toLowerCase()} steunt hier op relatief weinig antwoorden (betrouwbaarheid ${strongestConfidence}%), dus lees deze uitspraak als een aanwijzing, niet als een vaststaand feit — je eigen herkenning weegt zwaarder dan het getal.`,
     );
   }
+  // Vooruit in plaats van achteruit: de rode draad wijst naar waar dezelfde
+  // drie scores straks anders uitpakken (C §3.2).
+  paragraphs.push(S(result, 'who-you-are.vooruit'));
 
   return section(
     'who-you-are',
@@ -515,12 +519,13 @@ function generateStressSection(result: ArcanaScoreResult): ArcanaReportSection {
   const s = result.subDimensions[dimId].score;
 
   // Conditioneel, zelden waar: de stress-subdimensie kan toevallig ook in de
-  // top-3 van "Wie je bent" zitten. Zo ja, laat het cijfer hier weg (dat staat
-  // al bij "Wie je bent") en verwijs terug; zo nee — het gangbare geval — is dit
-  // de eerste plek met een cijfer en toont deze sectie het gewoon.
+  // top-3 van "Wie je bent" zitten. Zo ja, staat het cijfer erbij mét de
+  // verwijzing — hetzelfde getal op twee plekken is het verband, niet de
+  // herhaling (C §3.2); zo nee — het gangbare geval — is dit de eerste plek
+  // met een cijfer en toont deze sectie het met de band.
   const whoYouAreTop = topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 3);
   const driveSentence = whoYouAreTop.includes(dimId)
-    ? `De drijfveer eronder is ${t.hiddenNeed}. ${S(result, 'stress.already-named')}`
+    ? `De drijfveer eronder is ${t.hiddenNeed} (${s}/100). ${S(result, 'stress.already-named')}`
     : `De drijfveer eronder is ${t.hiddenNeed} (${s}/100, ${scoreBand(s)}).`;
 
   return section(
@@ -541,10 +546,11 @@ function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile
   const bullets = top.map((id) => `${T(result, id).label}: ${T(result, id).atEase}.`);
 
   // De top-3 hier is per definitie identiek aan de top-3 van "Wie je bent" (zelfde
-  // pool, zelfde sortering, zelfde count). De cijfers staan al canoniek daar; hier
-  // volstaat een kwalitatieve terugverwijzing in plaats van een herhaling.
+  // pool, zelfde sortering, zelfde count). Het cijfer staat erbij: dezelfde
+  // score op twee plekken is het verband dat de lezer kan narekenen (C §3.2).
   const [first, second, third] = top;
-  const labelList = `${T(result, first).label.toLowerCase()}, ${T(result, second).label.toLowerCase()} en ${T(result, third).label.toLowerCase()}`;
+  const metScore = (id: SubDimensionId) => `${T(result, id).label.toLowerCase()} (${result.subDimensions[id].score})`;
+  const labelList = `${metScore(first)}, ${metScore(second)} en ${metScore(third)}`;
   const bridge = S(result, 'at-ease.bridge').replace('{labels}', labelList);
 
   return section(
@@ -567,16 +573,17 @@ function generateAtEaseSection(result: ArcanaScoreResult, profile: ArcanaProfile
 /**
  * Items #1-3 van de top-5 hier zijn per definitie identiek aan de top-3 van
  * "Wie je bent" (zelfde pool, zelfde sortering — een top-5 deelt altijd zijn
- * eerste drie met de top-3). Voor die drie laten we het cijfer weg en verwijzen
- * we terug in plaats van het te herhalen; #4-5 zijn exclusief voor deze sectie
- * en tonen het cijfer gewoon.
+ * eerste drie met de top-3). Die drie krijgen het cijfer mét de verwijzing:
+ * hetzelfde getal op twee plekken leest als verband, "zoals hierboven al
+ * genoemd" las als excuus voor herhaling (C §3.2). #4-5 zijn exclusief voor
+ * deze sectie en tonen het cijfer met de band.
  */
-const STRENGTH_ALREADY_NAMED: readonly string[] = [
-  'zoals hierboven al genoemd bij wie je bent',
-  'die je hierboven al tegenkwam bij wie je bent',
-  'al even genoemd bij wie je bent',
-  'hierboven al genoemd, bij wie je bent',
-  'die naam viel al bij wie je bent',
+const STRENGTH_SAME_SCORE: readonly string[] = [
+  'dezelfde score als bij wie je bent, hier gelezen als kracht',
+  'hetzelfde cijfer als bij wie je bent; hier telt het als sterk punt',
+  'het cijfer dat bij wie je bent al stond, nu van de kant waar het voor je werkt',
+  'dezelfde score als bij wie je bent — wat verandert is waar hij op uitkomt',
+  'net als bij wie je bent; hier zie je wat dat cijfer je oplevert',
 ];
 
 function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSection {
@@ -586,7 +593,7 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
     const s = result.subDimensions[id].score;
     const label =
       index < 3
-        ? `${t.label} (${pick(STRENGTH_ALREADY_NAMED, result.variantSeed, `strengths.bridge.${id}`)})`
+        ? `${t.label} (${s}/100 — ${pick(STRENGTH_SAME_SCORE, result.variantSeed, `strengths.bridge.${id}`)})`
         : `${t.label} (${s}/100, ${scoreBand(s)})`;
     return `${label}: ${t.behavior}. Dit komt voort uit ${t.hiddenNeed}. ${asSentence(t.effect)}`;
   });
@@ -596,6 +603,7 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
     'Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar je patroon het sterkst en meest natuurlijk naar buiten komt.',
     [
       S(result, 'strengths.note'),
+      S(result, 'strengths.vooruit'),
     ],
     bullets,
   );
@@ -604,32 +612,36 @@ function generateStrengthsSection(result: ArcanaScoreResult): ArcanaReportSectio
 /**
  * Referentiefragment voor wanneer een valkuil dezelfde subdimensie is als een
  * eerder getoonde sterkte — de "sterkte = valkuil"-combinatie is inhoudelijk
- * waardevol en blijft dus staan; alleen het cijfer wordt niet nogmaals getoond.
+ * waardevol en blijft dus staan, mét het cijfer: hetzelfde getal bij de sterke
+ * punten en hier is precies het verband dat de lezer kan narekenen (C §3.2).
  */
 const SHADOW_ALSO_STRENGTH: readonly string[] = [
-  'dezelfde eigenschap die hierboven ook al als sterk punt langskwam, heeft hier een keerzijde',
-  'wat hierboven nog een sterk punt was, laat hier ook een andere kant zien',
-  'deze eigenschap kwam al langs als sterk punt en toont hier zijn keerzijde',
-  'wat je hierboven nog als sterk punt las, heeft hier een andere kant',
-  'dezelfde eigenschap stond hierboven nog bij je sterke punten en laat hier een keerzijde zien',
+  'dezelfde score als bij je sterke punten, hier van de kant waar hij tegen je werkt',
+  'hetzelfde cijfer stond bij je sterke punten; hier is de keerzijde',
+  'bij je sterke punten telde dit cijfer als kracht, hier als valkuil',
+  'dezelfde eigenschap als bij je sterke punten, nu de kant die tegen je werkt',
+  'het cijfer dat bij je sterke punten stond, hier gelezen als keerzijde',
 ];
 
 function generateShadowSection(result: ArcanaScoreResult): ArcanaReportSection {
   const top = topSubDimensions(result.subDimensions, RISK_DIMENSIONS, 5);
   // Conditioneel, niet gegarandeerd: afhankelijk van de individuele scores kan
-  // een valkuil ook in de top-5 sterke punten staan. Zo ja, laat het cijfer weg
-  // (dat staat al bij "Jouw sterke punten") en verwijs kort terug; zo nee, toon
-  // het cijfer hier gewoon zoals altijd.
+  // een valkuil ook in de top-5 sterke punten staan. Zo ja, staat het cijfer
+  // erbij mét de verwijzing naar de sterke punten; zo nee, met de band.
   const strengthsTop = new Set(topSubDimensions(result.subDimensions, SUB_DIMENSION_IDS, 5));
   const bullets = top.map((id) => {
     const t = T(result, id, ':shadow');
     const s = result.subDimensions[id].score;
     if (strengthsTop.has(id)) {
       const bridge = pick(SHADOW_ALSO_STRENGTH, result.variantSeed, `shadow.bridge.${id}`);
-      return `${t.label} — ${bridge}. Valkuil: ${t.pitfall}. Groeisleutel: ${t.growthKey}.`;
+      return `${t.label} (${s}/100 — ${bridge}). Valkuil: ${t.pitfall}. Groeisleutel: ${t.growthKey}.`;
     }
     return `${t.label} (${s}/100, ${scoreBand(s)}): valkuil — ${t.pitfall}. Groeisleutel: ${t.growthKey}.`;
   });
+  // De troost staat direct onder de lijst, niet negentien hoofdstukken verder:
+  // wie hier 's avonds leest dat zijn belangrijkste eigenschap een vluchtroute
+  // is, krijgt de nuance meteen (C §6.7). De tekst is per archetype geschreven.
+  const content = ARCHETYPE_CONTENT[result.primaryArchetype];
   return section(
     'shadow',
     'Je valkuilen',
@@ -638,6 +650,7 @@ function generateShadowSection(result: ArcanaScoreResult): ArcanaReportSection {
       S(result, 'shadow.disclaimer'),
     ],
     bullets,
+    [S(result, 'shadow.neem-die-ene'), content.ifItDoesNotFit],
   );
 }
 
@@ -866,22 +879,29 @@ function generateUnderstoodByOthersSection(result: ArcanaScoreResult, profile: A
   const bullets = [
     ...content.howOthersShouldUnderstand,
     ...hidden.map(
-      (id) => `Wat mensen makkelijk missen: ${T(result, id, ':understood-by-others').hiddenNeed}. Van buiten zien ze vooral het gedrag — ${T(result, id, ':understood-by-others').behavior} — en niet de behoefte eronder.`,
+      // `behavior` staat in hoofdzinsvolgorde ("je voelt … aan"), dus als
+      // tussenzin achter een gedachtestreep, niet als lijdend voorwerp.
+      (id) => `Van buiten zie je vooral het gedrag — ${T(result, id, ':understood-by-others').behavior}. Wat daaronder zit is ${T(result, id, ':understood-by-others').hiddenNeed} — en dat is het deel dat zelden hardop gaat.`,
     ),
   ];
+  // Waar dit vandaan komt, met de twee scores erbij: op de losse deelpagina is
+  // dit de enige plek waar de ontvanger ziet dat het geen mening is.
+  const herkomst = hidden.map((id) => `${T(result, id).label.toLowerCase()} (${result.subDimensions[id].score}/100)`);
+  const origin = `Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit ${herkomst.join(' en ')} — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.`;
 
   return section(
     'understood-by-others',
-    'Hoe anderen jou zouden moeten begrijpen',
+    'Wat ik je zou willen uitleggen',
     addressed(
       profile,
-      '{naam}, dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.',
-      'Dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.',
+      '{naam}, dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van je rapport gaat niet mee.',
+      'Dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van je rapport gaat niet mee.',
     ),
     [
       S(result, 'understood-by-others.note'),
     ],
     bullets,
+    [origin],
   );
 }
 
@@ -895,11 +915,13 @@ function generateUnderstandYourselfSection(result: ArcanaScoreResult): ArcanaRep
     'Vraag aan twee mensen die je vertrouwen: wat merk jij aan mij dat ik zelf waarschijnlijk niet doorheb? Vraag door tot het ongemakkelijk wordt; daar begint de informatie.',
   ];
 
+  // De per-archetype troosttekst (ifItDoesNotFit) stond hier, negentien
+  // hoofdstukken na de valkuilen; hij staat nu direct onder die lijst.
   return section(
     'understand-yourself',
     'Hoe je jezelf beter kunt begrijpen',
     S(result, 'understand-yourself.intro'),
-    [content.ifItDoesNotFit],
+    [],
     bullets,
   );
 }
@@ -1042,6 +1064,7 @@ function voiceSection(section: ArcanaReportSection, profile: ArcanaProfile): Arc
     intro: applyVoice(section.intro, profile.addressForm),
     paragraphs: section.paragraphs.map((p) => applyVoice(p, profile.addressForm)),
     bullets: section.bullets.map((b) => applyVoice(b, profile.addressForm)),
+    ...(section.outro ? { outro: section.outro.map((o) => applyVoice(o, profile.addressForm)) } : {}),
   };
 }
 

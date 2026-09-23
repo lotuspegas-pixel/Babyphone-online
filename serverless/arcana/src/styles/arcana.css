@@ -2589,3 +2589,94 @@ body {
     opacity: 1 !important;
   }
 }
+
+/* ==========================================================================
+   Herleesstructuur (taak 4): de samenvatting die op zichzelf staat, de
+   deelopeningen per deel, de troost onder de valkuilen en de deelpagina.
+   ========================================================================== */
+
+.arcana-samenvatting__foot {
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  max-width: 62ch;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.arcana-samenvatting__foot p {
+  margin: 0 0 0.5rem;
+}
+
+.arcana-samenvatting__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0.9rem;
+}
+
+/* De deelopening: één zin onder de deeltitel, in de volle rasterbreedte. */
+.arcana-report-group__lead {
+  grid-column: 1 / -1;
+  margin: -0.5rem 0 0.35rem;
+  max-width: 62ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* Tekst die ná de lijst hoort (de troost onder de valkuilen). */
+.arcana-report-section__outro {
+  margin-top: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+
+.arcana-report-section__action {
+  margin-top: 0.9rem;
+}
+
+.arcana-report__footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1.2rem;
+}
+
+/* De deelpagina: een los vel, met de handelingen erboven (niet op papier). */
+.arcana-deelpagina {
+  align-items: stretch;
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+.arcana-deelpagina__acties {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.arcana-deelpagina__acties p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.arcana-deelpagina__knoppen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.arcana-deelpagina__blad {
+  padding-top: 0;
+}
+
+.arcana-deelpagina__blad .arcana-fineprint {
+  margin-top: 2rem;
+}

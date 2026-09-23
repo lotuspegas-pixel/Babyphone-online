@@ -130,7 +130,13 @@ Op 2026-08-19 is een klinische/UX/business-analyse van een live (willekeurig ing
   - [x] Checks: typecheck 0, lint 0, 129 tests, gouden master 0 gewijzigd, build + domeincontrole + begroting (65,7 KB ≤ 75) geslaagd
   - [ ] **Niet gehaald:** paginahoogte 7.638 px op 1440 (doel ≤ 6.000): het controleerblok, het portret in "Wat je krijgt" en de negende vraag passen niet in de hoogte die `B` schatte — keuze voor de eigenaar
   - [ ] Niet gebouwd: sectie "Kijk het zelf na" (`E` §5.9) — wacht op het voorbeeldrapport (taak 12); trechter als SVG; slotzin FAQ 9 (toezegging van de eigenaar)
-- [ ] **Rebuild taak 4 — Rapport: herleesstructuur** — daarna
+- [x] **Rebuild taak 4 — Rapport: herleesstructuur** (2026-09-23; eerste stap die de rapporttekst raakt — gouden master bewust bijgewerkt in dezelfde commit)
+  - [x] Samenvatting "Je rapport in het kort" direct onder de masthead, vóór het portret, `#samenvatting`, geen verwijzing omhoog, betrouwbaarheidszin erbij, drie niet-destructieve knoppen; "Opnieuw beginnen"/"Antwoorden wissen" naar de voettekst
+  - [x] `ifItDoesNotFit` van hoofdstuk 33 naar direct onder de valkuilenlijst (nieuw optioneel veld `outro` op `ArcanaReportSection`; export en weergave kennen het)
+  - [x] Deelbaar hoofdstuk: titel "Wat ik je zou willen uitleggen", herkomstalinea met twee scores, losse pagina op `#/delen` met eigen aanhef, disclaimer en drie handelingen (`ArcanaSharePage.tsx`)
+  - [x] Overgangszinnen omgedraaid: vier terugkijkende banken dragen nu cijfer + hoofdstuk, twee vooruitwijzende banken erbij; zes deelopeningen (`SECTION_GROUPS.lead`); "Dit rapport staat stevig" vervangen (`C` §6.5)
+  - [x] Checks: gouden master 12 fixtures bijgewerkt en gelezen (harde helft onveranderd), 129 tests, typecheck 0, lint 0, build + domeincontrole + begroting; contrast rapport en deelpagina 0 fouten licht én donker
+  - [ ] Open: `C` §3 laag 3 (navigatieregel met inhoud), §3.3, §3.4, wisdialoog (`G` taak 10); u-vorm "uw zelf"/"tot uw de" in bestaande traitteksten (omzetter)
 - [ ] **Fase C — Scoremodel herijken** — bewust nog niet gestart, vereist expliciete instemming (breekt vergelijkbaarheid met bestaande rapporten). Extra aanleiding sinds 2026-09-21: op een echt rapport liggen de 12 dimensies tussen 42 en 72, waardoor het nieuwe portret bijna rond uitvalt en zijn zeggingskracht verliest.
 - [ ] **Fase D — Eerste betaalde laag (geen backend)** — nog niet gestart
 - [ ] **Fase E — Backend/accounts/teamfuncties** — nog niet gestart, fundamentele architectuurbeslissing

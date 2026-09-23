@@ -262,3 +262,73 @@ Raakt geen gebruikersgegevens.
   gemeten uitkomst.
 - Het beeld is via de DOM gecontroleerd (kleuren, afmetingen, contrast), niet met het oog: het
   browserpaneel in deze omgeving rendert geen frames.
+
+## Taak 4 — Rapport: herleesstructuur · 2026-09-23
+
+**Dit is de eerste stap die de rapporttekst raakt.** De gouden master is bewust bijgewerkt in
+dezelfde commit; hieronder staat precies wat er voor de lezer veranderde.
+
+### Wat er is veranderd
+- Bovenaan het rapport staat nu "Je rapport in het kort": vijf uitspraken met een cijfer, de
+  betrouwbaarheidszin erbij, en drie knoppen (lees verder, bewaar als PDF, inhoudsopgave). De
+  kaart verwijst nergens naar iets erboven en is als losse pagina te begrijpen. "Opnieuw
+  beginnen" en "Antwoorden wissen" staan onderaan het rapport, niet meer bovenaan.
+- De troosttekst per archetype ("Misschien leef je nu in een fase waarin …") staat direct
+  onder de valkuilenlijst in plaats van in hoofdstuk 33, met ervoor: "Eén van deze vijf herken
+  je waarschijnlijk meteen, en de andere vier niet. Neem die ene."
+- Het hoofdstuk om door te geven heet "Wat ik je zou willen uitleggen" (was "Hoe anderen jou
+  zouden moeten begrijpen"), zegt met twee scores waar het vandaan komt, en is met "Deze pagina
+  delen" als losse pagina te openen: eigen aanhef aan de ontvanger, eigen uitleg van wat het
+  niet is, en drie handelingen — PDF van één pagina, kopiëren als tekst, printen. De rest van
+  het rapport gaat niet mee, en dat staat erbij.
+- De overgangszinnen kijken niet meer achteruit zonder cijfer. "Directheid (zoals hierboven al
+  genoemd bij wie je bent)" is "Directheid (85/100 — hetzelfde cijfer als bij wie je bent; hier
+  telt het als sterk punt)" geworden; onder druk en op je gemak staat de score erbij; wie je bent
+  en je sterke punten wijzen vooruit naar waar dezelfde scores anders uitpakken.
+- Elk van de zes delen opent met één zin die zegt waarom het daar staat. De opening van de acht
+  beschouwingen zegt dat de openingen daar algemeen zijn en alleen de middenstukken op de scores
+  gekozen.
+- "Dit rapport staat stevig" is "Je antwoorden waren consistent. Dat betekent dat de scores
+  hieronder stabiel zijn — niet dat ze waar zijn." geworden.
+
+### Wat er bewust niet is veranderd
+- De berekening, de scores, de archetypen, de spanningsvelden: byte voor byte gelijk.
+- De disclaimer, op alle drie de plekken, op dezelfde plaats in de leesvolgorde.
+- De archetypenamen (Engels), de zes localStorage-sleutels.
+- Oudere opgeslagen rapporten renderen zoals ze waren; ze krijgen de nieuwe tekst niet.
+
+### Wat de bezoeker merkt
+- Het rapport begint met het antwoord in plaats van met het beeld; wie stopt na één scherm heeft
+  het belangrijkste gelezen, inclusief het voorbehoud.
+- Wie 's avonds bij de valkuilen leest, krijgt de nuance op dezelfde kaart.
+- Eén pagina kan naar een partner zonder dat de rest meegaat.
+
+### Gemeten, vóór → na
+| Metriek | Voor | Na | Doel |
+|---|--:|--:|--:|
+| Gouden master | 12 fixtures ongewijzigd | 12 fixtures bewust bijgewerkt (+257/−161 regels), diff gelezen | bewuste diff |
+| Woorden per fixture | 5.852–6.607 | 5.996–6.764 | — |
+| Terugkijkende overgangen zonder cijfer | 4 banken | 0 (alle met cijfer), 2 vooruitwijzende erbij | 0 |
+| `ifItDoesNotFit` | hoofdstuk 33 | direct onder de valkuilenlijst | onder de lijst |
+| Contrast rapport / deelpagina, licht en donker | — | 0 / 0 (566 en 23 knopen) | 0 |
+| Rapportchunk (q11) | 8,8 KB | 8,9 KB + deelpagina 1,5 KB (los) | — |
+
+### Regressiepoort
+| Blok | Uitkomst |
+|---|---|
+| Determinisme — harde helft (scores) | onveranderd |
+| Determinisme — gouden master | bewust bijgewerkt in dezelfde commit |
+| Tests | 129 groen (u-corpus, grammatica, reconciliatie ongewijzigd) |
+| Bundelbegroting | gehaald |
+| Domeincontrole | geslaagd |
+
+### Terugrollen
+Eén commit terug: tekst, `outro`-veld en de twaalf fixtures gaan samen. Opgeslagen rapporten uit
+2.1.0 renderen ook op de oude code (het extra veld wordt genegeerd).
+
+### Wat dit openlaat
+- Niet gedaan uit `C` §3: de navigatieregel met inhoud per hoofdstuk, de afsluiters per
+  hoofdstuktype, de terugkeerondersteuning; en de eigen wisdialoog uit `G` taak 10.
+- De u-vorm heeft twee oude fouten in de traitteksten ("uw zelf", "tot uw de") die al in de
+  vorige fixtures stonden — de omzetter, niet deze taak.
+- Geen nulmeting van de rapporthoogte vóór deze taak; nu 23.021 px op 1508 px breed.

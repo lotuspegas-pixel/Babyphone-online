@@ -1,17 +1,11 @@
-import { DISCLAIMER_TEXT } from '../data/arcanaReportBlocks';
-import type { ConfidenceLevel, ResponseQuality } from '../types/arcana';
+import { CONFIDENCE_TEXT, DISCLAIMER_TEXT } from '../data/arcanaReportBlocks';
+import type { ResponseQuality } from '../types/arcana';
 
 interface Props {
   quality: ResponseQuality;
   /** Aantal vragen in de test; staat in de keten en in de betrouwbaarheidsregel. */
   questionCount: number;
 }
-
-const CONFIDENCE_TEXT: Record<ConfidenceLevel, string> = {
-  high: 'Je antwoordde consistent. Dit rapport staat stevig.',
-  medium: 'Je antwoorden waren grotendeels consistent, met een paar twijfelgevallen. Lees de scores als richting, niet als precisie.',
-  low: 'Je antwoorden liepen op meerdere punten uiteen. Dit rapport geeft een indruk, geen scherpe meting — een tweede keer invullen op een rustiger moment geeft een betrouwbaarder beeld.',
-};
 
 /**
  * "Hoe dit gemeten is" — de verantwoording onder de kern.

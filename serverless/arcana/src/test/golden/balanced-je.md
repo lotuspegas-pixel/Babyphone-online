@@ -39,6 +39,8 @@ De sterkste daarvan is directheid. Daaronder zit de behoefte aan oprechtheid bov
 
 Dat patroon wordt in dit rapport samengevat als The Flame, met The Architect als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.
 
+Dezelfde drie scores komen terug bij je sterke punten en bij je valkuilen — daar telkens van een andere kant.
+
 - Directheid (85/100): je uit je mening zonder er lang omheen te draaien.
 - Jezelf verdedigen bij kritiek (85/100): je verdedigt jezelf sneller dan je zou willen wanneer er kritiek komt.
 - Analytisch denken (76/100): je pluist situaties uit tot de logica en de risico's duidelijk zijn.
@@ -131,7 +133,7 @@ Onder druk laat jij vooral het patroon van The Defender zien: verdedigt zich ond
 
 Zichtbaar reageer je sneller met een tegenargument of uitleg zodra er kritiek komt, nog voordat je de opmerking echt hebt overwogen. Van binnen speelt de angst dat kritiek betekent dat je tekortschiet, een angst die groter is dan de opmerking zelf rechtvaardigt.
 
-Concreet vertaalt zich dat naar: je verdedigt jezelf sneller dan je zou willen wanneer er kritiek komt. De drijfveer eronder is de behoefte om niet als incompetent of verkeerd gezien te worden. Die kern kwam eerder al aan bod, bij wie je bent.
+Concreet vertaalt zich dat naar: je verdedigt jezelf sneller dan je zou willen wanneer er kritiek komt. De drijfveer eronder is de behoefte om niet als incompetent of verkeerd gezien te worden (85/100). Dit is dezelfde score als bij wie je bent. Wat verandert is waar hij op uitkomt zodra de druk oploopt.
 
 De valkuil daarbij: je mist waardevolle feedback omdat je eerste reactie verdediging is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.
 
@@ -143,7 +145,7 @@ Ontspannen ben je grappig, scherp en genereus met complimenten aan anderen. Je h
 
 Voelt dit vreemd, blijf daar dan even bij stilstaan. Wie zelden lang genoeg op zijn gemak is, leert deze versie van zichzelf nooit goed kennen — en dat is iets om serieus te nemen, geen tekortkoming.
 
-De drie eigenschappen die je hierboven al zag — directheid, jezelf verdedigen bij kritiek en analytisch denken — komen hier terug, ditmaal ontspannen.
+De drie scores waar je rapport op rust — directheid (85), jezelf verdedigen bij kritiek (85) en analytisch denken (76) — komen hier terug, ditmaal ontspannen.
 
 - Directheid: je combineert je eerlijkheid met aandacht voor hoe het bij de ander landt.
 - Jezelf verdedigen bij kritiek: je kunt een adempauze nemen tussen het horen van kritiek en je reactie erop.
@@ -155,9 +157,11 @@ Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar j
 
 Sterk betekent hier niet goed. Dit is wat je het snelst inzet — ook wanneer iets anders verstandiger was geweest.
 
-- Directheid (die je hierboven al tegenkwam bij wie je bent): je zegt wat je denkt, zonder het in omhaal te verpakken. Dit komt voort uit de behoefte aan eerlijkheid boven schone schijn. Mensen weten precies waar ze aan toe zijn bij jou.
-- Jezelf verdedigen bij kritiek (al even genoemd bij wie je bent): je gaat bij kritiek automatisch in de tegenaanval, sneller dan je zelf zou wensen. Dit komt voort uit de behoefte om niet als incompetent of verkeerd gezien te worden. Mensen merken soms dat opmerkingen bij je weinig ruimte krijgen.
-- Analytisch denken (die je hierboven al tegenkwam bij wie je bent): je ontleedt situaties tot je de logica en de risico's helder hebt. Dit komt voort uit de behoefte om via begrip controle te krijgen op een situatie. Mensen vertrouwen je oordeel, maar ervaren je soms als afstandelijk.
+Waar deze vijf toe leiden als ze te ver doorslaan, staat bij je valkuilen — met hetzelfde cijfer erbij.
+
+- Directheid (85/100 — hetzelfde cijfer als bij wie je bent; hier telt het als sterk punt): je zegt wat je denkt, zonder het in omhaal te verpakken. Dit komt voort uit de behoefte aan eerlijkheid boven schone schijn. Mensen weten precies waar ze aan toe zijn bij jou.
+- Jezelf verdedigen bij kritiek (85/100 — het cijfer dat bij wie je bent al stond, nu van de kant waar het voor je werkt): je gaat bij kritiek automatisch in de tegenaanval, sneller dan je zelf zou wensen. Dit komt voort uit de behoefte om niet als incompetent of verkeerd gezien te worden. Mensen merken soms dat opmerkingen bij je weinig ruimte krijgen.
+- Analytisch denken (76/100 — hetzelfde cijfer als bij wie je bent; hier telt het als sterk punt): je ontleedt situaties tot je de logica en de risico's helder hebt. Dit komt voort uit de behoefte om via begrip controle te krijgen op een situatie. Mensen vertrouwen je oordeel, maar ervaren je soms als afstandelijk.
 - Zelfvertrouwen (76/100, hoog): je vertrouwt op je eigen oordeel, ook als het spannend is. Dit komt voort uit de behoefte om te kunnen steunen op je eigen kracht. Mensen putten steun uit de zekerheid die je uitstraalt.
 - Grip zoeken onder druk (76/100, hoog): je neemt onder spanning het overzicht en de sturing in eigen hand. Dit komt voort uit de behoefte om niet overvallen te worden door de situatie. Mensen om je heen ervaren soms minder eigen speelruimte.
 
@@ -167,11 +171,15 @@ Elke kracht heeft een keerzijde. Dit zijn de patronen die, als ze te sterk worde
 
 Er wordt hier niets over je vastgesteld. Dit zijn simpelweg de plekken waar opletten het meeste verschil maakt.
 
-- Jezelf verdedigen bij kritiek — wat hierboven nog een sterk punt was, laat hier ook een andere kant zien. Valkuil: je loopt nuttige feedback mis, doordat verdediging telkens je eerste reactie is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren.
-- Grip zoeken onder druk — deze eigenschap kwam al langs als sterk punt en toont hier zijn keerzijde. Valkuil: je grip verhardt zich net wanneer flexibiliteit nodig is. Groeisleutel: leer bewust een stuk van de regie uit handen te geven aan een ander.
+- Jezelf verdedigen bij kritiek (85/100 — hetzelfde cijfer stond bij je sterke punten; hier is de keerzijde). Valkuil: je loopt nuttige feedback mis, doordat verdediging telkens je eerste reactie is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren.
+- Grip zoeken onder druk (76/100 — bij je sterke punten telde dit cijfer als kracht, hier als valkuil). Valkuil: je grip verhardt zich net wanneer flexibiliteit nodig is. Groeisleutel: leer bewust een stuk van de regie uit handen te geven aan een ander.
 - Controlebehoefte (74/100, hoog): valkuil — je blijft vasthouden aan sturing net op momenten dat loslaten beter zou zijn. Groeisleutel: geef bewust stukjes overzicht uit handen die je niet écht hoeft te bewaken.
 - Kritiekgevoeligheid (70/100, hoog): valkuil — kritiek blijft zwaarder en langer hangen dan een compliment. Groeisleutel: leer opmerkingen te beoordelen op inhoud, niet op het gevoel erna.
 - Terugtrekken onder druk (65/100, hoog): valkuil — je zondert je juist af op het moment dat steun het hardst nodig is. Groeisleutel: zeg kort dat er ruimte nodig is, in plaats van zonder uitleg te verdwijnen.
+
+Meestal is er één van deze vijf die je direct herkent. Begin daar; de rest mag wachten.
+
+Mogelijk is jouw omgeving zo terughoudend dat zichtbaarheid daar niet beloond of zelfs afgestraft wordt, waardoor je dit deel van jezelf hebt ingehouden. Het kan ook zijn dat je die drang naar erkenning als ongepast bent gaan zien en haar daardoor niet meer als van jou herkent, terwijl ze onder de oppervlakte nog volop aanwezig is.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -259,23 +267,23 @@ Het doel is niet dat het patroon weggaat. Het doel is dat je eerder doorhebt wan
 - Uitstellen wat ongemakkelijk is: spreek deze week bewust één klein, ongemakkelijk punt uit in plaats van het te laten liggen.
 - Pleasen: oefen met weigeren bij iets kleins, op een moment dat er weinig van afhangt.
 
-## Hoe anderen jou zouden moeten begrijpen
+## Wat ik je zou willen uitleggen
 
-Noor, dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.
+Noor, dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van je rapport gaat niet mee.
 
 Let op wat je hiermee doet. "Zo zit ik nu eenmaal in elkaar" sluit een gesprek af in plaats van het te openen. Dit is bedoeld om iets uit te leggen, niet om iets af te dekken.
 
 - Mijn directheid is geen aanval, het is hoe ik snel duidelijkheid creëer.
 - Als ik stiller word, is er waarschijnlijk iets serieus mis, want stilte kost mij moeite.
 - Ik heb erkenning nodig, maar leer me erop wijzen als ik er te veel om vraag.
-- Wat mensen makkelijk missen: de behoefte om in een omgeving te zijn waar gevoelens niet verstopt worden. Van buiten zien ze vooral het gedrag — je voelt emoties in een ruimte al aan voordat iemand iets zegt — en niet de behoefte eronder.
-- Wat mensen makkelijk missen: de behoefte om niet meteen te hoeven staan tegenover iets ongemakkelijks. Van buiten zien ze vooral het gedrag — je stelt lastige gevoelens, keuzes of gesprekken uit — en niet de behoefte eronder.
+- Van buiten zie je vooral het gedrag — je voelt emoties in een ruimte al aan voordat iemand iets zegt. Wat daaronder zit is de behoefte om in een omgeving te zijn waar gevoelens niet verstopt worden — en dat is het deel dat zelden hardop gaat.
+- Van buiten zie je vooral het gedrag — je stelt lastige gevoelens, keuzes of gesprekken uit. Wat daaronder zit is de behoefte om niet meteen te hoeven staan tegenover iets ongemakkelijks — en dat is het deel dat zelden hardop gaat.
+
+Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit emotionele gevoeligheid (63/100) en uitstellen wat ongemakkelijk is (63/100) — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.
 
 ## Hoe je jezelf beter kunt begrijpen
 
 Zelfkennis komt zelden uit nadenken. Ze komt uit terugkijken op wat je deed toen je niet nadacht.
-
-Mogelijk is jouw omgeving zo terughoudend dat zichtbaarheid daar niet beloond of zelfs afgestraft wordt, waardoor je dit deel van jezelf hebt ingehouden. Het kan ook zijn dat je die drang naar erkenning als ongepast bent gaan zien en haar daardoor niet meer als van jou herkent, terwijl ze onder de oppervlakte nog volop aanwezig is.
 
 - Zocht ik nu naar aandacht omdat de situatie erom vroeg, of omdat ik het zelf nodig had?
 - Wanneer heb ik voor het laatst iets goed gedaan zonder dat iemand het zag, en hoe voelde dat?

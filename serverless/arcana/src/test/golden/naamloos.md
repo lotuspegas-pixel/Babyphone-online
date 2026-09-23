@@ -41,6 +41,8 @@ Dat patroon wordt in dit rapport samengevat als The Mirror, met The Flame als tw
 
 Kanttekening: jezelf verdedigen bij kritiek steunt hier op relatief weinig antwoorden (betrouwbaarheid 17%), dus lees deze uitspraak als een aanwijzing, niet als een vaststaand feit — je eigen herkenning weegt zwaarder dan het getal.
 
+Dezelfde drie scores komen terug bij je sterke punten en bij je valkuilen — daar telkens van een andere kant.
+
 - Jezelf verdedigen bij kritiek (88/100): je verdedigt jezelf sneller dan je zou willen wanneer er kritiek komt.
 - Intimiteitsbehoefte (80/100): je zoekt naar gesprekken die voorbij het oppervlakkige gaan.
 - Onafhankelijkheid (80/100): je houdt de regie liever in eigen hand dan dat je op hulp van anderen vertrouwt.
@@ -131,7 +133,7 @@ Onder druk laat jij vooral het patroon van The Defender zien: verdedigt zich ond
 
 Zichtbaar reageer je sneller met een tegenargument of uitleg zodra er kritiek komt, nog voordat je de opmerking echt hebt overwogen. Van binnen speelt de angst dat kritiek betekent dat je tekortschiet, een angst die groter is dan de opmerking zelf rechtvaardigt.
 
-Concreet vertaalt zich dat naar: je verdedigt jezelf sneller dan je zou willen wanneer er kritiek komt. De drijfveer eronder is de behoefte om niet het gevoel te krijgen tekort te schieten in de ogen van een ander. Diezelfde kern stond hierboven al genoemd, bij wie je bent.
+Concreet vertaalt zich dat naar: je verdedigt jezelf sneller dan je zou willen wanneer er kritiek komt. De drijfveer eronder is de behoefte om niet het gevoel te krijgen tekort te schieten in de ogen van een ander (88/100). Het cijfer is hetzelfde als bij wie je bent; alleen kijk je er hier naar op het moment dat het knelt.
 
 De valkuil daarbij: je mist waardevolle feedback omdat je eerste reactie verdediging is. Groeisleutel: bouw bewust een pauze in tussen het horen van kritiek en je reactie erop. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.
 
@@ -143,7 +145,7 @@ Ontspannen ben je speels en warm, met een scherp gevoel voor humor dat inspeelt 
 
 Voelt dit vreemd, blijf daar dan even bij stilstaan. Wie zelden lang genoeg op zijn gemak is, leert deze versie van zichzelf nooit goed kennen — en dat is iets om serieus te nemen, geen tekortkoming.
 
-Nog een keer dezelfde kern — jezelf verdedigen bij kritiek, intimiteitsbehoefte en onafhankelijkheid — maar dan gezien vanuit een moment zonder druk.
+Nog een keer dezelfde drie cijfers — jezelf verdedigen bij kritiek (88), intimiteitsbehoefte (80) en onafhankelijkheid (80) — maar dan op een moment zonder druk.
 
 - Jezelf verdedigen bij kritiek: je kunt een adempauze nemen tussen het horen van kritiek en je reactie erop.
 - Intimiteitsbehoefte: je kunt ook genieten van luchtig contact zonder dat het meteen diepgang moet hebben.
@@ -155,9 +157,11 @@ Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar j
 
 Sterk betekent hier niet goed. Dit is wat je het snelst inzet — ook wanneer iets anders verstandiger was geweest.
 
-- Jezelf verdedigen bij kritiek (die je hierboven al tegenkwam bij wie je bent): je gaat bij kritiek automatisch in de tegenaanval, sneller dan je zelf zou wensen. Dit komt voort uit de behoefte om niet als incompetent of verkeerd gezien te worden. Mensen ervaren je soms als gesloten voor feedback.
-- Intimiteitsbehoefte (hierboven al genoemd, bij wie je bent): je zoekt naar gesprekken die voorbij het oppervlakkige gaan. Dit komt voort uit de behoefte aan een gevoel van echt gekend zijn. Mensen die dicht bij je komen, ervaren een diepe verbinding.
-- Onafhankelijkheid (die naam viel al bij wie je bent): je houdt de regie liever in eigen hand dan dat je op hulp van anderen vertrouwt. Dit komt voort uit de behoefte om geen kwetsbaarheid te tonen die met afhankelijkheid gepaard gaat. Mensen ervaren je als capabel en solide, maar merken niet altijd wanneer steun welkom zou zijn.
+Dezelfde eigenschappen komen terug bij je valkuilen, daar van de kant waar ze tegen je werken.
+
+- Jezelf verdedigen bij kritiek (88/100 — hetzelfde cijfer als bij wie je bent; hier telt het als sterk punt): je gaat bij kritiek automatisch in de tegenaanval, sneller dan je zelf zou wensen. Dit komt voort uit de behoefte om niet als incompetent of verkeerd gezien te worden. Mensen ervaren je soms als gesloten voor feedback.
+- Intimiteitsbehoefte (80/100 — dezelfde score als bij wie je bent — wat verandert is waar hij op uitkomt): je zoekt naar gesprekken die voorbij het oppervlakkige gaan. Dit komt voort uit de behoefte aan een gevoel van echt gekend zijn. Mensen die dicht bij je komen, ervaren een diepe verbinding.
+- Onafhankelijkheid (80/100 — net als bij wie je bent; hier zie je wat dat cijfer je oplevert): je houdt de regie liever in eigen hand dan dat je op hulp van anderen vertrouwt. Dit komt voort uit de behoefte om geen kwetsbaarheid te tonen die met afhankelijkheid gepaard gaat. Mensen ervaren je als capabel en solide, maar merken niet altijd wanneer steun welkom zou zijn.
 - Erkenning (79/100, hoog): je zet je in op een manier die gezien mag worden. Dit komt voort uit de behoefte om te merken dat je inzet gewaardeerd wordt. Mensen merken je inzet, maar zien soms ook dat je uitkijkt naar een reactie.
 - Vastlopen onder druk (77/100, hoog): je raakt vastgelopen, ook al blijft er vanbinnen van alles doorspelen. Dit komt voort uit de behoefte om pas in beweging te komen als de weg voldoende zeker voelt. Mensen merken de stilstand op, zonder te weten hoeveel er intussen vanbinnen omgaat.
 
@@ -167,11 +171,15 @@ Wat je goed kunt, kun je ook te veel doen. Dit zijn de plekken waar dat gebeurt.
 
 Lees dit niet als een oordeel. Het is een kaart van waar aandacht het hardst aankomt.
 
-- Jezelf verdedigen bij kritiek — deze eigenschap kwam al langs als sterk punt en toont hier zijn keerzijde. Valkuil: je loopt nuttige feedback mis, doordat verdediging telkens je eerste reactie is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren.
-- Vastlopen onder druk — dezelfde eigenschap die hierboven ook al als sterk punt langskwam, heeft hier een keerzijde. Valkuil: je blijft vastzitten in overdenken terwijl één kleine stap al beweging zou geven. Groeisleutel: kies bewust de kleinst mogelijke eerste stap in plaats van het hele probleem in één keer op te lossen.
+- Jezelf verdedigen bij kritiek (88/100 — bij je sterke punten telde dit cijfer als kracht, hier als valkuil). Valkuil: je loopt nuttige feedback mis, doordat verdediging telkens je eerste reactie is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren.
+- Vastlopen onder druk (77/100 — dezelfde score als bij je sterke punten, hier van de kant waar hij tegen je werkt). Valkuil: je blijft vastzitten in overdenken terwijl één kleine stap al beweging zou geven. Groeisleutel: kies bewust de kleinst mogelijke eerste stap in plaats van het hele probleem in één keer op te lossen.
 - Zelftwijfel (75/100, hoog): valkuil — je blijft piekeren over keuzes die eigenlijk al lang achter je liggen. Groeisleutel: sluit een keuze na het nemen ervan bewust af, ook al fluistert de twijfel nog door.
 - Versnellen onder druk (75/100, hoog): valkuil — je nauwkeurigheid en je rust komen in de knel door het tempo dat je jezelf oplegt. Groeisleutel: bouw bewust een korte pauze in vóórdat je aan de volgende taak begint.
 - Perfectionisme (72/100, hoog): valkuil — je houdt jezelf op door net dat laatste stukje nog te willen afronden. Groeisleutel: leg vooraf vast wanneer iets af mag zijn, ook zonder dat laatste beetje.
+
+Eén van deze vijf herken je waarschijnlijk meteen, en de andere vier niet. Neem die ene.
+
+Het kan zijn dat je in een omgeving leeft waar gevoeligheid als zwakte wordt gezien, waardoor je haar bij jezelf hebt afgesloten of gebagatelliseerd. Ook is het mogelijk dat je deze gevoeligheid pas herkent als je terugkijkt op een gesprek, en niet op het moment zelf, waardoor het patroon minder aanwezig lijkt dan het is.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -256,23 +264,23 @@ Groei is hier geen verandering van karakter, maar snelheid van herkennen. Wie op
 - Kritiekgevoeligheid: leer kritiek te wegen op feiten in plaats van op het gevoel dat het achterlaat.
 - Terugtrekken onder druk: benoem kort dat je ruimte nodig hebt, in plaats van stilzwijgend te verdwijnen.
 
-## Hoe anderen jou zouden moeten begrijpen
+## Wat ik je zou willen uitleggen
 
-Dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.
+Dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van je rapport gaat niet mee.
 
 Dit is geen excuusbriefje. Het moment waarop je dit gebruikt om een gesprek te beëindigen, werkt het tegen je.
 
 - Als ik stil word, heb ik waarschijnlijk te veel opgepikt en heb ik ruimte nodig, geen probing.
 - Ik voel spanning vaak eerder dan jij hem benoemt, neem dat serieus in plaats van het weg te wuiven.
 - Vraag af en toe expliciet hoe het met mij is, want ik vraag het jou vanzelf.
-- Wat mensen makkelijk missen: de behoefte aan ruimte om zelf orde te scheppen in wat er speelt. Van buiten zien ze vooral het gedrag — je trekt je onder spanning terug en wordt zwijgzamer in plaats van open te delen — en niet de behoefte eronder.
-- Wat mensen makkelijk missen: de behoefte aan het gevoel dat je goed genoeg bent zoals je bent. Van buiten zien ze vooral het gedrag — een kritische opmerking blijft lang doorwerken, ook als je dat niet toont — en niet de behoefte eronder.
+- Van buiten zie je vooral het gedrag — je trekt je onder spanning terug en wordt zwijgzamer in plaats van open te delen. Wat daaronder zit is de behoefte aan ruimte om zelf orde te scheppen in wat er speelt — en dat is het deel dat zelden hardop gaat.
+- Van buiten zie je vooral het gedrag — een kritische opmerking blijft lang doorwerken, ook als je dat niet toont. Wat daaronder zit is de behoefte aan het gevoel dat je goed genoeg bent zoals je bent — en dat is het deel dat zelden hardop gaat.
+
+Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit terugtrekken onder druk (70/100) en kritiekgevoeligheid (70/100) — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.
 
 ## Hoe je jezelf beter kunt begrijpen
 
 Je leert jezelf niet kennen door erover na te denken, maar door terug te kijken op wat je deed zonder na te denken.
-
-Het kan zijn dat je in een omgeving leeft waar gevoeligheid als zwakte wordt gezien, waardoor je haar bij jezelf hebt afgesloten of gebagatelliseerd. Ook is het mogelijk dat je deze gevoeligheid pas herkent als je terugkijkt op een gesprek, en niet op het moment zelf, waardoor het patroon minder aanwezig lijkt dan het is.
 
 - Is dit gevoel dat ik nu heb echt van mij, of heb ik het net opgepikt van iemand anders?
 - Waar in mijn week heb ik mijn grens niet gesteld uit angst iemand te kwetsen?

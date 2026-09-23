@@ -37,8 +37,9 @@ const isLanding = (f) => /^(index|vendor)-/.test(f.name);
 const isTest = (f) => /^(ArcanaTest|ArcanaIntake|arcanaQuestions)/.test(f.name);
 const isEngine = (f) => /^(arcanaReportGenerator|arcanaScoringEngine|engine)/.test(f.name);
 const isReport = (f) => /^(ArcanaReport)/.test(f.name);
-// Laadt alleen met ?vergelijk in de URL (de oude canvas-tekening, tot taak 13); telt in geen scenario mee.
-const isOptional = (f) => /^(ArcanaPortraitCanvas)/.test(f.name);
+// Laadt alleen op verzoek: de oude canvas-tekening (?vergelijk, tot taak 13) en
+// de deelpagina (#/delen). Tellen in geen scenario mee.
+const isOptional = (f) => /^(ArcanaPortraitCanvas|ArcanaSharePage)/.test(f.name);
 const rest = js.filter((f) => !isLanding(f) && !isTest(f) && !isEngine(f) && !isReport(f) && !isOptional(f));
 
 const sum = (arr, key) => arr.reduce((a, f) => a + f[key], 0);

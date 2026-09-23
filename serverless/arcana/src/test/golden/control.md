@@ -39,6 +39,8 @@ De sterkste daarvan is controlebehoefte. Daaronder zit de behoefte aan beschermi
 
 Dat patroon wordt in dit rapport samengevat als The Architect, met The Strategist als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.
 
+Hoe dit uitpakt onder spanning, staat bij hoe je bent onder druk. Waar het te ver doorschiet, staat bij je valkuilen.
+
 - Controlebehoefte (96/100): je pakt grip en overzicht zodra iets richtingloos aanvoelt.
 - Zekerheid (95/100): je zoekt eerst overzicht en een voorspelbaar kader voordat je stappen zet.
 - Analytisch denken (94/100): je pluist situaties uit tot de logica en de risico's duidelijk zijn.
@@ -141,7 +143,7 @@ Zonder druk ben je iemand met droge humor, die best kan improviseren zolang de g
 
 Voelt dit vreemd, blijf daar dan even bij stilstaan. Wie zelden lang genoeg op zijn gemak is, leert deze versie van zichzelf nooit goed kennen — en dat is iets om serieus te nemen, geen tekortkoming.
 
-Dezelfde kern die je eerder al zag terugkomen — controlebehoefte, zekerheid en analytisch denken — laat zich hier van een andere kant zien.
+Dezelfde drie scores als bij wie je bent — controlebehoefte (96), zekerheid (95) en analytisch denken (94) — hier gelezen op een moment zonder druk.
 
 - Controlebehoefte: je laat bewust ruimte aan anderen, ook als je het zelf anders zou aanpakken.
 - Zekerheid: je durft binnen een vertrouwd kader best kleine risico's te nemen.
@@ -153,9 +155,11 @@ Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar j
 
 Let op: een sterke eigenschap is niet hetzelfde als een deugd. Dit zijn de eigenschappen die je het makkelijkst inzet, ook op momenten waarop een andere aanpak beter was geweest.
 
-- Controlebehoefte (die naam viel al bij wie je bent): je zoekt houvast en structuur zodra iets rommelig aanvoelt. Dit komt voort uit de behoefte om chaos nooit onverwacht op je af te laten komen. Mensen voelen rust dankzij je overzicht, maar missen soms eigen inbreng.
-- Zekerheid (zoals hierboven al genoemd bij wie je bent): je zoekt eerst overzicht en een voorspelbaar kader voordat je stappen zet. Dit komt voort uit de behoefte aan bescherming tegen onverwachte wendingen die alles overhoop halen. Mensen voelen zich rustig in je buurt, maar zien je soms als terughoudend.
-- Analytisch denken (die je hierboven al tegenkwam bij wie je bent): je ontleedt situaties tot je de logica en de risico's helder hebt. Dit komt voort uit de behoefte om grip te hebben via begrip. Mensen vertrouwen jouw oordeel, maar ervaren je soms als afstandelijk.
+Dezelfde eigenschappen komen terug bij je valkuilen, daar van de kant waar ze tegen je werken.
+
+- Controlebehoefte (96/100 — net als bij wie je bent; hier zie je wat dat cijfer je oplevert): je zoekt houvast en structuur zodra iets rommelig aanvoelt. Dit komt voort uit de behoefte om chaos nooit onverwacht op je af te laten komen. Mensen voelen rust dankzij je overzicht, maar missen soms eigen inbreng.
+- Zekerheid (95/100 — dezelfde score als bij wie je bent, hier gelezen als kracht): je zoekt eerst overzicht en een voorspelbaar kader voordat je stappen zet. Dit komt voort uit de behoefte aan bescherming tegen onverwachte wendingen die alles overhoop halen. Mensen voelen zich rustig in je buurt, maar zien je soms als terughoudend.
+- Analytisch denken (94/100 — hetzelfde cijfer als bij wie je bent; hier telt het als sterk punt): je ontleedt situaties tot je de logica en de risico's helder hebt. Dit komt voort uit de behoefte om grip te hebben via begrip. Mensen vertrouwen jouw oordeel, maar ervaren je soms als afstandelijk.
 - Grip zoeken onder druk (93/100, zeer hoog): je zoekt onder druk houvast door overzicht en regie naar je toe te trekken. Dit komt voort uit de behoefte aan houvast zodat de situatie je niet kan overrompelen. Mensen rondom je voelen soms minder eigen ruimte.
 - Praktisch denken (85/100, zeer hoog): je maakt van een plan snel iets tastbaars om mee aan de slag te gaan. Dit komt voort uit de behoefte om zichtbaar vooruitgang te boeken. Mensen kunnen op je bouwvermogen rekenen.
 
@@ -165,11 +169,15 @@ Wat je goed kunt, kun je ook te veel doen. Dit zijn de plekken waar dat gebeurt.
 
 Lees dit niet als een oordeel. Het is een kaart van waar aandacht het hardst aankomt.
 
-- Controlebehoefte — dezelfde eigenschap stond hierboven nog bij je sterke punten en laat hier een keerzijde zien. Valkuil: je klemt je aan controle vast terwijl de situatie juist om loslaten vraagt. Groeisleutel: geef bewust stukjes overzicht uit handen die je niet écht hoeft te bewaken.
-- Grip zoeken onder druk — dezelfde eigenschap die hierboven ook al als sterk punt langskwam, heeft hier een keerzijde. Valkuil: je grip verhardt zich net wanneer flexibiliteit nodig is. Groeisleutel: leer bewust een stuk van de regie uit handen te geven aan een ander.
+- Controlebehoefte (96/100 — het cijfer dat bij je sterke punten stond, hier gelezen als keerzijde). Valkuil: je klemt je aan controle vast terwijl de situatie juist om loslaten vraagt. Groeisleutel: geef bewust stukjes overzicht uit handen die je niet écht hoeft te bewaken.
+- Grip zoeken onder druk (93/100 — dezelfde score als bij je sterke punten, hier van de kant waar hij tegen je werkt). Valkuil: je grip verhardt zich net wanneer flexibiliteit nodig is. Groeisleutel: leer bewust een stuk van de regie uit handen te geven aan een ander.
 - Perfectionisme (85/100, zeer hoog): valkuil — je vertraagt jezelf door net dat laatste beetje af te willen maken. Groeisleutel: spreek vooraf af wanneer "goed genoeg" ook daadwerkelijk voldoende is.
 - Versnellen onder druk (76/100, hoog): valkuil — je nauwkeurigheid en je rust komen in de knel door het tempo dat je jezelf oplegt. Groeisleutel: plan bewust een kort rustmoment in voor je aan iets nieuws begint.
 - Zelftwijfel (71/100, hoog): valkuil — je blijft piekeren over keuzes die eigenlijk al lang achter je liggen. Groeisleutel: laat een genomen besluit bewust rusten, zelfs als er nog een stemmetje twijfel blijft.
+
+Waarschijnlijk springt er één van deze vijf meteen uit en zeggen de andere vier je weinig. Die ene is genoeg.
+
+Mogelijk leef je in een omgeving waar structuur bieden niet gewaardeerd of zelfs onmogelijk is, waardoor dit patroon zich niet kan tonen. Het kan ook zijn dat je die behoefte aan grip vroeger hebt afgeleerd omdat vasthouden aan controle destijds averechts werkte, waardoor je haar nu niet meer als van jou herkent.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -256,23 +264,23 @@ Groei is hier geen verandering van karakter, maar snelheid van herkennen. Wie op
 - Kritiekgevoeligheid: leer opmerkingen te beoordelen op inhoud, niet op het gevoel erna.
 - Uitstellen wat ongemakkelijk is: spreek deze week bewust één klein, ongemakkelijk punt uit in plaats van het te laten liggen.
 
-## Hoe anderen jou zouden moeten begrijpen
+## Wat ik je zou willen uitleggen
 
-Noor, dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.
+Noor, dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van je rapport gaat niet mee.
 
 Dit is geen excuusbriefje. Het moment waarop je dit gebruikt om een gesprek te beëindigen, werkt het tegen je.
 
 - Mijn behoefte aan een plan is geen wantrouwen in jou, maar een manier om mezelf gerust te stellen.
 - Als ik star reageer op verandering, heb ik meestal tijd nodig, geen tegenspraak.
 - Een oplossing aandragen is mijn manier van zorgen, niet bedoeld om je gevoel te negeren.
-- Wat mensen makkelijk missen: de behoefte aan zekerheid over iemands betrouwbaarheid voordat je kwetsbaar wordt. Van buiten zien ze vooral het gedrag — je opent je pas nadat je hebt gevoeld dat het veilig is — en niet de behoefte eronder.
-- Wat mensen makkelijk missen: de behoefte aan tijd en rust om zelf helderheid te vinden. Van buiten zien ze vooral het gedrag — je valt onder druk stil en zoekt afstand in plaats van erover te praten — en niet de behoefte eronder.
+- Van buiten zie je vooral het gedrag — je opent je pas nadat je hebt gevoeld dat het veilig is. Wat daaronder zit is de behoefte aan zekerheid over iemands betrouwbaarheid voordat je kwetsbaar wordt — en dat is het deel dat zelden hardop gaat.
+- Van buiten zie je vooral het gedrag — je valt onder druk stil en zoekt afstand in plaats van erover te praten. Wat daaronder zit is de behoefte aan tijd en rust om zelf helderheid te vinden — en dat is het deel dat zelden hardop gaat.
+
+Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit vertrouwensbehoefte (60/100) en terugtrekken onder druk (59/100) — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.
 
 ## Hoe je jezelf beter kunt begrijpen
 
 De bruikbaarste informatie over jezelf zit niet in je overwegingen, maar in wat je deed voordat je ging overwegen.
-
-Mogelijk leef je in een omgeving waar structuur bieden niet gewaardeerd of zelfs onmogelijk is, waardoor dit patroon zich niet kan tonen. Het kan ook zijn dat je die behoefte aan grip vroeger hebt afgeleerd omdat vasthouden aan controle destijds averechts werkte, waardoor je haar nu niet meer als van jou herkent.
 
 - Welk plan maak ik nu vooral om mezelf gerust te stellen, niet omdat de situatie het vraagt?
 - Wanneer voelde ik me de laatste tijd het meest ontregeld, en wat was er werkelijk aan de hand?

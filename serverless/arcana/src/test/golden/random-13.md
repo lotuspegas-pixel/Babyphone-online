@@ -39,6 +39,8 @@ De sterkste daarvan is onafhankelijkheid. Daaronder zit de behoefte om niet kwet
 
 Dat patroon wordt in dit rapport samengevat als The Guardian, met The Hermit als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat je jezelf erin herkent. Waar de naam en je eigen ervaring uiteenlopen, is je ervaring leidend.
 
+Bij hoe je bent onder druk zie je dezelfde eigenschappen in een ander licht; bij je valkuilen waar ze tegen je gaan werken.
+
 - Onafhankelijkheid (76/100): je regelt liever zelf je zaken dan op een ander te leunen.
 - Behoefte aan stilte (75/100): je trekt je terug om tot jezelf te komen zodra het te druk wordt.
 - Jezelf verdedigen bij kritiek (75/100): je schiet bij kritiek sneller in de verdediging dan je eigenlijk zou willen.
@@ -129,7 +131,7 @@ Onder druk laat jij vooral het patroon van The Defender zien: verdedigt zich ond
 
 Zichtbaar schiet je sneller in de verdediging bij kritiek, met een tegenargument dat al klaarstaat voordat de opmerking is uitgesproken. Van binnen speelt de angst als onbekwaam gezien te worden, zwaarder dan wat de kritiek feitelijk beweert.
 
-Concreet vertaalt zich dat naar: je gaat bij kritiek automatisch in de tegenaanval, sneller dan je zelf zou wensen. De drijfveer eronder is de behoefte om niet als incompetent of verkeerd gezien te worden. Diezelfde kern kwam al naar voren in het stuk over wie je bent.
+Concreet vertaalt zich dat naar: je gaat bij kritiek automatisch in de tegenaanval, sneller dan je zelf zou wensen. De drijfveer eronder is de behoefte om niet als incompetent of verkeerd gezien te worden (75/100). Hetzelfde cijfer staat bij wie je bent; hier zie je wat het doet zodra het spannend wordt.
 
 De valkuil daarbij: je loopt nuttige feedback mis, doordat verdediging telkens je eerste reactie is. Groeisleutel: oefen met een adempauze tussen kritiek horen en erop reageren. Jung zou hier wijzen op enantiodromie: elke houding die je te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.
 
@@ -141,7 +143,7 @@ Ontspannen ben je grappig en warm, met een neiging tot verwennen, niet uit plich
 
 Voelt dit vreemd, blijf daar dan even bij stilstaan. Wie zelden lang genoeg op zijn gemak is, leert deze versie van zichzelf nooit goed kennen — en dat is iets om serieus te nemen, geen tekortkoming.
 
-Deze drie kwam je hierboven al tegen — onafhankelijkheid, behoefte aan stilte en jezelf verdedigen bij kritiek — en ze laten zich hier van een andere kant zien.
+Het zijn dezelfde cijfers als bij wie je bent — onafhankelijkheid (76), behoefte aan stilte (75) en jezelf verdedigen bij kritiek (75) — alleen laten ze zich hier van een ontspannen kant zien.
 
 - Onafhankelijkheid: je kunt hulp accepteren zonder het als een teken van zwakte te ervaren.
 - Behoefte aan stilte: je kunt je behoefte aan ruimte rustig aangeven en er samen een moment voor inplannen.
@@ -153,9 +155,11 @@ Dit zijn de vijf subdimensies waar je het hoogst op scoort — de plekken waar j
 
 Deze eigenschappen zijn je meest bereikbare gereedschap, niet je beste. Je grijpt ernaar, ook op momenten dat een ander stuk gereedschap had gepast.
 
-- Onafhankelijkheid (al even genoemd bij wie je bent): je pakt kwesties het liefst zelfstandig aan in plaats van te steunen op iemand anders. Dit komt voort uit de behoefte om geen kwetsbaarheid te tonen die met afhankelijkheid gepaard gaat. Mensen vertrouwen op je zelfstandigheid, maar zien lang niet altijd wanneer je zelf hulp kunt gebruiken.
-- Behoefte aan stilte (die je hierboven al tegenkwam bij wie je bent): je zondert je af om innerlijk weer tot rust te komen zodra de drukte toeneemt. Dit komt voort uit de behoefte aan stilte van binnen om prikkels te kunnen verwerken. Mensen ervaren jou als kalm, maar soms ook als moeilijk te bereiken.
-- Jezelf verdedigen bij kritiek (die naam viel al bij wie je bent): je schiet bij kritiek sneller in de verdediging dan je eigenlijk zou willen. Dit komt voort uit de behoefte om niet gezien te worden als onbekwaam of ontoereikend. Mensen merken soms dat opmerkingen bij je weinig ruimte krijgen.
+Wat hier kracht heet, kan bij je valkuilen dezelfde naam en hetzelfde cijfer dragen — daar lees je de keerzijde.
+
+- Onafhankelijkheid (76/100 — het cijfer dat bij wie je bent al stond, nu van de kant waar het voor je werkt): je pakt kwesties het liefst zelfstandig aan in plaats van te steunen op iemand anders. Dit komt voort uit de behoefte om geen kwetsbaarheid te tonen die met afhankelijkheid gepaard gaat. Mensen vertrouwen op je zelfstandigheid, maar zien lang niet altijd wanneer je zelf hulp kunt gebruiken.
+- Behoefte aan stilte (75/100 — hetzelfde cijfer als bij wie je bent; hier telt het als sterk punt): je zondert je af om innerlijk weer tot rust te komen zodra de drukte toeneemt. Dit komt voort uit de behoefte aan stilte van binnen om prikkels te kunnen verwerken. Mensen ervaren jou als kalm, maar soms ook als moeilijk te bereiken.
+- Jezelf verdedigen bij kritiek (75/100 — net als bij wie je bent; hier zie je wat dat cijfer je oplevert): je schiet bij kritiek sneller in de verdediging dan je eigenlijk zou willen. Dit komt voort uit de behoefte om niet gezien te worden als onbekwaam of ontoereikend. Mensen merken soms dat opmerkingen bij je weinig ruimte krijgen.
 - Uitstellen wat ongemakkelijk is (75/100, hoog): je vermijdt het aangaan van zware gevoelens, keuzes of gesprekken zolang het kan. Dit komt voort uit de behoefte om niet meteen te hoeven staan tegenover iets ongemakkelijks. Mensen merken op dat sommige onderwerpen bij jou lang blijven liggen.
 - Groeibereidheid (74/100, hoog): je durft je eigen patronen onder ogen te zien, ook wanneer dat confronterend is. Dit komt voort uit de behoefte om steeds meer inzicht te krijgen in jezelf. Mensen merken dat je oprecht openstaat voor je eigen ontwikkeling.
 
@@ -165,11 +169,15 @@ Elke kracht heeft een keerzijde. Dit zijn de patronen die, als ze te sterk worde
 
 Er wordt hier niets over je vastgesteld. Dit zijn simpelweg de plekken waar opletten het meeste verschil maakt.
 
-- Uitstellen wat ongemakkelijk is — deze eigenschap kwam al langs als sterk punt en toont hier zijn keerzijde. Valkuil: hoe langer het wordt uitgesteld, hoe groter het probleem uiteindelijk wordt. Groeisleutel: kies deze week bewust één klein ongemakkelijk onderwerp om juist wel te bespreken.
-- Jezelf verdedigen bij kritiek — deze eigenschap kwam al langs als sterk punt en toont hier zijn keerzijde. Valkuil: je laat bruikbare feedback liggen doordat je eerste reflex verdediging is. Groeisleutel: wacht bewust even voordat je op kritiek reageert.
+- Uitstellen wat ongemakkelijk is (75/100 — bij je sterke punten telde dit cijfer als kracht, hier als valkuil). Valkuil: hoe langer het wordt uitgesteld, hoe groter het probleem uiteindelijk wordt. Groeisleutel: kies deze week bewust één klein ongemakkelijk onderwerp om juist wel te bespreken.
+- Jezelf verdedigen bij kritiek (75/100 — bij je sterke punten telde dit cijfer als kracht, hier als valkuil). Valkuil: je laat bruikbare feedback liggen doordat je eerste reflex verdediging is. Groeisleutel: wacht bewust even voordat je op kritiek reageert.
 - Terugtrekken onder druk (71/100, hoog): valkuil — je isoleert jezelf net op het moment dat steun je het meest zou helpen. Groeisleutel: geef even aan dat er even afstand nodig is, in plaats van geruisloos weg te trekken.
 - Versnellen onder druk (69/100, hoog): valkuil — je kwaliteit en je rust lijden onder het tempo dat je jezelf oplegt. Groeisleutel: plan bewust een kort rustmoment in voor je aan iets nieuws begint.
 - Vastlopen onder druk (69/100, hoog): valkuil — je blijft steken in gepieker, terwijl een klein eerste stapje al verandering zou brengen. Groeisleutel: zet bewust de kleinste haalbare stap, in plaats van het hele probleem ineens te willen oplossen.
+
+Meestal is er één van deze vijf die je direct herkent. Begin daar; de rest mag wachten.
+
+Mogelijk heb je in het verleden geleerd dat zorgen voor anderen de enige manier was om waardering te krijgen, waardoor het patroon zich automatisch en onbewust uit en je het niet als een bewuste eigenschap herkent. Het kan ook zijn dat je momenteel in een fase zit waarin je juist voor jezelf zorgt, waardoor dit patroon tijdelijk minder zichtbaar is dan het onder de oppervlakte is.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -256,23 +264,23 @@ Groei betekent hier niet dat een patroon verdwijnt, maar dat je sneller herkent 
 - Pleasen: spreek een kleine, ongemakkelijke "nee" uit op een moment met weinig risico.
 - Conflictvermijding: kies vaker voor kleine, op tijd geuite eerlijkheid in plaats van late uitbarstingen.
 
-## Hoe anderen jou zouden moeten begrijpen
+## Wat ik je zou willen uitleggen
 
-Noor, dit is het deel dat je zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.
+Noor, dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van je rapport gaat niet mee.
 
 Dit is geen excuusbriefje. Het moment waarop je dit gebruikt om een gesprek te beëindigen, werkt het tegen je.
 
 - Als ik ja zeg terwijl ik het niet meen, is dat niet omdat ik het wil, maar omdat nee zeggen mij moeite kost.
 - Ik heb behoefte aan iemand die ook naar mij omkijkt, zonder dat ik erom vraag.
 - Mijn zorg voor jou is oprecht, maar het betekent niet dat ik nooit iets nodig heb.
-- Wat mensen makkelijk missen: de behoefte aan bewijs dat iemand betrouwbaar is voordat je je kwetsbaar opstelt. Van buiten zien ze vooral het gedrag — je opent je pas nadat je hebt gevoeld dat het veilig is — en niet de behoefte eronder.
-- Wat mensen makkelijk missen: de behoefte aan oprechtheid over wat er emotioneel speelt. Van buiten zien ze vooral het gedrag — je pikt sfeer en onderhuidse spanning eerder op dan de meeste anderen — en niet de behoefte eronder.
+- Van buiten zie je vooral het gedrag — je opent je pas nadat je hebt gevoeld dat het veilig is. Wat daaronder zit is de behoefte aan bewijs dat iemand betrouwbaar is voordat je je kwetsbaar opstelt — en dat is het deel dat zelden hardop gaat.
+- Van buiten zie je vooral het gedrag — je pikt sfeer en onderhuidse spanning eerder op dan de meeste anderen. Wat daaronder zit is de behoefte aan oprechtheid over wat er emotioneel speelt — en dat is het deel dat zelden hardop gaat.
+
+Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit vertrouwensbehoefte (68/100) en emotionele gevoeligheid (57/100) — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.
 
 ## Hoe je jezelf beter kunt begrijpen
 
 Je leert jezelf niet kennen door erover na te denken, maar door terug te kijken op wat je deed zonder na te denken.
-
-Mogelijk heb je in het verleden geleerd dat zorgen voor anderen de enige manier was om waardering te krijgen, waardoor het patroon zich automatisch en onbewust uit en je het niet als een bewuste eigenschap herkent. Het kan ook zijn dat je momenteel in een fase zit waarin je juist voor jezelf zorgt, waardoor dit patroon tijdelijk minder zichtbaar is dan het onder de oppervlakte is.
 
 - Waar in mijn week heb ik ja gezegd terwijl ik eigenlijk nee bedoelde?
 - Wiens probleem draag ik nu dat eigenlijk niet van mij is?

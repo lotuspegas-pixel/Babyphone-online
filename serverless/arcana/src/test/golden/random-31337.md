@@ -39,6 +39,8 @@ De sterkste daarvan is versnellen onder druk. Daaronder zit de behoefte om een g
 
 Dat patroon wordt in dit rapport samengevat als The Architect, met The Alchemist als tweede stem. Dat zijn geen hokjes maar leeswijzers: een manier om vier getallen zo op te schrijven dat uw uzelf erin herkent. Waar de naam en uw eigen ervaring uiteenlopen, is uw ervaring leidend.
 
+Bij hoe u bent onder druk zie uw dezelfde eigenschappen in een ander licht; bij uw valkuilen waar ze tegen uw gaan werken.
+
 - Versnellen onder druk (87/100): u verhoogt onder druk uw tempo en neemt meer taken tegelijk op u.
 - Zelfvertrouwen (83/100): u vertrouwt op uw eigen oordeel, ook als het spannend is.
 - Groeibereidheid (83/100): u durft uw eigen patronen onder ogen te zien, ook wanneer dat confronterend is.
@@ -129,7 +131,7 @@ Onder druk laat u vooral het patroon van The Sprinter zien: versnelt onder druk 
 
 Zichtbaar versnelt u: meer praten, meer beslissen, sneller reageren, soms harder dan bedoeld. Van binnen speelt de angst dat stilstaan nu als achterblijven voelt, een angst die groter is dan de praktische druk zelf.
 
-Concreet vertaalt zich dat naar: u verhoogt onder druk uw tempo en neemt meer taken tegelijk op u. De drijfveer eronder is de behoefte om een gevoel van machteloosheid te overstemmen met actie. Diezelfde kern kwam al naar voren in het stuk over wie u bent.
+Concreet vertaalt zich dat naar: u verhoogt onder druk uw tempo en neemt meer taken tegelijk op u. De drijfveer eronder is de behoefte om een gevoel van machteloosheid te overstemmen met actie (87/100). Hetzelfde cijfer staat bij wie u bent; hier ziet u wat het doet zodra het spannend wordt.
 
 De valkuil daarbij: uw nauwkeurigheid en uw rust komen in de knel door het tempo dat uw uzelf oplegt. Groeisleutel: las bewust een korte adempauze in voordat de volgende taak begint. Jung zou hier wijzen op enantiodromie: elke houding die u te lang en te ver doorzet, slaat op een dag om in haar tegendeel. Dat is te voorkomen door de andere kant kleine, vrijwillige beurten te geven voordat die zijn beurt met geweld opeist.
 
@@ -141,7 +143,7 @@ Zonder druk bent u iemand met droge humor, die best kan improviseren zolang de g
 
 Voelt dit vreemd, blijf daar dan even bij stilstaan. Wie zelden lang genoeg op zijn gemak is, leert deze versie van zichzelf nooit goed kennen — en dat is iets om serieus te nemen, geen tekortkoming.
 
-Wat u eerder al herkende — versnellen onder druk, zelfvertrouwen en groeibereidheid — komt hier opnieuw terug, nu vanuit een ontspannen hoek.
+Dezelfde kern, met dezelfde cijfers — versnellen onder druk (87), zelfvertrouwen (83) en groeibereidheid (83) — nu gezien op een moment waarop niets van u gevraagd wordt.
 
 - Versnellen onder druk: u kunt bewust vertragen zonder het gevoel te hebben dat u iets laat liggen.
 - Zelfvertrouwen: u gebruikt uw zelfvertrouwen om ook onzekerheid van anderen ruimte te geven.
@@ -153,9 +155,11 @@ Dit zijn de vijf subdimensies waar u het hoogst op scoort — de plekken waar uw
 
 Let op: een sterke eigenschap is niet hetzelfde als een deugd. Dit zijn de eigenschappen die u het makkelijkst inzet, ook op momenten waarop een andere aanpak beter was geweest.
 
-- Versnellen onder druk (die u hierboven al tegenkwam bij wie u bent): u gaat onder druk sneller en doet meer tegelijk. Dit komt voort uit de behoefte om via actie het gevoel geen grip te hebben te verdrijven. Mensen in uw omgeving raken soms uitgeput van het tempo dat u aanhoudt.
-- Zelfvertrouwen (die u hierboven al tegenkwam bij wie u bent): u durft op uw eigen mening te bouwen, zelfs als de situatie onzeker aanvoelt. Dit komt voort uit de behoefte om te kunnen steunen op uw eigen kracht. Mensen voelen zich gesteund door uw zekerheid.
-- Groeibereidheid (die u hierboven al tegenkwam bij wie u bent): u staat open om naar uw eigen gedrag te kijken, zelfs als dat ongemakkelijk voelt. Dit komt voort uit de behoefte om steeds meer inzicht te krijgen in uzelf. Mensen ervaren u als iemand die open staat voor eigen ontwikkeling.
+Hoe dit uitpakt als het doorschiet, staat bij uw valkuilen.
+
+- Versnellen onder druk (87/100 — hetzelfde cijfer als bij wie u bent; hier telt het als sterk punt): u gaat onder druk sneller en doet meer tegelijk. Dit komt voort uit de behoefte om via actie het gevoel geen grip te hebben te verdrijven. Mensen in uw omgeving raken soms uitgeput van het tempo dat u aanhoudt.
+- Zelfvertrouwen (83/100 — hetzelfde cijfer als bij wie u bent; hier telt het als sterk punt): u durft op uw eigen mening te bouwen, zelfs als de situatie onzeker aanvoelt. Dit komt voort uit de behoefte om te kunnen steunen op uw eigen kracht. Mensen voelen zich gesteund door uw zekerheid.
+- Groeibereidheid (83/100 — hetzelfde cijfer als bij wie u bent; hier telt het als sterk punt): u staat open om naar uw eigen gedrag te kijken, zelfs als dat ongemakkelijk voelt. Dit komt voort uit de behoefte om steeds meer inzicht te krijgen in uzelf. Mensen ervaren u als iemand die open staat voor eigen ontwikkeling.
 - Zekerheid (78/100, hoog): u zoekt eerst overzicht en een voorspelbaar kader voordat uw stappen zet. Dit komt voort uit de behoefte aan bescherming tegen onverwachte wendingen die alles overhoop halen. Mensen voelen zich rustig in uw buurt, maar zien u soms als terughoudend.
 - Uzelf verdedigen bij kritiek (78/100, hoog): u schiet bij kritiek sneller in de verdediging dan u eigenlijk zou willen. Dit komt voort uit de behoefte om niet als incompetent of verkeerd gezien te worden. Mensen krijgen soms het gevoel dat feedback bij uw moeilijk binnenkomt.
 
@@ -165,11 +169,15 @@ Doorgeslagen kracht wordt last. Dit zijn de patronen waar dat kantelpunt bij u h
 
 Er wordt hier niets over u vastgesteld. Dit zijn simpelweg de plekken waar opletten het meeste verschil maakt.
 
-- Versnellen onder druk — deze eigenschap kwam al langs als sterk punt en toont hier zijn keerzijde. Valkuil: uw nauwkeurigheid en uw rust komen in de knel door het tempo dat uw uzelf oplegt. Groeisleutel: bouw bewust een korte pauze in vóórdat u aan de volgende taak begint.
-- Uzelf verdedigen bij kritiek — dezelfde eigenschap stond hierboven nog bij uw sterke punten en laat hier een keerzijde zien. Valkuil: u loopt nuttige feedback mis, doordat verdediging telkens uw eerste reactie is. Groeisleutel: bouw bewust een pauze in tussen het horen van kritiek en uw reactie erop.
+- Versnellen onder druk (87/100 — bij uw sterke punten telde dit cijfer als kracht, hier als valkuil). Valkuil: uw nauwkeurigheid en uw rust komen in de knel door het tempo dat uw uzelf oplegt. Groeisleutel: bouw bewust een korte pauze in vóórdat u aan de volgende taak begint.
+- Uzelf verdedigen bij kritiek (78/100 — het cijfer dat bij uw sterke punten stond, hier gelezen als keerzijde). Valkuil: u loopt nuttige feedback mis, doordat verdediging telkens uw eerste reactie is. Groeisleutel: bouw bewust een pauze in tussen het horen van kritiek en uw reactie erop.
 - Controlebehoefte (76/100, hoog): valkuil — u houdt vast aan grip op momenten waarop loslaten juist nodig is. Groeisleutel: oefen bewust met kleine dingen loslaten die u niet écht hoeft te controleren.
 - Perfectionisme (73/100, hoog): valkuil — u vertraagt uzelf door net dat laatste beetje af te willen maken. Groeisleutel: bepaal vooraf wanneer "goed genoeg" ook echt genoeg is.
 - Terugtrekken onder druk (73/100, hoog): valkuil — u zondert u juist af op het moment dat steun het hardst nodig is. Groeisleutel: benoem kort dat uw ruimte nodig hebt, in plaats van stilzwijgend te verdwijnen.
+
+Meestal is er één van deze vijf die u direct herkent. Begin daar; de rest mag wachten.
+
+Mogelijk leeft u in een omgeving waar structuur bieden niet gewaardeerd of zelfs onmogelijk is, waardoor dit patroon zich niet kan tonen. Het kan ook zijn dat u die behoefte aan grip vroeger hebt afgeleerd omdat vasthouden aan controle destijds averechts werkte, waardoor u haar nu niet meer als van u herkent.
 
 ## De Jungiaanse laag: persona, schaduw en projectie
 
@@ -256,23 +264,23 @@ Groei betekent hier niet dat een patroon verdwijnt, maar dat u sneller herkent w
 - Grip zoeken onder druk: oefen met bewust een deel van de controle aan een ander overlaten.
 - Vastlopen onder druk: kies een piepklein eerste stapje, in plaats van meteen naar een totaaloplossing te zoeken.
 
-## Hoe anderen u zouden moeten begrijpen
+## Wat ik u zou willen uitleggen
 
-Van Dijk, dit is het deel dat u zou kunnen laten lezen aan iemand die dichtbij staat. Het is geschreven om door te geven.
+Van Dijk, dit hoofdstuk is geschreven om door te geven aan iemand die dichtbij staat. Als losse pagina heeft het een eigen aanhef en uitleg voor wie het krijgt; de rest van uw rapport gaat niet mee.
 
 Let op wat u hiermee doet. "Zo zit ik nu eenmaal in elkaar" sluit een gesprek af in plaats van het te openen. Dit is bedoeld om iets uit te leggen, niet om iets af te dekken.
 
 - Mijn behoefte aan een plan is geen wantrouwen in u, maar een manier om mezelf gerust te stellen.
 - Als ik star reageer op verandering, heb ik meestal tijd nodig, geen tegenspraak.
 - Een oplossing aandragen is mijn manier van zorgen, niet bedoeld om uw gevoel te negeren.
-- Wat mensen makkelijk missen: de behoefte aan een gevoel van echt gekend zijn. Van buiten zien ze vooral het gedrag — u verlangt naar gesprekken en contact die verder gaan dan de oppervlakte — en niet de behoefte eronder.
-- Wat mensen makkelijk missen: de behoefte om iets ongemakkelijks nog even op afstand te houden. Van buiten zien ze vooral het gedrag — u schuift moeilijke gevoelens, beslissingen of gesprekken voor u uit — en niet de behoefte eronder.
+- Van buiten ziet u vooral het gedrag — u verlangt naar gesprekken en contact die verder gaan dan de oppervlakte. Wat daaronder zit is de behoefte aan een gevoel van echt gekend zijn — en dat is het deel dat zelden hardop gaat.
+- Van buiten ziet u vooral het gedrag — u schuift moeilijke gevoelens, beslissingen of gesprekken voor u uit. Wat daaronder zit is de behoefte om iets ongemakkelijks nog even op afstand te houden — en dat is het deel dat zelden hardop gaat.
+
+Waar dit vandaan komt: dit is geen mening en geen zelfbeeld. Het volgt uit intimiteitsbehoefte (61/100) en uitstellen wat ongemakkelijk is (59/100) — twee van de dertig eigenschappen die deze test meet. Alle cijfers lopen van 0 tot 100 met 50 als midden. Hoog is niet beter dan laag.
 
 ## Hoe uw uzelf beter kunt begrijpen
 
 Zelfkennis komt zelden uit nadenken. Ze komt uit terugkijken op wat u deed toen u niet nadacht.
-
-Mogelijk leeft u in een omgeving waar structuur bieden niet gewaardeerd of zelfs onmogelijk is, waardoor dit patroon zich niet kan tonen. Het kan ook zijn dat u die behoefte aan grip vroeger hebt afgeleerd omdat vasthouden aan controle destijds averechts werkte, waardoor u haar nu niet meer als van u herkent.
 
 - Welk plan maak ik nu vooral om mezelf gerust te stellen, niet omdat de situatie het vraagt?
 - Wanneer voelde ik me de laatste tijd het meest ontregeld, en wat was er werkelijk aan de hand?
