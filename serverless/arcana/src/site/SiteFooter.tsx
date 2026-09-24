@@ -1,3 +1,4 @@
+import { ArcanaSeal } from '../components/ArcanaSeal';
 import { SITE_NAME } from './siteContent';
 
 interface Props {
@@ -11,7 +12,7 @@ export function SiteFooter({ onNavigate }: Props) {
     <footer className="site-footer">
       <div className="site-footer__inner">
         <div className="site-footer__brand">
-          <span className="site-header__mark" aria-hidden="true" />
+          <ArcanaSeal size={40} className="site-header__mark" />
           <strong>{SITE_NAME}</strong>
           <p>Een zelfinzicht-instrument voor persoonlijke reflectie.</p>
         </div>

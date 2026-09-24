@@ -14,7 +14,7 @@ function preloadWordmarkFont(): Plugin {
     transformIndexHtml: {
       order: 'post',
       handler(_html, ctx) {
-        const asset = Object.keys(ctx.bundle ?? {}).find((name) => /cormorant-500-basis-[\w-]+\.woff2$/.test(name))
+        const asset = Object.keys(ctx.bundle ?? {}).find((name) => /bodoni-moda-600-basis-[\w-]+\.woff2$/.test(name))
         if (!asset) return []
         return [
           {

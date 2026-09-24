@@ -3,10 +3,12 @@ Subset de zelfgehoste fonts tot wat de site werkelijk gebruikt.
 
     py scripts/subset-fonts.py
 
-Uit docs/rebuild/D-frontend-plan.md §3.3: de Fontsource-"latin"-bestanden
-bevatten ~700 glyphs, de site gebruikt er ruim 100. Per letter en gewicht
-komen er drie bestanden (Cormorant 400 rechtop wordt nergens gebruikt en
-vervalt; de cursief 400 laadt alleen op het rapport):
+Drieluik sinds de herstijling naar "Het Arcana Dossier" (sept. 2026):
+Bodoni Moda (titels, het zegel-wordmerk), Spectral (lopende tekst) en
+Courier Prime (rapportnummers, data, kickers) — Cormorant Garamond en
+Inter zijn vervangen. Uit docs/rebuild/D-frontend-plan.md §3.3: de
+Fontsource-"latin"-bestanden bevatten ~700 glyphs, de site gebruikt er ruim
+100. Per letter en gewicht komen er drie bestanden:
 
   *-basis.woff2          alles wat de site zelf toont (ASCII + de tekens
                          hieronder); laadt altijd
@@ -53,11 +55,12 @@ AANVULLING_EXT = "U+0100-017F"
 
 FACES = [
     # (uitvoernaam, bronbestand latin, bronbestand latin-ext)
-    ("cormorant-400-italic", "cormorant-garamond-latin-400-italic.woff2", "cormorant-garamond-latin-ext-400-italic.woff2"),
-    ("cormorant-500", "cormorant-garamond-latin-500-normal.woff2", "cormorant-garamond-latin-ext-500-normal.woff2"),
-    ("cormorant-600", "cormorant-garamond-latin-600-normal.woff2", "cormorant-garamond-latin-ext-600-normal.woff2"),
-    ("inter-400", "inter-latin-400-normal.woff2", "inter-latin-ext-400-normal.woff2"),
-    ("inter-600", "inter-latin-600-normal.woff2", "inter-latin-ext-600-normal.woff2"),
+    ("bodoni-moda-600", "bodoni-moda-latin-600-normal.woff2", "bodoni-moda-latin-ext-600-normal.woff2"),
+    ("bodoni-moda-600-italic", "bodoni-moda-latin-600-italic.woff2", "bodoni-moda-latin-ext-600-italic.woff2"),
+    ("spectral-400", "spectral-latin-400-normal.woff2", "spectral-latin-ext-400-normal.woff2"),
+    ("spectral-600", "spectral-latin-600-normal.woff2", "spectral-latin-ext-600-normal.woff2"),
+    ("spectral-400-italic", "spectral-latin-400-italic.woff2", "spectral-latin-ext-400-italic.woff2"),
+    ("courier-prime-400", "courier-prime-latin-400-normal.woff2", "courier-prime-latin-ext-400-normal.woff2"),
 ]
 
 

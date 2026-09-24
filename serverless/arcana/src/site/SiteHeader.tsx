@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ArcanaSeal } from '../components/ArcanaSeal';
 import { ArcanaThemeToggle } from '../components/ArcanaThemeToggle';
 import { SITE_NAME } from './siteContent';
 
@@ -45,7 +46,7 @@ export function SiteHeader({ onStart, hasInProgress, onResume }: Props) {
     <header className="site-header">
       <div className="site-header__inner">
         <a className="site-header__brand" href="#top" onClick={() => setOpen(false)}>
-          <span className="site-header__mark" aria-hidden="true" />
+          <ArcanaSeal size={44} className="site-header__mark" />
           {SITE_NAME}
         </a>
 

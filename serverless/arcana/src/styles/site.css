@@ -73,20 +73,10 @@
   white-space: nowrap;
 }
 
-/* Het achtpuntige stermerk, als masker zodat het de tekstkleur volgt. */
+/* Het Arcana-zegel: currentColor-SVG, volgt de tekstkleur zonder masker. */
 .site-header__mark {
-  width: 1.05em;
-  height: 1.05em;
   flex: none;
-  background: var(--editorial-gold);
-  mask-image: var(--arc-star);
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  -webkit-mask-image: var(--arc-star);
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
+  color: var(--editorial-gold);
 }
 
 .site-header__nav {

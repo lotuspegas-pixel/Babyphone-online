@@ -21,153 +21,159 @@
    een naam een teken buiten die set bevat (Latin-1 Supplement, Latin Extended-A).
    De unicode-ranges hier zijn dezelfde als in dat script; wijzig ze samen. */
 
-/* Cormorant Garamond 500 — basis — laadt altijd */
+/* Bodoni Moda 600 — het zegel-wordmerk en alle titels — basis — laadt altijd */
 @font-face {
-  font-family: 'Cormorant Garamond';
+  font-family: 'Bodoni Moda';
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-display: swap;
-  src: url('../fonts/cormorant-500-basis.woff2') format('woff2');
+  src: url('../fonts/bodoni-moda-600-basis.woff2') format('woff2');
   unicode-range: U+0020-007E, U+00A7, U+00A9, U+00B7, U+00C0, U+00D7, U+00E0, U+00E1, U+00E8, U+00E9, U+00EB, U+00ED, U+00EF, U+00F3, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026, U+20AC, U+2190-2193, U+25A0, U+25B2, U+25BC, U+25C6, U+25CF;
 }
-
-/* Cormorant Garamond 500 — Latin-1 Supplement, alleen bij een bijzondere naam */
 @font-face {
-  font-family: 'Cormorant Garamond';
+  font-family: 'Bodoni Moda';
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-display: swap;
-  src: url('../fonts/cormorant-500-aanvulling.woff2') format('woff2');
+  src: url('../fonts/bodoni-moda-600-aanvulling.woff2') format('woff2');
   unicode-range: U+00A0-00A6, U+00A8, U+00AA-00B6, U+00B8-00BF, U+00C1-00D6, U+00D8-00DF, U+00E2-00E7, U+00EA, U+00EC, U+00EE, U+00F0-00F2, U+00F4-00FB, U+00FD-00FF;
 }
-
-/* Cormorant Garamond 500 — Latin Extended-A, alleen bij een bijzondere naam */
 @font-face {
-  font-family: 'Cormorant Garamond';
+  font-family: 'Bodoni Moda';
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-display: swap;
-  src: url('../fonts/cormorant-500-aanvulling-ext.woff2') format('woff2');
+  src: url('../fonts/bodoni-moda-600-aanvulling-ext.woff2') format('woff2');
   unicode-range: U+0100-017F;
 }
 
-/* Cormorant Garamond 600 — basis — laadt altijd */
+/* Bodoni Moda 600 cursief — citaten, archetype-bijschriften — laadt op het rapport */
 @font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
+  font-family: 'Bodoni Moda';
+  font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url('../fonts/cormorant-600-basis.woff2') format('woff2');
+  src: url('../fonts/bodoni-moda-600-italic-basis.woff2') format('woff2');
   unicode-range: U+0020-007E, U+00A7, U+00A9, U+00B7, U+00C0, U+00D7, U+00E0, U+00E1, U+00E8, U+00E9, U+00EB, U+00ED, U+00EF, U+00F3, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026, U+20AC, U+2190-2193, U+25A0, U+25B2, U+25BC, U+25C6, U+25CF;
 }
-
-/* Cormorant Garamond 600 — Latin-1 Supplement, alleen bij een bijzondere naam */
 @font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
+  font-family: 'Bodoni Moda';
+  font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url('../fonts/cormorant-600-aanvulling.woff2') format('woff2');
+  src: url('../fonts/bodoni-moda-600-italic-aanvulling.woff2') format('woff2');
   unicode-range: U+00A0-00A6, U+00A8, U+00AA-00B6, U+00B8-00BF, U+00C1-00D6, U+00D8-00DF, U+00E2-00E7, U+00EA, U+00EC, U+00EE, U+00F0-00F2, U+00F4-00FB, U+00FD-00FF;
 }
-
-/* Cormorant Garamond 600 — Latin Extended-A, alleen bij een bijzondere naam */
 @font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
+  font-family: 'Bodoni Moda';
+  font-style: italic;
   font-weight: 600;
   font-display: swap;
-  src: url('../fonts/cormorant-600-aanvulling-ext.woff2') format('woff2');
+  src: url('../fonts/bodoni-moda-600-italic-aanvulling-ext.woff2') format('woff2');
   unicode-range: U+0100-017F;
 }
 
-/* Cormorant Garamond 400 cursief — basis — laadt altijd */
+/* Spectral 400 — lopende tekst — basis — laadt altijd */
 @font-face {
-  font-family: 'Cormorant Garamond';
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/spectral-400-basis.woff2') format('woff2');
+  unicode-range: U+0020-007E, U+00A7, U+00A9, U+00B7, U+00C0, U+00D7, U+00E0, U+00E1, U+00E8, U+00E9, U+00EB, U+00ED, U+00EF, U+00F3, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026, U+20AC, U+2190-2193, U+25A0, U+25B2, U+25BC, U+25C6, U+25CF;
+}
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/spectral-400-aanvulling.woff2') format('woff2');
+  unicode-range: U+00A0-00A6, U+00A8, U+00AA-00B6, U+00B8-00BF, U+00C1-00D6, U+00D8-00DF, U+00E2-00E7, U+00EA, U+00EC, U+00EE, U+00F0-00F2, U+00F4-00FB, U+00FD-00FF;
+}
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/spectral-400-aanvulling-ext.woff2') format('woff2');
+  unicode-range: U+0100-017F;
+}
+
+/* Spectral 600 — nadruk in lopende tekst — basis — laadt altijd */
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/spectral-600-basis.woff2') format('woff2');
+  unicode-range: U+0020-007E, U+00A7, U+00A9, U+00B7, U+00C0, U+00D7, U+00E0, U+00E1, U+00E8, U+00E9, U+00EB, U+00ED, U+00EF, U+00F3, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026, U+20AC, U+2190-2193, U+25A0, U+25B2, U+25BC, U+25C6, U+25CF;
+}
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/spectral-600-aanvulling.woff2') format('woff2');
+  unicode-range: U+00A0-00A6, U+00A8, U+00AA-00B6, U+00B8-00BF, U+00C1-00D6, U+00D8-00DF, U+00E2-00E7, U+00EA, U+00EC, U+00EE, U+00F0-00F2, U+00F4-00FB, U+00FD-00FF;
+}
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/spectral-600-aanvulling-ext.woff2') format('woff2');
+  unicode-range: U+0100-017F;
+}
+
+/* Spectral 400 cursief — het handschrift-gevoel in bijschriften — laadt op het rapport */
+@font-face {
+  font-family: 'Spectral';
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts/cormorant-400-italic-basis.woff2') format('woff2');
+  src: url('../fonts/spectral-400-italic-basis.woff2') format('woff2');
   unicode-range: U+0020-007E, U+00A7, U+00A9, U+00B7, U+00C0, U+00D7, U+00E0, U+00E1, U+00E8, U+00E9, U+00EB, U+00ED, U+00EF, U+00F3, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026, U+20AC, U+2190-2193, U+25A0, U+25B2, U+25BC, U+25C6, U+25CF;
 }
-
-/* Cormorant Garamond 400 cursief — Latin-1 Supplement, alleen bij een bijzondere naam */
 @font-face {
-  font-family: 'Cormorant Garamond';
+  font-family: 'Spectral';
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts/cormorant-400-italic-aanvulling.woff2') format('woff2');
+  src: url('../fonts/spectral-400-italic-aanvulling.woff2') format('woff2');
   unicode-range: U+00A0-00A6, U+00A8, U+00AA-00B6, U+00B8-00BF, U+00C1-00D6, U+00D8-00DF, U+00E2-00E7, U+00EA, U+00EC, U+00EE, U+00F0-00F2, U+00F4-00FB, U+00FD-00FF;
 }
-
-/* Cormorant Garamond 400 cursief — Latin Extended-A, alleen bij een bijzondere naam */
 @font-face {
-  font-family: 'Cormorant Garamond';
+  font-family: 'Spectral';
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts/cormorant-400-italic-aanvulling-ext.woff2') format('woff2');
+  src: url('../fonts/spectral-400-italic-aanvulling-ext.woff2') format('woff2');
   unicode-range: U+0100-017F;
 }
 
-/* Inter 400 — basis — laadt altijd */
+/* Courier Prime 400 — rapportnummers, data, kickers — basis — laadt altijd */
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Courier Prime';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts/inter-400-basis.woff2') format('woff2');
+  src: url('../fonts/courier-prime-400-basis.woff2') format('woff2');
   unicode-range: U+0020-007E, U+00A7, U+00A9, U+00B7, U+00C0, U+00D7, U+00E0, U+00E1, U+00E8, U+00E9, U+00EB, U+00ED, U+00EF, U+00F3, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026, U+20AC, U+2190-2193, U+25A0, U+25B2, U+25BC, U+25C6, U+25CF;
 }
-
-/* Inter 400 — Latin-1 Supplement, alleen bij een bijzondere naam */
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Courier Prime';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts/inter-400-aanvulling.woff2') format('woff2');
+  src: url('../fonts/courier-prime-400-aanvulling.woff2') format('woff2');
   unicode-range: U+00A0-00A6, U+00A8, U+00AA-00B6, U+00B8-00BF, U+00C1-00D6, U+00D8-00DF, U+00E2-00E7, U+00EA, U+00EC, U+00EE, U+00F0-00F2, U+00F4-00FB, U+00FD-00FF;
 }
-
-/* Inter 400 — Latin Extended-A, alleen bij een bijzondere naam */
 @font-face {
-  font-family: 'Inter';
+  font-family: 'Courier Prime';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts/inter-400-aanvulling-ext.woff2') format('woff2');
-  unicode-range: U+0100-017F;
-}
-
-/* Inter 600 — basis — laadt altijd */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../fonts/inter-600-basis.woff2') format('woff2');
-  unicode-range: U+0020-007E, U+00A7, U+00A9, U+00B7, U+00C0, U+00D7, U+00E0, U+00E1, U+00E8, U+00E9, U+00EB, U+00ED, U+00EF, U+00F3, U+00FC, U+2013, U+2014, U+2018, U+2019, U+201C, U+201D, U+2026, U+20AC, U+2190-2193, U+25A0, U+25B2, U+25BC, U+25C6, U+25CF;
-}
-
-/* Inter 600 — Latin-1 Supplement, alleen bij een bijzondere naam */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../fonts/inter-600-aanvulling.woff2') format('woff2');
-  unicode-range: U+00A0-00A6, U+00A8, U+00AA-00B6, U+00B8-00BF, U+00C1-00D6, U+00D8-00DF, U+00E2-00E7, U+00EA, U+00EC, U+00EE, U+00F0-00F2, U+00F4-00FB, U+00FD-00FF;
-}
-
-/* Inter 600 — Latin Extended-A, alleen bij een bijzondere naam */
-@font-face {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../fonts/inter-600-aanvulling-ext.woff2') format('woff2');
+  src: url('../fonts/courier-prime-400-aanvulling-ext.woff2') format('woff2');
   unicode-range: U+0100-017F;
 }
 
@@ -2832,5 +2838,145 @@ body {
 @media print {
   .arcana-dialog-scrim {
     display: none;
+  }
+}
+
+/* ==========================================================================
+   Het Arcana Dossier — gedeelde bouwstenen (herstijling sept. 2026)
+   Het zegel, de gescheurde-papier-kaartvorm en de vier motieven
+   (doorgang/brein/vlam/kompas) uit ArcanaMotif.tsx. Wordt gebruikt door de
+   rapport-voorpagina, de hoofdstukopeners, het PDF-voorblad en de landing.
+   ========================================================================== */
+
+/* De gescheurde-papier-kaartvorm: één herbruikbare clip-path, geen los
+   SVG-masker per kaart. --jag stuurt de tandgrootte (kleiner voor smalle
+   kaarten, groter voor het PDF-voorblad). */
+.arcana-torn {
+  --jag: 9px;
+  clip-path: polygon(
+    0% var(--jag), 3% 0%, 9% var(--jag), 16% 1%, 24% var(--jag), 33% 0%, 42% var(--jag),
+    52% 1%, 61% var(--jag), 71% 0%, 80% var(--jag), 89% 1%, 96% var(--jag), 100% 0%,
+    100% calc(100% - var(--jag)), 96% 100%, 88% calc(100% - var(--jag)), 79% 100%,
+    70% calc(100% - var(--jag)), 60% 100%, 50% calc(100% - var(--jag)), 40% 100%,
+    30% calc(100% - var(--jag)), 20% 100%, 11% calc(100% - var(--jag)), 3% 100%,
+    0% calc(100% - var(--jag))
+  );
+}
+
+/* ArcanaMotif: de vier illustraties lezen allemaal --motif als hun kleur. */
+.arcana-motif {
+  display: block;
+  color: var(--motif);
+}
+.am-fill,
+.am-figure,
+.am-arch-fill,
+.am-steps rect {
+  fill: var(--motif);
+}
+.am-arch-fill {
+  fill: var(--bg);
+}
+.am-layer {
+  fill: var(--motif);
+}
+.am-line {
+  stroke: var(--motif);
+  fill: none;
+}
+.am-line--thin {
+  stroke-width: 1.5;
+}
+.am-ring {
+  stroke: var(--motif);
+  fill: none;
+}
+.am-arch-line {
+  stroke: var(--motif);
+}
+.am-steps rect {
+  opacity: 0.82;
+}
+
+/* Alleen bij animated=true (de voorpagina): één intekenmoment (~2s), verder
+   staat de site stil. Eindstand = ruststand; valt de animatie weg (reduced
+   motion of een oud scherm), dan staat het beeld gewoon compleet. */
+.arcana-motif--animated .am-ring {
+  transform-origin: center;
+  opacity: 0;
+  animation: am-ring-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+.arcana-motif--animated .am-sun {
+  transform-origin: center;
+  opacity: 0;
+  animation: am-sun-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+.arcana-motif--animated .am-layer--back {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: am-layer-in 0.6s ease-out 0.22s both;
+}
+.arcana-motif--animated .am-layer--front {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: am-layer-in 0.6s ease-out 0.34s both;
+}
+.arcana-motif--animated .am-arch-line {
+  stroke-dasharray: 340;
+  stroke-dashoffset: 340;
+  animation: am-draw 0.7s cubic-bezier(0.4, 0.1, 0.2, 1) 0.4s forwards;
+}
+.arcana-motif--animated .am-arch-fill {
+  opacity: 0;
+  animation: am-fade-in 0.35s ease-out 1.05s both;
+}
+.arcana-motif--animated .am-steps rect {
+  opacity: 0;
+  transform: scaleX(0.4);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: am-step-in 0.3s ease-out both;
+}
+.arcana-motif--animated .am-steps rect:nth-child(1) { animation-delay: 1.15s; }
+.arcana-motif--animated .am-steps rect:nth-child(2) { animation-delay: 1.21s; }
+.arcana-motif--animated .am-steps rect:nth-child(3) { animation-delay: 1.27s; }
+.arcana-motif--animated .am-steps rect:nth-child(4) { animation-delay: 1.33s; }
+.arcana-motif--animated .am-steps rect:nth-child(5) { animation-delay: 1.39s; }
+.arcana-motif--animated .am-steps rect:nth-child(6) { animation-delay: 1.45s; }
+.arcana-motif--animated .am-figure {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: am-figure-in 0.4s ease-out 1.58s both;
+}
+.arcana-motif--animated .am-fill,
+.arcana-motif--animated .am-line {
+  opacity: 0;
+  animation: am-fade-in 0.6s ease-out 0.3s both;
+}
+
+@keyframes am-ring-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 0.16; transform: scale(1); } }
+@keyframes am-sun-in { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+@keyframes am-layer-in { to { opacity: 1; transform: translateY(0); } }
+@keyframes am-draw { to { stroke-dashoffset: 0; } }
+@keyframes am-fade-in { to { opacity: 1; } }
+@keyframes am-step-in { to { opacity: 0.82; transform: scaleX(1); } }
+@keyframes am-figure-in { to { opacity: 1; transform: translateY(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .arcana-motif--animated * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .arcana-motif--animated .am-ring { opacity: 0.16 !important; }
+  .arcana-motif--animated .am-arch-line { stroke-dashoffset: 0 !important; }
+  .arcana-motif--animated .am-steps rect { opacity: 0.82 !important; }
+}
+
+@media print {
+  .arcana-motif--animated * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
