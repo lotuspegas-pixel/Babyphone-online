@@ -80,6 +80,17 @@ export const CONTROLEER = {
     'Wat dit niet oplost: dat je jezelf beoordeelt. Alle 120 antwoorden komen van jou, dus het rapport meet hoe je jezelf ziet — niet hoe je bent. Dat is minder dan het lijkt, en meer dan je denkt.',
 } as const;
 
+/**
+ * Het citaatblok op de donkere inktband, vlak na "Drie dingen die je hier
+ * wél kunt controleren" (rebuild taak "Fundering", herstijling sept. 2026).
+ * Letterlijke, geverifieerde wording — niet vertalen, niet parafraseren,
+ * geen tweede citaat toevoegen.
+ */
+export const JUNG_CITAAT = {
+  tekst: 'Until you make the unconscious conscious, it will direct your life and you will call it fate.',
+  auteur: 'C.G. Jung',
+} as const;
+
 export const STATS_STRIP = [
   { getal: String(SITE_STATS.vragen), label: 'vragen in vier vraagsoorten' },
   { getal: String(SITE_STATS.hoofdstukken), label: 'hoofdstukken in je rapport' },

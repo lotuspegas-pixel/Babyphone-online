@@ -1,4 +1,5 @@
 import valley from '../assets/valley.webp';
+import { ArcanaMotif } from '../components/ArcanaMotif';
 import { DIMENSION_FAMILIES, MAIN_DIMENSIONS } from '../data/arcanaDimensions';
 import { FunnelDiagram } from './FunnelDiagram';
 import { PortraitSample } from './PortraitSample';
@@ -9,6 +10,7 @@ import {
   FAQ,
   HERO,
   HOE_HET_WERKT,
+  JUNG_CITAAT,
   RAPPORT,
   SITE_STATS,
   KIJK_NA,
@@ -34,6 +36,16 @@ const FAMILIES = Object.values(DIMENSION_FAMILIES).map((familie) => ({
   ...familie,
   dimensies: MAIN_DIMENSIONS.filter((d) => d.family === familie.id),
 }));
+
+/** De vier motieven van "Het Arcana Dossier", elk één keer in zijn eigen
+ * familiekleur (src/data/arcanaMotifs.ts noemt dezelfde vier koppelingen) —
+ * een korte, statische iconenstrook bij "Wat het meet", geen nieuwe illustratie. */
+const MOTIEF_STRIP = [
+  { kind: 'doorgang', kleur: 'var(--fam-zelf)', familie: DIMENSION_FAMILIES.zelf },
+  { kind: 'brein', kleur: 'var(--fam-motor)', familie: DIMENSION_FAMILIES.motor },
+  { kind: 'vlam', kleur: 'var(--fam-grip)', familie: DIMENSION_FAMILIES.grip },
+  { kind: 'kompas', kleur: 'var(--fam-contact)', familie: DIMENSION_FAMILIES.contact },
+] as const;
 
 /**
  * De landingspagina: elf secties met een eigen vlak en ritme (B §4), de copy
@@ -123,6 +135,27 @@ export function LandingPage({
         </div>
       </section>
 
+      {/* ------------------------------------------------------------- citaat */}
+      {/* Eén stil moment op de bestaande donkere inktband (B §4-vlak --ink,
+          zelfde recept als de cijfers en "Eerlijk gezegd"), vóór de gravure.
+          Geen sectiekop, geen kaart — het motief staat laag in de toon
+          (--ink-inverse-soft, al AA-gemeten op --bg-ink) zodat het citaat het
+          enige zware element blijft. */}
+      <section
+        className="landing__sectie landing__sectie--ink landing__sectie--kort landing__citaat"
+        aria-label="Citaat van C.G. Jung"
+      >
+        <div className="landing__inner landing__inner--smal landing__citaat-inner">
+          <ArcanaMotif kind="doorgang" color="var(--ink-inverse-soft)" className="landing__citaat-motief" />
+          <blockquote className="landing__citaat-tekst">
+            <p>&quot;{JUNG_CITAAT.tekst}&quot;</p>
+            <footer className="landing__citaat-auteur">
+              — <cite>{JUNG_CITAAT.auteur}</cite>
+            </footer>
+          </blockquote>
+        </div>
+      </section>
+
       {/* ------------------------------------------------------------ landschap */}
       <div className="landing__landschap" aria-hidden="true">
         <img src={valley} alt="" loading="lazy" decoding="async" width={1600} height={651} />
@@ -154,7 +187,7 @@ export function LandingPage({
 
           <div className="landing__grid landing__grid--waarom">
             {VOORDELEN.map((v, i) => (
-              <article key={v.titel} className={`landing__kaart${i === 0 ? ' landing__kaart--hoofd' : ''}`}>
+              <article key={v.titel} className={`landing__kaart arcana-torn${i === 0 ? ' landing__kaart--hoofd' : ''}`}>
                 <h3>{v.titel}</h3>
                 <p>{v.tekst}</p>
               </article>
@@ -204,6 +237,15 @@ export function LandingPage({
               de score erbij — in dezelfde vier kleurfamilies als in je portret.
             </p>
           </header>
+
+          <ul className="landing__motieven">
+            {MOTIEF_STRIP.map((m) => (
+              <li key={m.kind} className="landing__motief">
+                <ArcanaMotif kind={m.kind} color={m.kleur} className="landing__motief-icoon" />
+                <span className="landing__motief-label">{m.familie.label}</span>
+              </li>
+            ))}
+          </ul>
 
           <div className="landing__families">
             {FAMILIES.map((familie) => (
@@ -281,7 +323,7 @@ export function LandingPage({
 
           <div className="landing__na">
             {KIJK_NA.blokken.map((blok, i) => (
-              <div key={blok.titel} className={`landing__na-blok${i === 0 ? ' landing__na-blok--eerst' : ''}`}>
+              <div key={blok.titel} className={`landing__na-blok${i === 0 ? ' landing__na-blok--eerst arcana-torn' : ''}`}>
                 <h3>{blok.titel}</h3>
                 <p>{blok.tekst}</p>
                 {blok.href && (
@@ -309,7 +351,7 @@ export function LandingPage({
 
           <div className="landing__grid landing__grid--2">
             {VOOR_WIE.map((d) => (
-              <article key={d.titel} className="landing__kaart">
+              <article key={d.titel} className="landing__kaart arcana-torn">
                 <h3>{d.titel}</h3>
                 <p>{d.tekst}</p>
               </article>
