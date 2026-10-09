@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { ArcanaSeal } from './ArcanaSeal';
+
 /**
  * Optie B uit `C` §4.9: vier regels met echte getallen in de actieve vorm.
  * De vorige tekst ("Patronen worden herkend…") stond grotendeels in de
@@ -27,6 +29,11 @@ interface Props {
   onDone: (success: boolean) => void;
 }
 
+/**
+ * Het laadscherm: het zegel tekent zichzelf (CSS, één wijzerslag) en de
+ * regels wisselen op een vast tempo. Duurt het rekenen langer, dan draait
+ * de gestippelde buitenring van het zegel langzaam door.
+ */
 export function ArcanaResultLoading({ run, onDone }: Props) {
   const [messageIndex, setMessageIndex] = useState(0);
 
@@ -37,7 +44,7 @@ export function ArcanaResultLoading({ run, onDone }: Props) {
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // Bij een langzamere berekening blijft de derde regel staan — samen met
-    // de doorlopende sterrenanimatie de "bovengrens met voortgangsindicatie".
+    // de doorlopende ringanimatie de "bovengrens met voortgangsindicatie".
     let messageTimer: number | undefined;
     if (!prefersReducedMotion) {
       messageTimer = window.setInterval(() => {
@@ -79,7 +86,9 @@ export function ArcanaResultLoading({ run, onDone }: Props) {
 
   return (
     <div className="arcana-screen arcana-loading" role="status" aria-live="polite">
-      <div className="arcana-loading__mark" aria-hidden="true" />
+      <div className="arcana-loading__seal" aria-hidden="true">
+        <ArcanaSeal size={120} />
+      </div>
       <p className="arcana-loading__text">{MESSAGES[messageIndex]}</p>
     </div>
   );

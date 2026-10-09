@@ -23,9 +23,8 @@ interface Props {
 /**
  * Vaste bloktypering van de 120 vragen: eerst 72 korte stellingen, dan 24
  * keuzes tussen twee, dan 16 situaties en tot slot 8 rangschikkingen — in die
- * volgorde in `ARCANA_QUESTIONS`. Geen vier gelijke kwarten: de blokaanduiding
- * telt daarom binnen het eigen blok (`{n} van 72`) in plaats van "Deel 1 van
- * 4", wat bij vraag 40 zou suggereren dat er nog driemaal zoveel komt.
+ * volgorde in `ARCANA_QUESTIONS`. De voortgang tekent zich per blok (zie
+ * ArcanaProgress) en de blokaanduiding telt binnen het eigen blok.
  */
 const BLOCK_ORDER: QuestionType[] = ['likert', 'forcedChoice', 'scenario', 'ranking'];
 const BLOCK_LENGTHS: Record<QuestionType, number> = {
@@ -40,6 +39,7 @@ const BLOCK_TITLES: Record<QuestionType, string> = {
   scenario: 'Situaties',
   ranking: 'Op volgorde zetten',
 };
+const BLOCKS = BLOCK_ORDER.map((type) => ({ title: BLOCK_TITLES[type], length: BLOCK_LENGTHS[type] }));
 const BLOCK_STARTS: Record<QuestionType, number> = (() => {
   let offset = 0;
   const starts = {} as Record<QuestionType, number>;
@@ -49,11 +49,6 @@ const BLOCK_STARTS: Record<QuestionType, number> = (() => {
   }
   return starts;
 })();
-
-function blockLabelFor(index: number, type: QuestionType): string {
-  const positionInBlock = index - BLOCK_STARTS[type] + 1;
-  return `${BLOCK_TITLES[type]} · ${positionInBlock} van ${BLOCK_LENGTHS[type]}`;
-}
 
 /** Pas tonen als er genoeg tempo bekend is om een schatting op te baseren. */
 const MIN_ANSWERS_FOR_ESTIMATE = 3;
@@ -87,8 +82,21 @@ export function ArcanaTest({ currentIndex, answers, onAnswer, onNext, onPrevious
   const question = ARCANA_QUESTIONS[currentIndex];
   const answer = answers[question.id];
   const isLast = currentIndex === ARCANA_QUESTIONS.length - 1;
-  const blockLabel = blockLabelFor(currentIndex, question.type);
+  const blockIndex = BLOCK_ORDER.indexOf(question.type);
+  const positionInBlock = currentIndex - BLOCK_STARTS[question.type] + 1;
   const remainingMinutes = estimateRemainingMinutes(Object.keys(answers).length, ARCANA_QUESTIONS.length);
+
+  /**
+   * Richting van de bladwissel: vooruit schuift het nieuwe blad van rechts
+   * in, terug van links (CSS op data-dir; bij reduced motion staat het er
+   * meteen). Afgeleid tijdens het renderen uit de vorige index, zodat de
+   * eerste render van het nieuwe blad de richting al kent.
+   */
+  const lastIndex = useRef(currentIndex);
+  const direction = currentIndex < lastIndex.current ? 'back' : 'forward';
+  useEffect(() => {
+    lastIndex.current = currentIndex;
+  }, [currentIndex]);
 
   /**
    * Focuskader-fix (A §3.9): de radiogroup-opties gebruiken per vraagtype
@@ -179,53 +187,61 @@ export function ArcanaTest({ currentIndex, answers, onAnswer, onNext, onPrevious
 
   return (
     <div className="arcana-screen arcana-test">
-      <div className="arcana-card arcana-test__card">
-        <ArcanaProgress
-          current={currentIndex + 1}
-          total={ARCANA_QUESTIONS.length}
-          blockLabel={blockLabel}
-          remainingMinutes={remainingMinutes}
-        />
+      {/* Eén vraag per blad: een stuk gescheurd papier op het perkament. */}
+      <div className="arcana-sheet arcana-test__sheet">
+        <div className="arcana-sheet__paper arcana-torn">
+          <ArcanaProgress
+            current={currentIndex + 1}
+            total={ARCANA_QUESTIONS.length}
+            blocks={BLOCKS}
+            blockIndex={blockIndex}
+            positionInBlock={positionInBlock}
+            remainingMinutes={remainingMinutes}
+          />
 
-        <h2 className="arcana-question-text" ref={headingRef} tabIndex={-1}>
-          {question.text}
-        </h2>
+          {/* De key laat het blad per vraag opnieuw monteren: zo schuift het in. */}
+          <div className="arcana-test__page" key={currentIndex} data-dir={direction}>
+            <h2 className="arcana-question-text" ref={headingRef} tabIndex={-1}>
+              {question.text}
+            </h2>
 
-        <div className="arcana-question-body">
-          <ArcanaQuestionRenderer question={question} answer={answer} onAnswer={handleAnswer} />
-        </div>
+            <div className="arcana-question-body">
+              <ArcanaQuestionRenderer question={question} answer={answer} onAnswer={handleAnswer} />
+            </div>
 
-        {autoAdvances && !arrival.hadAnswer && (
-          <p className="arcana-test__hint">Kies een antwoord — de volgende vraag verschijnt vanzelf.</p>
-        )}
+            {autoAdvances && !arrival.hadAnswer && (
+              <p className="arcana-test__hint">Kies een antwoord — de volgende vraag verschijnt vanzelf.</p>
+            )}
+          </div>
 
-        <div className="arcana-test__nav">
-          <button
-            type="button"
-            className="arcana-button arcana-button--ghost"
-            onClick={handlePrevious}
-            disabled={currentIndex === 0}
-          >
-            Vorige
-          </button>
-          <button
-            type="button"
-            className="arcana-button arcana-button--text"
-            onClick={handlePause}
-            aria-label="Pauzeren — je antwoorden blijven bewaard"
-          >
-            Pauzeren<span className="arcana-test__pause-hint"> — je antwoorden blijven bewaard</span>
-          </button>
-          {showForwardButton && (
+          <div className="arcana-test__nav">
             <button
               type="button"
-              className="arcana-button arcana-button--primary"
-              onClick={onNext}
-              disabled={!answer}
+              className="arcana-button arcana-button--ghost"
+              onClick={handlePrevious}
+              disabled={currentIndex === 0}
             >
-              {isLast ? 'Afronden — laat mijn rapport zien' : 'Volgende'}
+              Vorige
             </button>
-          )}
+            <button
+              type="button"
+              className="arcana-button arcana-button--text"
+              onClick={handlePause}
+              aria-label="Pauzeren — je antwoorden blijven bewaard"
+            >
+              Pauzeren<span className="arcana-test__pause-hint"> — je antwoorden blijven bewaard</span>
+            </button>
+            {showForwardButton && (
+              <button
+                type="button"
+                className="arcana-button arcana-button--primary"
+                onClick={onNext}
+                disabled={!answer}
+              >
+                {isLast ? 'Afronden — laat mijn rapport zien' : 'Volgende'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

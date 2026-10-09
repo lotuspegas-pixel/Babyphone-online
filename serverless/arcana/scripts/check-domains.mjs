@@ -44,6 +44,7 @@ const TOEGESTAAN = new Set([
   'www.w3.org', // SVG- en XML-namespaces
   'www.sitemaps.org', // sitemap-namespace
   'react.dev', // React zet dit zelf in zijn minified foutmeldingen
+  'github.com', // pdf-lib (PDF-generator, lazy chunk) verwijst in foutmeldingen en bronvermeldingen naar zijn eigen repository
 ]);
 
 // Hosts die nooit mogen voorkomen, ongeacht de rest. Hier staat de geschiedenis in.

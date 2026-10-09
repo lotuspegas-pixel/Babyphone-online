@@ -91,6 +91,85 @@ export const JUNG_CITAAT = {
   auteur: 'C.G. Jung',
 } as const;
 
+/**
+ * De handgeschreven marginalia en korte lijstjes uit de referentiemap
+ * ("Arcana Design Sep 2026"). Alles hier is sfeer: het staat in aria-hidden
+ * blokken en bevat bewust geen cijfers, geen beloftes en geen toeschrijving.
+ */
+export const HERO_NOTES = {
+  woorden: ['Mind', 'Patterns', 'Choices', 'Growth', 'Freedom'],
+  zin: ['Who looks outside, dreams.', 'Who looks inside, awakens.'],
+  diepte: 'A deeper you',
+  bijschriften: ['Conscious', 'Subconscious', 'Unconscious', 'Integration'],
+  lijst: ['Archetypen', 'Patronen', 'Inzicht', 'Keuzes', 'Groei'],
+  kaart: 'The map is not the territory, but it can show you the way.',
+} as const;
+
+/** Band "Meer dan een test": de kop is onze eigen regel, níét toegeschreven. */
+export const MEER = {
+  kicker: 'Meer dan een test',
+  titel: 'Inzicht is het begin van verandering.',
+  tekst:
+    'Arcana Profile laat zien hoe je eigenschappen, motivaties, schaduwkanten en denkstijl samenhangen tot één patroon — zodat je bewuster kunt kiezen, leven en groeien.',
+  lijst: ['Zelf', 'Relaties', 'Werk', 'Persoonlijke groei', 'Balans', 'Vrijheid'],
+  noot: 'Same patterns. Different choices.',
+} as const;
+
+interface Lens {
+  id: 'persona' | 'schaduw' | 'denkstijl';
+  titel: string;
+  tekst: string;
+  noot?: string;
+  lijst?: readonly string[];
+}
+
+/** Persona, schaduw en denkstijl zijn lenzen, geen reeks: dus geen nummers. */
+export const LENZEN: Lens[] = [
+  { id: 'persona', titel: 'Persona', tekst: 'Hoe je je laat zien aan de wereld.', noot: 'The mask is useful.' },
+  { id: 'schaduw', titel: 'Schaduw', tekst: 'Wat je liever niet ziet, maar wel stuurt.', noot: 'What you resist persists.' },
+  {
+    id: 'denkstijl',
+    titel: 'Denkstijl',
+    tekst: 'Hoe je informatie verwerkt en beslissingen neemt.',
+    lijst: ['Analyse', 'Intuïtie', 'Structuur', 'Creativiteit', 'Patronen'],
+  },
+];
+
+export const RAPPORT_BAND = {
+  kicker: 'Jouw persoonlijke rapport',
+  titel: `Een diepgaand rapport in ${SITE_STATS.hoofdstukken} hoofdstukken.`,
+  cta: 'Bekijk voorbeeldrapport',
+} as const;
+
+export const NUT = [
+  { icoon: 'kompas', titel: 'Zelfinzicht', tekst: 'Begrijp wie je bent en waarom je doet wat je doet.' },
+  { icoon: 'scheut', titel: 'Betere keuzes', tekst: 'Maak keuzes die passen bij je eigen patronen.' },
+  { icoon: 'driehoek', titel: 'Persoonlijke groei', tekst: 'Zie waar je patroon je helpt en waar het je beperkt.' },
+  { icoon: 'venn', titel: 'Sterkere relaties', tekst: 'Meer begrip voor jezelf en voor de mensen om je heen.' },
+  { icoon: 'zon', titel: 'Meer vrijheid', tekst: 'Doe minder op de automatische piloot.' },
+] as const;
+
+/** "De methode": geen "wetenschappelijke modellen", geen taalmodel; alleen wat de code doet. */
+export const METHODE = {
+  kicker: 'De methode',
+  titel: 'Psychologie en data, samengebracht in een berekening die je kunt narekenen.',
+  tekst:
+    'Arcana Profile legt Jungiaanse begrippen — persona, schaduw, spanningsvelden — naast twaalf gemeten dimensies. Er zit geen taalmodel in: dezelfde antwoorden geven altijd hetzelfde rapport.',
+  cta: 'Meer over de methode',
+  lijst: [
+    'Jungiaanse psychologie',
+    `${SITE_STATS.hoofddimensies} dimensies`,
+    `${SITE_STATS.vragen} vragen`,
+    'Patronen',
+    'Inzicht',
+    'Toepassing',
+  ],
+  noot: 'Know yourself. Change everything.',
+} as const;
+
+/** Naast de vier echte cijfers: geen gebruikersaantal, geen beoordeling, geen getuigenis. */
+export const VERTROUWEN = 'Geen account. Geen server. Je antwoorden blijven in je browser.';
+
 export const STATS_STRIP = [
   { getal: String(SITE_STATS.vragen), label: 'vragen in vier vraagsoorten' },
   { getal: String(SITE_STATS.hoofdstukken), label: 'hoofdstukken in je rapport' },
@@ -351,6 +430,8 @@ export const SLOT_CTA = {
 /** De losse, statische voorbeeldrapport-pagina (taak 12). Echt pad, geen hash-route. */
 export const VOORBEELD_URL = '/voorbeeld/';
 export const VOORBEELD_LINK = 'Liever eerst kijken? Lees het voorbeeldrapport';
+/** De korte knoptekst voor dezelfde pagina (hero, rapportband, slot-CTA). */
+export const VOORBEELD_KORT = 'Bekijk voorbeeldrapport';
 
 /**
  * "Kijk het zelf na" (E §5.9): geen verzonnen bewijs, maar drie dingen die de

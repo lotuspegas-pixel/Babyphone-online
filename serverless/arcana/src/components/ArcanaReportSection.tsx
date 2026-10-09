@@ -5,7 +5,7 @@ import type { ArcanaReportSection as Section } from '../types/arcana';
 
 interface Props {
   section: Section;
-  /** 1-based positie van deze kaart in het volledige deck (voor "Kaart X / Y"). */
+  /** 1-based positie van deze kaart in het volledige deck (voor "Kaart X van Y"). */
   index?: number;
   total?: number;
   prevId?: string;
@@ -57,8 +57,15 @@ function sectionKind(id: string): SectionKind | undefined {
   return SECTION_KIND[id];
 }
 
+/**
+ * Eén hoofdstuk als stuk gescheurd papier. Het kaartsoort staat als stempel
+ * (kleur + vorm, zie de legenda) in de hoek — geen tekstlabel boven de
+ * titel; "Kaart X van Y" staat in de navigatie onderaan.
+ */
 export function ArcanaReportSection({ section, index, total, prevId, prevTitle, nextId, nextTitle, action }: Props) {
   const isReflection = section.id.startsWith('reflectie-');
+  // De slotzin is het enige hoofdstuk dat als citaat gelezen moet worden.
+  const isClosing = section.id === 'final-sentence';
   const kind = sectionKind(section.id);
   const titleId = `${section.id}-title`;
   const showNav = typeof index === 'number' && typeof total === 'number';
@@ -69,24 +76,19 @@ export function ArcanaReportSection({ section, index, total, prevId, prevTitle, 
 
   return (
     <article
-      className={`arcana-card-shell arcana-report-section${isReflection ? ' arcana-report-section--reflection' : ''}`}
+      className={`arcana-card-shell arcana-report-section${isReflection ? ' arcana-report-section--reflection' : ''}${isClosing ? ' arcana-report-section--closing' : ''}`}
       id={section.id}
       data-kind={kind}
       aria-labelledby={titleId}
     >
-      <div className="arcana-card-clip">
-        <p className="arcana-card-kicker">
-          <span className="arcana-card-mark" aria-hidden="true" />
-          {showNav ? (
-            <span>
-              Kaart {index} / {total}
-            </span>
-          ) : (
-            <span className="arcana-sr-only">Rapportkaart</span>
-          )}
-        </p>
+      <div className="arcana-card-clip arcana-torn">
+        <span className="arcana-card-mark arcana-card-mark--stamp" aria-hidden="true" />
         <h3 id={titleId}>{section.title}</h3>
-        <p className="arcana-report-section__intro">{section.intro}</p>
+        {isClosing ? (
+          <blockquote className="arcana-pullquote">{section.intro}</blockquote>
+        ) : (
+          <p className="arcana-report-section__intro">{section.intro}</p>
+        )}
         {section.paragraphs.map((p, i) => (
           <p key={i} className="arcana-body">
             {p}
@@ -125,7 +127,7 @@ export function ArcanaReportSection({ section, index, total, prevId, prevTitle, 
               <span className="arcana-card-nav__stub">← Vorige</span>
             )}
             <span className="arcana-card-nav__count">
-              {index} / {total}
+              Kaart {index} van {total}
             </span>
             {nextId ? (
               navReason?.forward ? (

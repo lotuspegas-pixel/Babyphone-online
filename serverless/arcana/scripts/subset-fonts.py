@@ -30,6 +30,8 @@ import sys
 from pathlib import Path
 
 from fontTools import subset
+from fontTools.merge import Merger
+from fontTools.merge import Options as MergeOptions
 from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -53,6 +55,11 @@ AANVULLING = (
 )
 AANVULLING_EXT = "U+0100-017F"
 
+# Handschrift voor de marginalia in de collages (korte Engelse regels en
+# trefwoorden): alleen ASCII, geen aanvullingen — namen van gebruikers komen
+# hier nooit in terecht.
+HANDSCHRIFT = "U+0020-0021,U+0027,U+002C-002E,U+003A-003B,U+003F,U+0030-0039,U+0041-005A,U+0061-007A,U+2014,U+2019"
+
 FACES = [
     # (uitvoernaam, bronbestand latin, bronbestand latin-ext)
     ("bodoni-moda-600", "bodoni-moda-latin-600-normal.woff2", "bodoni-moda-latin-ext-600-normal.woff2"),
@@ -62,6 +69,20 @@ FACES = [
     ("spectral-400-italic", "spectral-latin-400-italic.woff2", "spectral-latin-ext-400-italic.woff2"),
     ("courier-prime-400", "courier-prime-latin-400-normal.woff2", "courier-prime-latin-ext-400-normal.woff2"),
 ]
+
+
+HAND_FACES = [
+    # (uitvoernaam, bronbestand latin)
+    ("shadows-into-light-400", "shadows-into-light-latin-400-normal.woff2"),
+]
+
+# De PDF-generator (src/lib/arcanaPdf.ts) sluit fonts in via pdf-lib + fontkit
+# en heeft daarvoor kale TTF's nodig, geen woff2. Eén bestand per letter met
+# basis ∪ aanvulling ∪ aanvulling-ext, zodat elke naam in de PDF rendert; de
+# latin- en latin-ext-bronnen bevatten verschillende glyphs en worden daarom
+# na het subsetten samengevoegd. Het handschrift blijft ASCII (marginalia).
+PDF_OUT = OUT / "pdf"
+PDF_FACES = FACES
 
 
 def subset_to(src: Path, unicodes: str, dest: Path) -> int:
@@ -83,8 +104,52 @@ def subset_to(src: Path, unicodes: str, dest: Path) -> int:
     return len(buf.getvalue())
 
 
+def subset_font(src: Path, unicodes: str) -> TTFont:
+    font = TTFont(str(src))
+    options = subset.Options()
+    options.hinting = False
+    options.notdef_outline = True
+    subsetter = subset.Subsetter(options=options)
+    subsetter.populate(unicodes=subset.parse_unicodes(unicodes))
+    subsetter.subset(font)
+    return font
+
+
+def save_ttf(font: TTFont, dest: Path) -> int:
+    font.flavor = None
+    buf = io.BytesIO()
+    font.save(buf)
+    dest.write_bytes(buf.getvalue())
+    return len(buf.getvalue())
+
+
+def subset_pdf(latin: Path, latin_ext: Path, dest: Path) -> int:
+    """Kale TTF met basis + aanvulling (uit latin) en aanvulling-ext (uit latin-ext) samengevoegd."""
+    base = subset_font(latin, f"{BASIS},{AANVULLING}")
+    ext = subset_font(latin_ext, AANVULLING_EXT)
+    # De merger struikelt over de layouttabellen van deze statische instanties
+    # (restanten van de variabele bron: GDEF.VarStore, versie 1.3). Kerning en
+    # ligaturen komen uit het latin-deel; het ext-deel levert alleen glyphs.
+    for tag in ("GDEF", "GSUB", "GPOS"):
+        if tag in ext:
+            del ext[tag]
+    if "GDEF" in base:
+        gdef = base["GDEF"].table
+        gdef.VarStore = None
+        gdef.Version = 0x00010002 if getattr(gdef, "MarkGlyphSetsDef", None) else 0x00010000
+    buffers = []
+    for part in (base, ext):
+        part.flavor = None
+        buf = io.BytesIO()
+        part.save(buf)
+        buf.seek(0)
+        buffers.append(buf)
+    return save_ttf(Merger(options=MergeOptions()).merge(buffers), dest)
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
+    PDF_OUT.mkdir(parents=True, exist_ok=True)
     totaal_basis = 0
     print(f"{'bestand':34} {'bytes':>8}")
     for naam, latin, latin_ext in FACES:
@@ -95,11 +160,26 @@ def main() -> int:
         print(f"{naam + '-basis.woff2':34} {b:8d}")
         print(f"{naam + '-aanvulling.woff2':34} {a:8d}")
         print(f"{naam + '-aanvulling-ext.woff2':34} {e:8d}")
+    for naam, latin in HAND_FACES:
+        h = subset_to(SRC / latin, HANDSCHRIFT, OUT / f"{naam}-basis.woff2")
+        print(f"{naam + '-basis.woff2':34} {h:8d}")
     print(f"\nbasisbestanden samen: {totaal_basis} bytes ({totaal_basis / 1024:.1f} KB)")
+    totaal_pdf = 0
+    print("\nPDF-fonts (TTF, src/fonts/pdf/):")
+    for naam, latin, latin_ext in PDF_FACES:
+        n = subset_pdf(SRC / latin, SRC / latin_ext, PDF_OUT / f"{naam}.ttf")
+        totaal_pdf += n
+        print(f"{naam + '.ttf':34} {n:8d}")
+    for naam, latin in HAND_FACES:
+        n = save_ttf(subset_font(SRC / latin, HANDSCHRIFT), PDF_OUT / f"{naam}.ttf")
+        totaal_pdf += n
+        print(f"{naam + '.ttf':34} {n:8d}")
+    print(f"pdf-fonts samen: {totaal_pdf} bytes ({totaal_pdf / 1024:.1f} KB)")
     print("\nunicode-range voor de CSS:")
     print("  basis:          ", BASIS)
     print("  aanvulling:     ", AANVULLING)
     print("  aanvulling-ext: ", AANVULLING_EXT)
+    print("  handschrift:    ", HANDSCHRIFT)
     return 0
 
 

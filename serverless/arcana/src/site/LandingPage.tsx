@@ -1,7 +1,18 @@
-import valley from '../assets/valley.webp';
-import { ArcanaMotif } from '../components/ArcanaMotif';
-import { DIMENSION_FAMILIES, MAIN_DIMENSIONS } from '../data/arcanaDimensions';
+import { useRef, type CSSProperties, type ReactNode } from 'react';
+import emblem from '../assets/art/emblems/emblem-theSeeker.svg';
+import sceneEind from '../assets/art/landing/scene-eind.svg';
+import bandDoorgang from '../assets/art/landing/band-doorgang.svg';
+import methodeBuste from '../assets/art/landing/methode-buste.svg';
+import tileDenkstijl from '../assets/art/landing/tile-denkstijl.svg';
+import tilePersona from '../assets/art/landing/tile-persona.svg';
+import tileSchaduw from '../assets/art/landing/tile-schaduw.svg';
+import { ArcanaIcon } from '../components/ArcanaIcon';
+import { ArcanaMotif, type MotifKind } from '../components/ArcanaMotif';
+import { ArcanaSeal } from '../components/ArcanaSeal';
+import { DIMENSION_FAMILIES, MAIN_DIMENSIONS, type DimensionFamilyId } from '../data/arcanaDimensions';
 import { FunnelDiagram } from './FunnelDiagram';
+import { HeroCollage } from './HeroCollage';
+import { useParallax, useReveal } from './landingMotion';
 import { PortraitSample } from './PortraitSample';
 import {
   CONTROLEER,
@@ -9,15 +20,22 @@ import {
   EERLIJK,
   FAQ,
   HERO,
+  HERO_NOTES,
   HOE_HET_WERKT,
   JUNG_CITAAT,
-  RAPPORT,
-  SITE_STATS,
   KIJK_NA,
+  LENZEN,
+  MEER,
+  METHODE,
+  NUT,
+  RAPPORT,
+  RAPPORT_BAND,
+  SITE_STATS,
   SLOT_CTA,
-  VOORBEELD_LINK,
-  VOORBEELD_URL,
   STATS_STRIP,
+  VERTROUWEN,
+  VOORBEELD_KORT,
+  VOORBEELD_URL,
   VOORDELEN,
   VOOR_WIE,
 } from './siteContent';
@@ -37,21 +55,123 @@ const FAMILIES = Object.values(DIMENSION_FAMILIES).map((familie) => ({
   dimensies: MAIN_DIMENSIONS.filter((d) => d.family === familie.id),
 }));
 
-/** De vier motieven van "Het Arcana Dossier", elk één keer in zijn eigen
- * familiekleur (src/data/arcanaMotifs.ts noemt dezelfde vier koppelingen) —
- * een korte, statische iconenstrook bij "Wat het meet", geen nieuwe illustratie. */
-const MOTIEF_STRIP = [
-  { kind: 'doorgang', kleur: 'var(--fam-zelf)', familie: DIMENSION_FAMILIES.zelf },
-  { kind: 'brein', kleur: 'var(--fam-motor)', familie: DIMENSION_FAMILIES.motor },
-  { kind: 'vlam', kleur: 'var(--fam-grip)', familie: DIMENSION_FAMILIES.grip },
-  { kind: 'kompas', kleur: 'var(--fam-contact)', familie: DIMENSION_FAMILIES.contact },
-] as const;
+/** Het motief van elke familie, in zijn eigen familiekleur — dezelfde vier
+ * koppelingen als src/data/arcanaMotifs.ts, het portret en het rapport. Staat
+ * in de familiekop bij "Wat het meet"; geen losse iconenstrook. */
+const MOTIEF: Record<DimensionFamilyId, { kind: MotifKind; kleur: string }> = {
+  zelf: { kind: 'doorgang', kleur: 'var(--fam-zelf)' },
+  motor: { kind: 'brein', kleur: 'var(--fam-motor)' },
+  grip: { kind: 'vlam', kleur: 'var(--fam-grip)' },
+  contact: { kind: 'kompas', kleur: 'var(--fam-contact)' },
+};
+
+const LENS_BEELD = { persona: tilePersona, schaduw: tileSchaduw, denkstijl: tileDenkstijl };
+
+/** Kort handschrift in de marge. Altijd Engels (lang="en") en decoratief
+ * (aria-hidden): het is sfeer, geen inhoud. `d` is de vertraging van het
+ * intekenmoment in de hero. */
+function Hand({ cls, d, children }: { cls: string; d?: string; children: ReactNode }) {
+  return (
+    <p className={`hand ${cls}`} style={d ? ({ '--d': d } as CSSProperties) : undefined} lang="en" aria-hidden="true">
+      {children}
+    </p>
+  );
+}
+
+/** Mono-kapitalenlijstje; de hoofdletters komen uit CSS, de tekst staat gewoon in de DOM. */
+function Mono({ items, cls = '', hidden }: { items: readonly string[]; cls?: string; hidden?: boolean }) {
+  return (
+    <ul className={`mono ${cls}`} aria-hidden={hidden || undefined}>
+      {items.map((t) => (
+        <li key={t}>{t}</li>
+      ))}
+    </ul>
+  );
+}
+
+/** "120 vragen · 20–25 minuten · …" als lijstje, zonder middenpunten in de tekst. */
+function Meta() {
+  return (
+    <ul className="landing__meta">
+      {HERO.ctaMeta.split(' · ').map((m) => (
+        <li key={m}>{m}</li>
+      ))}
+    </ul>
+  );
+}
+
+/** Regels voor de nagebootste pagina's; breedtes in procenten. */
+function Regels({ w }: { w: number[] }) {
+  return (
+    <div className="rmock__regels">
+      {w.map((x, i) => (
+        <i key={i} style={{ width: `${x}%` }} />
+      ))}
+    </div>
+  );
+}
 
 /**
- * De landingspagina: elf secties met een eigen vlak en ritme (B §4), de copy
- * uit E §5 met herovariant A. De volgorde is de ingreep: de propositie en de
- * drie controleerbare beweringen staan nu vóór het beeld en de cijfers.
- * Elke sectie is volle breedte en houdt zijn inhoud in een kolom van 1180 px.
+ * Drie pagina's uit het voorbeeldrapport als waaier. Gebouwd uit HTML, CSS en
+ * het bestaande voorbeeldportret — geen schermafbeelding, geen echte inhoud —
+ * en volledig aria-hidden: de lijst ernaast draagt de betekenis.
+ */
+function RapportMock() {
+  // De buitenste laag draagt draai en schaduw, de binnenste het gescheurde
+  // papier: clip-path knipt een schaduw op hetzelfde element weg.
+  const blad = (n: number, kinderen: ReactNode) => (
+    <div className={`rmock__pagina rmock__pagina--${n}`}>
+      <div className="rmock__blad arcana-torn">{kinderen}</div>
+    </div>
+  );
+  return (
+    <div className="rmock" aria-hidden="true">
+      {blad(
+        3,
+        <>
+          <p className="rmock__kop">Persoonlijke inzichten</p>
+          <Regels w={[100, 94, 100, 72]} />
+          <ul className="rmock__lijst">
+            {[88, 96, 70].map((x) => (
+              <li key={x}>
+                <i style={{ width: `${x}%` }} />
+              </li>
+            ))}
+          </ul>
+          <Regels w={[100, 90, 60]} />
+        </>,
+      )}
+      {blad(
+        2,
+        <>
+          <p className="rmock__kop">Jouw dimensies</p>
+          <PortraitSample />
+          <Regels w={[100, 84]} />
+        </>,
+      )}
+      {blad(
+        1,
+        <>
+          <ArcanaSeal size={26} />
+          <p className="rmock__titel">Jouw Arcana Profile rapport</p>
+          <img src={emblem} alt="" width={320} height={340} loading="lazy" decoding="async" />
+          <p className="rmock__label">Voorbeeld</p>
+        </>,
+      )}
+    </div>
+  );
+}
+
+/**
+ * De landingspagina. Volgorde: hero, de drie controleerbare beweringen, de
+ * donkere band "Meer dan een test", de drie lenzen, het rapport, de vijf
+ * voordelen, de methode met de uitleg die erbij hoort, de cijfers, de
+ * bestaande onderbouwing en de slotoproep. Elke sectie is volle breedte en
+ * houdt zijn inhoud in een kolom.
+ *
+ * Beweging: één geregisseerd moment bij laden (de hero), daarna scroll- en
+ * pointerparallax in de hero en per blok één onthulling (data-onthul, zie
+ * landingMotion.ts). De rest staat stil.
  */
 export function LandingPage({
   onStart,
@@ -61,63 +181,96 @@ export function LandingPage({
   hasResult,
   resumeQuestionNumber,
 }: Props) {
+  const wortel = useRef<HTMLDivElement>(null);
+  const heroArt = useRef<HTMLDivElement>(null);
+  useReveal(wortel);
+  useParallax(heroArt);
+
   return (
-    <div className="landing" id="top">
+    <div className="landing" id="top" ref={wortel}>
       {/* ---------------------------------------------------------------- hero */}
       <section className="landing__hero">
-        <div className="landing__inner">
-          <p className="landing__merk">{HERO.merk}</p>
-          <p className="arcana-eyebrow landing__eyebrow">{HERO.eyebrow}</p>
+        <div className="landing__inner landing__hero-grid">
+          <div className="landing__hero-tekst">
+            <h1 className="landing__titel">
+              {HERO.titelRegels.map((regel) => (
+                <span key={regel}>{regel}</span>
+              ))}
+            </h1>
 
-          <h1 className="landing__titel">
-            {HERO.titelRegels.map((regel) => (
-              <span key={regel}>{regel}</span>
-            ))}
-          </h1>
+            <p className="landing__belofte">{HERO.belofte}</p>
 
-          <p className="landing__belofte">{HERO.belofte}</p>
+            <div className="landing__knoppen">
+              {hasResult ? (
+                <>
+                  <button type="button" className="arcana-button arcana-button--primary" onClick={onViewResult}>
+                    Bekijk je rapport
+                  </button>
+                  <button type="button" className="arcana-button arcana-button--ghost" onClick={onStart}>
+                    Opnieuw beginnen
+                  </button>
+                </>
+              ) : hasInProgress ? (
+                <>
+                  <button type="button" className="arcana-button arcana-button--primary" onClick={onResume}>
+                    Verdergaan — vraag {resumeQuestionNumber} van {SITE_STATS.vragen}
+                  </button>
+                  <button type="button" className="arcana-button arcana-button--ghost" onClick={onStart}>
+                    Opnieuw beginnen
+                  </button>
+                </>
+              ) : (
+                <button type="button" className="arcana-button arcana-button--primary" onClick={onStart}>
+                  {HERO.cta} <span aria-hidden="true">→</span>
+                </button>
+              )}
+              <a className="landing__voorbeeld-link" href={VOORBEELD_URL}>
+                <ArcanaIcon kind="document" size={22} />
+                {VOORBEELD_KORT}
+              </a>
+            </div>
+            <Meta />
 
-          <div className="landing__cta-blok">
-            {hasResult ? (
-              <>
-                <button type="button" className="arcana-button arcana-button--primary" onClick={onViewResult}>
-                  Bekijk je rapport
-                </button>
-                <button type="button" className="arcana-button arcana-button--ghost" onClick={onStart}>
-                  Opnieuw beginnen
-                </button>
-              </>
-            ) : hasInProgress ? (
-              <>
-                <button type="button" className="arcana-button arcana-button--primary" onClick={onResume}>
-                  Verdergaan — vraag {resumeQuestionNumber} van {SITE_STATS.vragen}
-                </button>
-                <button type="button" className="arcana-button arcana-button--ghost" onClick={onStart}>
-                  Opnieuw beginnen
-                </button>
-              </>
-            ) : (
-              <button type="button" className="arcana-button arcana-button--primary" onClick={onStart}>
-                {HERO.cta}
-              </button>
-            )}
-            <p className="landing__cta-meta">{HERO.ctaMeta}</p>
-            <a className="landing__voorbeeld-link" href={VOORBEELD_URL}>
-              {VOORBEELD_LINK}
-            </a>
+            <ul className="landing__vertrouwen">
+              {HERO.vertrouwen.map((punt) => (
+                <li key={punt}>{punt}</li>
+              ))}
+            </ul>
+
+            <div className="landing__hero-voet" aria-hidden="true">
+              <Mono items={HERO_NOTES.lijst} cls="landing__hero-lijst" />
+              <Hand cls="hand--kaart">{HERO_NOTES.kaart}</Hand>
+            </div>
           </div>
 
-          <ul className="landing__vertrouwen">
-            {HERO.vertrouwen.map((punt) => (
-              <li key={punt}>{punt}</li>
-            ))}
-          </ul>
+          {/* De collage mag over de containerrand lopen; de marginalia staan in
+              procenten van het beeld zodat ze het beeld volgen. Dit blok is de
+              parallaxwortel (--py, --px, --pyy). */}
+          <div className="landing__hero-art" aria-hidden="true" ref={heroArt}>
+            <div className="landing__hero-pic">
+              <HeroCollage />
+              <Hand cls="hand--zin" d="0.9s">
+                {HERO_NOTES.zin.map((z) => (
+                  <span key={z}>{z}</span>
+                ))}
+              </Hand>
+              <Hand cls="hand--diep" d="1.1s">
+                {HERO_NOTES.diepte}
+              </Hand>
+            </div>
+            <Hand cls="hand--woorden" d="0.35s">
+              {HERO_NOTES.woorden.map((w) => (
+                <span key={w}>{w}</span>
+              ))}
+            </Hand>
+            <Mono items={HERO_NOTES.bijschriften} cls="landing__hero-bijschrift" />
+          </div>
         </div>
       </section>
 
       {/* ------------------------------------------------------ controleerbaar */}
       {/* Hoort bij de hero: geen kaarten, geen eyebrow, drie kolommen met elk
-          een eigen accentlijn (narekenen goud, van jou groen, grenzen inkt). */}
+          een eigen accentlijn (narekenen rood, van jou groen, grenzen inkt). */}
       <section className="landing__controleer" aria-labelledby="controleer-kop">
         <div className="landing__inner">
           <h2 id="controleer-kop" className="landing__controleer-kop">
@@ -135,63 +288,109 @@ export function LandingPage({
         </div>
       </section>
 
-      {/* ------------------------------------------------------------- citaat */}
-      {/* Eén stil moment op de bestaande donkere inktband (B §4-vlak --ink,
-          zelfde recept als de cijfers en "Eerlijk gezegd"), vóór de gravure.
-          Geen sectiekop, geen kaart — het motief staat laag in de toon
-          (--ink-inverse-soft, al AA-gemeten op --bg-ink) zodat het citaat het
-          enige zware element blijft. */}
-      <section
-        className="landing__sectie landing__sectie--ink landing__sectie--kort landing__citaat"
-        aria-label="Citaat van C.G. Jung"
-      >
-        <div className="landing__inner landing__inner--smal landing__citaat-inner">
-          <ArcanaMotif kind="doorgang" color="var(--ink-inverse-soft)" className="landing__citaat-motief" />
-          <blockquote className="landing__citaat-tekst">
-            <p>&quot;{JUNG_CITAAT.tekst}&quot;</p>
-            <footer className="landing__citaat-auteur">
-              — <cite>{JUNG_CITAAT.auteur}</cite>
-            </footer>
-          </blockquote>
+      {/* ---------------------------------------------------- meer dan een test */}
+      <section className="landing__sectie landing__sectie--ink landing__meer" aria-labelledby="meer-kop">
+        <div className="landing__inner landing__meer-grid">
+          <div className="landing__meer-links" data-onthul>
+            <blockquote className="hand landing__jung" lang="en">
+              <p>{JUNG_CITAAT.tekst}</p>
+              <footer>
+                — <cite>{JUNG_CITAAT.auteur}</cite>
+              </footer>
+            </blockquote>
+            <img src={bandDoorgang} alt="" width={380} height={320} loading="lazy" decoding="async" />
+          </div>
+
+          <div className="landing__meer-midden">
+            <h2 id="meer-kop">{MEER.titel}</h2>
+            <p>{MEER.tekst}</p>
+          </div>
+
+          <div className="landing__meer-rechts">
+            <Mono items={MEER.lijst} />
+            <Hand cls="hand--same">{MEER.noot}</Hand>
+          </div>
         </div>
       </section>
 
-      {/* ------------------------------------------------------------ landschap */}
-      <div className="landing__landschap" aria-hidden="true">
-        <img src={valley} alt="" loading="lazy" decoding="async" width={1600} height={651} />
-      </div>
-
-      {/* --------------------------------------------------------------- cijfers */}
-      <section className="landing__sectie landing__sectie--ink landing__sectie--kort" aria-label="De test in cijfers">
-        <div className="landing__inner landing__stats">
-          {STATS_STRIP.map((s) => (
-            <div key={s.label} className="landing__stat">
-              <span className="landing__stat-getal">{s.getal}</span>
-              <span className="landing__stat-label">{s.label}</span>
-            </div>
+      {/* ------------------------------------------------------------- de lenzen */}
+      <section className="landing__lenzen" aria-label="Persona, schaduw en denkstijl">
+        <div className="landing__inner landing__lenzen-grid" data-onthul>
+          {LENZEN.map((lens) => (
+            <article key={lens.id} className={`landing__lens landing__lens--${lens.id}`}>
+              <h3>{lens.titel}</h3>
+              <p>{lens.tekst}</p>
+              <div className="landing__lens-beeld">
+                <img src={LENS_BEELD[lens.id]} alt="" width={420} height={440} loading="lazy" decoding="async" />
+                {lens.noot && <Hand cls="hand--lens">{lens.noot}</Hand>}
+                {lens.lijst && <Mono items={lens.lijst} cls="landing__lens-lijst" />}
+              </div>
+            </article>
           ))}
         </div>
       </section>
 
-      {/* -------------------------------------------------------------- voordelen */}
-      <section className="landing__sectie" id="waarom">
+      {/* -------------------------------------------------------------- je rapport */}
+      <section className="landing__sectie landing__sectie--ink landing__rapport" id="je-rapport" aria-labelledby="rapport-kop">
         <div className="landing__inner">
-          <header className="landing__sectie-kop">
-            <p className="arcana-eyebrow">Waarom dit anders leest</p>
-            <h2>Een rapport dat zich laat narekenen</h2>
-            <p className="landing__lead">
-              De meeste persoonlijkheidstests geven je een type en een verhaal dat op veel mensen past. Hier hangt elke
-              uitspraak aan een cijfer, en dat cijfer staat erbij.
-            </p>
-          </header>
+          <div className="landing__rapport-grid">
+            <div className="landing__rapport-tekst">
+              <h2 id="rapport-kop">{RAPPORT_BAND.titel}</h2>
+              <p className="landing__lead">{RAPPORT.lead}</p>
+              <a className="landing__pijl" href={VOORBEELD_URL}>
+                {RAPPORT_BAND.cta} <span aria-hidden="true">→</span>
+              </a>
+              <ul className="landing__groepen">
+                {RAPPORT.groepen.map((g) => (
+                  <li key={g.titel}>
+                    <h3>{g.titel}</h3>
+                    <p>{g.tekst}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="landing__grid landing__grid--waarom">
-            {VOORDELEN.map((v, i) => (
-              <article key={v.titel} className={`landing__kaart arcana-torn${i === 0 ? ' landing__kaart--hoofd' : ''}`}>
-                <h3>{v.titel}</h3>
-                <p>{v.tekst}</p>
-              </article>
+            <div className="landing__rapport-mock" data-onthul>
+              <RapportMock />
+              <p className="landing__bijschrift">{RAPPORT.voorbeeldBijschrift}</p>
+            </div>
+          </div>
+
+          <ul className="landing__extras">
+            {RAPPORT.extras.map((e) => (
+              <li key={e}>{e}</li>
             ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------- voordelen */}
+      <section className="landing__nut" aria-label="Wat je eraan hebt">
+        <ul className="landing__inner landing__nut-lijst" data-onthul>
+          {NUT.map((n) => (
+            <li key={n.titel}>
+              <ArcanaIcon kind={n.icoon} />
+              <h3>{n.titel}</h3>
+              <p>{n.tekst}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* ------------------------------------------------------------ de methode */}
+      <section className="landing__sectie landing__methode" id="methode" aria-labelledby="methode-kop">
+        <div className="landing__inner landing__methode-grid" data-onthul>
+          <div className="landing__methode-tekst">
+            <h2 id="methode-kop">{METHODE.titel}</h2>
+            <p>{METHODE.tekst}</p>
+            <a className="landing__pijl" href="#hoe-het-werkt">
+              {METHODE.cta} <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <Mono items={METHODE.lijst} cls="landing__methode-lijst" />
+          <div className="landing__methode-beeld" aria-hidden="true">
+            <img src={methodeBuste} alt="" width={560} height={400} loading="lazy" decoding="async" />
+            <Hand cls="hand--know">{METHODE.noot}</Hand>
           </div>
         </div>
       </section>
@@ -200,7 +399,6 @@ export function LandingPage({
       <section className="landing__sectie landing__sectie--veil" id="hoe-het-werkt">
         <div className="landing__inner">
           <header className="landing__sectie-kop">
-            <p className="arcana-eyebrow">Hoe het werkt</p>
             <h2>Van 120 antwoorden naar één patroon</h2>
             <p className="landing__lead">
               Je vult geen hokje in. Elk antwoord verschuift meerdere scores tegelijk, en pas aan het einde ontstaat het
@@ -230,7 +428,6 @@ export function LandingPage({
       <section className="landing__sectie landing__sectie--ruim" id="wat-het-meet">
         <div className="landing__inner">
           <header className="landing__sectie-kop">
-            <p className="arcana-eyebrow">Wat het meet</p>
             <h2>Twaalf dimensies, dertig eigenschappen</h2>
             <p className="landing__lead">
               Achter elke dimensie zitten meerdere gemeten eigenschappen. Je ziet ze in je rapport allemaal terug, met
@@ -238,28 +435,21 @@ export function LandingPage({
             </p>
           </header>
 
-          <ul className="landing__motieven">
-            {MOTIEF_STRIP.map((m) => (
-              <li key={m.kind} className="landing__motief">
-                <ArcanaMotif kind={m.kind} color={m.kleur} className="landing__motief-icoon" />
-                <span className="landing__motief-label">{m.familie.label}</span>
-              </li>
-            ))}
-          </ul>
-
           <div className="landing__families">
             {FAMILIES.map((familie) => (
               <section key={familie.id} className="landing__familie" aria-labelledby={`familie-${familie.id}`}>
                 <h3 id={`familie-${familie.id}`} className="landing__familie-kop">
-                  <span className="landing__familie-symbool" aria-hidden="true">
-                    {familie.symbol}
-                  </span>
+                  <ArcanaMotif
+                    kind={MOTIEF[familie.id].kind}
+                    color={MOTIEF[familie.id].kleur}
+                    className="landing__familie-motief"
+                  />
                   {familie.label}
                   <span className="landing__familie-betekenis">{familie.meaning}</span>
                 </h3>
                 <ul className="landing__dimensies">
                   {familie.dimensies.map((d) => (
-                    <li key={d.id} style={{ '--kleur': `var(${d.token})` } as React.CSSProperties}>
+                    <li key={d.id} style={{ '--kleur': `var(${d.token})` } as CSSProperties}>
                       <strong>{d.label}</strong>
                       <p>{DIMENSIE_TEKST[d.id]}</p>
                     </li>
@@ -271,41 +461,43 @@ export function LandingPage({
         </div>
       </section>
 
-      {/* -------------------------------------------------------------- je rapport */}
-      <section className="landing__sectie landing__sectie--deep" id="je-rapport">
-        <div className="landing__inner">
-          <div className="landing__rapport">
-            <div className="landing__rapport-beeld">
-              <header className="landing__sectie-kop">
-                <p className="arcana-eyebrow">Wat je krijgt</p>
-                <h2>
-                  {SITE_STATS.hoofdstukken} hoofdstukken, {SITE_STATS.woordenOngeveer} woorden
-                </h2>
-                <p className="landing__lead">{RAPPORT.lead}</p>
-              </header>
-              <PortraitSample />
-              <p className="landing__rapport-bijschrift">{RAPPORT.voorbeeldBijschrift}</p>
+      {/* --------------------------------------------------------------- cijfers */}
+      {/* Alleen gemeten getallen en één eerlijke zin: geen gebruikersaantal,
+          geen beoordeling, geen getuigenis (E §5.9). De getallen staan
+          voluit in de DOM; het optellen (data-tel) is alleen beweging. */}
+      <section className="landing__trust" aria-label="De test in cijfers">
+        <div className="landing__inner landing__trust-grid" data-onthul>
+          <p className="landing__trust-tekst">{VERTROUWEN}</p>
+          {STATS_STRIP.map((s) => (
+            <div key={s.label} className="landing__stat">
+              <span className="landing__stat-getal" data-tel>
+                {s.getal}
+              </span>
+              <span className="landing__stat-label">{s.label}</span>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <div className="landing__rapport-lijst">
-              <ol className="landing__groepen">
-                {RAPPORT.groepen.map((g, i) => (
-                  <li key={g.titel}>
-                    <span className="landing__kaart-index">{String(i + 1).padStart(2, '0')}</span>
-                    <div>
-                      <h3>{g.titel}</h3>
-                      <p>{g.tekst}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-              <ul className="landing__extras">
-                {RAPPORT.extras.map((e) => (
-                  <li key={e}>{e}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+      {/* -------------------------------------------------------------- voordelen */}
+      <section className="landing__sectie landing__sectie--veil" id="waarom">
+        <div className="landing__inner">
+          <header className="landing__sectie-kop">
+            <h2>Een rapport dat zich laat narekenen</h2>
+            <p className="landing__lead">
+              De meeste persoonlijkheidstests geven je een type en een verhaal dat op veel mensen past. Hier hangt elke
+              uitspraak aan een cijfer, en dat cijfer staat erbij.
+            </p>
+          </header>
+
+          <ul className="landing__waarom">
+            {VOORDELEN.map((v) => (
+              <li key={v.titel}>
+                <h3>{v.titel}</h3>
+                <p>{v.tekst}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -316,7 +508,6 @@ export function LandingPage({
       <section className="landing__sectie landing__sectie--band" id="kijk-na" aria-labelledby="kijk-na-kop">
         <div className="landing__inner">
           <header className="landing__sectie-kop">
-            <p className="arcana-eyebrow">{KIJK_NA.eyebrow}</p>
             <h2 id="kijk-na-kop">{KIJK_NA.titel}</h2>
             <p className="landing__lead">{KIJK_NA.lead}</p>
           </header>
@@ -343,20 +534,19 @@ export function LandingPage({
 
       {/* ---------------------------------------------------------------- voor wie */}
       <section className="landing__sectie landing__sectie--kort" id="voor-wie">
-        <div className="landing__inner landing__inner--smal">
+        <div className="landing__inner">
           <header className="landing__sectie-kop">
-            <p className="arcana-eyebrow">Voor wie</p>
             <h2>Wanneer dit de moeite waard is</h2>
           </header>
 
-          <div className="landing__grid landing__grid--2">
+          <ul className="landing__voorwie">
             {VOOR_WIE.map((d) => (
-              <article key={d.titel} className="landing__kaart arcana-torn">
+              <li key={d.titel}>
                 <h3>{d.titel}</h3>
                 <p>{d.tekst}</p>
-              </article>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
@@ -365,7 +555,6 @@ export function LandingPage({
       <section className="landing__sectie landing__sectie--ink landing__sectie--eerlijk" id="eerlijk">
         <div className="landing__inner">
           <header className="landing__sectie-kop">
-            <p className="arcana-eyebrow">Eerlijk gezegd</p>
             <h2>{EERLIJK.titel}</h2>
             <p className="landing__lead">
               Een instrument dat zijn eigen grenzen niet benoemt, verdient je vertrouwen niet. Daarom hier, niet
@@ -385,7 +574,6 @@ export function LandingPage({
       <section className="landing__sectie landing__sectie--veil" id="faq">
         <div className="landing__inner landing__inner--smal">
           <header className="landing__sectie-kop">
-            <p className="arcana-eyebrow">Vragen</p>
             <h2>Wat mensen willen weten</h2>
           </header>
 
@@ -401,22 +589,38 @@ export function LandingPage({
       </section>
 
       {/* ---------------------------------------------------------------- slot-cta */}
-      <section className="landing__sectie landing__sectie--band landing__slot">
-        <div className="landing__inner">
-          <h2>{SLOT_CTA.titel}</h2>
+      <section className="landing__slot" aria-labelledby="slot-kop">
+        <div className="landing__inner landing__slot-inner">
+          <h2 id="slot-kop">{SLOT_CTA.titel}</h2>
           <p>{SLOT_CTA.tekst}</p>
-          <button
-            type="button"
-            className="arcana-button arcana-button--primary"
-            onClick={hasInProgress ? onResume : onStart}
-          >
-            {hasInProgress ? 'Verdergaan met de test' : SLOT_CTA.cta}
-          </button>
-          <p className="landing__cta-meta">{HERO.ctaMeta}</p>
-          <a className="landing__voorbeeld-link" href={VOORBEELD_URL}>
-            {VOORBEELD_LINK}
-          </a>
+          <div className="landing__knoppen">
+            <button
+              type="button"
+              className="arcana-button arcana-button--primary"
+              onClick={hasInProgress ? onResume : onStart}
+            >
+              {hasInProgress ? 'Verdergaan met de test' : SLOT_CTA.cta} <span aria-hidden="true">→</span>
+            </button>
+            <a className="arcana-button arcana-button--ghost" href={VOORBEELD_URL}>
+              {VOORBEELD_KORT}
+            </a>
+          </div>
+          <Meta />
+          {/* Marginalia links en rechts van de slotoproep, zoals op de plaat: geen kop-labels. */}
+          <p className="mono landing__slot-noot" lang="en" aria-hidden="true">
+            {HERO_NOTES.diepte}
+          </p>
+          <Mono items={HERO_NOTES.woorden} cls="landing__slot-lijst" hidden />
         </div>
+        <img
+          className="landing__scene"
+          src={sceneEind}
+          alt=""
+          width={1440}
+          height={340}
+          loading="lazy"
+          decoding="async"
+        />
       </section>
     </div>
   );

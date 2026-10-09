@@ -22,10 +22,7 @@ export function ArcanaMethod({ quality, questionCount }: Props) {
 
   return (
     <>
-      <p className="arcana-card-kicker">
-        <span className="arcana-card-mark" aria-hidden="true" />
-        Profiel
-      </p>
+      <span className="arcana-card-mark arcana-card-mark--stamp" aria-hidden="true" />
       <h3>Hoe dit gemeten is</h3>
       <p className="arcana-core__lead">
         Kort, zodat je weet waar het portret vandaan komt — en waar het ophoudt.
@@ -36,11 +33,11 @@ export function ArcanaMethod({ quality, questionCount }: Props) {
           <h4>De keten</h4>
           <p className="arcana-method__chain">
             <span>{questionCount} vragen</span>
-            <span aria-hidden="true">↓</span>
+            <span aria-hidden="true">→</span>
             <span>30 subthema&rsquo;s</span>
-            <span aria-hidden="true">↓</span>
+            <span aria-hidden="true">→</span>
             <span>12 dimensies</span>
-            <span aria-hidden="true">↓</span>
+            <span aria-hidden="true">→</span>
             <span>1 profiel</span>
           </p>
           <p>

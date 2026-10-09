@@ -1,5 +1,5 @@
-import { ArcanaSeal } from '../components/ArcanaSeal';
-import { SITE_NAME } from './siteContent';
+import { SiteMerk } from './SiteHeader';
+import { SITE_NAME, VOORBEELD_URL } from './siteContent';
 
 interface Props {
   onNavigate: (route: 'privacy' | 'voorwaarden') => void;
@@ -12,8 +12,9 @@ export function SiteFooter({ onNavigate }: Props) {
     <footer className="site-footer">
       <div className="site-footer__inner">
         <div className="site-footer__brand">
-          <ArcanaSeal size={40} className="site-header__mark" />
-          <strong>{SITE_NAME}</strong>
+          <span className="site-footer__merk">
+            <SiteMerk zegel={48} />
+          </span>
           <p>Een zelfinzicht-instrument voor persoonlijke reflectie.</p>
         </div>
 
@@ -21,6 +22,7 @@ export function SiteFooter({ onNavigate }: Props) {
           <a href="#hoe-het-werkt">Hoe het werkt</a>
           <a href="#wat-het-meet">Wat het meet</a>
           <a href="#je-rapport">Je rapport</a>
+          <a href={VOORBEELD_URL}>Voorbeeldrapport</a>
           <a href="#faq">Vragen</a>
           <button type="button" onClick={() => onNavigate('privacy')}>
             Privacy

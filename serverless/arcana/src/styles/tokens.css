@@ -116,6 +116,7 @@
   --font-display: "Bodoni Moda", "Didot", "Times New Roman", serif;
   --font-body:    "Spectral", Georgia, "Times New Roman", serif;
   --font-mono:    "Courier Prime", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-hand:    "Shadows Into Light", "Segoe Print", "Bradley Hand", cursive;  /* alleen marginalia, nooit lopende tekst */
 
   /* Eén vloeiende schaal, verhouding 1,20 op mobiel → 1,26 op desktop.
      De huidige CSS heeft 68 losse font-size-waarden zonder onderling
@@ -245,9 +246,11 @@
     --hairline-soft:    color-mix(in srgb, var(--ink) 9%,  transparent);
     --hairline-strong:  color-mix(in srgb, var(--ink) 26%, transparent);
 
-    --btn-bg:           var(--gold);
-    --btn-fg:           #1c1712;   /*  6,17 op --btn-bg                     */
-    --btn-bg-hover:     #f2bab0;
+    /* Knoppen blijven zegelrood, ook 's nachts: een lichter rood dan overdag,
+       zodat het vlak zelf ≥ 3,00 op het donkere perkament haalt (1.4.11).  */
+    --btn-bg:           #c13a2d;   /*  3,31 op --bg · 3,19 op --surface      */
+    --btn-fg:           #fffaf2;   /*  5,17 op --btn-bg                     */
+    --btn-bg-hover:     #c94234;   /*  4,69 met --btn-fg                    */
     --focus:            #eb9e93;   /* ≥ 8,16 op elk donker vlak             */
     --selection-bg:     color-mix(in srgb, var(--gold) 28%, transparent);
 
@@ -317,9 +320,9 @@
   --hairline-soft:    color-mix(in srgb, var(--ink) 9%,  transparent);
   --hairline-strong:  color-mix(in srgb, var(--ink) 26%, transparent);
 
-  --btn-bg:           var(--gold);
-  --btn-fg:           #1c1712;
-  --btn-bg-hover:     #f2bab0;
+  --btn-bg:           #c13a2d;
+  --btn-fg:           #fffaf2;
+  --btn-bg-hover:     #c94234;
   --focus:            #eb9e93;
   --selection-bg:     color-mix(in srgb, var(--gold) 28%, transparent);
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArcanaSeal } from '../components/ArcanaSeal';
 import { ArcanaThemeToggle } from '../components/ArcanaThemeToggle';
-import { SITE_NAME } from './siteContent';
+import { SITE_NAME, VOORBEELD_URL } from './siteContent';
 
 interface Props {
   onStart: () => void;
@@ -12,11 +12,28 @@ interface Props {
 
 const NAV = [
   { href: '#hoe-het-werkt', label: 'Hoe het werkt' },
-  { href: '#wat-het-meet', label: 'Wat het meet' },
-  { href: '#je-rapport', label: 'Je rapport' },
-  { href: '#voor-wie', label: 'Voor wie' },
+  { href: '#methode', label: 'De methode' },
+  { href: VOORBEELD_URL, label: 'Voorbeeldrapport' },
   { href: '#faq', label: 'Vragen' },
 ];
+
+/** Breakpoint waarop de gewone navigatie plaatsmaakt voor de menuknop; gelijk aan site.css. */
+const NAV_BREEDTE = '(min-width: 1200px)';
+
+/** Zegel, woordmerk en de gestapelde slogan; gedeeld door kop en voet. */
+export function SiteMerk({ zegel = 44 }: { zegel?: number }) {
+  return (
+    <>
+      <ArcanaSeal size={zegel} className="site-header__mark" />
+      <span className="site-merk__tekst">
+        {SITE_NAME}
+        <small lang="en" aria-hidden="true">
+          Know your patterns
+        </small>
+      </span>
+    </>
+  );
+}
 
 export function SiteHeader({ onStart, hasInProgress, onResume }: Props) {
   const [open, setOpen] = useState(false);
@@ -26,7 +43,7 @@ export function SiteHeader({ onStart, hasInProgress, onResume }: Props) {
   // focusvolgorde vullen.
   useEffect(() => {
     if (!open) return;
-    const mq = window.matchMedia('(min-width: 900px)');
+    const mq = window.matchMedia(NAV_BREEDTE);
     const close = () => setOpen(false);
     mq.addEventListener('change', close);
     return () => mq.removeEventListener('change', close);
@@ -46,8 +63,7 @@ export function SiteHeader({ onStart, hasInProgress, onResume }: Props) {
     <header className="site-header">
       <div className="site-header__inner">
         <a className="site-header__brand" href="#top" onClick={() => setOpen(false)}>
-          <ArcanaSeal size={44} className="site-header__mark" />
-          {SITE_NAME}
+          <SiteMerk />
         </a>
 
         <nav className="site-header__nav" aria-label="Hoofdnavigatie">
@@ -62,11 +78,11 @@ export function SiteHeader({ onStart, hasInProgress, onResume }: Props) {
           <ArcanaThemeToggle compact />
           {hasInProgress ? (
             <button type="button" className="arcana-button arcana-button--primary" onClick={onResume}>
-              Verdergaan
+              Verdergaan <span aria-hidden="true">→</span>
             </button>
           ) : (
             <button type="button" className="arcana-button arcana-button--primary" onClick={onStart}>
-              Start de test
+              Start de test <span aria-hidden="true">→</span>
             </button>
           )}
         </div>

@@ -31,7 +31,6 @@ export function ArcanaEngineUnavailable({ onRetry, onBackToSite }: Props) {
   return (
     <div className="arcana-screen arcana-engine-unavailable" role="alert">
       <div className="arcana-card">
-        <p className="arcana-eyebrow">Even geen verbinding</p>
         <h2>Je antwoorden zijn bewaard op dit apparaat.</h2>
         <p>
           Je rapport kan nu niet gemaakt worden, omdat het deel van de app dat rekent niet geladen kon worden.

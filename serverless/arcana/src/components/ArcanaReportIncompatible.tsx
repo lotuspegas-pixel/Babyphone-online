@@ -44,7 +44,6 @@ export function ArcanaReportIncompatible({ report, onRestart }: Props) {
   return (
     <div className="arcana-screen arcana-engine-unavailable" role="alert">
       <div className="arcana-card">
-        <p className="arcana-eyebrow">Dit rapport is niet leesbaar in deze versie</p>
         <h2>Je antwoorden en je rapport staan nog op dit apparaat.</h2>
         <p>
           Dit rapport is gemaakt met een andere versie van de berekening (versie {version}) dan deze app nu gebruikt,

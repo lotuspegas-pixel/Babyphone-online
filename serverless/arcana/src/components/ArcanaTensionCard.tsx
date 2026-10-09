@@ -12,16 +12,13 @@ export function ArcanaTensionCard({ tension }: Props) {
 
   return (
     <article
-      className={`arcana-card-shell arcana-tension-card${tension.intense ? ' is-intense' : ''}`}
+      className={`arcana-tension-card${tension.intense ? ' is-intense' : ''}`}
       id={`tension-${tension.id}`}
       aria-labelledby={titleId}
     >
-      <div className="arcana-card-clip">
-        <p className="arcana-card-kicker">
-          <span className="arcana-tension-card__mark" aria-hidden="true" />
-          Spanningsveld
-        </p>
+      <div className="arcana-tension-card__inner">
         <h4 className="arcana-tension-card__title" id={titleId}>
+          <span className="arcana-tension-card__mark" aria-hidden="true" />
           {labelA} <span className="arcana-tension-card__vs">versus</span> {labelB}
         </h4>
         <div className="arcana-tension-card__tug" aria-hidden="true">

@@ -43,91 +43,96 @@ export function ArcanaIntake({ initialProfile, onConfirm, onBack }: Props) {
 
   return (
     <div className="arcana-screen arcana-intake">
-      <form className="arcana-card arcana-intake__card" onSubmit={handleSubmit}>
-        <p className="arcana-eyebrow">Eén scherm, dan beginnen we</p>
-        <h1 className="arcana-title">Hoe mogen we je aanspreken?</h1>
-        <p className="arcana-body">
-          Dit is geen account en het gaat nergens heen — het blijft in deze browser, net als je
-          antwoorden. We vragen het omdat een rapport dat je bij je naam noemt zachter aankomt op
-          de plekken waar het over je valkuilen gaat.
-        </p>
+      {/* Het intakeblad: hetzelfde gescheurde papier als de vragen straks. */}
+      <form className="arcana-sheet arcana-intake__card" onSubmit={handleSubmit}>
+        <div className="arcana-sheet__paper arcana-torn">
+          <h1 className="arcana-title">Hoe mogen we je aanspreken?</h1>
+          <span className="arcana-rule" />
+          <p className="arcana-body">
+            Dit is geen account en het gaat nergens heen — het blijft in deze browser, net als je
+            antwoorden. We vragen het omdat een rapport dat je bij je naam noemt zachter aankomt op
+            de plekken waar het over je valkuilen gaat.
+          </p>
 
-        <label className="arcana-field">
-          <span className="arcana-field__label">Je naam of roepnaam</span>
-          <input
-            className="arcana-field__input"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Bijvoorbeeld: Sam"
-            maxLength={40}
-            autoComplete="given-name"
-            autoFocus
-            required
-          />
-          <span className="arcana-field__hint">
-            Een voornaam of bijnaam is genoeg. Of verzin iets — het rapport merkt het verschil
-            niet.
-          </span>
-        </label>
+          <label className="arcana-field">
+            <span className="arcana-field__label">Je naam of roepnaam</span>
+            <input
+              className="arcana-field__input"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Bijvoorbeeld: Sam"
+              maxLength={40}
+              autoComplete="given-name"
+              autoFocus
+              required
+            />
+            <span className="arcana-field__hint">
+              Een voornaam of bijnaam is genoeg. Of verzin iets — het rapport merkt het verschil
+              niet.
+            </span>
+          </label>
 
-        <fieldset className="arcana-field arcana-field--group">
-          <legend className="arcana-field__label">Hoe spreken we je aan?</legend>
-          <div className="arcana-segmented">
-            {(['je', 'u'] as AddressForm[]).map((form) => (
-              <button
-                key={form}
-                type="button"
-                className={`arcana-segmented__option${addressForm === form ? ' is-selected' : ''}`}
-                onClick={() => setAddressForm(form)}
-                aria-pressed={addressForm === form}
+          <fieldset className="arcana-field arcana-field--group">
+            <legend className="arcana-field__label">Hoe spreken we je aan?</legend>
+            <div className="arcana-segmented">
+              {(['je', 'u'] as AddressForm[]).map((form) => (
+                <button
+                  key={form}
+                  type="button"
+                  className={`arcana-segmented__option${addressForm === form ? ' is-selected' : ''}`}
+                  onClick={() => setAddressForm(form)}
+                  aria-pressed={addressForm === form}
+                >
+                  {form === 'je' ? 'Jij / je' : 'U'}
+                </button>
+              ))}
+            </div>
+            <span className="arcana-field__hint">
+              Dit verandert je scores niet, alleen de toon van je rapport.
+            </span>
+          </fieldset>
+
+          <label className="arcana-field">
+            <span className="arcana-field__label">Levensfase (optioneel)</span>
+            <span className="arcana-select">
+              <select
+                className="arcana-field__input"
+                value={lifePhase}
+                onChange={(e) => setLifePhase(e.target.value as LifePhase)}
               >
-                {form === 'je' ? 'Jij / je' : 'U'}
-              </button>
-            ))}
+                {LIFE_PHASES.map((phase) => (
+                  <option key={phase.value} value={phase.value}>
+                    {phase.label}
+                  </option>
+                ))}
+              </select>
+            </span>
+            <span className="arcana-field__hint">
+              Dit verandert je scores niet. Het kleurt alleen hoe je groeipad wordt geformuleerd.
+            </span>
+          </label>
+
+          <div className="arcana-intake__actions">
+            <button type="button" className="arcana-button arcana-button--ghost" onClick={onBack}>
+              Terug
+            </button>
+            <button type="submit" className="arcana-button arcana-button--primary" disabled={!canContinue}>
+              Begin met de 120 vragen
+            </button>
           </div>
-          <span className="arcana-field__hint">
-            Dit verandert je scores niet, alleen de toon van je rapport.
-          </span>
-        </fieldset>
 
-        <label className="arcana-field">
-          <span className="arcana-field__label">Levensfase (optioneel)</span>
-          <select
-            className="arcana-field__input"
-            value={lifePhase}
-            onChange={(e) => setLifePhase(e.target.value as LifePhase)}
+          <button
+            type="button"
+            className="arcana-button arcana-button--text arcana-intake__skip-name"
+            onClick={handleSkipName}
           >
-            {LIFE_PHASES.map((phase) => (
-              <option key={phase.value} value={phase.value}>
-                {phase.label}
-              </option>
-            ))}
-          </select>
-          <span className="arcana-field__hint">
-            Dit verandert je scores niet. Het kleurt alleen hoe je groeipad wordt geformuleerd.
-          </span>
-        </label>
+            Liever zonder naam →
+          </button>
 
-        <div className="arcana-intake__actions">
-          <button type="button" className="arcana-button arcana-button--ghost" onClick={onBack}>
-            Terug
-          </button>
-          <button type="submit" className="arcana-button arcana-button--primary" disabled={!canContinue}>
-            Begin met de 120 vragen
-          </button>
+          {/* Volgt de gekozen aanspreekvorm live, net als de rest van de tekst. */}
+          <p className="arcana-fineprint">{applyVoice(PRIVACY_TEXT, addressForm)}</p>
         </div>
-
-        <button
-          type="button"
-          className="arcana-button arcana-button--text arcana-intake__skip-name"
-          onClick={handleSkipName}
-        >
-          Liever zonder naam →
-        </button>
-
-        {/* Volgt de gekozen aanspreekvorm live, net als de rest van de tekst. */}
-        <p className="arcana-fineprint">{applyVoice(PRIVACY_TEXT, addressForm)}</p>
       </form>
     </div>
   );

@@ -89,10 +89,10 @@ export function ArcanaSharePage({ report, onBack }: Props) {
       </div>
 
       <article className="legal arcana-deelpagina__blad">
-        <p className="arcana-eyebrow">
+        <h1>{section.title}</h1>
+        <p className="arcana-dateline">
           {name ? `Een pagina uit het rapport van ${name}` : 'Een pagina uit een rapport'}
         </p>
-        <h1>{section.title}</h1>
         <p className="legal__lead">
           Je krijgt dit van {van}. Het is één hoofdstuk uit een zelfreflectietest die {wie} invulde: 120 vragen, waaruit
           scores worden berekend op twaalf eigenschappen. Dit hoofdstuk is het enige dat geschreven is om door te geven.
