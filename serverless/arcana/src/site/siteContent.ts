@@ -479,3 +479,21 @@ export const KIJK_NA: {
   slotregel:
     'We hebben geen bezoekcijfers, geen recensies en geen normgroep om je te laten zien. Wat we wel hebben is een rapport dat je van tevoren mag lezen.',
 };
+
+/**
+ * De twaalf archetypen om zelf door te lopen (ArchetypeVerkenner.tsx).
+ *
+ * De toon is hier bewust ontnuchterend: de master-visie zegt dat archetypen
+ * alleen een presentatievorm zijn en dat de test mensen niet in hokjes stopt.
+ * Dit blok moet dus nieuwsgierig maken zonder te beloven dat je jezelf er nu
+ * al in kunt herkennen — je hebt immers nog niets ingevuld.
+ */
+export const ARCHETYPE_VERKENNER = {
+  titel: 'De twaalf namen',
+  lead:
+    'Een archetype is geen hokje maar een samenvatting: de naam die je rapport geeft aan de vier eigenschappen die bij jou het hoogst uitkomen. Je krijgt er altijd twee, een eerste en een tweede, want vrijwel niemand is maar één ding. Kies er hier een en je ziet waar hij uit wordt opgeteld.',
+  keuzeLabel: 'Kies een archetype',
+  formuleKop: 'Opgeteld uit',
+  naschrift:
+    'Herken je jezelf in een naam die je hier leest, dan zegt dat nog niets — deze teksten passen met opzet op veel mensen. Pas als de vier onderliggende scores van jou komen, wordt het een uitspraak over jou.',
+} as const;

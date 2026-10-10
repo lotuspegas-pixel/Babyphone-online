@@ -4,6 +4,21 @@
 
 Alle fases (0–7) afgerond. Daarna uitgebreid met fase 8: naslagwerk, personalisatie en verdiepte rapportsecties.
 
+Laatste stap (10 oktober 2026): de hero is een fotoparallax geworden en de landing heeft een interactief archetyperegister.
+
+### Phase 10 — Fotoparallax-hero en archetypeverkenner
+- [x] Zes parallaxlagen bijgesneden en naar WebP omgezet (12,8 MB → 962 KB)
+- [x] scripts/analyseer-lagen.mjs: alphabounding box per laag
+- [x] scripts/bereid-parallax.mjs: bijsnijden, schalen, heroLagen.ts genereren
+- [x] HeroParallax.tsx met de naam op diepte 0,42, tussen boog en collage
+- [x] Naamgrootte volgt de gemeten schone papierbreedte, niet één schermmaat
+- [x] Platte composiet (93 KB) voor mobiel en prefers-reduced-motion
+- [x] Vaste inkt-, zegel- en papierkleur in de band (naam blijft leesbaar in donkere modus)
+- [x] Archetypeverkenner: twaalf namen, formule per archetype, radio-toetsenbediening
+- [x] Blad vóór register op smalle schermen, DOM-volgorde ongewijzigd
+- [x] Aparte bundelgrenzen voor hero-lagen (1,0 MB) en mobiele composiet (120 KB)
+- [x] HeroCollage.tsx en hero-collage.svg verwijderd
+
 ### Phase 8 — Resultatendocumentatie en personalisatie
 - [x] docs/arcana/resultaten.md: 30 subdimensies per scoreband en levensdomein
 - [x] resultaten.md: 12 hoofddimensies met leesinstructie
@@ -166,6 +181,11 @@ Op 2026-08-19 is een klinische/UX/business-analyse van een live (willekeurig ing
 - [x] **Rebuild taak 11 — Disclaimers, SEO en JSON-LD** (2026-09-23): JSON-LD-graaf met Organization/publisher/audience/about/dateModified, FAQ 5→9 (zichtbaar), 5.500→5.700, één domeinbron (.env.production + generate-seo-files.mjs), controleer-jsonld.mjs; check-domains faalt bewezen op een vreemde host; negen A §7-vinkjes in docs/eindcontrole.md; poort groen, gouden master 0 gewijzigd.
 - [x] **Rebuild taak 12 — Voorbeeldrapport als tweede URL** (2026-09-23): statische, zonder-JS-crawlbare /voorbeeld/-pagina (33 hoofdstukken, ~7.500 woorden) gegenereerd uit een gouden fixture; landing-sectie "Kijk het zelf na" (E §5.9); hero/sectie/slot linken naar /voorbeeld/; sitemap 2 URL's; contrast voorbeeldpagina 0/0 licht+donker; poort groen.
 - [x] **Rebuild taak 13 — Opruimen en hermeten** (2026-09-23): canvas-portret + ?vergelijk + dode CSS + cruft-patch weg; A §1-metrieken herzien in docs/nulmeting.json. Open: paginahoogte landing > 6.000 px (eigenaar) en de live-metingen (TTFB/PageSpeed).
+- [x] **Het Arcana Dossier — landing met echte renders, dossier-rapport, testflow en gegenereerde PDF** (2026-10-06 → 2026-10-10; contracten in `arcana/PRODUCT.md`, `arcana/DESIGN.md`, `arcana/.impeccable/surfaces/`)
+  - [x] Landing: fotoparallax-hero (zes echte lagen, composiet op mobiel), tegels/doorgang/buste/bergstrook als eigen renders (WebP, 878 KB lazy), "De twaalf namen"-verkenner, scroll-onthullingen, standaard licht thema
+  - [x] Rapport, testflow en PDF: zie het blok "Het Arcana Dossier" in `arcana/docs/rebuild/CHANGELOG.md` (28-pagina's client-side PDF, dossier-masthead met embleem, tactiele testflow)
+  - [x] Poort: typecheck 0, lint 0, 138 tests (gouden master ongewijzigd), build + domeincontrole + JSON-LD + begroting; landing-JS 72,8 KB q11 van 75
+  - [ ] Open: onafhankelijke eindreview (afgebroken door een limiet), paginahoogte landing (eigenaar), PDF ≈ 1,3 MB, live-metingen na deploy
 - [ ] **Fase C — Scoremodel herijken** — bewust nog niet gestart, vereist expliciete instemming (breekt vergelijkbaarheid met bestaande rapporten). Extra aanleiding sinds 2026-09-21: op een echt rapport liggen de 12 dimensies tussen 42 en 72, waardoor het nieuwe portret bijna rond uitvalt en zijn zeggingskracht verliest.
 - [ ] **Fase D — Eerste betaalde laag (geen backend)** — nog niet gestart
 - [ ] **Fase E — Backend/accounts/teamfuncties** — nog niet gestart, fundamentele architectuurbeslissing

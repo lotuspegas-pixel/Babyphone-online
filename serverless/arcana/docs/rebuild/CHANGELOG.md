@@ -738,3 +738,18 @@ werkwoord wordt gevolgd, dus de nieuwe zin gebruikt alleen possessieve "je" vó�
 naamwoord. `REPORT_VERSION` → 2.3.0. Alle 12 gouden fixtures bewust bijgewerkt (alleen de
 privacy-regel; de harde helft onaangeraakt), 0 resterende je-vormen in de drie u-fixtures.
 Poort groen: typecheck 0, lint 0, 129 tests, build + domeincontrole + JSON-LD + begroting.
+
+## Het Arcana Dossier — naregel: echte renders en licht als standaard · 2026-10-10
+
+De eigenaar meldde dat het uiterlijk "totaal niet zoals gevraagd" was. Twee oorzaken, beide gefixt:
+1. **Zwarte pagina:** zonder bewaarde themakeuze volgde de site het apparaat (donker). Nu is licht de
+   standaard (`index.html`, `arcanaTheme.ts`); "Auto" is een keuze die als `"system"` wordt bewaard.
+2. **Nagetekende vectoren in plaats van de renders:** de hero is een fotoparallax van de zes echte
+   lagen (andere sessie, `HeroParallax.tsx`, `scripts/bereid-parallax.mjs`); de tegels Persona /
+   Schaduw / Denkstijl, de doorgang, de buste bij "De methode" en de bergstrook zijn nu eigen renders
+   (`scripts/bereid-renders.mjs` → `src/assets/art/renders/*.webp`, 878 KB, lazy, bewaakt in
+   `meet-bundel.mjs`). Het Jung-gelijkende gezicht uit de map is niet gebruikt. Rapportemblemen,
+   deelillustraties en het PDF-voorblad blijven vector.
+Poort: typecheck 0, lint 0, 138 tests, build + begroting (landing-JS 72,8 KB q11 van 75, CSS 17,8 KB).
+Open: eindreview, paginahoogte, PDF-grootte, live-metingen.
+

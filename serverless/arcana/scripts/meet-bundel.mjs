@@ -15,14 +15,37 @@ import { brotliCompressSync, constants } from 'node:zlib';
 
 const ASSETS = join(process.cwd(), 'dist', 'assets');
 const BUDGET_LANDING_Q11 = 75_000; // bytes. De trap naar 80.000 uit G §3 (tegenspraak 9) is niet nodig gebleken: de landing meet 66,4 KB, ruim onder 75.
-const BUDGET_CSS_Q11 = 18_000; // was 14.000: de Dossier-herbouw van de landing (hero, banden, rapport-mock, lenzen) en van het rapport komen er samen ~3,5 KB bij; 20.000 is het plafond.
+const BUDGET_CSS_Q11 = 19_000; // was 18.000: de fotoparallax in de hero (band, vel, lagen, naam tussen de lagen) en de archetypeverkenner kosten samen ~0,5 KB. 20.000 blijft het plafond.
 const BUDGET_FONTS = 60_000; // bytes op de lijn voor de basisbestanden samen
 // Beeldmateriaal van de landing: de zeven SVG-collages uit src/assets/art/landing/
 // plus het emblem in de rapport-mock, brotli q11 samen. Het zijn <img>-bestanden,
 // dus geen JS; deze grens bewaakt dat er geen zwaardere illustratie sluipt.
-// Gemeten: 33.006 B (30,8 KB voor de zeven + 2,2 KB voor het emblem); grens = ~125 % daarvan.
-const BUDGET_ART_Q11 = 41_000;
-const LANDING_ART = /^(hero-collage|tile-persona|tile-schaduw|tile-denkstijl|band-doorgang|methode-buste|scene-eind|emblem-theSeeker)-.+\.svg$/;
+// hero-collage.svg is vervallen: de hero is nu een fotoparallax (zie hieronder).
+// Gemeten zonder die plaat; grens = ~125 % daarvan.
+const BUDGET_ART_Q11 = 3_000; // alleen het emblem in de rapport-mock is nog SVG; de rest van de landing zijn de renders hieronder
+const LANDING_ART = /^emblem-theSeeker-.+\.svg$/;
+
+// De fotoparallax van de hero (scripts/bereid-parallax.mjs). Dit is bewust de
+// zwaarste post van de pagina: de eigenaar koos voor maximale kwaliteit boven
+// een lichtere hero. WebP is al gecomprimeerd, dus hier telt de ruwe omvang en
+// niet brotli.
+//
+// Wat een bezoeker werkelijk ophaalt:
+//   mobiel en prefers-reduced-motion   alleen composiet.webp (~93 KB)
+//   desktop met beweging               de zes lagen (~890 KB), composiet niet
+//
+// Daarom staan die twee grenzen apart: de som van alles beschrijft geen enkel
+// scenario.
+// De zes renders onder de vouw (scripts/bereid-renders.mjs): tegels, doorgang, buste,
+// bergstrook. WebP, lazy, dus geen JS en geen eerste-verf; ruwe omvang telt.
+// Gemeten 878 KB; grens ~125 %.
+const RENDER_ART = /^render-.+\.webp$/;
+const BUDGET_RENDERS = 1_100_000; // bytes, ruw
+
+const HERO_ART = /^(papier|landschap|boog|collage|jung|tafel)-.+\.webp$/;
+const HERO_PLAT = /^composiet-.+\.webp$/;
+const BUDGET_HERO_LAGEN = 1_000_000; // bytes, ruw
+const BUDGET_HERO_PLAT = 120_000; // bytes, ruw — dit is wat mobiel betaalt
 
 function brotli(buf, quality) {
   return brotliCompressSync(buf, { params: { [constants.BROTLI_PARAM_QUALITY]: quality } }).length;
@@ -37,6 +60,9 @@ const js = files.filter((f) => f.name.endsWith('.js'));
 const css = files.filter((f) => f.name.endsWith('.css'));
 const fonts = files.filter((f) => f.name.endsWith('.woff2'));
 const art = files.filter((f) => LANDING_ART.test(f.name));
+const heroLagen = files.filter((f) => HERO_ART.test(f.name));
+const heroPlat = files.filter((f) => HERO_PLAT.test(f.name));
+const renders = files.filter((f) => RENDER_ART.test(f.name));
 
 // De chunks krijgen hun naam van Rollup: index (entry), vendor, en de lazy
 // chunks naar hun bronbestand. Wat er op de landing laadt: entry + vendor.
@@ -68,7 +94,13 @@ scenario('volledig eerste bezoek', js.filter((f) => !isOptional(f)));
 scenario('terugkomen om het rapport te herlezen', [...landingJs, ...js.filter(isReport), ...rest]);
 if (rest.length) console.log(`  (gedeelde chunks: ${rest.map((f) => f.name).join(', ')})`);
 
-console.log(`Landing-art: ${kb(sum(art, 'q11'))} q11 (${art.length} van 8 SVG's) · grens ${kb(BUDGET_ART_Q11)}`);
+console.log(`Landing-art: ${kb(sum(art, 'q11'))} q11 (${art.length} van 1 SVG) · grens ${kb(BUDGET_ART_Q11)}`);
+console.log(`Renders onder de vouw: ${kb(sum(renders, 'raw'))} ruw in ${renders.length} platen · grens ${kb(BUDGET_RENDERS)}`);
+console.log(
+  `Hero-parallax: ${kb(sum(heroLagen, 'raw'))} ruw in ${heroLagen.length} lagen · grens ${kb(BUDGET_HERO_LAGEN)}` +
+    `
+  daarvan op mobiel: ${kb(sum(heroPlat, 'raw'))} (alleen de platte composiet) · grens ${kb(BUDGET_HERO_PLAT)}`,
+);
 
 // Wat de landing aan fonts ophaalt: de basisbestanden, zonder de cursief (die
 // laadt alleen op het rapport). De aanvullingen laden alleen bij een naam met
@@ -80,7 +112,12 @@ console.log(`\nCSS: ${kb(sum(css, 'q11'))} q11 · fonts op de landing: ${kb(sum(
 const fouten = [];
 if (sum(landingJs, 'q11') > BUDGET_LANDING_Q11) fouten.push(`landing ${sum(landingJs, 'q11')} B > ${BUDGET_LANDING_Q11} B (q11)`);
 if (sum(css, 'q11') > BUDGET_CSS_Q11) fouten.push(`css ${sum(css, 'q11')} B > ${BUDGET_CSS_Q11} B (q11)`);
-if (art.length !== 8) fouten.push(`landing-art: ${art.length} van de 8 verwachte SVG's in dist/assets (hernoemd of inline gezet?)`);
+if (art.length !== 1) fouten.push(`landing-art: ${art.length} van de 1 verwachte SVG in dist/assets (hernoemd of inline gezet?)`);
+if (heroLagen.length !== 6) fouten.push(`hero-parallax: ${heroLagen.length} van de 6 lagen in dist/assets (draaide scripts/bereid-parallax.mjs?)`);
+if (renders.length !== 6) fouten.push(`renders: ${renders.length} van de 6 platen in dist/assets (draaide scripts/bereid-renders.mjs?)`);
+if (sum(renders, 'raw') > BUDGET_RENDERS) fouten.push(`renders ${sum(renders, 'raw')} B > ${BUDGET_RENDERS} B`);
+if (sum(heroLagen, 'raw') > BUDGET_HERO_LAGEN) fouten.push(`hero-lagen ${sum(heroLagen, 'raw')} B > ${BUDGET_HERO_LAGEN} B`);
+if (sum(heroPlat, 'raw') > BUDGET_HERO_PLAT) fouten.push(`hero-composiet ${sum(heroPlat, 'raw')} B > ${BUDGET_HERO_PLAT} B`);
 if (sum(art, 'q11') > BUDGET_ART_Q11) fouten.push(`landing-art ${sum(art, 'q11')} B > ${BUDGET_ART_Q11} B (q11)`);
 if (fontsBase.length && sum(fontsBase, 'raw') > BUDGET_FONTS) fouten.push(`fonts ${sum(fontsBase, 'raw')} B > ${BUDGET_FONTS} B`);
 

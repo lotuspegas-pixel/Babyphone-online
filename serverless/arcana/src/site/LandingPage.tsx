@@ -1,20 +1,16 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
 import emblem from '../assets/art/emblems/emblem-theSeeker.svg';
-import sceneEind from '../assets/art/landing/scene-eind.svg';
-import bandDoorgang from '../assets/art/landing/band-doorgang.svg';
-import methodeBuste from '../assets/art/landing/methode-buste.svg';
-import tileDenkstijl from '../assets/art/landing/tile-denkstijl.svg';
-import tilePersona from '../assets/art/landing/tile-persona.svg';
-import tileSchaduw from '../assets/art/landing/tile-schaduw.svg';
 import { ArcanaIcon } from '../components/ArcanaIcon';
 import { ArcanaMotif, type MotifKind } from '../components/ArcanaMotif';
 import { ArcanaSeal } from '../components/ArcanaSeal';
+import { ArchetypeVerkenner } from './ArchetypeVerkenner';
 import { DIMENSION_FAMILIES, MAIN_DIMENSIONS, type DimensionFamilyId } from '../data/arcanaDimensions';
 import { FunnelDiagram } from './FunnelDiagram';
-import { HeroCollage } from './HeroCollage';
+import { HeroParallax } from './HeroParallax';
 import { useParallax, useReveal } from './landingMotion';
 import { PortraitSample } from './PortraitSample';
 import {
+  ARCHETYPE_VERKENNER,
   CONTROLEER,
   DIMENSIE_TEKST,
   EERLIJK,
@@ -39,6 +35,8 @@ import {
   VOORDELEN,
   VOOR_WIE,
 } from './siteContent';
+
+import { RENDER } from './renderBeeld';
 
 interface Props {
   onStart: () => void;
@@ -65,7 +63,7 @@ const MOTIEF: Record<DimensionFamilyId, { kind: MotifKind; kleur: string }> = {
   contact: { kind: 'kompas', kleur: 'var(--fam-contact)' },
 };
 
-const LENS_BEELD = { persona: tilePersona, schaduw: tileSchaduw, denkstijl: tileDenkstijl };
+const LENS_BEELD = { persona: RENDER.persona, schaduw: RENDER.schaduw, denkstijl: RENDER.denkstijl };
 
 /** Kort handschrift in de marge. Altijd Engels (lang="en") en decoratief
  * (aria-hidden): het is sfeer, geen inhoud. `d` is de vertraging van het
@@ -190,6 +188,13 @@ export function LandingPage({
     <div className="landing" id="top" ref={wortel}>
       {/* ---------------------------------------------------------------- hero */}
       <section className="landing__hero">
+        {/* De collage ligt als volle band achter de tekst: zes losse lagen met
+            de naam van de test ertussen (HeroParallax.tsx). Dit blok is de
+            parallaxwortel — het draagt --py, --px en --pyy. */}
+        <div className="landing__hero-art" aria-hidden="true" ref={heroArt}>
+          <HeroParallax />
+        </div>
+
         <div className="landing__inner landing__hero-grid">
           <div className="landing__hero-tekst">
             <h1 className="landing__titel">
@@ -243,28 +248,6 @@ export function LandingPage({
             </div>
           </div>
 
-          {/* De collage mag over de containerrand lopen; de marginalia staan in
-              procenten van het beeld zodat ze het beeld volgen. Dit blok is de
-              parallaxwortel (--py, --px, --pyy). */}
-          <div className="landing__hero-art" aria-hidden="true" ref={heroArt}>
-            <div className="landing__hero-pic">
-              <HeroCollage />
-              <Hand cls="hand--zin" d="0.9s">
-                {HERO_NOTES.zin.map((z) => (
-                  <span key={z}>{z}</span>
-                ))}
-              </Hand>
-              <Hand cls="hand--diep" d="1.1s">
-                {HERO_NOTES.diepte}
-              </Hand>
-            </div>
-            <Hand cls="hand--woorden" d="0.35s">
-              {HERO_NOTES.woorden.map((w) => (
-                <span key={w}>{w}</span>
-              ))}
-            </Hand>
-            <Mono items={HERO_NOTES.bijschriften} cls="landing__hero-bijschrift" />
-          </div>
         </div>
       </section>
 
@@ -298,7 +281,7 @@ export function LandingPage({
                 — <cite>{JUNG_CITAAT.auteur}</cite>
               </footer>
             </blockquote>
-            <img src={bandDoorgang} alt="" width={380} height={320} loading="lazy" decoding="async" />
+            <img src={RENDER.doorgang.src} alt="" width={RENDER.doorgang.width} height={RENDER.doorgang.height} loading="lazy" decoding="async" />
           </div>
 
           <div className="landing__meer-midden">
@@ -321,7 +304,14 @@ export function LandingPage({
               <h3>{lens.titel}</h3>
               <p>{lens.tekst}</p>
               <div className="landing__lens-beeld">
-                <img src={LENS_BEELD[lens.id]} alt="" width={420} height={440} loading="lazy" decoding="async" />
+                <img
+                  src={LENS_BEELD[lens.id].src}
+                  alt=""
+                  width={LENS_BEELD[lens.id].width}
+                  height={LENS_BEELD[lens.id].height}
+                  loading="lazy"
+                  decoding="async"
+                />
                 {lens.noot && <Hand cls="hand--lens">{lens.noot}</Hand>}
                 {lens.lijst && <Mono items={lens.lijst} cls="landing__lens-lijst" />}
               </div>
@@ -389,7 +379,7 @@ export function LandingPage({
           </div>
           <Mono items={METHODE.lijst} cls="landing__methode-lijst" />
           <div className="landing__methode-beeld" aria-hidden="true">
-            <img src={methodeBuste} alt="" width={560} height={400} loading="lazy" decoding="async" />
+            <img src={RENDER.methode.src} alt="" width={RENDER.methode.width} height={RENDER.methode.height} loading="lazy" decoding="async" />
             <Hand cls="hand--know">{METHODE.noot}</Hand>
           </div>
         </div>
@@ -458,6 +448,23 @@ export function LandingPage({
               </section>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------- de twaalf */}
+      {/* Volgt direct op "wat het meet": eerst wat er gemeten wordt, dan hoe de
+          uitkomst gaat heten. De verkenner laat zien dat die naam een optelsom
+          is van vier van die eigenschappen, niet een etiket dat erbovenop komt. */}
+      <section className="landing__sectie landing__twaalf" id="de-twaalf" aria-labelledby="twaalf-kop">
+        <div className="landing__inner">
+          <header className="landing__sectie-kop">
+            <h2 id="twaalf-kop">{ARCHETYPE_VERKENNER.titel}</h2>
+            <p className="landing__lead">{ARCHETYPE_VERKENNER.lead}</p>
+          </header>
+
+          <ArchetypeVerkenner />
+
+          <p className="landing__twaalf-naschrift">{ARCHETYPE_VERKENNER.naschrift}</p>
         </div>
       </section>
 
@@ -614,10 +621,10 @@ export function LandingPage({
         </div>
         <img
           className="landing__scene"
-          src={sceneEind}
+          src={RENDER.slot.src}
           alt=""
-          width={1440}
-          height={340}
+          width={RENDER.slot.width}
+          height={RENDER.slot.height}
           loading="lazy"
           decoding="async"
         />

@@ -492,24 +492,133 @@ html {
   transform: rotate(-2deg);
 }
 
-/* De collage: een eigen vak met containerqueries, zodat het handschrift
-   meeschaalt met het beeld. Het beeld is 87 % van de breedte; de rest rechts
-   is lucht voor de woordenlijst en de bijschriften. */
+/* ------------------------------------------------------------ hero-collage */
+
+/* De collage is op mobiel één plaat boven de tekst; vanaf 900 px wordt het de
+   volle band waar de tekst overheen ligt (zie de media query verderop).
+   Dit element is de parallaxwortel: het draagt --py, --px en --pyy. */
 .landing__hero-art {
-  position: relative;
   container-type: inline-size;
-  margin: 0 calc(-1 * var(--gutter));
-}
-
-.landing__hero-pic {
   position: relative;
-  width: 100%;
+  /* De plaat houdt zijn eigen kleuren in licht én donker — het is een foto van
+     papier, en die wordt niet donker omdat de site dat wordt. Alles wat ín de
+     band staat rekent daarom met deze drie vaste waarden en niet met de
+     themavariabelen, anders verdwijnt de naam in donkere modus in het papier.
+     Dezelfde afspraak als bij het handschrift in de oude hero. */
+  --vel-inkt: #1c1712;
+  --vel-zegel: #7e1e1b;
+  --vel-papier: #ede4cc;
+  /* Schuift er bij het scrollen toch een laag te ver door, dan valt er geen gat
+     maar papier. */
+  background: var(--vel-papier);
+  --py: 0;
+  --px: 0;
+  --pyy: 0;
 }
 
-.landing__hero-pic img {
+.hero__scene {
+  position: relative;
+  aspect-ratio: 1672 / 941;
+}
+
+/* De groep draagt het vlak waarin de lagen hun percentages uitrekenen. Op
+   mobiel is dat gewoon de hele scène; vanaf 900 px krijgt hij de hoogte van de
+   band en lijnt hij rechts uit (zie de media query). */
+.hero__groep {
+  position: absolute;
+  inset: 0;
+}
+
+/* Elke laag staat op zijn eigen plek in het vlak van 1672x941; links, boven en
+   breedte komen als percentage uit heroLagen.ts. De hoogte volgt vanzelf, want
+   de uitsnede houdt zijn verhouding. */
+.hero__laag {
+  position: absolute;
+  display: block;
+  height: auto;
+  animation: glijd 0.8s var(--ease-uit) calc(var(--diepte) * 140ms) both;
+}
+
+/* Het vel loopt van rand tot rand en is met opzet een stuk ruimer dan de band.
+   Het drijft namelijk het verst mee met de scroll: op diepte 0,06 zakt het
+   0,24 px per gescrolde pixel, en de band is pas uit beeld na ~730 px scrollen,
+   dus het vel moet bovenaan ~180 px over hebben. 36 % van de bandhoogte dekt
+   dat ruim. De bandkleur eronder is de laatste vangnet. */
+.hero__vel {
+  position: absolute;
+  left: -6%;
+  top: -36%;
+  width: 112%;
+  height: 180%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  animation: glijd 0.8s var(--ease-uit) both;
+}
+
+.hero__scene--plat,
+.hero__plat {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* De naam van de test, tússen de lagen. Hij staat op diepte 0,42: de boog
+   (0,30) blijft erachter, de collage (0,60), Jung (0,76) en de tafel (1,00)
+   schuiven er vóór langs. Linksboven begint hij op schoon papier en naar
+   rechts verdwijnt hij achter het gescheurde papier — dat is de bedoeling, niet
+   een foutje: de naam ligt in de stapel.
+
+   Geen eigen kleur of schaduw: dezelfde inkt als de rest van de pagina, zodat
+   het als drukwerk op het vel leest en niet als een logo erbovenop. */
+/* De plek is gemeten, niet gegokt. Het gescheurde papier begint in de bovenste
+   vijfde van het vel pas op 32-46 % van de breedte en lager al op 17-25 %;
+   daarom staat de naam bovenin, waar hij de meeste schone ruimte heeft. Op
+   die hoogte loopt alleen de staart van het woord het papier in. */
+.hero__woord {
+  position: absolute;
+  left: 2.5%;
+  top: 3%;
+  margin: 0;
+  display: grid;
+  gap: 0.14em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 0.82;
+  color: var(--vel-inkt);
+  text-wrap: nowrap;
+  animation: glijd 0.8s var(--ease-uit) 180ms both;
+}
+
+.hero__woord-een {
+  font-size: var(--naam, 10cqw);
+  letter-spacing: -0.045em;
+}
+
+/* De tweede regel is kleiner en uitgespatieerd en staat in zegelrood, zodat de
+   twee regels één merk vormen en niet twee losse woorden. */
+.hero__woord-twee {
+  margin-left: 0.35em;
+  font-size: calc(var(--naam, 10cqw) * 0.34);
+  font-weight: 500;
+  letter-spacing: 0.42em;
+  color: var(--vel-zegel);
+}
+
+/* Parallax (HeroParallax.tsx + landingMotion.ts). De wortel draagt --py
+   (scrollafstand in px) en --px/--pyy (pointer, −1…1); elk element leest ze via
+   zijn eigen --diepte: 0,06 (het papier) blijft het verst achter op de pagina,
+   1,00 (de tafel) beweegt het meest mee. Transform-only, en will-change alleen
+   zolang er daadwerkelijk beweging is. */
+.hero__laag,
+.hero__vel,
+.hero__woord,
+.landing__hero-art .hand {
+  translate: calc(var(--px) * var(--diepte, 0.6) * 14px)
+    calc(var(--py) * (1 - var(--diepte, 0.6)) * 0.26px + var(--pyy) * var(--diepte, 0.6) * 10px);
+}
+
+.landing__hero-art.is-bewegend :is(.hero__laag, .hero__vel, .hero__woord, .hand) {
+  will-change: transform, translate;
 }
 
 .landing__hero-art .hand {
@@ -517,49 +626,12 @@ html {
   --diepte: 1;
 }
 
-/* Parallax (HeroCollage.tsx + landingMotion.ts). De wortel draagt --py
-   (scrollafstand in px) en --px/--pyy (pointer, −1…1); elke laag leest ze via
-   zijn diepte --diepte: 0,15 blijft het verst achter op de pagina, 1 (het
-   handschrift) beweegt gewoon mee en krijgt alleen de pointerdiepte van
-   ±6 px. Transform-only; `translate` staat los van de rotaties in
-   `transform` van de notities. Will-change alleen tijdens beweging. */
-.landing__hero-art {
-  --py: 0;
-  --px: 0;
-  --pyy: 0;
-}
-
-.hc {
-  position: relative;
-  aspect-ratio: 760 / 640;
-}
-
-.hc__laag {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  animation: glijd 0.7s var(--ease-uit) calc(var(--diepte) * 120ms) both;
-}
-
-.hc__laag,
-.landing__hero-art .hand,
-.landing__hero-bijschrift {
-  translate: calc(var(--px) * var(--diepte, 0.6) * 6px)
-    calc(var(--py) * (1 - var(--diepte, 0.6)) * 0.18px + var(--pyy) * var(--diepte, 0.6) * 6px);
-}
-
-.landing__hero-art.is-bewegend :is(.hc__laag, .hand, .landing__hero-bijschrift) {
-  will-change: transform, translate;
-}
-
 /* Het laadmoment: de lagen glijden van een lichte verschuiving (dieper = verder)
    naar hun rustpositie; het handschrift schrijft zich daarna in (zie onder). */
 @keyframes glijd {
   from {
     opacity: 0;
-    transform: translateY(calc(14px + var(--diepte) * 26px));
+    transform: translateY(calc(14px + var(--diepte, 0.5) * 26px));
   }
   40% {
     opacity: 1;
@@ -567,22 +639,6 @@ html {
   to {
     transform: none;
   }
-}
-
-.hand--diep {
-  left: 46%;
-  top: 2%;
-  font-size: max(1.15rem, 3.3cqw);
-  color: var(--gold);
-  transform: rotate(-5deg);
-}
-
-/* Op het zwarte papier onder het oog: lichte inkt, vast (de plaat houdt zijn
-   eigen kleuren in licht en donker). */
-.hand--zin,
-.hand--woorden,
-.landing__hero-bijschrift {
-  display: none;
 }
 
 @media (min-width: 700px) {
@@ -594,77 +650,66 @@ html {
     content: '';
   }
 
-  .landing__hero-pic {
-    width: 87%;
-  }
-
-  .hand--zin,
-  .hand--woorden {
-    display: block;
-  }
-
-  .landing__hero-bijschrift {
-    display: grid;
-  }
-
-  .hand--zin {
-    left: 69%;
-    top: 31%;
-    font-size: 2.05cqw;
-    white-space: nowrap;
-    color: #f2e9d4;
-    transform: rotate(-2.5deg);
-  }
-
-  .hand--zin span {
-    display: block;
-  }
-
-  .hand--woorden {
-    left: 88.5%;
-    top: 6%;
-    font-size: 2.5cqw;
-    transform: rotate(5deg);
-  }
-
-  .hand--woorden span {
-    display: block;
-  }
-
-  .hand--woorden span:nth-child(even) {
-    margin-left: 0.7em;
-  }
-
-  .landing__hero-bijschrift {
-    position: absolute;
-    left: 88.5%;
-    top: 70%;
-    font-size: max(0.6rem, 1.3cqw);
-    letter-spacing: 0.12em;
-    gap: 0.55em;
-  }
-
   .hand--kaart {
     font-size: 1.15rem;
   }
 }
 
 @media (min-width: 900px) {
-  .landing__hero-grid {
-    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-    align-items: center;
-    gap: 0;
+  /* De collage is vanaf hier een eigen band van rand tot rand, met alleen de
+     naam erin; de propositie staat eronder op schoon papier. Twee dingen die
+     allebei groot willen zijn, krijgen zo ieder hun eigen vlak in plaats van
+     te vechten om hetzelfde. */
+  .landing__hero {
+    padding: 0 0 clamp(1.5rem, 3vw, 2.5rem);
   }
 
-  /* De kop mag de lege linkerrand van de collage in schuiven. */
-  .landing__titel {
-    margin-right: -8vw;
-  }
-
-  /* Het beeld loopt tot de rand van het venster; de linkerkant van de plaat is
-     leeg papier en mag onder de kop schuiven. */
+  /* De band krijgt een vaste hoogte en de platen lijnen daar rechts in uit.
+     Zo blijft de collage altijd heel — er wordt niets afgesneden — en houdt de
+     linkerkant schoon papier over voor de naam. Breder venster betekent dus
+     meer papier, niet een groter beeld. */
   .landing__hero-art {
-    margin: 0 calc(-1 * ((100vw - min(var(--w), 100vw)) / 2 + var(--gutter))) 0 -12%;
+    --kunst-h: min(46vw, 660px);
+    /* Hoeveel schoon papier er links van de collage overblijft op de hoogte
+       waar de naam staat. Niet de omhullende van de plaat telt maar waar de
+       eerste ondoorzichtige pixel zit: in de bovenste vijfde begint het
+       gescheurde papier pas op ~37 % van de plaatbreedte (gemeten met
+       scripts/analyseer-lagen.mjs). De plaat is 1,777 keer zo breed als hoog,
+       dus die rand ligt op 100vw − 1,12 × bandhoogte. */
+    --schoon: calc(0.975 * 100vw - 1.12 * var(--kunst-h));
+    /* 0,345 is gemeten: bij die factor loopt de staart van het woord net genoeg
+       ín het papier dat je ziet dat hij erachter verdwijnt, zonder dat de naam
+       onleesbaar wordt. Groeit het venster, dan groeit de naam mee. */
+    --naam: min(calc(var(--schoon) * 0.345), 24rem);
+    height: var(--kunst-h);
+    overflow: hidden;
+  }
+
+  .hero__scene {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+  }
+
+  .hero__groep {
+    left: auto;
+    right: 0;
+    height: 100%;
+    aspect-ratio: 1672 / 941;
+  }
+
+  .landing__hero-grid {
+    margin-top: clamp(1.75rem, 3.5vw, 3rem);
+  }
+
+  /* De propositie blijft de grootste tekst van de pagina, maar hoeft niet meer
+     op te boksen tegen de naam in de band erboven. Elke zin krijgt genoeg
+     breedte om op één regel te blijven — hij breekt pas als de kolom echt te
+     smal is, en dat is wat de twee zinnen hun dreun geeft. De lopende tekst
+     eronder houdt zijn eigen, veel smallere maat (zie .landing__belofte). */
+  .landing__titel {
+    max-width: 62rem;
+    font-size: clamp(2.1rem, 3.4vw, 3.4rem);
   }
 }
 
@@ -692,13 +737,16 @@ html {
 
 @media (prefers-reduced-motion: reduce), print {
   .landing__hero .hand,
-  .hc__laag {
+  .hero__laag,
+  .hero__vel,
+  .hero__woord {
     animation: none;
   }
 
-  .hc__laag,
-  .landing__hero-art .hand,
-  .landing__hero-bijschrift {
+  .hero__laag,
+  .hero__vel,
+  .hero__woord,
+  .landing__hero-art .hand {
     translate: none;
   }
 }
@@ -852,8 +900,9 @@ html {
 
 .landing__meer-links img {
   display: block;
-  width: 100%;
-  max-width: 27rem;
+  width: auto;
+  max-width: 100%;
+  max-height: 22rem;
   height: auto;
 }
 
@@ -993,15 +1042,22 @@ html {
 }
 
 .landing__lens--persona .hand--lens {
-  left: 4%;
-  top: 3%;
+  left: 0;
+  top: auto;
+  bottom: -1.9rem;
+  width: 60%;
+}
+
+@media (max-width: 759px) {
+  .landing__lens--persona {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .landing__lens--schaduw .hand--lens {
-  right: 6%;
-  top: 9%;
-  width: 22%;
-  color: #f2e9d4;
+  right: 0;
+  top: -1%;
+  width: 30%;
   transform: rotate(4deg);
 }
 
@@ -1383,8 +1439,11 @@ html {
 
 .landing__methode-beeld img {
   display: block;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 34rem;
   height: auto;
+  margin-inline: auto;
 }
 
 /* ------------------------------------------------------------ onthullingen */
@@ -2129,6 +2188,7 @@ html {
   width: 100%;
   height: auto;
   min-height: 7.5rem;
+  max-height: 30rem;
   object-fit: cover;
   object-position: 50% 100%;
 }
@@ -2367,5 +2427,171 @@ html {
   .landing__knoppen,
   .landing__slot {
     display: none !important;
+  }
+}
+
+/* ------------------------------------------------------------- de twaalf */
+
+/* Geen raster van twaalf gelijke kaarten: een register links en één blad
+   rechts. De gekozen regel schuift een duim naar buiten, zoals een kaart die
+   je half uit de bak trekt — dat is de enige beweging die dit blok nodig heeft. */
+.landing__twaalf {
+  background: var(--bg-veil);
+}
+
+.verkenner {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+/* Op een smal scherm staat het open blad bóven het register. In de DOM komt
+   het register eerst — dat is de goede voorleesvolgorde: je kiest iets en
+   hoort daarna wat je gekozen hebt. Maar onder elkaar gezet zou het blad dan
+   twaalf namen laag staan, buiten beeld, en zie je van je tik niets terug. */
+.verkenner__blad {
+  order: -1;
+}
+
+.verkenner__index {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+}
+
+.verkenner__regel {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-top: 1px solid rgb(from var(--ink) r g b / 0.16);
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease-uit), padding-left 0.18s var(--ease-uit);
+}
+
+.verkenner__regel:last-of-type {
+  border-bottom: 1px solid rgb(from var(--ink) r g b / 0.16);
+}
+
+/* De radio zelf is weg, maar alleen visueel: hij houdt zijn plek in de
+   tabvolgorde en zijn focusring staat hieronder op de regel. */
+.verkenner__regel input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.verkenner__naam {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 0.95rem + 0.7vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink-soft);
+  transition: color 0.18s var(--ease-uit);
+}
+
+.verkenner__regel:hover .verkenner__naam {
+  color: var(--ink);
+}
+
+.verkenner__regel:has(input:checked) {
+  padding-left: 1.5rem;
+  background: var(--surface-raised);
+}
+
+.verkenner__regel:has(input:checked) .verkenner__naam {
+  color: var(--ink);
+}
+
+/* Het zegelrode streepje in de marge wijst de open kaart aan. */
+.verkenner__regel:has(input:checked)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 0.75rem;
+  height: 2px;
+  translate: 0 0.72em;
+  background: var(--gold);
+}
+
+.verkenner__regel:has(input:focus-visible) {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Het blad: papier met een haarlijn, geen kaart met een schaduw. */
+.verkenner__blad {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--surface-raised);
+  border: 1px solid rgb(from var(--ink) r g b / 0.14);
+  border-radius: var(--rounded-edge, 3px);
+}
+
+.verkenner__blad-kop {
+  margin: 0;
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
+}
+
+/* De optelsom. De termen staan als losse zetstukken naast elkaar; het
+   scheidingsteken komt uit CSS zodat de DOM gewone woorden houdt. */
+.verkenner__formule {
+  margin: 0.9rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
+.verkenner__formule-kop {
+  color: var(--gold);
+}
+
+.verkenner__term + .verkenner__term::before {
+  content: '+';
+  margin-right: 0.55rem;
+  color: var(--ink-faint);
+}
+
+.verkenner__tekst {
+  margin: 1rem 0 0;
+  max-width: 44rem;
+  color: var(--ink-soft);
+}
+
+.landing__twaalf-naschrift {
+  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  max-width: 46rem;
+  font-size: 0.98rem;
+  color: var(--ink-faint);
+}
+
+@media (min-width: 820px) {
+  .verkenner {
+    grid-template-columns: minmax(13rem, 0.78fr) minmax(0, 1.6fr);
+    align-items: start;
+  }
+
+  /* Naast elkaar klopt de leesvolgorde vanzelf weer: register links, blad
+     rechts. Het blad blijft staan terwijl je het register doorloopt. */
+  .verkenner__blad {
+    order: 0;
+    position: sticky;
+    top: calc(var(--kop-hoogte, 4.5rem) + 1rem);
+    min-height: 19rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .verkenner__regel,
+  .verkenner__naam {
+    transition: none;
   }
 }

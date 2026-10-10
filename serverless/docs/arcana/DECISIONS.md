@@ -480,3 +480,54 @@ Reason: twee mensen kunnen bijna identieke scores hebben met verschillende antwo
 Files affected: arcana/src/lib/arcanaVariants.ts (`deriveVariantSeed`)
 Risks: iemand die de test tweemaal exact hetzelfde invult krijgt hetzelfde rapport — dat is bedoeld gedrag (regel 5), maar kan bij hertesten als "er is niets veranderd" voelen.
 Follow-up: geen.
+
+## 2026-10-10 — Hero: fotoparallax met de naam tússen de lagen
+
+Decision: de hero-collage is geen SVG-tekening meer maar een parallax van zes losse fotolagen (papier, landschap, boog, collage, Jung, schaaktafel) uit `parralax.zip`, met "Arcana Profile" op diepte 0,42 — dus vóór de boog en áchter het gescheurde papier. `HeroCollage.tsx` en `hero-collage.svg` zijn vervallen; `HeroParallax.tsx`, `heroLagen.ts` (gegenereerd) en `src/assets/art/hero/*.webp` komen ervoor in de plaats. De overige landingillustraties blijven SVG.
+
+Reason: de eigenaar vroeg om deze platen als parallax-hero met grote letters tussen de lagen. Het bestaande parallaxmechanisme (`--py`/`--px`/`--pyy` op de wortel, `--diepte` per laag) is ongewijzigd hergebruikt; alleen de lagen zijn vervangen. Drie dingen zijn gemeten in plaats van gegokt:
+
+- **Bijsnijden.** De bronplaten zijn 1672x941 en voor 35-72 % doorzichtig. `scripts/analyseer-lagen.mjs` meet per laag de bounding box van alles met alpha > 8; `scripts/bereid-parallax.mjs` snijdt daarop bij en legt de positie als percentage van het oorspronkelijke vlak vast in `heroLagen.ts`. Daardoor staan er geen magische getallen in de CSS en kan de kunst opnieuw geëxporteerd worden zonder dat iemand posities naloopt. 12,8 MB PNG werd 962 KB WebP.
+- **Waar de naam staat.** Niet de omhullende van de collage bepaalt hoeveel schoon papier er links is, maar waar de eerste ondoorzichtige pixel zit. Per horizontale band gemeten: in de bovenste vijfde begint het gescheurde papier pas op 32-46 % van de plaatbreedte, lager al op 17-25 %. Vandaar dat de naam bovenin staat; daar is hij leesbaar én loopt zijn staart zichtbaar achter de koning langs.
+- **Hoe groot de naam is.** `--naam` rekent de schone breedte uit (`0,975 × 100vw − 1,12 × bandhoogte`) en neemt daar 0,345 van. Zo houdt de overlap dezelfde verhouding op 1000 px als op 1920 px, in plaats van bij één schermbreedte goed te staan.
+
+Files affected: arcana/src/site/HeroParallax.tsx (nieuw), arcana/src/site/heroLagen.ts (gegenereerd), arcana/src/site/HeroCollage.tsx (verwijderd), arcana/src/assets/art/landing/hero-collage.svg (verwijderd), arcana/src/assets/art/hero/*.webp (nieuw), arcana/src/site/LandingPage.tsx (hero-sectie), arcana/src/styles/site.css, arcana/scripts/analyseer-lagen.mjs + bereid-parallax.mjs (nieuw), arcana/scripts/meet-bundel.mjs, arcana/package.json (sharp als devDependency).
+
+Risks:
+- **Gewicht.** De hero weegt op desktop 869 KB aan lagen, tegen 31 KB voor de SVG die er stond. De eigenaar koos dit expliciet boven een lichtere variant ("maximale kwaliteit"). Verzacht doordat de lagen alleen laden op ≥900 px mét bewegingsvoorkeur; mobiel en prefers-reduced-motion halen één platte composiet van 93 KB. Beide grenzen staan apart in `meet-bundel.mjs`, zodat de build faalt als iemand er ongemerkt overheen gaat. Kwaliteit verlagen helpt nauwelijks (q72 → q55 scheelt 10 %): de platen zijn korrel, halftoonraster en papiervezel, en dat comprimeert niet. Alleen resolutie telt.
+- **Vaste kleuren in de band.** Alles ín de hero rekent met `--vel-inkt`, `--vel-zegel` en `--vel-papier` en niet met de themavariabelen. De plaat is een foto van papier en wordt niet donker omdat de site dat wordt; zonder die vaste waarden verdween de naam in donkere modus in het papier. Dezelfde afspraak gold al voor het handschrift in de oude hero.
+- De CSS-begroting ging van 18.000 naar 19.000 B brotli q11 (plafond blijft 20.000).
+
+Follow-up: bij nieuwe kunst `node scripts/bereid-parallax.mjs <map>` draaien — die herschrijft `heroLagen.ts`. Wijzigt de compositie zo dat de linkerkant minder schoon papier houdt, dan moet de factor 1,12 in `--schoon` opnieuw gemeten worden met `analyseer-lagen.mjs`.
+
+## 2026-10-10 — De twaalf archetypen als register, niet als twaalf kaarten
+
+Decision: nieuwe landingsectie "De twaalf namen" (`ArchetypeVerkenner.tsx`): een register van twaalf namen links en één blad rechts dat meewisselt. Bij elke naam staat de formule — de vier subdimensies waar het archetype uit wordt opgeteld. Gebouwd op radio-inputs.
+
+Reason: de eigenaar koos dit als het interactieve deel. Twee keuzes dragen het:
+- **De formule tonen** maakt van dit blok een bewijs in plaats van een sfeerbeeld. De hele pagina belooft dat je het kunt narekenen; hier zie je dat een archetype geen etiket is maar een optelsom van gemeten eigenschappen. De begeleidende tekst zegt er expliciet bij dat herkenning in deze teksten nog niets betekent — ze passen met opzet op veel mensen, en pas eigen scores maken er een uitspraak over jou van. Dat volgt de master-visie: archetypen zijn een presentatievorm, geen hokje.
+- **Radio's in plaats van knoppen** laat de browser de pijltjestoetsen, de rolverdeling en het voorlezen doen. Scheelt toetsenbordcode die toch net anders werkt dan mensen gewend zijn.
+
+`ARCHETYPES` (6 KB: naam, formule, basistekst) komt mee op de landing; `ARCHETYPE_CONTENT` (54 KB) bewust niet — die hoort bij het rapport.
+
+Files affected: arcana/src/site/ArchetypeVerkenner.tsx (nieuw), arcana/src/site/siteContent.ts (`ARCHETYPE_VERKENNER`), arcana/src/site/LandingPage.tsx, arcana/src/styles/site.css.
+
+Risks: de landing-JS ging van 66,4 naar 72,7 KB brotli q11 (grens 75.000). Wie hier nog iets aan toevoegt, moet eerst meten. Op smalle schermen staat het blad vóór het register (`order: -1`) terwijl de DOM-volgorde register-eerst is; dat is bewust — voorleesvolgorde klopt zo, en onder elkaar zou het blad anders twaalf namen laag buiten beeld staan.
+
+Follow-up: geen.
+
+## 2026-10-10 — Echte renders in de landing: tegels, doorgang, buste en bergstrook
+
+Decision: de eerdere regel "geen foto's, alleen nagetekende vectoren" (2026-10-06) is voor de landing herzien nadat de eigenaar "het uiterlijk is totaal niet zoals gevraagd" meldde. De hero is een fotoparallax van zes echte lagen (zie de vorige beslissing van de hero-sessie); nu zijn ook de tegels Persona/Schaduw/Denkstijl, de doorgang in de donkere band, de buste bij "De methode" en de bergstrook onder de slotoproep de eigen renders van de eigenaar, als WebP (`src/assets/art/renders/`, gemaakt door `scripts/bereid-renders.mjs`, maten in het gegenereerde `src/site/renderBeeld.ts`). Het Jung-gelijkende gezicht uit de map is niet gebruikt; de gekozen platen tonen een standbeeld, silhouetten en abstracte profielen. De rapportemblemen, deelillustraties en het PDF-voorblad blijven eigen vector.
+Reason: de vector-nabootsing las als een goedkope benadering van de mockup; de renders zijn het ontwerp zelf. Gewicht blijft beheerst: WebP met alpha, 878 KB samen in zes lazy `<img>`'s onder de vouw (geen JS, geen eerste verf), bewaakt door `scripts/meet-bundel.mjs` (RENDER_ART, grens 1,07 MB).
+Files affected: arcana/src/site/LandingPage.tsx, renderBeeld.ts, arcana/src/styles/site.css, arcana/scripts/bereid-renders.mjs, arcana/scripts/meet-bundel.mjs; verwijderd: src/assets/art/landing/*.svg (zes bestanden).
+Risks: de bronbestanden zijn AI-gegenereerd; de eigenaar blijft verantwoordelijk voor het gebruiksrecht. Zwaardere pagina onder de vouw op mobiel (de platen laden pas bij scrollen).
+Follow-up: een kleinere mobiele variant (srcset) als de paginalast stoort.
+
+## 2026-10-10 — Standaardthema is licht
+
+Decision: zonder bewaarde keuze opent de site in licht; "Auto" is een bewuste keuze en wordt als "system" bewaard (`arcana_theme`).
+Reason: een bezoeker met een apparaat in donkere modus zag een zwarte pagina in plaats van het perkament van het ontwerp; de eigenaar meldde dat het uiterlijk niet klopte.
+Files affected: arcana/index.html, arcana/src/lib/arcanaTheme.ts, arcana/src/test/arcanaTheme.test.ts.
+Risks: wie eerder "Auto" kozen had geen sleutel opgeslagen en ziet nu licht; opnieuw kiezen herstelt dat.
+Follow-up: geen.
