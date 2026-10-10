@@ -49,12 +49,12 @@ describe('thema', () => {
     delete g.document;
   });
 
-  it('valt terug op "systeem" zonder opgeslagen keuze of bij rommel in de opslag', () => {
-    expect(readTheme()).toBe('system');
+  it('valt terug op "licht" zonder opgeslagen keuze of bij rommel in de opslag', () => {
+    expect(readTheme()).toBe('light');
     dom.store.set(THEME_STORAGE_KEY, 'dark'); // kale waarde, geen JSON
-    expect(readTheme()).toBe('system');
+    expect(readTheme()).toBe('light');
     dom.store.set(THEME_STORAGE_KEY, JSON.stringify('paars'));
-    expect(readTheme()).toBe('system');
+    expect(readTheme()).toBe('light');
   });
 
   it('slaat op als JSON, net als alle andere sleutels, en leest dat terug', () => {
@@ -65,10 +65,11 @@ describe('thema', () => {
     expect(dom.meta.content).toBe('#16130f');
   });
 
-  it('"systeem" verwijdert de sleutel en het data-attribuut en volgt het apparaat', () => {
+  it('"systeem" wordt bewaard, haalt het data-attribuut weg en volgt het apparaat', () => {
     saveTheme('light');
     saveTheme('system');
-    expect(dom.store.has(THEME_STORAGE_KEY)).toBe(false);
+    expect(dom.store.get(THEME_STORAGE_KEY)).toBe('"system"');
+    expect(readTheme()).toBe('system');
     expect(dom.dataset.theme).toBeUndefined();
     expect(resolveTheme('system')).toBe('light');
 

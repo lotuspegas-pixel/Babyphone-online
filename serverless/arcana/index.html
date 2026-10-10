@@ -19,8 +19,11 @@
           t = raw ? JSON.parse(raw) : null;
         } catch (e) {}
         var root = document.documentElement;
-        if (t === 'dark' || t === 'light') root.setAttribute('data-theme', t);
-        var dark = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        // Zonder keuze is de standaard licht (zie src/lib/arcanaTheme.ts); alleen
+        // een bewaarde "system" volgt het apparaat.
+        if (t !== 'dark' && t !== 'system') t = 'light';
+        if (t !== 'system') root.setAttribute('data-theme', t);
+        var dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
         var meta = document.querySelector('meta[name="theme-color"]');
         if (meta) meta.setAttribute('content', dark ? '#16130f' : '#fbf8f3');
       })();

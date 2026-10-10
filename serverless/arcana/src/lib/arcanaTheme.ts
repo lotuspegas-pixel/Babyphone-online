@@ -2,7 +2,11 @@
  * Thema: licht, donker of systeem.
  *
  * Drie standen, niet twee — "systeem" is een echte keuze, anders kan iemand die
- * per ongeluk op licht klikte nooit meer terug naar automatisch. De keuze staat
+ * per ongeluk op licht klikte nooit meer terug naar automatisch. Zonder keuze
+ * is de standaard LICHT (het perkament van de huisstijl), niet "systeem": wie
+ * de site voor het eerst opent op een apparaat in donkere modus zag anders een
+ * zwarte pagina in plaats van het ontwerp. "Auto" is dus een bewuste keuze en
+ * wordt als `"system"` bewaard. De keuze staat
  * in localStorage onder `arcana_theme`, als JSON.stringify net als alle andere
  * sleutels. Hij hoort bewust NIET bij STORAGE_KEYS: "Antwoorden wissen" ruimt
  * persoonsgegevens op, en een leesinstelling is dat niet.
@@ -24,13 +28,13 @@ function canUseDom(): boolean {
 }
 
 export function readTheme(): ArcanaTheme {
-  if (!canUseDom()) return 'system';
+  if (!canUseDom()) return 'light';
   try {
     const raw = window.localStorage.getItem(THEME_STORAGE_KEY);
     const parsed: unknown = raw ? JSON.parse(raw) : null;
-    return parsed === 'light' || parsed === 'dark' ? parsed : 'system';
+    return parsed === 'light' || parsed === 'dark' || parsed === 'system' ? parsed : 'light';
   } catch {
-    return 'system';
+    return 'light';
   }
 }
 
@@ -61,8 +65,7 @@ export function applyTheme(theme: ArcanaTheme): void {
 export function saveTheme(theme: ArcanaTheme): void {
   if (!canUseDom()) return;
   try {
-    if (theme === 'system') window.localStorage.removeItem(THEME_STORAGE_KEY);
-    else window.localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(theme));
+    window.localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(theme));
   } catch {
     // Privévenster met geblokkeerde opslag: de keuze geldt dan voor deze sessie.
   }
