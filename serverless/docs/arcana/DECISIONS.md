@@ -518,7 +518,7 @@ Follow-up: geen.
 
 ## 2026-10-10 — Echte renders in de landing: tegels, doorgang, buste en bergstrook
 
-Decision: de eerdere regel "geen foto's, alleen nagetekende vectoren" (2026-10-06) is voor de landing herzien nadat de eigenaar "het uiterlijk is totaal niet zoals gevraagd" meldde. De hero is een fotoparallax van zes echte lagen (zie de vorige beslissing van de hero-sessie); nu zijn ook de tegels Persona/Schaduw/Denkstijl, de doorgang in de donkere band, de buste bij "De methode" en de bergstrook onder de slotoproep de eigen renders van de eigenaar, als WebP (`src/assets/art/renders/`, gemaakt door `scripts/bereid-renders.mjs`, maten in het gegenereerde `src/site/renderBeeld.ts`). Het Jung-gelijkende gezicht uit de map is niet gebruikt; de gekozen platen tonen een standbeeld, silhouetten en abstracte profielen. De rapportemblemen, deelillustraties en het PDF-voorblad blijven eigen vector.
+Decision: de eerdere regel "geen foto's, alleen nagetekende vectoren" (2026-10-06) is voor de landing herzien nadat de eigenaar "het uiterlijk is totaal niet zoals gevraagd" meldde. De hero is een fotoparallax van zes echte lagen (zie de vorige beslissing van de hero-sessie); nu zijn ook de tegels Persona/Schaduw/Denkstijl, de doorgang in de donkere band, de buste bij "De methode" en de bergstrook onder de slotoproep de eigen renders van de eigenaar, als WebP (`src/assets/art/renders/`, gemaakt door `scripts/bereid-renders.mjs`, maten in het gegenereerde `src/site/renderBeeld.ts`). Mijn zes platen bevatten geen Jung-gelijkend gezicht (standbeeld, silhouetten, abstracte profielen). Let op: de hero-laag `jung.webp` (door de eigenaar aangeleverd voor de parallax, verwerkt door de hero-sessie) toont wél een fotorealistische AI-weergave van een oudere man met bril die sterk op C.G. Jung lijkt — dat is een bewuste keuze van de eigenaar voor de hero, geen beslissing van deze sessie, en blijft een gebruiksrecht-/gelijkenisrisico dat bij de eigenaar ligt. De rapportemblemen, deelillustraties en het PDF-voorblad blijven eigen vector.
 Reason: de vector-nabootsing las als een goedkope benadering van de mockup; de renders zijn het ontwerp zelf. Gewicht blijft beheerst: WebP met alpha, 878 KB samen in zes lazy `<img>`'s onder de vouw (geen JS, geen eerste verf), bewaakt door `scripts/meet-bundel.mjs` (RENDER_ART, grens 1,07 MB).
 Files affected: arcana/src/site/LandingPage.tsx, renderBeeld.ts, arcana/src/styles/site.css, arcana/scripts/bereid-renders.mjs, arcana/scripts/meet-bundel.mjs; verwijderd: src/assets/art/landing/*.svg (zes bestanden).
 Risks: de bronbestanden zijn AI-gegenereerd; de eigenaar blijft verantwoordelijk voor het gebruiksrecht. Zwaardere pagina onder de vouw op mobiel (de platen laden pas bij scrollen).
@@ -530,4 +530,27 @@ Decision: zonder bewaarde keuze opent de site in licht; "Auto" is een bewuste ke
 Reason: een bezoeker met een apparaat in donkere modus zag een zwarte pagina in plaats van het perkament van het ontwerp; de eigenaar meldde dat het uiterlijk niet klopte.
 Files affected: arcana/index.html, arcana/src/lib/arcanaTheme.ts, arcana/src/test/arcanaTheme.test.ts.
 Risks: wie eerder "Auto" kozen had geen sleutel opgeslagen en ziet nu licht; opnieuw kiezen herstelt dat.
+Follow-up: geen.
+
+## 2026-10-10 — Hero: gedempte beweging en meer lucht in de compositie
+
+Decision: drie bijstellingen op de fotoparallax, op aanwijzing van de eigenaar ("langzamer en soepel", "te opgepropt").
+
+1. **De beweging volgt met vertraging.** `useParallax` zet `--py`/`--px`/`--pyy` niet meer rechtstreeks uit de scroll- en muispositie, maar schuift per frame een deel van de resterende afstand op (`VOLGSNELHEID_SCROLL` 0,08 en `VOLGSNELHEID_POINTER` 0,055). De lus draait alleen zolang er afstand te overbruggen is en landt netjes op de eindwaarde in plaats van er oneindig naartoe te kruipen. Gemeten: de muis legt 90 % van de weg af in ~0,7 s, de scroll in ~0,45 s; daarvóór stond de waarde er in één frame (17 ms).
+2. **De uitslag is kleiner.** De scrollfactor ging van 0,26 naar 0,16 px per gescrolde pixel. Bij 0,26 liep het landschap na een halve schermhoogte scrollen ruim 100 px uit op de tafel; dan valt de plaat zichtbaar uit elkaar in plaats van dat hij diepte krijgt.
+3. **De plaat is kleiner dan de band.** Was: de collage vulde de bandhoogte volledig. Nu is de plaat 86 % van de band, met lucht boven, onder en rechts (`--kunst-h`, `--kunst-rechts`), zodat hij als foto óp het vel ligt. Op 1440 px levert dat 394 px schoon papier links in plaats van 252, en 32/59/36 px lucht boven/onder/rechts.
+
+Daarnaast staat er nu een `BIJSTELLING` in `HeroParallax.tsx`: een handmatige correctie bovenop de gemeten posities. In de bronplaat liggen Jung en de schaaktafel tegen elkaar en valt een deel van de collage achter hem weg; Jung staat nu 3,5 procentpunt hoger en 5 % kleiner, de tafel 2,5 punt lager en het landschap 1,5 punt naar rechts.
+
+Reason: de parallax voelde schokkerig omdat elke laag exact en onvertraagd de muis volgde — met zeven lagen leest dat als zeven losse sprongetjes in plaats van één beweging. De demping maakt er één traag, zwaar geheel van. De compositie zelf bracht de boodschap niet over omdat hij de band tot in de hoeken vulde; lucht eromheen maakt van de collage een voorwerp op papier, wat ook beter aansluit bij het dossier-idee van de rest van de site.
+
+`BIJSTELLING` staat bewust níét in `heroLagen.ts`: dat bestand wordt gegenereerd uit de kunst en beschrijft alleen waar de platen zaten. Opnieuw exporteren mag deze afstemming niet weggooien.
+
+Files affected: arcana/src/site/landingMotion.ts, arcana/src/site/HeroParallax.tsx, arcana/src/styles/site.css.
+
+Risks:
+- De dempingsconstanten zijn smaakgetallen, geen metingen. Ze staan met een schaal erbij in de kop van `landingMotion.ts`, zodat eraan draaien geen zoekwerk is.
+- `BIJSTELLING` wijkt af van de compositie zoals de kunstenaar hem afleverde. Wordt de kunst opnieuw geëxporteerd met andere onderlinge posities, dan moeten deze getallen opnieuw beoordeeld worden — ze corrigeren immers iets wat dan misschien al klopt.
+- De platte composiet voor mobiel en prefers-reduced-motion is één beeld en volgt `BIJSTELLING` niet; daar blijft de oorspronkelijke, strakkere compositie staan. Bewust geaccepteerd: het alternatief is de composiet opnieuw renderen uit de losse lagen.
+
 Follow-up: geen.
