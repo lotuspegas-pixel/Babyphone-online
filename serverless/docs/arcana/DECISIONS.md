@@ -579,3 +579,10 @@ Reason: de eigenaar vroeg de aangeleverde archetypepagina's bij het juiste arche
 Files affected: arcana/scripts/bereid-archetypepaginas.mjs (nieuw), arcana/src/assets/art/archetypes/*.webp (12), arcana/src/site/archetypePaginas.ts (gegenereerd), arcana/src/site/ArchetypeVerkenner.tsx, arcana/src/styles/site.css, arcana/scripts/meet-bundel.mjs (guard: 12 pagina's, elk ≤ 200 KB).
 Risks: (1) de pagina's zijn AI-ontwerpen met eigen vaste tekst; kleine typfouten in het beeld (bijv. "RIHTING" bij The Visionary) zijn alleen met een nieuwe render te herstellen. (2) Ze noemen "Rapport № 0037 | 14 april 2025" en een ander tagline/logo dan de site ("Inzicht met betekenis", driehoek): dat is voorbeeldmateriaal, geen echt rapportnummer. (3) De rapportweergave en de PDF hebben deze pagina's niet.
 Follow-up: beslissen of de pagina's ook in het rapport/de PDF moeten (als archetypepagina in deel 1).
+
+## 2026-10-11 — Archetypepagina zonder kader, met scrolleffect (vervolg op de vorige beslissing)
+
+Decision: het tekstblok boven de archetypepagina (naam, optelsom, beschrijving) en het kader eromheen zijn uit het zicht gehaald op verzoek van de eigenaar; de pagina staat rechtstreeks op het perkament met alleen een zachte slagschaduw. Naam, optelsom en beschrijving blijven als onzichtbare tekst (`arcana-sr-only`) in de DOM voor schermlezers en zoekmachines. Het scrolleffect is puur CSS (`animation-timeline: view()`): de pagina ligt achterover en scheef onder in beeld, komt omhoog en klapt vlak naarmate hij in beeld scrolt, en zakt licht weg als hij boven uit beeld gaat. Gekoppeld aan de scrollpositie en dus zonder JavaScript; browsers zonder ondersteuning en `prefers-reduced-motion` krijgen een vlakke pagina, bij een andere naam komt de pagina zacht binnen.
+Files affected: arcana/src/site/ArchetypeVerkenner.tsx, arcana/src/styles/site.css.
+Risks: de landing-CSS zit op 18,5 van 19,0 KB.
+Follow-up: geen.

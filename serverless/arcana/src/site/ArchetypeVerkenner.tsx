@@ -66,18 +66,15 @@ export function ArchetypeVerkenner() {
       {/* Eén blad dat van inhoud wisselt. aria-live zorgt dat een schermlezer
           de nieuwe tekst hoort nadat de keuze is voorgelezen. */}
       <article className="verkenner__blad" aria-live="polite">
-        <h3 className="verkenner__blad-kop">{gekozen.name}</h3>
-
-        <p className="verkenner__formule">
-          <span className="verkenner__formule-kop">{ARCHETYPE_VERKENNER.formuleKop}</span>
-          {gekozen.formula.map((id) => (
-            <span key={id} className="verkenner__term">
-              {LABEL.get(id) ?? id}
-            </span>
-          ))}
-        </p>
-
-        <p className="verkenner__tekst">{gekozen.baseText}</p>
+        {/* Alleen voor schermlezers en zoekmachines: het ontwerp zelf staat als
+            beeld op de pagina, zonder tekstkader ernaast. */}
+        <div className="arcana-sr-only">
+          <h3>{gekozen.name}</h3>
+          <p>
+            {ARCHETYPE_VERKENNER.formuleKop} {gekozen.formula.map((id) => LABEL.get(id) ?? id).join(' + ')}
+          </p>
+          <p>{gekozen.baseText}</p>
+        </div>
 
         <figure className="verkenner__pagina" key={gekozen.id}>
           <button
@@ -94,7 +91,7 @@ export function ArchetypeVerkenner() {
               decoding="async"
             />
           </button>
-          <figcaption>Archetypepagina, klik om te vergroten</figcaption>
+          <figcaption>Klik op de pagina om hem te vergroten</figcaption>
         </figure>
       </article>
 
