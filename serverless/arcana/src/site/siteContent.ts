@@ -35,8 +35,6 @@ export const SITE_STATS = {
 } as const;
 
 export const HERO = {
-  merk: SITE_NAME,
-  eyebrow: 'Zelfinzicht dat je kunt narekenen',
   titelRegels: ['De meeste mensen kennen hun patroon.', 'Bijna niemand kan het benoemen.'],
   belofte:
     'Beantwoord 120 vragen en lees terug wat er steeds gebeurt: waar je kracht doorslaat, op welk moment je afhaakt, en waarom dat telkens hetzelfde moment is. Bij elke uitspraak over jou staat het cijfer waar hij uit volgt.',
@@ -98,16 +96,13 @@ export const JUNG_CITAAT = {
  */
 export const HERO_NOTES = {
   woorden: ['Mind', 'Patterns', 'Choices', 'Growth', 'Freedom'],
-  zin: ['Who looks outside, dreams.', 'Who looks inside, awakens.'],
   diepte: 'A deeper you',
-  bijschriften: ['Conscious', 'Subconscious', 'Unconscious', 'Integration'],
   lijst: ['Archetypen', 'Patronen', 'Inzicht', 'Keuzes', 'Groei'],
   kaart: 'The map is not the territory, but it can show you the way.',
 } as const;
 
 /** Band "Meer dan een test": de kop is onze eigen regel, níét toegeschreven. */
 export const MEER = {
-  kicker: 'Meer dan een test',
   titel: 'Inzicht is het begin van verandering.',
   tekst:
     'Arcana Profile laat zien hoe je eigenschappen, motivaties, schaduwkanten en denkstijl samenhangen tot één patroon — zodat je bewuster kunt kiezen, leven en groeien.',
@@ -136,7 +131,6 @@ export const LENZEN: Lens[] = [
 ];
 
 export const RAPPORT_BAND = {
-  kicker: 'Jouw persoonlijke rapport',
   titel: `Een diepgaand rapport in ${SITE_STATS.hoofdstukken} hoofdstukken.`,
   cta: 'Bekijk voorbeeldrapport',
 } as const;
@@ -151,7 +145,6 @@ export const NUT = [
 
 /** "De methode": geen "wetenschappelijke modellen", geen taalmodel; alleen wat de code doet. */
 export const METHODE = {
-  kicker: 'De methode',
   titel: 'Psychologie en data, samengebracht in een berekening die je kunt narekenen.',
   tekst:
     'Arcana Profile legt Jungiaanse begrippen — persona, schaduw, spanningsvelden — naast twaalf gemeten dimensies. Er zit geen taalmodel in: dezelfde antwoorden geven altijd hetzelfde rapport.',
@@ -429,7 +422,6 @@ export const SLOT_CTA = {
 
 /** De losse, statische voorbeeldrapport-pagina (taak 12). Echt pad, geen hash-route. */
 export const VOORBEELD_URL = '/voorbeeld/';
-export const VOORBEELD_LINK = 'Liever eerst kijken? Lees het voorbeeldrapport';
 /** De korte knoptekst voor dezelfde pagina (hero, rapportband, slot-CTA). */
 export const VOORBEELD_KORT = 'Bekijk voorbeeldrapport';
 
@@ -446,13 +438,11 @@ interface KijkNaBlok {
 }
 
 export const KIJK_NA: {
-  eyebrow: string;
   titel: string;
   lead: string;
   blokken: KijkNaBlok[];
   slotregel: string;
 } = {
-  eyebrow: 'Kijk het zelf na',
   titel: 'Je hoeft ons niets te geloven',
   lead: 'Drie dingen die je kunt controleren voordat je één vraag beantwoordt.',
   blokken: [

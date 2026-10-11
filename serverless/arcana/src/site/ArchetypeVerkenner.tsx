@@ -20,6 +20,17 @@ import { ARCHETYPE_VERKENNER } from './siteContent';
 
 const LABEL = new Map(SUB_DIMENSIONS.map((d) => [d.id, d.label]));
 
+/**
+ * De twaalf emblemen als bestands-URL's (geen JS: Vite maakt er alleen hashes
+ * van). Hier een eigen glob en niet src/data/arcanaArt.ts: dat bestand hoort
+ * bij de lazy rapportchunk en mag niet in de landing komen.
+ */
+const EMBLEMEN = Object.fromEntries(
+  Object.entries(import.meta.glob('../assets/art/emblems/emblem-*.svg', { eager: true, query: '?url', import: 'default' })).map(
+    ([pad, url]) => [pad.slice(pad.lastIndexOf('emblem-') + 'emblem-'.length).replace(/\.svg$/, ''), url as string],
+  ),
+) as Record<string, string>;
+
 export function ArchetypeVerkenner() {
   const [actief, setActief] = useState<ArchetypeId>(ARCHETYPES[0].id);
   const gekozen = ARCHETYPES.find((a) => a.id === actief) ?? ARCHETYPES[0];
@@ -45,6 +56,14 @@ export function ArchetypeVerkenner() {
       {/* Eén blad dat van inhoud wisselt. aria-live zorgt dat een schermlezer
           de nieuwe tekst hoort nadat de keuze is voorgelezen. */}
       <article className="verkenner__blad" aria-live="polite">
+        {EMBLEMEN[gekozen.id] && (
+          <div className="arcana-emblem verkenner__embleem" aria-hidden="true" key={gekozen.id}>
+            <span className="arcana-emblem__disc" />
+            <span className="arcana-emblem__paper arcana-torn" />
+            <img className="arcana-emblem__art" src={EMBLEMEN[gekozen.id]} alt="" width={320} height={340} decoding="async" />
+            <span className="arcana-emblem__name">{gekozen.name}</span>
+          </div>
+        )}
         <h3 className="verkenner__blad-kop">{gekozen.name}</h3>
 
         <p className="verkenner__formule">

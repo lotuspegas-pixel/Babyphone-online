@@ -554,3 +554,20 @@ Risks:
 - De platte composiet voor mobiel en prefers-reduced-motion is één beeld en volgt `BIJSTELLING` niet; daar blijft de oorspronkelijke, strakkere compositie staan. Bewust geaccepteerd: het alternatief is de composiet opnieuw renderen uit de losse lagen.
 
 Follow-up: geen.
+
+## 2026-10-11 — Ontwerpronde na de eerste live-versie: trager laadmoment, hoofdactie boven de vouw, minder haperen
+
+Decision: (1) Het laadmoment van de hero duurt nu ~3,5 s in plaats van ~1,7 s en is gestapeld: vel → naam → hoofdactie → foto-lagen (dieper = later) → handschrift. De foto-lagen wachten tot ze gedecodeerd zijn (`HeroParallax.useIntro`, `.is-binnen`) zodat ze niet halverwege inspringen; de rest begint meteen. (2) De scroll- en muisparallax rekent met een tijdconstante (0,34 s scroll, 0,6 s muis) en niet meer met een vaste fractie per frame, dus even traag op 60 en 144 Hz; `will-change` staat vast op de lagen in plaats van per beweging aan/uit. (3) De hoofdactie ("Begin met de 120 vragen") staat nu in de hero-band, boven de vouw; op mobiel blijft hij onder de belofte (twee exemplaren in de DOM, steeds één `display:none`). (4) De paginagradiënt staat op een vaste `body::before`-laag in plaats van `background-attachment: fixed` (haperen bij scrollen). (5) De archetype-verkenner toont het embleem van de gekozen naam. (6) Het rapport rekte op een telefoon 24 px breder dan het scherm (decoratieve schijven): `overflow-x: clip` op `.arcana-report`; Likert op een telefoon 4+3 gecentreerd; aanraakdoelen en kleine tekst vergroot; dode kicker-/eyebrow-strings uit siteContent verwijderd.
+Reason: de eigenaar vond het parallax-effect te snel en niet soepel bij het opstarten, en vroeg om een totale analyse van wat niet goed werd weergegeven.
+Budget: de landing-JS komt op 75,3 KB q11; de documenteerde trap uit G §3 is deels genomen (grens 75.000 → 78.000, zie `scripts/meet-bundel.mjs`).
+Files affected: arcana/src/site/HeroParallax.tsx, landingMotion.ts, LandingPage.tsx, ArchetypeVerkenner.tsx, siteContent.ts, arcana/src/styles/site.css, arcana.css, arcana/scripts/meet-bundel.mjs.
+Risks: de lagere parallaxsnelheid is een smaakkeuze (`TAU_SCROLL`, `TAU_POINTER` in landingMotion.ts, `--intro` en de vertragingen in site.css); een nog tragere intro vraagt alleen die getallen.
+Follow-up: het scrollgevoel op een echt apparaat (trackpad, muiswiel, telefoon) is alleen met de hand te beoordelen.
+
+## 2026-10-11 — Resttijd in de test rekent met de antwoordtijd van deze sessie, niet met de tijd sinds de start
+
+Decision: "nog ongeveer N minuten" komt uit `src/lib/arcanaPace.ts`: het gemiddelde van de tijd per vraag in de huidige sessie (alleen vooruit met één vraag, tussen 0,8 s en 90 s), met het standaardtempo van 12,5 s per vraag tot er drie metingen zijn, begrensd op 4–45 s per vraag. `arcana_started_at` wordt niet meer voor de teller gelezen (de sleutel blijft bestaan en wordt nog gezet).
+Reason: de oude teller deelde de tijd sinds `arcana_started_at` door het aantal antwoorden. Na een pauze van dagen (of met een oude starttijd) telde de pauze mee en toonde de test "nog ongeveer 145007 minuten". Gereproduceerd met een starttijd van 100 dagen geleden: nu 25 → 20 minuten over 24 vragen, ook na hervatten.
+Files affected: arcana/src/lib/arcanaPace.ts (nieuw), arcana/src/components/ArcanaTest.tsx, arcana/src/test/arcanaPace.test.ts (7 tests, o.a. de 100-dagen-pauze).
+Risks: na een herlaad begint de schatting weer met het standaardtempo tot er drie vragen zijn gemeten; dat is bewust (liever een redelijk getal dan een leeg veld of een oud tempo).
+Follow-up: geen.

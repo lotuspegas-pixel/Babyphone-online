@@ -197,9 +197,26 @@
 html,
 body {
   min-height: 100%;
-  background: radial-gradient(120% 80% at 50% -10%, var(--surface-raised) 0%, var(--bg) 55%, var(--bg-deep) 130%);
-  background-attachment: fixed;
   background-color: var(--bg);
+}
+
+/* De wasem staat op een eigen vaste laag in plaats van op
+   `background-attachment: fixed`: dat laat de browser bij élke scrollstap het
+   hele venster opnieuw verven (merkbaar haperen, vooral op telefoons waar het
+   soms helemaal niet werkt), een eigen laag niet. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% -10%, var(--surface-raised) 0%, var(--bg) 55%, var(--bg-deep) 130%);
+}
+
+@media print {
+  body::before {
+    display: none;
+  }
 }
 
 /* ==========================================================================
@@ -666,9 +683,17 @@ body {
   gap: 8px;
 }
 
+/* Op een telefoon vier per rij zodat elk vak een echt aanraakdoel blijft; de
+   rij van drie die overblijft staat gecentreerd in plaats van links. */
 @media (max-width: 420px) {
   .arcana-likert__scale {
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .arcana-likert__option {
+    flex: 0 0 calc((100% - 24px) / 4);
   }
 }
 
@@ -940,6 +965,11 @@ body {
    ========================================================================== */
 
 .arcana-report {
+  /* De decoratieve schijven en papierstukken achter het embleem en de
+     hoofdstukkunst steken met opzet buiten hun vak. Op een smal scherm mogen
+     ze daardoor de pagina nooit breder maken dan het venster. `clip` en niet
+     `hidden`: dat maakt geen scrollcontainer en laat sticky intact. */
+  overflow-x: clip;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
@@ -1321,10 +1351,12 @@ body {
 
 .arcana-pdf-button__hint {
   max-width: 22rem;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   line-height: 1.4;
   color: var(--ink-soft);
 }
+
+
 
 /* Foutmelding van de PDF-generator en de printvenster-reserve als tekstknop. */
 .arcana-pdf-button__error {
@@ -1335,7 +1367,8 @@ body {
 }
 
 .arcana-pdf-button__fallback {
-  padding: 0;
+  /* Een echt aanraakdoel (≥ 24 px hoog, WCAG 2.5.8), ook al leest het als tekst. */
+  padding: 0.35em 0;
   border: 0;
   background: none;
   font: inherit;

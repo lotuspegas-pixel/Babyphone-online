@@ -184,6 +184,44 @@ export function LandingPage({
   useReveal(wortel);
   useParallax(heroArt);
 
+  // De hoofdactie staat twee keer in de DOM: in de band (desktop, boven de vouw)
+  // en onder de belofte (mobiel). CSS zet steeds één van de twee op
+  // display:none, dus een schermlezer en het toetsenbord zien hem maar één keer.
+  const acties = (
+    <>
+      <div className="landing__knoppen">
+        {hasResult ? (
+          <>
+            <button type="button" className="arcana-button arcana-button--primary" onClick={onViewResult}>
+              Bekijk je rapport
+            </button>
+            <button type="button" className="arcana-button arcana-button--ghost" onClick={onStart}>
+              Opnieuw beginnen
+            </button>
+          </>
+        ) : hasInProgress ? (
+          <>
+            <button type="button" className="arcana-button arcana-button--primary" onClick={onResume}>
+              Verdergaan — vraag {resumeQuestionNumber} van {SITE_STATS.vragen}
+            </button>
+            <button type="button" className="arcana-button arcana-button--ghost" onClick={onStart}>
+              Opnieuw beginnen
+            </button>
+          </>
+        ) : (
+          <button type="button" className="arcana-button arcana-button--primary" onClick={onStart}>
+            {HERO.cta} <span aria-hidden="true">→</span>
+          </button>
+        )}
+        <a className="landing__voorbeeld-link" href={VOORBEELD_URL}>
+          <ArcanaIcon kind="document" size={22} />
+          {VOORBEELD_KORT}
+        </a>
+      </div>
+      <Meta />
+    </>
+  );
+
   return (
     <div className="landing" id="top" ref={wortel}>
       {/* ---------------------------------------------------------------- hero */}
@@ -193,6 +231,9 @@ export function LandingPage({
             parallaxwortel — het draagt --py, --px en --pyy. */}
         <div className="landing__hero-art" aria-hidden="true" ref={heroArt}>
           <HeroParallax />
+        </div>
+        <div className="landing__inner landing__acties-band">
+          <div className="landing__acties landing__acties--band">{acties}</div>
         </div>
 
         <div className="landing__inner landing__hero-grid">
@@ -205,36 +246,7 @@ export function LandingPage({
 
             <p className="landing__belofte">{HERO.belofte}</p>
 
-            <div className="landing__knoppen">
-              {hasResult ? (
-                <>
-                  <button type="button" className="arcana-button arcana-button--primary" onClick={onViewResult}>
-                    Bekijk je rapport
-                  </button>
-                  <button type="button" className="arcana-button arcana-button--ghost" onClick={onStart}>
-                    Opnieuw beginnen
-                  </button>
-                </>
-              ) : hasInProgress ? (
-                <>
-                  <button type="button" className="arcana-button arcana-button--primary" onClick={onResume}>
-                    Verdergaan — vraag {resumeQuestionNumber} van {SITE_STATS.vragen}
-                  </button>
-                  <button type="button" className="arcana-button arcana-button--ghost" onClick={onStart}>
-                    Opnieuw beginnen
-                  </button>
-                </>
-              ) : (
-                <button type="button" className="arcana-button arcana-button--primary" onClick={onStart}>
-                  {HERO.cta} <span aria-hidden="true">→</span>
-                </button>
-              )}
-              <a className="landing__voorbeeld-link" href={VOORBEELD_URL}>
-                <ArcanaIcon kind="document" size={22} />
-                {VOORBEELD_KORT}
-              </a>
-            </div>
-            <Meta />
+            <div className="landing__acties landing__acties--tekst">{acties}</div>
 
             <ul className="landing__vertrouwen">
               {HERO.vertrouwen.map((punt) => (

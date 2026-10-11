@@ -311,8 +311,8 @@ html {
 .mono {
   display: grid;
   gap: 0.8em;
-  font: 400 0.74rem/1.1 var(--font-mono);
-  letter-spacing: 0.2em;
+  font: 400 0.78rem/1.15 var(--font-mono);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-faint);
 }
@@ -345,7 +345,7 @@ html {
   align-items: baseline;
   width: fit-content;
   margin-top: 1.4rem;
-  padding-bottom: 0.15em;
+  padding-block: 0.65em 0.15em;
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid currentColor;
@@ -411,6 +411,13 @@ html {
   margin-top: clamp(1.1rem, 2.2vw, 1.6rem);
   font-size: 1.18rem;
   color: var(--ink-soft);
+}
+
+/* De hoofdactie staat twee keer in de DOM (zie LandingPage): in de hero-band
+   vanaf 900 px, en onder de belofte daaronder. Steeds één van de twee is
+   display:none, dus toetsenbord en schermlezer zien hem één keer. */
+.landing__acties-band {
+  display: none;
 }
 
 .landing__knoppen {
@@ -536,7 +543,6 @@ html {
   position: absolute;
   display: block;
   height: auto;
-  animation: glijd 0.8s var(--ease-uit) calc(var(--diepte) * 140ms) both;
 }
 
 /* Het vel loopt van rand tot rand en is met opzet een stuk ruimer dan de band.
@@ -552,7 +558,6 @@ html {
   height: 180%;
   object-fit: cover;
   object-position: 50% 30%;
-  animation: glijd 0.8s var(--ease-uit) both;
 }
 
 .hero__scene--plat,
@@ -586,7 +591,6 @@ html {
   line-height: 0.82;
   color: var(--vel-inkt);
   text-wrap: nowrap;
-  animation: glijd 0.8s var(--ease-uit) 180ms both;
 }
 
 .hero__woord-een {
@@ -608,17 +612,27 @@ html {
    (scrollafstand in px) en --px/--pyy (pointer, −1…1); elk element leest ze via
    zijn eigen --diepte: 0,06 (het papier) blijft het verst achter op de pagina,
    1,00 (de tafel) beweegt het meest mee. Transform-only, en will-change alleen
-   zolang er daadwerkelijk beweging is. */
+   zolang er daadwerkelijk beweging is.
+
+   De scrollfactor is 0,16 en niet hoger: bij 0,26 liep het landschap na een
+   halve schermhoogte scrollen al ruim 100 px uit op de tafel, en dan valt de
+   plaat zichtbaar uit elkaar in plaats van dat hij diepte krijgt. Samen met de
+   demping in landingMotion.ts blijft de beweging daarmee binnen de compositie.
+   landingMotion.ts regelt hóe snel dit volgt; hier staat hoe vér het gaat. */
 .hero__laag,
 .hero__vel,
 .hero__woord,
 .landing__hero-art .hand {
   translate: calc(var(--px) * var(--diepte, 0.6) * 14px)
-    calc(var(--py) * (1 - var(--diepte, 0.6)) * 0.26px + var(--pyy) * var(--diepte, 0.6) * 10px);
+    calc(var(--py) * (1 - var(--diepte, 0.6)) * 0.16px + var(--pyy) * var(--diepte, 0.6) * 10px);
 }
 
-.landing__hero-art.is-bewegend :is(.hero__laag, .hero__vel, .hero__woord, .hand) {
-  will-change: transform, translate;
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .hero__laag,
+  .hero__vel,
+  .hero__woord {
+    will-change: translate;
+  }
 }
 
 .landing__hero-art .hand {
@@ -626,18 +640,84 @@ html {
   --diepte: 1;
 }
 
-/* Het laadmoment: de lagen glijden van een lichte verschuiving (dieper = verder)
-   naar hun rustpositie; het handschrift schrijft zich daarna in (zie onder). */
-@keyframes glijd {
+/* Het laadmoment. Rustig en in één adem, ruim twee seconden: eerst het vel,
+   dan de achterste lagen, dan de naam, en als laatste de voorste lagen en het
+   handschrift. Dieper = later en verder weg; elke laag stijgt vanuit een lichte
+   verschuiving en een fractie te groot naar zijn plek, zodat het voelt alsof de
+   platen op elkaar worden gelegd en niet alsof ze invliegen.
+
+   Het begint pas als HeroParallax alle lagen gedecodeerd heeft (.is-binnen);
+   tot dan staan ze op onzichtbaar. Alleen met bewegingsvoorkeur: wie
+   reduced-motion heeft, ziet meteen de eindstand. */
+@keyframes verschijn {
   from {
     opacity: 0;
-    transform: translateY(calc(14px + var(--diepte, 0.5) * 26px));
+    transform: translate3d(0, calc(20px + var(--diepte, 0.5) * 56px), 0) scale(1.035);
   }
-  40% {
+  50% {
     opacity: 1;
   }
   to {
+    opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes verschijn-vel {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes verschijn-woord {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .landing__hero {
+    --intro: cubic-bezier(0.33, 0, 0.1, 1);
+  }
+
+  /* Wat niet van de foto's afhangt, begint meteen: het vel, de naam en de
+     hoofdactie. Zo is de band nooit lang leeg terwijl de lagen laden. */
+  .hero__vel,
+  .hero__plat {
+    animation: verschijn-vel 1.6s ease-in-out both;
+  }
+
+  .hero__woord {
+    animation: verschijn-woord 2.4s var(--intro) 0.35s both;
+  }
+
+  .landing__acties--band {
+    animation: verschijn-woord 1.6s var(--intro) 0.95s both;
+  }
+
+  /* De foto-lagen wachten tot ze gedecodeerd zijn (.is-binnen), dan komen ze
+     op elkaar: dieper = later en verder weg. */
+  .landing__hero:not(.is-binnen) :is(.hero__laag, .hand) {
+    opacity: 0;
+  }
+
+  .landing__hero.is-binnen .hero__laag {
+    animation: verschijn 2.8s var(--intro) calc(0.1s + var(--diepte) * 0.9s) both;
+  }
+
+  .landing__hero.is-binnen .hand {
+    animation: schrijf 1.5s ease-in-out calc(2.2s + var(--d, 0s)) both;
   }
 }
 
@@ -662,6 +742,69 @@ html {
      te vechten om hetzelfde. */
   .landing__hero {
     padding: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+    position: relative;
+    /* Hoogte van de band; de actie hieronder verankert zich daaraan. */
+    --band: calc(min(40vw, 560px) / 0.86);
+    --vel-inkt: #1c1712;
+    --vel-inkt-zacht: #4e4338;
+  }
+
+  .landing__acties--tekst {
+    display: none;
+  }
+
+  /* De hoofdactie ligt linksonder op het schone papier van de band, onder de
+     naam en links van de collage: boven de vouw op elk desktopscherm. Hij is
+     verankerd aan de onderkant van de band en groeit naar boven, zodat de
+     variant met twee knoppen (verdergaan) niet in de naam loopt. De band is
+     altijd licht papier — ook in de donkere modus — dus de tekst rekent met de
+     vaste inktkleuren van de plaat en niet met de themavariabelen. */
+  .landing__acties-band {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--band) - 1.75rem);
+    transform: translateY(-100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .landing__acties--band {
+    pointer-events: auto;
+    display: grid;
+    justify-items: start;
+    gap: 0.35rem;
+    width: max-content;
+    max-width: min(22rem, 40vw);
+    color: var(--vel-inkt-zacht);
+  }
+
+  .landing__acties--band .landing__knoppen {
+    margin-top: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .landing__acties--band .landing__voorbeeld-link {
+    color: var(--vel-inkt);
+    border-bottom-color: color-mix(in srgb, var(--vel-inkt) 38%, transparent);
+  }
+
+  .landing__acties--band .landing__meta {
+    margin-top: 0.4rem;
+    gap: 0.1rem 1rem;
+    color: var(--vel-inkt-zacht);
+  }
+
+  .landing__acties--band .landing__meta li::before {
+    content: none;
+  }
+
+  .landing__acties--band .arcana-button--ghost {
+    color: var(--vel-inkt);
+    border-color: color-mix(in srgb, var(--vel-inkt) 38%, transparent);
   }
 
   /* De band krijgt een vaste hoogte en de platen lijnen daar rechts in uit.
@@ -669,19 +812,28 @@ html {
      linkerkant schoon papier over voor de naam. Breder venster betekent dus
      meer papier, niet een groter beeld. */
   .landing__hero-art {
-    --kunst-h: min(46vw, 660px);
+    /* Hoogte van de plaat zélf. De band eromheen is een slag hoger, zodat de
+       collage niet tot in de hoeken staat maar als een foto óp het vel ligt,
+       met lucht boven, onder en rechts. Dat is wat de compositie rust geeft:
+       de plaat is kleiner dan de band, niet gelijk eraan. */
+    --kunst-h: min(40vw, 560px);
+    /* Een lengte, geen percentage: deze waarde gaat ook de berekening van
+       --schoon in, en daar kan een procent niet met een lengte vermenigvuldigd
+       worden. */
+    --kunst-rechts: 2.5vw;
     /* Hoeveel schoon papier er links van de collage overblijft op de hoogte
        waar de naam staat. Niet de omhullende van de plaat telt maar waar de
        eerste ondoorzichtige pixel zit: in de bovenste vijfde begint het
        gescheurde papier pas op ~37 % van de plaatbreedte (gemeten met
        scripts/analyseer-lagen.mjs). De plaat is 1,777 keer zo breed als hoog,
        dus die rand ligt op 100vw − 1,12 × bandhoogte. */
-    --schoon: calc(0.975 * 100vw - 1.12 * var(--kunst-h));
-    /* 0,345 is gemeten: bij die factor loopt de staart van het woord net genoeg
+    --schoon: calc(0.975 * 100vw - var(--kunst-rechts) - 1.12 * var(--kunst-h));
+    /* 0,33 is gemeten: bij die factor loopt de staart van het woord net genoeg
        ín het papier dat je ziet dat hij erachter verdwijnt, zonder dat de naam
-       onleesbaar wordt. Groeit het venster, dan groeit de naam mee. */
-    --naam: min(calc(var(--schoon) * 0.345), 24rem);
-    height: var(--kunst-h);
+       onleesbaar wordt of tegen de collage aan gaat staan. Groeit het venster,
+       dan groeit de naam mee. */
+    --naam: min(calc(var(--schoon) * 0.33), 23rem);
+    height: calc(var(--kunst-h) / 0.86);
     overflow: hidden;
   }
 
@@ -691,10 +843,15 @@ html {
     aspect-ratio: auto;
   }
 
+  /* 86 % van de band, met lucht rechts en iets meer onder dan boven: de tafel
+     mag niet op de rand van de band staan, anders loopt hij over in de sectie
+     eronder en wordt het geheel één dichte massa. */
   .hero__groep {
     left: auto;
-    right: 0;
-    height: 100%;
+    right: var(--kunst-rechts);
+    top: 5%;
+    bottom: auto;
+    height: 86%;
     aspect-ratio: 1672 / 941;
   }
 
@@ -719,7 +876,7 @@ html {
   }
 }
 
-/* Het handschrift schrijft zich één keer in (laatste notitie klaar op 1,75 s),
+/* Het handschrift schrijft zich één keer in, na de lagen en de naam (zie het laadmoment hierboven),
    met een vertraging per notitie (--d). De eindstand is de ruststand; zonder
    animatie staat alles er. */
 @keyframes schrijf {
@@ -729,10 +886,6 @@ html {
   to {
     clip-path: inset(-12% -4% -12% -4%);
   }
-}
-
-.landing__hero .hand {
-  animation: schrijf 0.65s var(--ease-uit) var(--d, 0s) both;
 }
 
 @media (prefers-reduced-motion: reduce), print {
@@ -2534,6 +2687,68 @@ html {
 .verkenner__blad-kop {
   margin: 0;
   font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
+}
+
+/* Het emblem van de gekozen naam, op zijn podium (zie .arcana-emblem in
+   arcana.css). Op smal scherm boven de tekst, vanaf 760 px rechts ervan; het
+   papier en de schijf van het podium blijven binnen het blad. Het wisselt met
+   een zachte overgang: alleen de tekening, geen beweging van het blad zelf. */
+.verkenner__embleem {
+  max-width: 15rem;
+  margin: 1.25rem auto 1.75rem;
+  --pad: 0;
+}
+
+.verkenner__blad {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .verkenner__embleem {
+    animation: verkenner-in 0.7s var(--ease-uit) both;
+  }
+}
+
+@keyframes verkenner-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 760px) {
+  .verkenner__blad {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    grid-template-areas:
+      'kop embleem'
+      'formule embleem'
+      'tekst embleem';
+    align-content: start;
+    column-gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .verkenner__embleem {
+    grid-area: embleem;
+    margin: 1rem 0.75rem 0 0;
+    align-self: start;
+  }
+
+  .verkenner__blad-kop {
+    grid-area: kop;
+  }
+
+  .verkenner__formule {
+    grid-area: formule;
+  }
+
+  .verkenner__tekst {
+    grid-area: tekst;
+  }
 }
 
 /* De optelsom. De termen staan als losse zetstukken naast elkaar; het

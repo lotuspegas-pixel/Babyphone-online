@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useRef, type CSSProperties, type RefObject } from 'react';
 import { HERO_LAGEN, HERO_VLAK } from './heroLagen';
 import { PARALLAX_MQ } from './landingMotion';
 import composiet from '../assets/art/hero/composiet.webp';
@@ -35,11 +35,43 @@ import composiet from '../assets/art/hero/composiet.webp';
 /** Waar het woord in de stapel staat. Tussen boog (0,30) en collage (0,60). */
 const WOORD_DIEPTE = 0.42;
 
+/**
+ * Bijstelling bovenop de gemeten posities uit heroLagen.ts.
+ *
+ * In de bronplaat liggen Jung en de schaaktafel tegen elkaar aan en valt een
+ * deel van de collage achter hem weg. Omdat de lagen hier los zijn, kan dat
+ * uit elkaar — dat is precies de winst van parallax boven één platte plaat.
+ *
+ * Dit staat met opzet níét in heroLagen.ts: dat bestand wordt gegenereerd uit
+ * de kunst en moet dus alleen beschrijven waar de platen zaten. Hier staat wat
+ * wij daar bewust van afwijken, zodat opnieuw exporteren deze afstemming niet
+ * weggooit.
+ *
+ * Waarden zijn percentpunten van het plaatvlak; `schaal` is een factor op de
+ * breedte. Dit zijn smaakgetallen, geen metingen — draai eraan tot het klopt.
+ */
+const BIJSTELLING: Record<string, { x?: number; y?: number; schaal?: number }> = {
+  // Iets omhoog en een slag kleiner: hij domineerde de plaat en drukte de
+  // collage achter zich weg.
+  jung: { y: -3.5, schaal: 0.95 },
+  // De tafel zakt mee naar beneden, zodat er lucht tussen hem en de man komt.
+  tafel: { y: 2.5 },
+  // Het landschap een duim naar rechts: dan kijkt het venster langs Jung heen
+  // in plaats van tegen zijn achterhoofd.
+  landschap: { x: 1.5 },
+};
+
 const VEL = HERO_LAGEN[0];
 const ACHTER = HERO_LAGEN.filter((l) => l !== VEL && l.diepte < WOORD_DIEPTE);
 const VOOR = HERO_LAGEN.filter((l) => l.diepte > WOORD_DIEPTE);
 
 function Laag({ laag }: { laag: (typeof HERO_LAGEN)[number] }) {
+  const bij = BIJSTELLING[laag.naam];
+  const breedte = laag.breedte * (bij?.schaal ?? 1);
+  // Krimpt een laag, dan zou hij om zijn linkerbovenhoek krimpen en naar rechts
+  // lijken te schuiven; de helft van het verschil terugleggen houdt hem staan.
+  const links = laag.links + (laag.breedte - breedte) / 2 + (bij?.x ?? 0);
+
   return (
     <img
       className="hero__laag"
@@ -50,9 +82,9 @@ function Laag({ laag }: { laag: (typeof HERO_LAGEN)[number] }) {
       style={
         {
           '--diepte': laag.diepte,
-          left: `${laag.links}%`,
-          top: `${laag.boven}%`,
-          width: `${laag.breedte}%`,
+          left: `${links}%`,
+          top: `${laag.boven + (bij?.y ?? 0)}%`,
+          width: `${breedte}%`,
         } as CSSProperties
       }
     />
@@ -68,15 +100,47 @@ function Woord({ diepte }: { diepte: number }) {
   );
 }
 
+/**
+ * De foto-lagen komen pas binnen als ze allemaal gedecodeerd zijn. Anders start
+ * hun animatie op lagen die nog niet getekend zijn en zie je ze er halverwege
+ * in springen — dat las als haperen. Tot dan staan ze op onzichtbaar (zie
+ * `.landing__hero:not(.is-binnen)` in site.css); het vel, de naam en de
+ * hoofdactie hangen er niet van af en beginnen meteen. Is er na 3,5 s nog iets
+ * niet binnen, dan begint het toch, zodat de hero nooit leeg blijft.
+ */
+function useIntro(scene: RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const el = scene.current;
+    const hero = el?.closest('.landing__hero');
+    if (!el || !hero) return;
+    let gestart = false;
+    const start = () => {
+      if (gestart) return;
+      gestart = true;
+      hero.classList.add('is-binnen');
+    };
+    const noodstart = window.setTimeout(start, 3500);
+    const beelden = Array.from(el.querySelectorAll('img'));
+    void Promise.all(beelden.map((b) => b.decode().catch(() => undefined))).then(() => {
+      // Twee frames wachten: dan staat de eerste verf er zeker en begint de
+      // animatie op een rustig moment, niet midden in het decoderen.
+      requestAnimationFrame(() => requestAnimationFrame(start));
+    });
+    return () => window.clearTimeout(noodstart);
+  }, [scene]);
+}
+
 export function HeroParallax() {
   // Eén meting bij het opbouwen: hierna verandert dit niet meer zonder dat de
   // pagina opnieuw laadt, en een luisteraar zou alleen maar lagen in- en
   // uitladen terwijl iemand zijn venster versleept.
   const gelaagd = typeof matchMedia === 'function' && matchMedia(PARALLAX_MQ).matches;
+  const scene = useRef<HTMLDivElement>(null);
+  useIntro(scene);
 
   if (!gelaagd) {
     return (
-      <div className="hero__scene hero__scene--plat">
+      <div className="hero__scene hero__scene--plat" ref={scene}>
         <img
           className="hero__plat"
           src={composiet}
@@ -92,7 +156,7 @@ export function HeroParallax() {
   }
 
   return (
-    <div className="hero__scene">
+    <div className="hero__scene" ref={scene}>
       <img
         className="hero__vel"
         src={VEL.bron}

@@ -14,7 +14,7 @@ import { join } from 'node:path';
 import { brotliCompressSync, constants } from 'node:zlib';
 
 const ASSETS = join(process.cwd(), 'dist', 'assets');
-const BUDGET_LANDING_Q11 = 75_000; // bytes. De trap naar 80.000 uit G §3 (tegenspraak 9) is niet nodig gebleken: de landing meet 66,4 KB, ruim onder 75.
+const BUDGET_LANDING_Q11 = 78_000; // bytes. Was 75.000. De trap naar 80.000 uit G §3 (tegenspraak 9) is deels genomen: de fotoparallax-hero (laadpoort, tijdgebaseerde demping), de hoofdactie in de band en de archetype-verkenner met embleem kosten samen ~3 KB bovenop de 72 KB van de landing zonder die onderdelen. Meer dan 78.000 is een nieuwe beslissing.
 const BUDGET_CSS_Q11 = 19_000; // was 18.000: de fotoparallax in de hero (band, vel, lagen, naam tussen de lagen) en de archetypeverkenner kosten samen ~0,5 KB. 20.000 blijft het plafond.
 const BUDGET_FONTS = 60_000; // bytes op de lijn voor de basisbestanden samen
 // Beeldmateriaal van de landing: de zeven SVG-collages uit src/assets/art/landing/

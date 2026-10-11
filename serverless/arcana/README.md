@@ -136,8 +136,22 @@ Beide platforms detecteren Vite automatisch zodra de root directory naar
 ### Hostinger (of elke statische host)
 
 1. `npm run build` lokaal draaien.
-2. De inhoud van `dist/` uploaden naar de gewenste map op de hosting (bijv. `/arcana/`).
-3. Zorg dat de server onbekende routes terugvalt op `index.html` (single-page app); voor deze app is dat in de praktijk niet nodig omdat er geen client-side routing met losse URL's is — alles draait op één pagina.
+2. De **inhoud** van `dist/` uploaden naar de webroot (`public_html/`) — dus
+   `index.html` en de map `assets/` komen rechtstreeks in de webroot, niet in
+   een map `dist/` eromheen.
+3. Onbekende routes hoeven niet op `index.html` terug te vallen: er is geen
+   client-side routing met losse URL's. De site heeft twee echte pagina's,
+   `/` en `/voorbeeld/`, en die staan allebei als bestand in `dist/`.
+
+> **De site moet op de root van het domein staan, niet in een submap.**
+> De build zet `base` niet, dus alle verwijzingen in `index.html` zijn absoluut
+> (`/assets/…`, `/favicon.svg`). Upload je naar `/arcana/`, dan zoekt de browser
+> die bestanden op `arcanaprofile.com/assets/…` en krijg je een pagina zonder
+> opmaak of beeld. Ook de canonical, de sitemap en de JSON-LD gaan uit van de
+> root van `arcanaprofile.com` (`scripts/check-domains.mjs` bewaakt dat).
+>
+> Moet het toch in een submap, zet dan `base: '/submap/'` in `vite.config.ts`
+> en pas de domeinen in `scripts/generate-seo-files.mjs` aan — en bouw opnieuw.
 
 ## Privacy & disclaimer
 

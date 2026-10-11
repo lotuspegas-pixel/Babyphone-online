@@ -6,7 +6,7 @@ import {
   RANKING_QUESTIONS,
   SCENARIO_QUESTIONS,
 } from '../data/arcanaQuestions';
-import { loadStartedAt } from '../lib/arcanaStorage';
+import { beginPace, registreerWissel, resterendeMinuten } from '../lib/arcanaPace';
 import type { ArcanaAnswer, ArcanaAnswerMap, QuestionType } from '../types/arcana';
 import { ArcanaProgress } from './ArcanaProgress';
 import { ArcanaQuestionRenderer } from './ArcanaQuestionRenderer';
@@ -50,27 +50,6 @@ const BLOCK_STARTS: Record<QuestionType, number> = (() => {
   return starts;
 })();
 
-/** Pas tonen als er genoeg tempo bekend is om een schatting op te baseren. */
-const MIN_ANSWERS_FOR_ESTIMATE = 3;
-
-/**
- * Resttijd uit het tempo tot nu toe: verstreken tijd sinds `arcana_started_at`
- * gedeeld door het aantal beantwoorde vragen, maal het aantal resterende
- * vragen. Zelfbijstellend — hoe verder iemand komt, hoe preciezer.
- */
-function estimateRemainingMinutes(answeredCount: number, totalCount: number): number | undefined {
-  if (answeredCount < MIN_ANSWERS_FOR_ESTIMATE) return undefined;
-  const remaining = totalCount - answeredCount;
-  if (remaining <= 0) return undefined;
-  const startedAt = loadStartedAt();
-  if (!startedAt) return undefined;
-  const elapsedMs = Date.now() - new Date(startedAt).getTime();
-  if (!Number.isFinite(elapsedMs) || elapsedMs <= 0) return undefined;
-  const msPerAnswer = elapsedMs / answeredCount;
-  const remainingMinutes = Math.round((msPerAnswer * remaining) / 60000);
-  return Math.max(1, remainingMinutes);
-}
-
 /**
  * Pauze tussen het aanklikken van een antwoord en het doorschakelen. Lang
  * genoeg om de keuze te zien oplichten, kort genoeg om niet als wachten te
@@ -84,7 +63,15 @@ export function ArcanaTest({ currentIndex, answers, onAnswer, onNext, onPrevious
   const isLast = currentIndex === ARCANA_QUESTIONS.length - 1;
   const blockIndex = BLOCK_ORDER.indexOf(question.type);
   const positionInBlock = currentIndex - BLOCK_STARTS[question.type] + 1;
-  const remainingMinutes = estimateRemainingMinutes(Object.keys(answers).length, ARCANA_QUESTIONS.length);
+
+  // Tempo van deze sessie (zie arcanaPace.ts): alleen de tijd per vraag telt,
+  // nooit de tijd sinds de start — die liep na een pauze op tot honderdduizenden
+  // minuten.
+  const [pace, setPace] = useState(() => beginPace(currentIndex, Date.now()));
+  useEffect(() => {
+    setPace((vorige) => registreerWissel(vorige, currentIndex, Date.now()));
+  }, [currentIndex]);
+  const remainingMinutes = resterendeMinuten(pace, Object.keys(answers).length, ARCANA_QUESTIONS.length);
 
   /**
    * Richting van de bladwissel: vooruit schuift het nieuwe blad van rechts
