@@ -39,6 +39,12 @@ const LANDING_ART = /^emblem-theSeeker-.+\.svg$/;
 // De zes renders onder de vouw (scripts/bereid-renders.mjs): tegels, doorgang, buste,
 // bergstrook. WebP, lazy, dus geen JS en geen eerste-verf; ruwe omvang telt.
 // Gemeten 878 KB; grens ~125 %.
+// De twaalf archetypepagina's in "De twaalf namen" (scripts/bereid-archetypepaginas.mjs):
+// WebP, elk ~170 KB, en alleen de gekozen pagina wordt geladen. Telt dus niet mee
+// voor de eerste laadbeurt; deze grens bewaakt dat er geen zwaardere pagina sluipt.
+const PAGINA_ART = /^pagina-the.+\.webp$/;
+const BUDGET_PAGINA_STUK = 200_000; // bytes per pagina, ruw
+
 const RENDER_ART = /^render-.+\.webp$/;
 const BUDGET_RENDERS = 1_100_000; // bytes, ruw
 
@@ -63,6 +69,7 @@ const art = files.filter((f) => LANDING_ART.test(f.name));
 const heroLagen = files.filter((f) => HERO_ART.test(f.name));
 const heroPlat = files.filter((f) => HERO_PLAT.test(f.name));
 const renders = files.filter((f) => RENDER_ART.test(f.name));
+const paginas = files.filter((f) => PAGINA_ART.test(f.name));
 
 // De chunks krijgen hun naam van Rollup: index (entry), vendor, en de lazy
 // chunks naar hun bronbestand. Wat er op de landing laadt: entry + vendor.
@@ -95,6 +102,7 @@ scenario('terugkomen om het rapport te herlezen', [...landingJs, ...js.filter(is
 if (rest.length) console.log(`  (gedeelde chunks: ${rest.map((f) => f.name).join(', ')})`);
 
 console.log(`Landing-art: ${kb(sum(art, 'q11'))} q11 (${art.length} van 1 SVG) · grens ${kb(BUDGET_ART_Q11)}`);
+console.log(`Archetypepagina's op verzoek: ${paginas.length} van 12 · zwaarste ${kb(Math.max(0, ...paginas.map((f) => f.raw)))} · grens per stuk ${kb(BUDGET_PAGINA_STUK)}`);
 console.log(`Renders onder de vouw: ${kb(sum(renders, 'raw'))} ruw in ${renders.length} platen · grens ${kb(BUDGET_RENDERS)}`);
 console.log(
   `Hero-parallax: ${kb(sum(heroLagen, 'raw'))} ruw in ${heroLagen.length} lagen · grens ${kb(BUDGET_HERO_LAGEN)}` +
@@ -114,6 +122,8 @@ if (sum(landingJs, 'q11') > BUDGET_LANDING_Q11) fouten.push(`landing ${sum(landi
 if (sum(css, 'q11') > BUDGET_CSS_Q11) fouten.push(`css ${sum(css, 'q11')} B > ${BUDGET_CSS_Q11} B (q11)`);
 if (art.length !== 1) fouten.push(`landing-art: ${art.length} van de 1 verwachte SVG in dist/assets (hernoemd of inline gezet?)`);
 if (heroLagen.length !== 6) fouten.push(`hero-parallax: ${heroLagen.length} van de 6 lagen in dist/assets (draaide scripts/bereid-parallax.mjs?)`);
+if (paginas.length !== 12) fouten.push(`archetypepagina's: ${paginas.length} van de 12 in dist/assets (draaide scripts/bereid-archetypepaginas.mjs?)`);
+if (paginas.some((f) => f.raw > BUDGET_PAGINA_STUK)) fouten.push(`een archetypepagina is zwaarder dan ${BUDGET_PAGINA_STUK} B`);
 if (renders.length !== 6) fouten.push(`renders: ${renders.length} van de 6 platen in dist/assets (draaide scripts/bereid-renders.mjs?)`);
 if (sum(renders, 'raw') > BUDGET_RENDERS) fouten.push(`renders ${sum(renders, 'raw')} B > ${BUDGET_RENDERS} B`);
 if (sum(heroLagen, 'raw') > BUDGET_HERO_LAGEN) fouten.push(`hero-lagen ${sum(heroLagen, 'raw')} B > ${BUDGET_HERO_LAGEN} B`);

@@ -2594,6 +2594,10 @@ html {
 
 .verkenner {
   display: grid;
+  /* minmax(0, …): zonder dat rekt het blad op een telefoon uit naar de
+     natuurlijke breedte van het archetypebeeld (1000 px) en loopt alles rechts
+     uit beeld. */
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(1.5rem, 3vw, 2.5rem);
   margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
 }
@@ -2689,68 +2693,6 @@ html {
   font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem);
 }
 
-/* Het emblem van de gekozen naam, op zijn podium (zie .arcana-emblem in
-   arcana.css). Op smal scherm boven de tekst, vanaf 760 px rechts ervan; het
-   papier en de schijf van het podium blijven binnen het blad. Het wisselt met
-   een zachte overgang: alleen de tekening, geen beweging van het blad zelf. */
-.verkenner__embleem {
-  max-width: 15rem;
-  margin: 1.25rem auto 1.75rem;
-  --pad: 0;
-}
-
-.verkenner__blad {
-  overflow: hidden;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .verkenner__embleem {
-    animation: verkenner-in 0.7s var(--ease-uit) both;
-  }
-}
-
-@keyframes verkenner-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px) rotate(-1deg);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (min-width: 760px) {
-  .verkenner__blad {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 15rem;
-    grid-template-areas:
-      'kop embleem'
-      'formule embleem'
-      'tekst embleem';
-    align-content: start;
-    column-gap: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  .verkenner__embleem {
-    grid-area: embleem;
-    margin: 1rem 0.75rem 0 0;
-    align-self: start;
-  }
-
-  .verkenner__blad-kop {
-    grid-area: kop;
-  }
-
-  .verkenner__formule {
-    grid-area: formule;
-  }
-
-  .verkenner__tekst {
-    grid-area: tekst;
-  }
-}
-
 /* De optelsom. De termen staan als losse zetstukken naast elkaar; het
    scheidingsteken komt uit CSS zodat de DOM gewone woorden houdt. */
 .verkenner__formule {
@@ -2788,6 +2730,162 @@ html {
   color: var(--ink-faint);
 }
 
+/* De ontworpen archetypepagina onder de tekst. Het beeld is een volledig
+   ontwerp met eigen tekst; op deze breedte is dat een overzicht, op volle
+   grootte (de dialoog) leesbaar. */
+.verkenner__pagina {
+  margin: clamp(1.25rem, 2.5vw, 1.75rem) 0 0;
+}
+
+.verkenner__pagina-knop {
+  display: block;
+  width: min(100%, 44rem);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  line-height: 0;
+}
+
+.verkenner__pagina-knop img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  box-shadow: 0 0.5rem 1.4rem rgb(var(--shadow-color) / 0.26);
+  transition: transform 0.35s var(--ease-uit), box-shadow 0.35s var(--ease-uit);
+}
+
+@media (hover: hover) {
+  .verkenner__pagina-knop:hover img {
+    transform: translateY(-3px);
+    box-shadow: 0 0.8rem 1.8rem rgb(var(--shadow-color) / 0.32);
+  }
+}
+
+.verkenner__pagina-knop:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.verkenner__pagina figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .verkenner__pagina {
+    animation: verkenner-in 0.6s var(--ease-uit) both;
+  }
+}
+
+@keyframes verkenner-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* De volledige pagina in een dialoog: schermvullend scrollbaar, sluiten met
+   de knop, Escape of een klik ernaast. */
+.verkenner__groot {
+  width: min(100vw - 1.5rem, 62.5rem);
+  max-width: none;
+  max-height: calc(100dvh - 1.5rem);
+  padding: 0;
+  border: 0;
+  background: var(--surface-raised);
+  color: var(--ink);
+  overflow: auto;
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.5);
+}
+
+.verkenner__groot::backdrop {
+  background: rgb(18 14 10 / 0.78);
+}
+
+.verkenner__groot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* De sluitknop blijft bovenaan staan terwijl de pagina scrolt en ligt over het
+   beeld heen (negatieve ondermarge), zodat er geen lege balk boven staat. */
+.verkenner__sluit {
+  position: sticky;
+  top: 0.75rem;
+  z-index: 1;
+  display: block;
+  width: max-content;
+  min-height: 44px;
+  margin: 0.75rem 0.75rem -3.5rem auto;
+}
+
+html:has(.verkenner__groot[open]) {
+  overflow: hidden;
+}
+
+/* Op een telefoon een zwaaibare rij namen boven het blad: tik op een naam en
+   het blad eronder verandert meteen in beeld. Eerder stond het register onder
+   het blad, en dan zag je van je tik niets terug. */
+@media (max-width: 819px) {
+  /* In de dialoog is de pagina op een telefoon breder dan het scherm en schuif je
+     erdoorheen: op 366 px is de tekst in het ontwerp ~7 px, op 720 px ~14 px. De
+     sluitknop blijft links in beeld staan terwijl je schuift. */
+  .verkenner__groot img {
+    width: 720px;
+    max-width: none;
+  }
+
+  .verkenner__sluit {
+    left: 0.75rem;
+    margin: 0.75rem 0 -3.5rem 0;
+  }
+
+  .verkenner__blad {
+    order: 0;
+  }
+
+  .verkenner__index {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.15rem 0.15rem 0.6rem;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .verkenner__regel,
+  .verkenner__regel:last-of-type {
+    flex: 0 0 auto;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgb(from var(--ink) r g b / 0.22);
+    border-radius: 99px;
+    scroll-snap-align: start;
+  }
+
+  .verkenner__naam {
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+
+  .verkenner__regel:has(input:checked) {
+    padding-left: 1rem;
+    border-color: var(--gold);
+    background: var(--surface-raised);
+  }
+
+  .verkenner__regel:has(input:checked)::before {
+    content: none;
+  }
+}
+
 @media (min-width: 820px) {
   .verkenner {
     grid-template-columns: minmax(13rem, 0.78fr) minmax(0, 1.6fr);
@@ -2795,12 +2893,16 @@ html {
   }
 
   /* Naast elkaar klopt de leesvolgorde vanzelf weer: register links, blad
-     rechts. Het blad blijft staan terwijl je het register doorloopt. */
+     rechts. Het blad is nu een lange pagina; daarom blijft het register staan
+     terwijl je het blad doorleest, en niet andersom. */
   .verkenner__blad {
     order: 0;
+    min-height: 19rem;
+  }
+
+  .verkenner__index {
     position: sticky;
     top: calc(var(--kop-hoogte, 4.5rem) + 1rem);
-    min-height: 19rem;
   }
 }
 
