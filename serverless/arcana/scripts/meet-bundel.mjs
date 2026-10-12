@@ -53,18 +53,25 @@ const HERO_PLAT = /^composiet-.+\.webp$/;
 const BUDGET_HERO_LAGEN = 1_000_000; // bytes, ruw
 const BUDGET_HERO_PLAT = 120_000; // bytes, ruw — dit is wat mobiel betaalt
 
-// Het logo: één plaat in drie maten (scripts/bereid-woordmerk.mjs); srcset kiest.
-//   telefoon         alleen logo-klein (kop); de hero toont het logo daar niet
-//   scherm 1x        logo-klein (kop) + logo-midden (hero)
-//   scherm 2x        logo-klein (kop) + logo (hero)
+// Het logo in twee versies (scripts/bereid-woordmerk.mjs):
+//   licht   koper op papier, in drie maten; srcset kiest. Hero, voet, rapport.
+//   donker  donkerrood op zuiver zwart, één maat. De zwarte kop bovenaan.
+//
+// Wat een bezoeker betaalt:
+//   telefoon         logo-donker (kop). De hero toont het logo daar niet en de
+//                    voet laadt pas als je er bijna bent (loading="lazy").
+//   scherm 1x        logo-donker + logo-midden (hero), later logo-klein (voet)
+//   scherm 2x        logo-donker + logo (hero), later logo-klein (voet)
 // Kwaliteit verlagen helpt niet (metaalkorrel comprimeert niet), dus wie deze
 // grenzen ziet stijgen heeft het logo gróter geëxporteerd.
-const LOGO_GROOT = /^logo-(?!klein|midden)[^.]+.webp$/;
+const LOGO_GROOT = /^logo-(?!klein|midden|donker)[^.]+.webp$/;
 const LOGO_MIDDEN = /^logo-midden-.+.webp$/;
 const LOGO_KLEIN = /^logo-klein-.+.webp$/;
+const LOGO_DONKER = /^logo-donker-.+.webp$/;
 const BUDGET_LOGO_GROOT = 180_000; // bytes, ruw
 const BUDGET_LOGO_MIDDEN = 75_000;
-const BUDGET_LOGO_KLEIN = 20_000; // dit is wat een telefoon betaalt
+const BUDGET_LOGO_KLEIN = 20_000;
+const BUDGET_LOGO_DONKER = 14_000; // dit is wat een telefoon betaalt
 
 function brotli(buf, quality) {
   return brotliCompressSync(buf, { params: { [constants.BROTLI_PARAM_QUALITY]: quality } }).length;
@@ -84,6 +91,7 @@ const heroPlat = files.filter((f) => HERO_PLAT.test(f.name));
 const logoGroot = files.filter((f) => LOGO_GROOT.test(f.name));
 const logoMidden = files.filter((f) => LOGO_MIDDEN.test(f.name));
 const logoKlein = files.filter((f) => LOGO_KLEIN.test(f.name));
+const logoDonker = files.filter((f) => LOGO_DONKER.test(f.name));
 const renders = files.filter((f) => RENDER_ART.test(f.name));
 const paginas = files.filter((f) => PAGINA_ART.test(f.name));
 
@@ -126,9 +134,9 @@ console.log(
   daarvan op mobiel: ${kb(sum(heroPlat, 'raw'))} (alleen de platte composiet) · grens ${kb(BUDGET_HERO_PLAT)}`,
 );
 console.log(
-  `Logo: ${kb(sum(logoGroot, 'raw'))} groot · ${kb(sum(logoMidden, 'raw'))} midden · ${kb(sum(logoKlein, 'raw'))} klein` +
+  `Logo: ${kb(sum(logoGroot, 'raw'))} groot · ${kb(sum(logoMidden, 'raw'))} midden · ${kb(sum(logoKlein, 'raw'))} klein · ${kb(sum(logoDonker, 'raw'))} donker` +
     `
-  daarvan op mobiel: ${kb(sum(logoKlein, 'raw'))} (alleen de kop) · grenzen ${kb(BUDGET_LOGO_GROOT)} / ${kb(BUDGET_LOGO_MIDDEN)} / ${kb(BUDGET_LOGO_KLEIN)}`,
+  daarvan op mobiel: ${kb(sum(logoDonker, 'raw'))} (alleen de zwarte kop) · grenzen ${kb(BUDGET_LOGO_GROOT)} / ${kb(BUDGET_LOGO_MIDDEN)} / ${kb(BUDGET_LOGO_KLEIN)} / ${kb(BUDGET_LOGO_DONKER)}`,
 );
 
 // Wat de landing aan fonts ophaalt: de basisbestanden, zonder de cursief (die
@@ -149,13 +157,14 @@ if (renders.length !== 6) fouten.push(`renders: ${renders.length} van de 6 plate
 if (sum(renders, 'raw') > BUDGET_RENDERS) fouten.push(`renders ${sum(renders, 'raw')} B > ${BUDGET_RENDERS} B`);
 if (sum(heroLagen, 'raw') > BUDGET_HERO_LAGEN) fouten.push(`hero-lagen ${sum(heroLagen, 'raw')} B > ${BUDGET_HERO_LAGEN} B`);
 if (sum(heroPlat, 'raw') > BUDGET_HERO_PLAT) fouten.push(`hero-composiet ${sum(heroPlat, 'raw')} B > ${BUDGET_HERO_PLAT} B`);
-if (logoGroot.length !== 1 || logoMidden.length !== 1 || logoKlein.length !== 1)
+if (logoGroot.length !== 1 || logoMidden.length !== 1 || logoKlein.length !== 1 || logoDonker.length !== 1)
   fouten.push(
-    `logo: ${logoGroot.length} grote, ${logoMidden.length} middelste en ${logoKlein.length} kleine plaat in dist/assets, verwacht 1 van elk (draaide scripts/bereid-woordmerk.mjs?)`,
+    `logo: ${logoGroot.length} grote, ${logoMidden.length} middelste, ${logoKlein.length} kleine en ${logoDonker.length} donkere plaat in dist/assets, verwacht 1 van elk (draaide scripts/bereid-woordmerk.mjs?)`,
   );
 if (sum(logoGroot, 'raw') > BUDGET_LOGO_GROOT) fouten.push(`logo groot ${sum(logoGroot, 'raw')} B > ${BUDGET_LOGO_GROOT} B`);
 if (sum(logoMidden, 'raw') > BUDGET_LOGO_MIDDEN) fouten.push(`logo midden ${sum(logoMidden, 'raw')} B > ${BUDGET_LOGO_MIDDEN} B`);
 if (sum(logoKlein, 'raw') > BUDGET_LOGO_KLEIN) fouten.push(`logo klein ${sum(logoKlein, 'raw')} B > ${BUDGET_LOGO_KLEIN} B`);
+if (sum(logoDonker, 'raw') > BUDGET_LOGO_DONKER) fouten.push(`logo donker ${sum(logoDonker, 'raw')} B > ${BUDGET_LOGO_DONKER} B`);
 if (sum(art, 'q11') > BUDGET_ART_Q11) fouten.push(`landing-art ${sum(art, 'q11')} B > ${BUDGET_ART_Q11} B (q11)`);
 if (fontsBase.length && sum(fontsBase, 'raw') > BUDGET_FONTS) fouten.push(`fonts ${sum(fontsBase, 'raw')} B > ${BUDGET_FONTS} B`);
 

@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { LOGO } from '../site/woordmerk';
+import { LOGO, LOGO_DONKER } from '../site/woordmerk';
 
 interface Props {
   /**
@@ -25,26 +25,48 @@ interface Props {
    */
   decoratief?: boolean;
   priority?: boolean;
+  /** Pas laden als het in beeld komt; voor plekken onder de vouw, zoals de voet. */
+  lazy?: boolean;
+  /**
+   * De versie voor een zwarte ondergrond: donkerrood en steen op zuiver zwart,
+   * zonder doorzichtigheid. Alleen te gebruiken op een vlak van exact #000; op
+   * elke andere kleur staat de plaat als zwarte rechthoek op de pagina.
+   */
+  donker?: boolean;
 }
 
 /**
- * Het logo van Arcana Profile — "Arcana" boven "Profile.com". Eén plaat, overal
- * dezelfde: kop, voet, hero, rapport en voorblad. Er is bewust geen variant
- * per plek; wie het logo ergens anders nodig heeft, gebruikt dit onderdeel.
+ * Het logo van Arcana Profile — "Arcana" boven "Profile.com". Er zijn twee
+ * versies, niet per plek maar per ondergrond: de koperen op papier (hero, voet,
+ * rapport) en de donkerrode op zwart (de kop bovenaan). Wie het logo ergens
+ * anders nodig heeft, gebruikt dit onderdeel en kiest op de kleur van de
+ * ondergrond.
  */
-export function ArcanaLogo({ hoogte, sizes, className, style, decoratief = false, priority = false }: Props) {
-  const breedte = hoogte ? Math.round(hoogte * LOGO.verhouding) : undefined;
+export function ArcanaLogo({
+  hoogte,
+  sizes,
+  className,
+  style,
+  decoratief = false,
+  priority = false,
+  lazy = false,
+  donker = false,
+}: Props) {
+  const versie = donker ? LOGO_DONKER : LOGO;
+  const breedte = hoogte ? Math.round(hoogte * versie.verhouding) : undefined;
   return (
     <img
-      className={['arcana-logo', className].filter(Boolean).join(' ')}
-      src={LOGO.bron}
-      srcSet={LOGO.srcSet}
-      sizes={sizes ?? (breedte ? `${breedte}px` : '100vw')}
-      width={LOGO.breedte}
-      height={LOGO.hoogte}
+      className={['arcana-logo', donker && 'arcana-logo--donker', className].filter(Boolean).join(' ')}
+      src={versie.bron}
+      // De donkere versie bestaat in één maat en heeft dus geen srcset nodig.
+      srcSet={donker ? undefined : LOGO.srcSet}
+      sizes={donker ? undefined : (sizes ?? (breedte ? `${breedte}px` : '100vw'))}
+      width={versie.breedte}
+      height={versie.hoogte}
       alt={decoratief ? '' : 'Arcana Profile'}
       aria-hidden={decoratief || undefined}
       decoding="async"
+      loading={lazy ? 'lazy' : undefined}
       fetchPriority={priority ? 'high' : undefined}
       style={hoogte || style ? ({ ...(hoogte ? { '--logo-hoogte': `${hoogte}px` } : null), ...style } as CSSProperties) : undefined}
     />

@@ -1,33 +1,36 @@
 // Bereidt het logo van Arcana Profile voor op het web.
 //
-//   node scripts/bereid-woordmerk.mjs <pad-naar-het-logo.webp>
+//   node scripts/bereid-woordmerk.mjs [licht.webp] [donker.webp]
 //
-// Het logo is één plaat: "Arcana" in koper boven "Profile.com" in steen, met
-// de staart van de A die onder het woord doorloopt. Het komt overal in
-// dezelfde vorm terug — hero, kop, voet, rapport en de deelafbeelding — dus
-// er is één bron en deze ene stap.
+// Zonder argumenten leest het scripts/bron/logo-licht.webp en logo-donker.webp.
+// De bronnen staan met opzet in de repo: het logo komt uit een ontwerp, niet uit
+// code, en zonder bron kan niemand het opnieuw maken.
+//
+// Het logo bestaat in twee versies voor twee ondergronden:
+//
+//   licht   "Arcana" in koper boven "Profile.com" in steen, op een transparante
+//           achtergrond. Voor het papier: hero, voet, rapport, deelafbeelding.
+//   donker  dezelfde letters in donkerrood en steen, op zuiver zwart. Voor de
+//           zwarte kop bovenaan de site. Geen alpha: de zwarte achtergrond is
+//           onderdeel van de plaat, dus de kop moet exact #000 zijn.
 //
 // Wat hier gebeurt:
 //
 //   1. bijsnijden op de letters: de export heeft een flinterdunne rand;
-//   2. drie maten (klein, midden, groot) voor `srcset`. Kwaliteit verlagen
-//      helpt niet (het is metaalkorrel, en die comprimeert niet), alleen de
-//      maat telt. Kop en voet halen de kleine, een gewoon scherm de middelste,
-//      een scherm met dubbele pixeldichtheid de grote;
+//   2. licht in drie maten (klein, midden, groot) voor `srcset`. Kwaliteit
+//      verlagen helpt niet (het is metaalkorrel, en die comprimeert niet),
+//      alleen de maat telt. Donker in één maat: de kop is overal even breed;
 //   3. src/site/woordmerk.ts schrijven met de URL's en de afmetingen;
-//   4. public/og-image.jpg opnieuw samenstellen: het logo op het papier uit de
-//      hero, met een zachte schaduw. Dat is de afbeelding die verschijnt als
-//      iemand de site deelt, en die moet hetzelfde merk tonen als de site.
+//   4. public/og-image.jpg opnieuw samenstellen: het lichte logo op het papier
+//      uit de hero, met een zachte schaduw. Dat is de afbeelding die verschijnt
+//      als iemand de site deelt, en die moet hetzelfde merk tonen als de site.
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
 
-const bron = process.argv[2];
-if (!bron) {
-  console.error('Gebruik: node scripts/bereid-woordmerk.mjs <pad-naar-het-logo.webp>');
-  process.exit(1);
-}
+const bron = process.argv[2] ?? join(process.cwd(), 'scripts', 'bron', 'logo-licht.webp');
+const bronDonker = process.argv[3] ?? join(process.cwd(), 'scripts', 'bron', 'logo-donker.webp');
 
 const UIT = join(process.cwd(), 'src', 'assets', 'art', 'woordmerk');
 mkdirSync(UIT, { recursive: true });
@@ -82,17 +85,66 @@ for (const maat of MATEN) {
 const groot = gemaakt.find((m) => m.naam === 'groot');
 console.log(`\nVerhouding ${(groot.w / groot.h).toFixed(3)}  (bron na bijsnijden ${box.width}x${box.height})`);
 
+// ── Donkere versie voor de zwarte kop ────────────────────────────────────────
+// Geen alpha: de letters staan op zuiver zwart. Bijsnijden gaat daarom op
+// helderheid, en alles dat bijna zwart is gaat naar exact zwart. De export is
+// lossy en heeft ruis van 1-3 waardes in de zwarte vlakken; op een kop van #000
+// is dat onzichtbaar, maar op een kop die ook maar een fractie afwijkt zie je de
+// rechthoek van de plaat verschijnen. Exact zwart houdt die rand weg.
+const DONKER_BREEDTE = 480;
+const { data: dRuw, info: dInfo } = await sharp(bronDonker).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+const donkerBox = (() => {
+  const { width: w, height: h } = dInfo;
+  let minX = w;
+  let minY = h;
+  let maxX = -1;
+  let maxY = -1;
+  for (let y = 0; y < h; y += 1) {
+    for (let x = 0; x < w; x += 1) {
+      const i = (y * w + x) * 3;
+      const max = Math.max(dRuw[i], dRuw[i + 1], dRuw[i + 2]);
+      if (max < 14) {
+        dRuw[i] = 0;
+        dRuw[i + 1] = 0;
+        dRuw[i + 2] = 0;
+      } else if (max > 28) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+  if (maxX < 0) throw new Error('het donkere logo is volledig zwart');
+  return { left: minX, top: minY, width: maxX - minX + 1, height: maxY - minY + 1 };
+})();
+const donkerBuf = await sharp(dRuw, { raw: { width: dInfo.width, height: dInfo.height, channels: 3 } })
+  .extract(donkerBox)
+  .resize({ width: DONKER_BREEDTE, withoutEnlargement: true })
+  .webp({ quality: 86, effort: 6 })
+  .toBuffer();
+const donkerMeta = await sharp(donkerBuf).metadata();
+writeFileSync(join(UIT, 'logo-donker.webp'), donkerBuf);
+console.log(
+  `donker  ${String(donkerMeta.width).padStart(5)}x${String(donkerMeta.height).padEnd(4)} ${(donkerBuf.length / 1024).toFixed(1).padStart(7)} KB  logo-donker.webp  (verhouding ${(donkerMeta.width / donkerMeta.height).toFixed(3)})`,
+);
+
 writeFileSync(
   join(process.cwd(), 'src', 'site', 'woordmerk.ts'),
   `// GEGENEREERD door scripts/bereid-woordmerk.mjs — niet met de hand aanpassen.
 //
-// Het logo: één plaat in drie maten, bijgesneden op de letters. Alle plekken
-// waar het merk staat gebruiken dit bestand via ArcanaLogo.tsx; er is geen
-// tweede versie.
+// Het logo in twee versies voor twee ondergronden, bijgesneden op de letters.
+// Alle plekken waar het merk staat gebruiken deze bestanden via ArcanaLogo.tsx.
+//
+//   LOGO         koper en steen op een doorzichtige achtergrond, in drie maten.
+//                Voor het papier: hero, voet, rapport.
+//   LOGO_DONKER  donkerrood en steen op zuiver zwart, één maat. Voor de zwarte
+//                kop; de zwarte achtergrond is onderdeel van de plaat.
 
 import logo from '../assets/art/woordmerk/logo.webp';
 import logoMidden from '../assets/art/woordmerk/logo-midden.webp';
 import logoKlein from '../assets/art/woordmerk/logo-klein.webp';
+import logoDonker from '../assets/art/woordmerk/logo-donker.webp';
 
 export const LOGO = {
   /** De grootste maat: print en schermen met dubbele pixeldichtheid. */
@@ -102,6 +154,13 @@ export const LOGO = {
   /** Breedte gedeeld door hoogte; de CSS rekent er niet mee, de hero wel. */
   verhouding: ${(groot.w / groot.h).toFixed(4)},
   srcSet: \`\${logoKlein} ${gemaakt[0].w}w, \${logoMidden} ${gemaakt[1].w}w, \${logo} ${gemaakt[2].w}w\`,
+} as const;
+
+export const LOGO_DONKER = {
+  bron: logoDonker,
+  breedte: ${donkerMeta.width},
+  hoogte: ${donkerMeta.height},
+  verhouding: ${(donkerMeta.width / donkerMeta.height).toFixed(4)},
 } as const;
 `,
 );

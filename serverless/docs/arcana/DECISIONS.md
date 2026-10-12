@@ -641,3 +641,26 @@ Risks:
 - De bronplaat van het logo komt uit een gesprek en staat niet in de repo. Wie het logo opnieuw wil genereren heeft hem nodig; bewaar hem bij `parralax.zip`.
 
 Follow-up: beslissen of het logo ook in de PDF en in het JSON-LD-veld `logo` moet.
+
+## 2026-10-12 — Zwarte kop met de donkere versie van het logo
+
+Decision: de kop bovenaan de site is zwart (#000) en toont een tweede versie van het logo: donkerrood en steen op zuiver zwart. De koperen versie op doorzichtig blijft in gebruik op het papier: hero, voet, rapport en deelafbeelding. Het logo bestaat dus in twee versies, niet per plek maar per ondergrond.
+
+Reason: de eigenaar leverde een tweede logoplaat aan met de opdracht dat het logo bovenin de site "in zwart" moet. Die plaat heeft geen doorzichtige achtergrond: de letters staan op zuiver zwart (65 % van de pixels is 0,0,0). Ik lees de opdracht dus als: een zwarte kop met dit logo erop. Dat is niet de enige lezing — "in zwart" kan ook een eenkleurig zwart logo betekenen — maar de aangeleverde plaat is ontworpen voor een zwarte ondergrond, en dan is de kop zwart maken de lezing die die plaat verklaart.
+
+Gevolgen die bewust zijn gekozen:
+
+- **De kop is exact #000 en niet meer doorschijnend.** Het logo is een plaat zonder alpha; de achtergrond moet er exact bij passen, ook achter het logo. De vorige kop was 90 % ondoorzichtig met een blur; dat zou de rechthoek van het logo zichtbaar maken zodra er iets onder doorloopt. De blur vervalt daarmee.
+- **Het script zet bijna-zwart op exact zwart.** De bron is lossy en heeft ruis van 1-3 waardes in de zwarte vlakken. Op #000 is dat onzichtbaar; op een kop die ook maar een fractie afwijkt verschijnt de rechthoek. Gemeten na het coderen: 0 in alle kanalen in de bovenhoeken en erlangs.
+- **De kop gebruikt het donkere palet, ongeacht het thema.** `.site-header` is toegevoegd aan het expliciete donkere blok in tokens.css. Daardoor zijn navigatie, themaschakelaar, hoofdknop en het mobiele menu op zwart vanzelf leesbaar, zonder dat elk onderdeel een eigen uitzondering nodig heeft. De kop blijft dus zwart ook als de bezoeker de lichte weergave kiest.
+- **"Arcana" in donkerrood op zwart heeft weinig contrast.** Dat is het ontwerp; de kleuren zijn niet aangepast. Het logo in de kop is wel iets groter gemaakt (52 px, was 46) zodat het beter leesbaar is.
+- **De voet laadt lui** (`loading="lazy"`). De koperen kleine maat staat onderaan de pagina; een telefoon haalt daardoor in eerste instantie alleen de donkere kop op: 10,9 KB.
+- **De bronplaten staan nu in de repo** (`scripts/bron/logo-licht.webp` en `logo-donker.webp`), en het script leest ze zonder argumenten. Dat lost het eerder genoemde risico op dat het logo niet opnieuw te genereren zou zijn.
+
+Niet gewijzigd: de hero, de voet en het rapport houden het koperen logo. Het donkere logo is een plaat op zwart; op het crèmekleurige papier zou het een zwarte rechthoek zijn.
+
+Files affected: arcana/scripts/bereid-woordmerk.mjs, arcana/scripts/bron/ (nieuw), arcana/scripts/meet-bundel.mjs, arcana/src/site/woordmerk.ts (gegenereerd), arcana/src/assets/art/woordmerk/logo-donker.webp (nieuw), arcana/src/components/ArcanaLogo.tsx (opties `donker` en `lazy`), arcana/src/site/SiteHeader.tsx, arcana/src/styles/site.css, arcana/src/styles/tokens.css.
+
+Risks: de kop is nu in beide thema's zwart; op de lichte pagina staat dus een zwarte balk boven crèmekleurig papier. Dat is de opdracht, maar het is een hard contrast. De vorige begroting telde de donkere plaat per ongeluk mee als grote plaat (de regex sloot alleen klein en midden uit); dat is rechtgezet.
+
+Follow-up: bevestigen of "in zwart" de zwarte kop met dit logo bedoelde, of een eenkleurig zwart logo.

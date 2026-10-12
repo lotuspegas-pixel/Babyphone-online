@@ -100,12 +100,20 @@ html {
 
 /* ----------------------------------------------------------------- header */
 
+/* Zwart, en zonder doorschijnen. Het logo in de kop is een plaat op zuiver zwart
+   (logo-donker.webp, geen alpha); de achtergrond moet daarom exact #000 zijn, ook
+   achter de plaat. Een doorschijnende kop (de vorige 90 %) zou de rechthoek van
+   het logo zichtbaar maken zodra er iets onder doorloopt. Daarmee vervalt ook de
+   blur: er is niets meer om te vervagen.
+
+   De kleuren in de kop komen uit het donkere palet (zie tokens.css), ongeacht
+   het thema van de rest van de pagina. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--bg) 90%, transparent);
-  backdrop-filter: blur(10px);
+  background: #000;
+  --bg: #000;
   border-bottom: 1px solid var(--hairline);
 }
 
@@ -134,7 +142,7 @@ html {
 .site-merk__logo {
   display: block;
   flex: none;
-  height: var(--logo-hoogte, 46px);
+  height: var(--logo-hoogte, 52px);
   width: auto;
 }
 
@@ -253,7 +261,7 @@ html {
 
 @media (max-width: 480px) {
   .site-merk__logo {
-    height: calc(var(--logo-hoogte, 46px) * 0.86);
+    height: calc(var(--logo-hoogte, 52px) * 0.84);
   }
 }
 

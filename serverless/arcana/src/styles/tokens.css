@@ -294,7 +294,13 @@
 
 /* Expliciete keuze door de bezoeker. Identiek blok; los gehouden zodat de
    media query niet per ongeluk meeschakelt.                                */
-:root[data-theme="dark"] {
+/* De kop bovenaan is altijd donker, ook als de rest van de pagina licht is: hij
+   is zwart (zie .site-header in site.css) en draagt het logo op zwart. Daarom
+   gebruikt hij hetzelfde palet als de donkere weergave — dan zijn de
+   navigatielinks, de themaschakelaar en de hoofdknop erin vanzelf leesbaar op
+   zwart, zonder dat elk van die onderdelen een eigen uitzondering nodig heeft. */
+:root[data-theme="dark"],
+.site-header {
   color-scheme: dark;
 
   --surface:          #1f1913;
