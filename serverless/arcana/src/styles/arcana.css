@@ -1020,7 +1020,7 @@ body::before {
   }
 }
 
-/* De lopende kop van het dossier: zegel, woordmerk, haarlijn, themaschakelaar. */
+/* De lopende kop van het dossier: het logo, haarlijn, themaschakelaar. */
 .arcana-masthead__band {
   grid-area: band;
   display: flex;
@@ -1031,25 +1031,11 @@ body::before {
   color: var(--ink);
 }
 
-.arcana-masthead__seal {
+.arcana-masthead__logo {
+  display: block;
   flex: 0 0 auto;
-}
-
-.arcana-masthead__wordmark {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.15rem;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.arcana-masthead__band-tag {
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  white-space: nowrap;
+  height: var(--logo-hoogte, 44px);
+  width: auto;
 }
 
 .arcana-masthead__band-line {
@@ -1058,9 +1044,12 @@ body::before {
 }
 
 @media (max-width: 560px) {
-  .arcana-masthead__band-tag,
   .arcana-masthead__band-line {
     display: none;
+  }
+
+  .arcana-masthead__logo {
+    height: calc(var(--logo-hoogte, 44px) * 0.82);
   }
 
   .arcana-masthead__band {
@@ -2971,35 +2960,16 @@ body::before {
   }
 
   .arcana-cover__brand {
-    display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 3.5mm;
+    display: flex;
     justify-content: center;
-    align-items: center;
-    color: var(--ink);
   }
 
-  .arcana-cover__brand svg {
-    grid-row: 1 / 3;
-    width: 15mm;
-    height: 15mm;
-  }
-
-  .arcana-cover__wordmark {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 22pt;
-    line-height: 1;
-  }
-
-  .arcana-cover__tagline {
-    margin: 1.4mm 0 0;
-    font-family: var(--font-mono);
-    font-size: 6.6pt;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
+  /* Het logo op het voorblad: 64 mm breed, de grootste plaat. Printers tonen
+     de schaduw van het scherm niet, en die is hier ook niet nodig: het papier
+     is wit tot crème en het logo heeft zijn eigen rand. */
+  .arcana-cover__logo {
+    width: 64mm;
+    height: auto;
   }
 
   .arcana-emblem--cover {

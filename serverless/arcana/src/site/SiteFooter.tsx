@@ -13,7 +13,7 @@ export function SiteFooter({ onNavigate }: Props) {
       <div className="site-footer__inner">
         <div className="site-footer__brand">
           <span className="site-footer__merk">
-            <SiteMerk zegel={48} />
+            <SiteMerk hoogte={58} />
           </span>
           <p>Een zelfinzicht-instrument voor persoonlijke reflectie.</p>
         </div>

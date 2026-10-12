@@ -1,6 +1,6 @@
 import { useEffect, useRef, type CSSProperties, type RefObject } from 'react';
 import { HERO_LAGEN, HERO_VLAK } from './heroLagen';
-import { WOORDMERK } from './woordmerk';
+import { ArcanaLogo } from '../components/ArcanaLogo';
 import { PARALLAX_MQ } from './landingMotion';
 import composiet from '../assets/art/hero/composiet.webp';
 
@@ -93,57 +93,31 @@ function Laag({ laag }: { laag: (typeof HERO_LAGEN)[number] }) {
 }
 
 /**
- * Het woordmerk: drie uitgesneden letterplaten (woordmerk.ts), gestapeld tot
- * "Arcana" met daaronder "Profile.com".
+ * Het logo, als één plaat tussen de lagen (ArcanaLogo.tsx — hetzelfde bestand
+ * als in kop, voet en rapport).
  *
- * Elk deel heeft zijn eigen diepte. Niet voor de stapelvolgorde — die ligt
- * vast doordat dit blok als geheel tussen de boog en de collage staat — maar
- * voor de beweging: de drie delen lopen bij het scrollen een paar pixels uit
- * elkaar, net genoeg dat het merk zelf ook diepte krijgt in plaats van als één
- * sticker over de plaat te liggen. Ze blijven dicht bij elkaar (0,42–0,48),
- * anders valt het merk uit elkaar in plaats van te ademen.
+ * Eerder bestond het merk uit drie losse letterplaten met elk een eigen diepte.
+ * Het logo is nu één ontwerp met "Profile.com" dat onder de staart van de A
+ * doorloopt; die onderdelen apart laten bewegen zou de overlap openbreken.
+ * Eén plaat op één diepte (WOORD_DIEPTE) is daarom ook de juiste keuze, niet
+ * alleen de eenvoudigste.
+ *
+ * `sizes` is de breedte die --merk in site.css oplevert: ~42-51 % van het
+ * scherm. Iets ruim, zodat de browser liever een maat te scherp kiest dan te
+ * zacht. Alleen op een breed scherm gerenderd (zie `breed` hieronder).
  */
-const MERK_DIEPTE = { arcana: WOORD_DIEPTE, profile: 0.45, puntcom: 0.48 } as const;
-
-/**
- * Wat elk deel ongeveer breed wordt, zodat de browser de juiste maat kiest.
- * Afgeleid van --merk in site.css (~53vw op desktop, ~33vw op een telefoon)
- * maal het aandeel van dat deel.
- */
-const MERK_SIZES = {
-  arcana: '(min-width: 900px) 53vw, 33vw',
-  profile: '(min-width: 900px) 30vw, 18vw',
-  puntcom: '(min-width: 900px) 7vw, 5vw',
-} as const;
-
-function MerkDeelBeeld({ deel, gelaagd }: { deel: keyof typeof WOORDMERK; gelaagd: boolean }) {
-  const { bron, srcSet, breedte, hoogte } = WOORDMERK[deel];
-  return (
-    <img
-      className={`hero__merk-deel hero__merk--${deel}`}
-      src={bron}
-      srcSet={srcSet}
-      sizes={MERK_SIZES[deel]}
-      width={breedte}
-      height={hoogte}
-      alt=""
-      decoding="async"
-      fetchPriority="high"
-      style={{ '--diepte': gelaagd ? MERK_DIEPTE[deel] : 1 } as CSSProperties}
-    />
-  );
-}
+const MERK_SIZES = '50vw';
 
 function Woord({ gelaagd }: { gelaagd: boolean }) {
   return (
     <div className="hero__woord" aria-hidden="true">
-      <MerkDeelBeeld deel="arcana" gelaagd={gelaagd} />
-      {/* Profile en .com op één regel, onderlangs uitgelijnd: samen vormen ze
-          het domein en samen vullen ze de breedte van "Arcana" erboven. */}
-      <span className="hero__merk-regel">
-        <MerkDeelBeeld deel="profile" gelaagd={gelaagd} />
-        <MerkDeelBeeld deel="puntcom" gelaagd={gelaagd} />
-      </span>
+      <ArcanaLogo
+        decoratief
+        priority
+        className="hero__merk"
+        sizes={MERK_SIZES}
+        style={{ '--diepte': gelaagd ? WOORD_DIEPTE : 1 } as CSSProperties}
+      />
     </div>
   );
 }
@@ -183,6 +157,12 @@ export function HeroParallax() {
   // pagina opnieuw laadt, en een luisteraar zou alleen maar lagen in- en
   // uitladen terwijl iemand zijn venster versleept.
   const gelaagd = typeof matchMedia === 'function' && matchMedia(PARALLAX_MQ).matches;
+  // Het logo in de hero alleen op een breed scherm. Op een telefoon staat
+  // hetzelfde logo al in de kop er vlak boven, en op de platte afbeelding valt
+  // "Profile.com" daar over de collage heen, waar het niet te lezen is. Niet
+  // renderen in plaats van met CSS verbergen: een verborgen plaat wordt tóch
+  // opgehaald, en dat zijn 60-140 KB voor iets wat niemand ziet.
+  const breed = typeof matchMedia === 'function' && matchMedia('(min-width: 900px)').matches;
   const scene = useRef<HTMLDivElement>(null);
   useIntro(scene);
 
@@ -198,7 +178,7 @@ export function HeroParallax() {
           decoding="async"
           fetchPriority="high"
         />
-        <Woord gelaagd={false} />
+        {breed && <Woord gelaagd={false} />}
       </div>
     );
   }

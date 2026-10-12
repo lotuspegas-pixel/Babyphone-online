@@ -2,7 +2,7 @@ import { ARCHETYPES } from '../data/arcanaArchetypes';
 import { formatReportDate } from '../lib/arcanaExport';
 import type { ArcanaReport } from '../types/arcana';
 import { ArcanaReportEmblem } from './ArcanaReportEmblem';
-import { ArcanaSeal } from './ArcanaSeal';
+import { ArcanaLogo } from './ArcanaLogo';
 
 interface Props {
   report: ArcanaReport;
@@ -24,9 +24,7 @@ export function ArcanaReportCover({ report, code }: Props) {
   return (
     <section className="arcana-cover" aria-label="Voorblad">
       <div className="arcana-cover__brand">
-        <ArcanaSeal size={54} />
-        <p className="arcana-cover__wordmark">Arcana Profile</p>
-        <p className="arcana-cover__tagline">Know your patterns</p>
+        <ArcanaLogo className="arcana-cover__logo" sizes="64mm" />
       </div>
       <ArcanaReportEmblem archetype={report.archetypes.primary} className="arcana-emblem--cover" />
       <div className="arcana-cover__body">

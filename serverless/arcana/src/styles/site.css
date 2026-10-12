@@ -127,28 +127,15 @@ html {
   white-space: nowrap;
 }
 
-/* Zegel in inkt, zoals het merk in de referentie. */
-.site-header__mark {
+/* Het logo in kop en voet, op een vaste hoogte (--logo-hoogte, gezet door
+   ArcanaLogo). De breedte volgt uit de verhouding en rekt dus nooit. De schaduw
+   ontbreekt hier met opzet: tegen de effen kopbalk zou hij als een vlek
+   lezen, en het logo heeft zijn eigen rand. */
+.site-merk__logo {
+  display: block;
   flex: none;
-  color: var(--ink);
-}
-
-/* Woordmerk met de gestapelde slogan; ook in de voet. */
-.site-merk__tekst {
-  display: grid;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.55rem;
-  line-height: 1;
-  letter-spacing: -0.015em;
-}
-
-.site-merk__tekst small {
-  margin-top: 0.45em;
-  font: 400 0.56rem/1 var(--font-mono);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
+  height: var(--logo-hoogte, 46px);
+  width: auto;
 }
 
 .site-header__nav {
@@ -265,8 +252,8 @@ html {
 }
 
 @media (max-width: 480px) {
-  .site-merk__tekst {
-    font-size: 1.35rem;
+  .site-merk__logo {
+    height: calc(var(--logo-hoogte, 46px) * 0.86);
   }
 }
 
@@ -567,73 +554,40 @@ html {
   height: auto;
 }
 
-/* De naam van de test, tússen de lagen. Hij staat op diepte 0,42: de boog
-   (0,30) blijft erachter, de collage (0,60), Jung (0,76) en de tafel (1,00)
-   schuiven er vóór langs. Linksboven begint hij op schoon papier en naar
-   rechts verdwijnt hij achter het gescheurde papier — dat is de bedoeling, niet
-   een foutje: de naam ligt in de stapel.
+/* Het logo, tússen de lagen. Het staat op diepte 0,42: de boog (0,30) blijft
+   erachter, de collage (0,60), Jung (0,76) en de tafel (1,00) schuiven er vóór
+   langs. Linksboven begint het op schoon papier en naar rechts verdwijnt de
+   staart van "Arcana" achter het gescheurde papier — dat is de bedoeling, niet
+   een foutje: het merk ligt in de stapel.
 
    De plek is gemeten, niet gegokt. Het gescheurde papier begint in de bovenste
    vijfde van het vel pas op 32-46 % van de breedte en lager al op 17-25 %;
-   daarom staat de naam bovenin, waar hij de meeste schone ruimte heeft. Op
-   die hoogte loopt alleen de staart van het woord het papier in.
+   daarom staat het logo bovenin, waar het de meeste schone ruimte heeft.
 
-   Het merk bestaat uit drie uitgesneden letterplaten (woordmerk.ts), geen
-   zetwerk. Ze zijn bijgesneden op de letters zelf, dus links uitlijnen lijnt
-   ook de letters uit: "Profile" valt zo recht onder de A van "Arcana". */
+   Anders dan de eerdere losse letterplaten loopt "Profile.com" hier over de
+   volle breedte van "Arcana" — dat is het ontwerp van het logo. Daardoor moet
+   het hele logo smaller blijven dan voorheen: de onderste regel ligt op een
+   hoogte waar het schone papier maar tot ~21-27 % van de plaatbreedte reikt,
+   en ".com" mag daar niet achter verdwijnen. Zie de factor in --merk. */
 .hero__woord {
   position: absolute;
   left: 2.5%;
   top: 3.5%;
   width: var(--merk, 46cqw);
   margin: 0;
-  display: grid;
-  justify-items: start;
 }
 
-.hero__merk-deel {
+.hero__merk {
   display: block;
+  width: 100%;
   height: auto;
-  /* De letters zijn roomwit (#f9ebc9) op papier dat nauwelijks donkerder is
-     (#ede4cc): op kleurverschil alleen zijn ze vrijwel onzichtbaar. Deze twee
-     schaduwen doen het werk — een korte, donkere voor de snijrand en een
-     langere, zachte voor de hoogte. Daarmee lezen ze als wat ze zijn:
-     uitgesneden letters die óp het vel liggen. */
-  filter: drop-shadow(0 1px 1px rgb(from var(--vel-inkt) r g b / 0.34))
-    drop-shadow(0 10px 18px rgb(from var(--vel-inkt) r g b / 0.22));
-}
-
-.hero__merk--arcana {
-  width: 100%;
-}
-
-/* De tweede regel blijft met opzet korter dan "Arcana". Niet uit smaak maar
-   uit meetwerk: op de hoogte waar deze regel staat reikt het schone papier
-   maar tot ~21 % van de plaatbreedte, en alles daarachter is gescheurd papier.
-   Loopt "Profile.com" daar overheen, dan is het niet meer te lezen — terwijl
-   de staart van "Arcana" er juist wél achter mág verdwijnen, want dat woord
-   ken je al van de regel erboven.
-
-   Beide platen zijn bijgesneden op hun letters en hebben geen staartletters,
-   dus onderlangs uitlijnen zet ze meteen op één voetlijn. De negatieve marge
-   haalt de lucht weg die onder de staart van de A hangt. */
-.hero__merk-regel {
-  display: flex;
-  align-items: flex-end;
-  gap: 1.5%;
-  width: 100%;
-  margin-top: -1.5%;
-}
-
-.hero__merk--profile {
-  width: 56%;
-}
-
-/* Klein, zoals een domeinnaam achter een woordmerk hoort. Op gelijke
-   lettergrootte met "Profile" zou ".com" er even breed naast staan — dat is
-   geen woordmerk meer maar een adresregel. */
-.hero__merk--puntcom {
-  width: 13%;
+  /* Het logo is koper en steen, het vel een roomkleurig papier: "Profile.com"
+     staat tegen de papierkleur aan en komt er alleen uit door zijn eigen rand.
+     Twee zachte schaduwen — een korte voor de snijrand, een lange voor de
+     hoogte — laten het als iets liggen óp het vel in plaats van erin op te
+     lossen. */
+  filter: drop-shadow(0 1px 1px rgb(from var(--vel-inkt) r g b / 0.3))
+    drop-shadow(0 9px 16px rgb(from var(--vel-inkt) r g b / 0.2));
 }
 
 /* Parallax (HeroParallax.tsx + landingMotion.ts). De wortel draagt --py
@@ -649,7 +603,7 @@ html {
    landingMotion.ts regelt hóe snel dit volgt; hier staat hoe vér het gaat. */
 .hero__laag,
 .hero__vel,
-.hero__merk-deel,
+.hero__merk,
 .landing__hero-art .hand {
   translate: calc(var(--px) * var(--diepte, 0.6) * 14px)
     calc(var(--py) * (1 - var(--diepte, 0.6)) * 0.16px + var(--pyy) * var(--diepte, 0.6) * 10px);
@@ -658,7 +612,7 @@ html {
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   .hero__laag,
   .hero__vel,
-  .hero__merk-deel {
+  .hero__merk {
     will-change: translate;
   }
 }
@@ -856,11 +810,12 @@ html {
        scripts/analyseer-lagen.mjs). De plaat is 1,777 keer zo breed als hoog,
        dus die rand ligt op 100vw − 1,12 × bandhoogte. */
     --schoon: calc(0.975 * 100vw - var(--kunst-rechts) - 1.12 * var(--kunst-h));
-    /* De breedte van de Arcana-plaat. 1,05 is gemeten: bij die factor loopt
-       de staart van het woord net genoeg ín het papier dat je ziet dat hij
-       erachter verdwijnt, zonder dat de naam onleesbaar wordt. Groeit het
-       venster, dan groeit het merk mee, tot het plafond van 70rem. */
-    --merk: min(calc(var(--schoon) * 1.05), 70rem);
+    /* De breedte van het logo. Eerst een schatting, daarna op het oog
+       bijgesteld: de onderste regel ("Profile.com") moet volledig op schoon
+       papier eindigen, de staart van "Arcana" mag er een stukje achter
+       verdwijnen. Groeit het venster, dan groeit het logo mee, tot het
+       plafond van 70rem. */
+    --merk: min(calc(var(--schoon) * 0.82), 70rem);
     height: calc(var(--kunst-h) / 0.86);
     overflow: hidden;
   }
@@ -926,7 +881,7 @@ html {
 
   .hero__laag,
   .hero__vel,
-  .hero__merk-deel,
+  .hero__merk,
   .landing__hero-art .hand {
     translate: none;
   }
@@ -2445,10 +2400,6 @@ html {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-}
-
-.site-footer__merk .site-header__mark {
-  color: var(--ink);
 }
 
 .site-footer__brand p {

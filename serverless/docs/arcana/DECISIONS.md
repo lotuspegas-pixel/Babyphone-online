@@ -618,3 +618,26 @@ Reason: de kleinste woordmerkplaat (punt-com-klein, 2,6 KB) viel onder die grens
 Files affected: arcana/vite.config.ts, arcana/scripts/meet-bundel.mjs (toelichting bij BUDGET_LANDING_Q11).
 Risks: hele kleine iconen krijgen nu een eigen verzoek in plaats van inline te gaan. Op HTTP/2 is dat verwaarloosbaar, en er zijn er op de landing geen.
 Follow-up: geen.
+
+## 2026-10-12 — Eén logo overal; de losse letterplaten vervallen
+
+Decision: het merk is voortaan één aangeleverde plaat — "Arcana" in koper boven "Profile.com" in steen — en wordt overal in dezelfde vorm gebruikt: hero, kop, voet, rapportkop, print-voorblad en de deelafbeelding (`public/og-image.jpg`). De drie losse letterplaten uit de vorige beslissing (en de tekst-plus-zegel-combinatie in kop en voet) zijn verwijderd. Eén bron, één script (`scripts/bereid-woordmerk.mjs`), één onderdeel (`src/components/ArcanaLogo.tsx`).
+
+Reason: de eigenaar leverde het definitieve logo aan en vroeg het overal te gebruiken en het vorige te verwijderen. Een gedeeld onderdeel in plaats van een `<img>` per plek, omdat de keuzes die erbij horen steeds dezelfde zijn: drie maten voor `srcset`, een `sizes`-hint per plek, en de alt-tekst. In de kop is het logo de enige inhoud van de link naar de homepage en moet het dus de naam van de site als alt-tekst hebben; in de hero is het versiering (`aria-hidden`).
+
+Gevolgen die bewust zijn gekozen:
+
+- **De hero toont het logo alleen vanaf 900 px.** Op een telefoon staat hetzelfde logo al in de kop er vlak boven, en op de platte afbeelding valt "Profile.com" over de collage heen. Het wordt niet met CSS verborgen maar niet gerenderd: een verborgen plaat wordt tóch opgehaald. Een telefoon haalt daardoor 15 KB aan logo, tegen 36 KB met de losse platen.
+- **Het logo is smaller in de hero dan de oude naam (factor 0,82 in `--merk`, was 1,05).** In het oude ontwerp bleef de tweede regel met opzet korter dan de eerste; in het logo loopt "Profile.com" over de volle breedte van "Arcana". De onderste regel ligt op een hoogte waar het schone papier maar tot ~21-27 % van de plaatbreedte reikt, en ".com" mag daar niet achter de collage verdwijnen.
+- **Eén plaat op één diepte (0,42)** in plaats van drie. De delen apart laten bewegen zou de overlap openbreken waar "Profile" onder de staart van de A doorloopt. De staart van "Arcana" mag nog steeds achter het gescheurde papier verdwijnen; "Profile.com" niet.
+- **Het zegel (kompas) is uit kop en voet verdwenen.** Het logo vervangt zowel het woordmerk als het zegel daarnaast. Het zegel blijft elders in gebruik (rapportvoet, laadscherm, rapport-mock).
+- **De PDF is niet aangepast.** `arcanaPdf.ts` tekent het merk als tekst met de ingebedde lettertypes (vector, scherp, geen extra gewicht). Het logo daar inbedden vraagt een PNG in de lazy PDF-chunk; dat is een aparte beslissing. Hetzelfde geldt voor het JSON-LD-veld `logo` in `index.html`, dat naar `favicon.svg` wijst.
+
+Files affected: arcana/scripts/bereid-woordmerk.mjs (herschreven), arcana/src/site/woordmerk.ts (gegenereerd), arcana/src/assets/art/woordmerk/ (zes platen weg, drie maten van het logo erin), arcana/src/components/ArcanaLogo.tsx (nieuw), arcana/src/site/SiteHeader.tsx, arcana/src/site/SiteFooter.tsx, arcana/src/site/HeroParallax.tsx, arcana/src/components/ArcanaReport.tsx, arcana/src/components/ArcanaReportCover.tsx, arcana/src/styles/site.css, arcana/src/styles/arcana.css, arcana/public/og-image.jpg (opnieuw samengesteld), arcana/scripts/meet-bundel.mjs.
+
+Risks:
+- Het logo weegt 140 KB op een 2x-scherm. Drie maten en een `sizes`-hint per plek houden dat in de hand; de begroting bewaakt elke maat apart. Kwaliteit verlagen helpt niet (metaalkorrel).
+- `arcana.css` had CRLF-regeleinden terwijl de rest van het project LF gebruikt; bij deze wijziging is het bestand naar LF genormaliseerd. Dat geeft eenmalig een groter diff-blok dan de inhoudelijke wijziging.
+- De bronplaat van het logo komt uit een gesprek en staat niet in de repo. Wie het logo opnieuw wil genereren heeft hem nodig; bewaar hem bij `parralax.zip`.
+
+Follow-up: beslissen of het logo ook in de PDF en in het JSON-LD-veld `logo` moet.

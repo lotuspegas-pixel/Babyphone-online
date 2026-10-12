@@ -22,6 +22,7 @@ import { ArcanaReportEmblem } from './ArcanaReportEmblem';
 import { ArcanaReportGlance } from './ArcanaReportGlance';
 import { ArcanaReportSection } from './ArcanaReportSection';
 import { ArcanaReportToc } from './ArcanaReportToc';
+import { ArcanaLogo } from './ArcanaLogo';
 import { ArcanaSeal } from './ArcanaSeal';
 import { ArcanaTensionCard } from './ArcanaTensionCard';
 import { ArcanaThemeToggle } from './ArcanaThemeToggle';
@@ -331,12 +332,10 @@ export function ArcanaReport({ report, onRestart, onClearAnswers, onBackToSite }
       <ArcanaReportCover report={report} code={code} />
 
       <header className="arcana-masthead arcana-print-hide" id="arcana-report-hero">
-        {/* De lopende kop van het dossier: zegel, woordmerk, haarlijn — en de
+        {/* De lopende kop van het dossier: het logo, een haarlijn — en de
             leeshulp voor 's avonds (de themaschakelaar). */}
         <div className="arcana-masthead__band">
-          <ArcanaSeal size={30} className="arcana-masthead__seal" />
-          <span className="arcana-masthead__wordmark">Arcana Profile</span>
-          <span className="arcana-masthead__band-tag">Know your patterns</span>
+          <ArcanaLogo hoogte={44} className="arcana-masthead__logo" />
           <span className="arcana-masthead__band-line" aria-hidden="true" />
           <ArcanaThemeToggle compact />
         </div>

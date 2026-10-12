@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ArcanaSeal } from '../components/ArcanaSeal';
+import { ArcanaLogo } from '../components/ArcanaLogo';
 import { ArcanaThemeToggle } from '../components/ArcanaThemeToggle';
-import { SITE_NAME, VOORBEELD_URL } from './siteContent';
+import { VOORBEELD_URL } from './siteContent';
 
 interface Props {
   onStart: () => void;
@@ -20,19 +20,13 @@ const NAV = [
 /** Breakpoint waarop de gewone navigatie plaatsmaakt voor de menuknop; gelijk aan site.css. */
 const NAV_BREEDTE = '(min-width: 1200px)';
 
-/** Zegel, woordmerk en de gestapelde slogan; gedeeld door kop en voet. */
-export function SiteMerk({ zegel = 44 }: { zegel?: number }) {
-  return (
-    <>
-      <ArcanaSeal size={zegel} className="site-header__mark" />
-      <span className="site-merk__tekst">
-        {SITE_NAME}
-        <small lang="en" aria-hidden="true">
-          Know your patterns
-        </small>
-      </span>
-    </>
-  );
+/**
+ * Het logo in kop en voet. Dezelfde plaat als in de hero en het rapport; zie
+ * ArcanaLogo.tsx. De alt-tekst is de naam van de site, want het logo is de
+ * enige inhoud van de link naar de homepage.
+ */
+export function SiteMerk({ hoogte = 46 }: { hoogte?: number }) {
+  return <ArcanaLogo hoogte={hoogte} className="site-merk__logo" />;
 }
 
 export function SiteHeader({ onStart, hasInProgress, onResume }: Props) {
