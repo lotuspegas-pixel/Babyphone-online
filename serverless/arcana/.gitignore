@@ -33,6 +33,7 @@ sample-report.md
 # Gebouwde uitlevermappen en zips (reproduceerbaar met npm run build)
 arcana-mirror-hostinger/
 *-hostinger.zip
+*-hostinger-*.zip
 
 # Gegenereerd door scripts/generate-seo-files.mjs bij elke build
 public/robots.txt

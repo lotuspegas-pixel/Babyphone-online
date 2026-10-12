@@ -14,7 +14,7 @@ import { join } from 'node:path';
 import { brotliCompressSync, constants } from 'node:zlib';
 
 const ASSETS = join(process.cwd(), 'dist', 'assets');
-const BUDGET_LANDING_Q11 = 78_000; // bytes. Was 75.000. De trap naar 80.000 uit G §3 (tegenspraak 9) is deels genomen: de fotoparallax-hero (laadpoort, tijdgebaseerde demping), de hoofdactie in de band en de archetype-verkenner met embleem kosten samen ~3 KB bovenop de 72 KB van de landing zonder die onderdelen. Meer dan 78.000 is een nieuwe beslissing.
+const BUDGET_LANDING_Q11 = 78_000; // bytes. Was 75.000. De trap naar 80.000 uit G §3 (tegenspraak 9) is deels genomen: de fotoparallax-hero (laadpoort, tijdgebaseerde demping), de hoofdactie in de band en de archetype-verkenner met embleem kosten samen ~3 KB bovenop de 72 KB van de landing zonder die onderdelen. Meer dan 78.000 is een nieuwe beslissing. Het woordmerk als beeld kostte hier kort 4 KB extra, tot bleek dat Vite de kleinste plaat als base64 in de JS zette; zie assetsInlineLimit in vite.config.ts.
 const BUDGET_CSS_Q11 = 19_000; // was 18.000: de fotoparallax in de hero (band, vel, lagen, naam tussen de lagen) en de archetypeverkenner kosten samen ~0,5 KB. 20.000 blijft het plafond.
 const BUDGET_FONTS = 60_000; // bytes op de lijn voor de basisbestanden samen
 // Beeldmateriaal van de landing: de zeven SVG-collages uit src/assets/art/landing/
@@ -53,6 +53,15 @@ const HERO_PLAT = /^composiet-.+\.webp$/;
 const BUDGET_HERO_LAGEN = 1_000_000; // bytes, ruw
 const BUDGET_HERO_PLAT = 120_000; // bytes, ruw — dit is wat mobiel betaalt
 
+// Het woordmerk: drie uitgesneden letterplaten, elk in twee maten
+// (scripts/bereid-woordmerk.mjs). srcset kiest; een telefoon haalt alleen de
+// kleine. Kwaliteit verlagen helpt hier niet (papierkorrel), dus wie dit
+// omhoog ziet gaan heeft de platen gróter geëxporteerd.
+const MERK_GROOT = /^(arcana|profile|punt-com)-(?!klein)[^.]+\.webp$/;
+const MERK_KLEIN = /^(arcana|profile|punt-com)-klein-.+\.webp$/;
+const BUDGET_MERK_GROOT = 200_000; // bytes, ruw
+const BUDGET_MERK_KLEIN = 50_000; // bytes, ruw — dit is wat een telefoon betaalt
+
 function brotli(buf, quality) {
   return brotliCompressSync(buf, { params: { [constants.BROTLI_PARAM_QUALITY]: quality } }).length;
 }
@@ -68,6 +77,8 @@ const fonts = files.filter((f) => f.name.endsWith('.woff2'));
 const art = files.filter((f) => LANDING_ART.test(f.name));
 const heroLagen = files.filter((f) => HERO_ART.test(f.name));
 const heroPlat = files.filter((f) => HERO_PLAT.test(f.name));
+const merkGroot = files.filter((f) => MERK_GROOT.test(f.name));
+const merkKlein = files.filter((f) => MERK_KLEIN.test(f.name));
 const renders = files.filter((f) => RENDER_ART.test(f.name));
 const paginas = files.filter((f) => PAGINA_ART.test(f.name));
 
@@ -109,6 +120,10 @@ console.log(
     `
   daarvan op mobiel: ${kb(sum(heroPlat, 'raw'))} (alleen de platte composiet) · grens ${kb(BUDGET_HERO_PLAT)}`,
 );
+console.log(
+  `Woordmerk: ${kb(sum(merkGroot, 'raw'))} groot · grens ${kb(BUDGET_MERK_GROOT)}` +
+    `\n  daarvan op mobiel: ${kb(sum(merkKlein, 'raw'))} (srcset kiest de kleine platen) · grens ${kb(BUDGET_MERK_KLEIN)}`,
+);
 
 // Wat de landing aan fonts ophaalt: de basisbestanden, zonder de cursief (die
 // laadt alleen op het rapport). De aanvullingen laden alleen bij een naam met
@@ -128,6 +143,12 @@ if (renders.length !== 6) fouten.push(`renders: ${renders.length} van de 6 plate
 if (sum(renders, 'raw') > BUDGET_RENDERS) fouten.push(`renders ${sum(renders, 'raw')} B > ${BUDGET_RENDERS} B`);
 if (sum(heroLagen, 'raw') > BUDGET_HERO_LAGEN) fouten.push(`hero-lagen ${sum(heroLagen, 'raw')} B > ${BUDGET_HERO_LAGEN} B`);
 if (sum(heroPlat, 'raw') > BUDGET_HERO_PLAT) fouten.push(`hero-composiet ${sum(heroPlat, 'raw')} B > ${BUDGET_HERO_PLAT} B`);
+if (merkGroot.length !== 3 || merkKlein.length !== 3)
+  fouten.push(
+    `woordmerk: ${merkGroot.length} grote en ${merkKlein.length} kleine platen in dist/assets, verwacht 3 en 3 (draaide scripts/bereid-woordmerk.mjs?)`,
+  );
+if (sum(merkGroot, 'raw') > BUDGET_MERK_GROOT) fouten.push(`woordmerk groot ${sum(merkGroot, 'raw')} B > ${BUDGET_MERK_GROOT} B`);
+if (sum(merkKlein, 'raw') > BUDGET_MERK_KLEIN) fouten.push(`woordmerk klein ${sum(merkKlein, 'raw')} B > ${BUDGET_MERK_KLEIN} B`);
 if (sum(art, 'q11') > BUDGET_ART_Q11) fouten.push(`landing-art ${sum(art, 'q11')} B > ${BUDGET_ART_Q11} B (q11)`);
 if (fontsBase.length && sum(fontsBase, 'raw') > BUDGET_FONTS) fouten.push(`fonts ${sum(fontsBase, 'raw')} B > ${BUDGET_FONTS} B`);
 

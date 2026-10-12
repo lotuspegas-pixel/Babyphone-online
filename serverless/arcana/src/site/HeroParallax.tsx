@@ -1,5 +1,6 @@
 import { useEffect, useRef, type CSSProperties, type RefObject } from 'react';
 import { HERO_LAGEN, HERO_VLAK } from './heroLagen';
+import { WOORDMERK } from './woordmerk';
 import { PARALLAX_MQ } from './landingMotion';
 import composiet from '../assets/art/hero/composiet.webp';
 
@@ -91,12 +92,59 @@ function Laag({ laag }: { laag: (typeof HERO_LAGEN)[number] }) {
   );
 }
 
-function Woord({ diepte }: { diepte: number }) {
+/**
+ * Het woordmerk: drie uitgesneden letterplaten (woordmerk.ts), gestapeld tot
+ * "Arcana" met daaronder "Profile.com".
+ *
+ * Elk deel heeft zijn eigen diepte. Niet voor de stapelvolgorde — die ligt
+ * vast doordat dit blok als geheel tussen de boog en de collage staat — maar
+ * voor de beweging: de drie delen lopen bij het scrollen een paar pixels uit
+ * elkaar, net genoeg dat het merk zelf ook diepte krijgt in plaats van als één
+ * sticker over de plaat te liggen. Ze blijven dicht bij elkaar (0,42–0,48),
+ * anders valt het merk uit elkaar in plaats van te ademen.
+ */
+const MERK_DIEPTE = { arcana: WOORD_DIEPTE, profile: 0.45, puntcom: 0.48 } as const;
+
+/**
+ * Wat elk deel ongeveer breed wordt, zodat de browser de juiste maat kiest.
+ * Afgeleid van --merk in site.css (~53vw op desktop, ~33vw op een telefoon)
+ * maal het aandeel van dat deel.
+ */
+const MERK_SIZES = {
+  arcana: '(min-width: 900px) 53vw, 33vw',
+  profile: '(min-width: 900px) 30vw, 18vw',
+  puntcom: '(min-width: 900px) 7vw, 5vw',
+} as const;
+
+function MerkDeelBeeld({ deel, gelaagd }: { deel: keyof typeof WOORDMERK; gelaagd: boolean }) {
+  const { bron, srcSet, breedte, hoogte } = WOORDMERK[deel];
   return (
-    <p className="hero__woord" aria-hidden="true" style={{ '--diepte': diepte } as CSSProperties}>
-      <span className="hero__woord-een">Arcana</span>
-      <span className="hero__woord-twee">Profile</span>
-    </p>
+    <img
+      className={`hero__merk-deel hero__merk--${deel}`}
+      src={bron}
+      srcSet={srcSet}
+      sizes={MERK_SIZES[deel]}
+      width={breedte}
+      height={hoogte}
+      alt=""
+      decoding="async"
+      fetchPriority="high"
+      style={{ '--diepte': gelaagd ? MERK_DIEPTE[deel] : 1 } as CSSProperties}
+    />
+  );
+}
+
+function Woord({ gelaagd }: { gelaagd: boolean }) {
+  return (
+    <div className="hero__woord" aria-hidden="true">
+      <MerkDeelBeeld deel="arcana" gelaagd={gelaagd} />
+      {/* Profile en .com op één regel, onderlangs uitgelijnd: samen vormen ze
+          het domein en samen vullen ze de breedte van "Arcana" erboven. */}
+      <span className="hero__merk-regel">
+        <MerkDeelBeeld deel="profile" gelaagd={gelaagd} />
+        <MerkDeelBeeld deel="puntcom" gelaagd={gelaagd} />
+      </span>
+    </div>
   );
 }
 
@@ -150,7 +198,7 @@ export function HeroParallax() {
           decoding="async"
           fetchPriority="high"
         />
-        <Woord diepte={1} />
+        <Woord gelaagd={false} />
       </div>
     );
   }
@@ -172,7 +220,7 @@ export function HeroParallax() {
         ))}
       </div>
 
-      <Woord diepte={WOORD_DIEPTE} />
+      <Woord gelaagd />
 
       <div className="hero__groep">
         {VOOR.map((laag) => (

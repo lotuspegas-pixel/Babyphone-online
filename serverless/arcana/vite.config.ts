@@ -38,6 +38,19 @@ export default defineConfig({
     cssCodeSplit: false,
     // We meten zelf, met brotli, in scripts/meet-bundel.mjs.
     reportCompressedSize: false,
+    /*
+     * Beeld nooit inline zetten, hoe klein ook. Vite doet dat standaard onder
+     * 4 KB, en dat werkt hier averechts: de kleinste woordmerkplaat
+     * (punt-com-klein, 2,6 KB) belandde dan als base64 in de landing-JS. Dat
+     * kost daar ~3,5 KB — base64 is een derde groter dan het bestand — en het
+     * haalt bovendien het hele punt van srcset onderuit: een data-URI zit al
+     * in de bundel, dus een desktopbezoeker betaalt voor de telefoonplaat die
+     * hij nooit toont. Een los bestand wordt alleen gehaald als de browser hem
+     * kiest.
+     */
+    // false = nooit inline; undefined = laat Vite zelf beslissen (de gewone
+    // grens van 4 KB), wat voor fonts en SVG precies goed is.
+    assetsInlineLimit: (bestand) => (/\.(webp|png|jpe?g|avif|gif)$/i.test(bestand) ? false : undefined),
     rollupOptions: {
       output: {
         // React apart, zodat een wijziging in de app de vendor-chunk niet uit

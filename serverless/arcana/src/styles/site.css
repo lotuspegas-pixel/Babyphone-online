@@ -573,39 +573,67 @@ html {
    rechts verdwijnt hij achter het gescheurde papier — dat is de bedoeling, niet
    een foutje: de naam ligt in de stapel.
 
-   Geen eigen kleur of schaduw: dezelfde inkt als de rest van de pagina, zodat
-   het als drukwerk op het vel leest en niet als een logo erbovenop. */
-/* De plek is gemeten, niet gegokt. Het gescheurde papier begint in de bovenste
+   De plek is gemeten, niet gegokt. Het gescheurde papier begint in de bovenste
    vijfde van het vel pas op 32-46 % van de breedte en lager al op 17-25 %;
    daarom staat de naam bovenin, waar hij de meeste schone ruimte heeft. Op
-   die hoogte loopt alleen de staart van het woord het papier in. */
+   die hoogte loopt alleen de staart van het woord het papier in.
+
+   Het merk bestaat uit drie uitgesneden letterplaten (woordmerk.ts), geen
+   zetwerk. Ze zijn bijgesneden op de letters zelf, dus links uitlijnen lijnt
+   ook de letters uit: "Profile" valt zo recht onder de A van "Arcana". */
 .hero__woord {
   position: absolute;
   left: 2.5%;
-  top: 3%;
+  top: 3.5%;
+  width: var(--merk, 46cqw);
   margin: 0;
   display: grid;
-  gap: 0.14em;
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 0.82;
-  color: var(--vel-inkt);
-  text-wrap: nowrap;
+  justify-items: start;
 }
 
-.hero__woord-een {
-  font-size: var(--naam, 10cqw);
-  letter-spacing: -0.045em;
+.hero__merk-deel {
+  display: block;
+  height: auto;
+  /* De letters zijn roomwit (#f9ebc9) op papier dat nauwelijks donkerder is
+     (#ede4cc): op kleurverschil alleen zijn ze vrijwel onzichtbaar. Deze twee
+     schaduwen doen het werk — een korte, donkere voor de snijrand en een
+     langere, zachte voor de hoogte. Daarmee lezen ze als wat ze zijn:
+     uitgesneden letters die óp het vel liggen. */
+  filter: drop-shadow(0 1px 1px rgb(from var(--vel-inkt) r g b / 0.34))
+    drop-shadow(0 10px 18px rgb(from var(--vel-inkt) r g b / 0.22));
 }
 
-/* De tweede regel is kleiner en uitgespatieerd en staat in zegelrood, zodat de
-   twee regels één merk vormen en niet twee losse woorden. */
-.hero__woord-twee {
-  margin-left: 0.35em;
-  font-size: calc(var(--naam, 10cqw) * 0.34);
-  font-weight: 500;
-  letter-spacing: 0.42em;
-  color: var(--vel-zegel);
+.hero__merk--arcana {
+  width: 100%;
+}
+
+/* De tweede regel blijft met opzet korter dan "Arcana". Niet uit smaak maar
+   uit meetwerk: op de hoogte waar deze regel staat reikt het schone papier
+   maar tot ~21 % van de plaatbreedte, en alles daarachter is gescheurd papier.
+   Loopt "Profile.com" daar overheen, dan is het niet meer te lezen — terwijl
+   de staart van "Arcana" er juist wél achter mág verdwijnen, want dat woord
+   ken je al van de regel erboven.
+
+   Beide platen zijn bijgesneden op hun letters en hebben geen staartletters,
+   dus onderlangs uitlijnen zet ze meteen op één voetlijn. De negatieve marge
+   haalt de lucht weg die onder de staart van de A hangt. */
+.hero__merk-regel {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5%;
+  width: 100%;
+  margin-top: -1.5%;
+}
+
+.hero__merk--profile {
+  width: 56%;
+}
+
+/* Klein, zoals een domeinnaam achter een woordmerk hoort. Op gelijke
+   lettergrootte met "Profile" zou ".com" er even breed naast staan — dat is
+   geen woordmerk meer maar een adresregel. */
+.hero__merk--puntcom {
+  width: 13%;
 }
 
 /* Parallax (HeroParallax.tsx + landingMotion.ts). De wortel draagt --py
@@ -621,7 +649,7 @@ html {
    landingMotion.ts regelt hóe snel dit volgt; hier staat hoe vér het gaat. */
 .hero__laag,
 .hero__vel,
-.hero__woord,
+.hero__merk-deel,
 .landing__hero-art .hand {
   translate: calc(var(--px) * var(--diepte, 0.6) * 14px)
     calc(var(--py) * (1 - var(--diepte, 0.6)) * 0.16px + var(--pyy) * var(--diepte, 0.6) * 10px);
@@ -630,7 +658,7 @@ html {
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   .hero__laag,
   .hero__vel,
-  .hero__woord {
+  .hero__merk-deel {
     will-change: translate;
   }
 }
@@ -828,11 +856,11 @@ html {
        scripts/analyseer-lagen.mjs). De plaat is 1,777 keer zo breed als hoog,
        dus die rand ligt op 100vw − 1,12 × bandhoogte. */
     --schoon: calc(0.975 * 100vw - var(--kunst-rechts) - 1.12 * var(--kunst-h));
-    /* 0,33 is gemeten: bij die factor loopt de staart van het woord net genoeg
-       ín het papier dat je ziet dat hij erachter verdwijnt, zonder dat de naam
-       onleesbaar wordt of tegen de collage aan gaat staan. Groeit het venster,
-       dan groeit de naam mee. */
-    --naam: min(calc(var(--schoon) * 0.33), 23rem);
+    /* De breedte van de Arcana-plaat. 1,05 is gemeten: bij die factor loopt
+       de staart van het woord net genoeg ín het papier dat je ziet dat hij
+       erachter verdwijnt, zonder dat de naam onleesbaar wordt. Groeit het
+       venster, dan groeit het merk mee, tot het plafond van 70rem. */
+    --merk: min(calc(var(--schoon) * 1.05), 70rem);
     height: calc(var(--kunst-h) / 0.86);
     overflow: hidden;
   }
@@ -898,7 +926,7 @@ html {
 
   .hero__laag,
   .hero__vel,
-  .hero__woord,
+  .hero__merk-deel,
   .landing__hero-art .hand {
     translate: none;
   }

@@ -586,3 +586,35 @@ Decision: het tekstblok boven de archetypepagina (naam, optelsom, beschrijving) 
 Files affected: arcana/src/site/ArchetypeVerkenner.tsx, arcana/src/styles/site.css.
 Risks: de landing-CSS zit op 18,5 van 19,0 KB.
 Follow-up: geen.
+
+## 2026-10-12 — Woordmerk als uitgesneden letterplaten in de parallax
+
+Decision: de naam in de hero is geen zetwerk meer maar drie aangeleverde platen met uitgesneden letters — "Arcana", "Profile" en ".com" (`scripts/bereid-woordmerk.mjs` → `src/site/woordmerk.ts`). "Arcana" staat bovenaan, "Profile.com" valt er links uitgelijnd onder.
+
+Reason: de eigenaar leverde het woordmerk als beeld aan en vroeg om het in de parallax op te nemen, met "Profile" netjes onder "Arcana". Vier dingen waren daarvoor nodig:
+
+1. **Bijsnijden is een voorwaarde, geen besparing.** De platen kwamen binnen op 2000 px met losse marges. De CSS lijnt ze links uit, en dat lijnt alleen de létters uit als de rand van het beeld ook de rand van de letters is. Anders zweeft "Profile" op een willekeurige afstand onder "Arcana", afhankelijk van hoeveel leegte de export meegaf.
+2. **Een slagschaduw, want kleurverschil is er niet.** De letters zijn roomwit (#f9ebc9) op papier dat nauwelijks donkerder is (#ede4cc) — contrast ongeveer 1,1:1. Twee schaduwen doen het werk: een korte donkere voor de snijrand, een langere zachte voor de hoogte. Daarmee lezen ze als wat ze zijn, uitgesneden letters óp het vel.
+3. **Eigen diepte per plaat** (0,42 / 0,45 / 0,48). Niet voor de stapelvolgorde — die ligt vast doordat het blok als geheel tussen de boog en de collage staat — maar zodat de drie delen bij het scrollen een paar pixels uit elkaar lopen en het merk zelf ook ademt. Dicht bij elkaar gehouden, anders valt het uiteen.
+4. **De tweede regel blijft korter dan de eerste.** Op de hoogte van "Profile.com" reikt het schone papier maar tot ~21 % van de plaatbreedte; daarachter is gescheurd papier. De staart van "Arcana" mág daar verdwijnen (dat woord ken je al van de regel erboven), "Profile.com" niet. Vandaar 56 % en 13 % van de merkbreedte in plaats van gelijke maten.
+
+`.com` staat klein, zoals een domein achter een woordmerk. Op gelijke lettergrootte met "Profile" zou het er even breed naast staan — dat is geen woordmerk meer maar een adresregel.
+
+Files affected: arcana/scripts/bereid-woordmerk.mjs (nieuw), arcana/src/site/woordmerk.ts (gegenereerd), arcana/src/assets/art/woordmerk/*.webp (nieuw), arcana/src/site/HeroParallax.tsx, arcana/src/styles/site.css, arcana/vite.config.ts, arcana/scripts/meet-bundel.mjs.
+
+Risks:
+- Het merk weegt 165 KB op desktop. Elk deel komt daarom in twee maten met `srcset`; een telefoon haalt 36 KB. Kwaliteit verlagen helpt niet (q88 → q58 scheelt 20 %, want het is papierkorrel), alleen de maat telt. Beide grenzen staan apart in `meet-bundel.mjs`.
+- De naam is nu beeld en geen tekst. Dat was hij feitelijk al niet voor schermlezers (het blok staat `aria-hidden`); de echte kop onder de band draagt de tekst. Zoekmachines en de paginatitel zijn ongewijzigd.
+- De bronplaten kwamen uit een gesprek, niet uit de repo. Wie het merk opnieuw wil genereren heeft ze nodig; bewaar ze bij `parralax.zip`.
+
+Follow-up: geen.
+
+## 2026-10-12 — Beeld wordt nooit inline gezet
+
+Decision: `assetsInlineLimit` in `vite.config.ts` zet beeldformaten (webp, png, jpg, avif, gif) altijd als los bestand neer; voor de rest blijft Vite's eigen grens van 4 KB staan.
+
+Reason: de kleinste woordmerkplaat (punt-com-klein, 2,6 KB) viel onder die grens en belandde als base64 in de landing-JS. Dat kostte daar ~4 KB — base64 is een derde groter dan het bestand — en het haalde het hele punt van `srcset` onderuit: een data-URI zit al in de bundel, dus een desktopbezoeker betaalde voor de telefoonplaat die hij nooit toont. De landing-begroting liep er zichtbaar op over (78.350 > 78.000). Met de losse bestanden staat de landing weer op 73,8 KB en kon de grens op 78.000 blijven in plaats van opgerekt te worden — de begroting was hier een goede waakhond.
+
+Files affected: arcana/vite.config.ts, arcana/scripts/meet-bundel.mjs (toelichting bij BUDGET_LANDING_Q11).
+Risks: hele kleine iconen krijgen nu een eigen verzoek in plaats van inline te gaan. Op HTTP/2 is dat verwaarloosbaar, en er zijn er op de landing geen.
+Follow-up: geen.
