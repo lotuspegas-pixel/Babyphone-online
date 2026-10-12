@@ -133,7 +133,14 @@ Dit produceert een statische `dist/` map (HTML/CSS/JS) — geen server nodig.
 Beide platforms detecteren Vite automatisch zodra de root directory naar
 `serverless/arcana` wijst.
 
-### Hostinger via Git (de gewone weg)
+### Hostinger via Git (nog niet gekoppeld in hPanel)
+
+> **Status 12 oktober 2026:** deze koppeling staat niet aan. De branch `live`
+> bestaat wel, maar Hostinger haalt hem niet op. De site is die dag live gezet
+> door de build in te pakken, in hPanel → Bestandsbeheer naar `public_html` te
+> uploaden en uit te pakken (mapnaam `.`, "Overwrite existing files" aan).
+> Controleer daarna op arcanaprofile.com dat `/assets/index-<hash>.js` de nieuwe
+> hash is.
 
 ```
 npm run publiceer
