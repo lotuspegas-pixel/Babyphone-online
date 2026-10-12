@@ -133,7 +133,32 @@ Dit produceert een statische `dist/` map (HTML/CSS/JS) — geen server nodig.
 Beide platforms detecteren Vite automatisch zodra de root directory naar
 `serverless/arcana` wijst.
 
-### Hostinger (of elke statische host)
+### Hostinger via Git (de gewone weg)
+
+```
+npm run publiceer
+```
+
+Bouwt de site en zet de inhoud van `dist/` als losse branch `live` op
+GitHub. Hostinger checkt die branch uit in `public_html` en haalt bij elke
+publicatie de nieuwe versie op.
+
+Waarom een aparte branch: de Git-koppeling van Hostinger kloont een repo ín
+een map en draait zelf géén build. De uitgecheckte branch moet dus de
+kant-en-klare site zijn met `index.html` in de wortel, niet de broncode.
+`live` heeft daarom met opzet geen gedeelde geschiedenis met
+`arcana-mirror-agent-build`; hij bevat precies `dist/` en niets anders.
+
+Eenmalig instellen in hPanel: **Website → GIT**, repository
+`https://github.com/lotuspegas-pixel/Babyphone-online.git`, branch `live`,
+map `public_html`. Zet daarna auto-deploy aan (of kopieer de webhook-URL
+naar de GitHub-repo onder Settings → Webhooks), anders moet je in hPanel op
+*Deploy* blijven klikken.
+
+Commit en push de broncode op zijn eigen branch apart, zodat bron en
+publicatie gelijk lopen.
+
+### Hostinger met de hand (zonder Git-koppeling)
 
 1. `npm run build` lokaal draaien.
 2. De **inhoud** van `dist/` uploaden naar de webroot (`public_html/`) — dus
