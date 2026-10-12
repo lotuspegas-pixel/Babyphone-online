@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Eén meta zonder media, en bewust vóór het bootscript hieronder zodat
+         het script hem kan vinden. Het script en de themaschakelaar zetten de
+         waarde, zodat de adresbalk op mobiel ook een handmatige keuze volgt. -->
+    <meta name="theme-color" content="#fbf8f3" />
+    <!-- Thema vóór de eerste verf: blokkerend en inline, bewust vóór de
+         stylesheet. Leest dezelfde sleutel (als JSON) als de app; de try/catch
+         is nodig omdat localStorage in een privévenster kan gooien. Zonder dit
+         script ziet wie op donker staat een lichte flits. -->
+    <script>
+      (function () {
+        var t = null;
+        try {
+          var raw = localStorage.getItem('arcana_theme');
+          t = raw ? JSON.parse(raw) : null;
+        } catch (e) {}
+        var root = document.documentElement;
+        // Zonder keuze is de standaard licht (zie src/lib/arcanaTheme.ts); alleen
+        // een bewaarde "system" volgt het apparaat.
+        if (t !== 'dark' && t !== 'system') t = 'light';
+        if (t !== 'system') root.setAttribute('data-theme', t);
+        var dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', dark ? '#16130f' : '#fbf8f3');
+      })();
+    </script>
+    <!-- Minimale kleurregel vóór de stylesheet, zodat ook de statische
+         #root-inhoud hieronder meteen in het juiste thema staat. Dezelfde
+         waarden als in src/styles/tokens.css. -->
+    <style>
+      :root { color-scheme: light dark; --boot-bg: #fbf8f3; --boot-ink: #241f1a; --boot-ink-soft: #554d44; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) { --boot-bg: #16130f; --boot-ink: #ede5d9; --boot-ink-soft: #c2b7a6; }
+      }
+      :root[data-theme='dark'] { --boot-bg: #16130f; --boot-ink: #ede5d9; --boot-ink-soft: #c2b7a6; }
+      html, body { background: var(--boot-bg); color: var(--boot-ink); }
+    </style>
+    <title>Persoonlijkheidstest die je kunt narekenen | Arcana Profile</title>
+    <meta
+      name="description"
+      content="Gratis, zonder account. 120 vragen, een rapport van 33 hoofdstukken, en bij elke uitspraak het cijfer waar hij uit volgt. Je antwoorden blijven op je apparaat."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Arcana Profile" />
+    <link rel="canonical" href="https://arcanaprofile.com/" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Arcana Profile" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta property="og:title" content="Persoonlijkheidstest die je kunt narekenen | Arcana Profile" />
+    <meta
+      property="og:description"
+      content="120 vragen, 33 hoofdstukken, ruim 5.700 woorden over jou. Elke uitspraak hangt aan een gemeten score. Gratis, zonder account, en je antwoorden blijven op je eigen apparaat."
+    />
+    <meta property="og:url" content="https://arcanaprofile.com/" />
+    <meta property="og:image" content="https://arcanaprofile.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Arcana Profile — een persoonlijkheidstest met een herleidbaar rapport" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Persoonlijkheidstest die je kunt narekenen | Arcana Profile" />
+    <meta
+      name="twitter:description"
+      content="120 vragen, 33 hoofdstukken, ruim 5.700 woorden over jou. Gratis en privé."
+    />
+    <meta name="twitter:image" content="https://arcanaprofile.com/og-image.jpg" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://arcanaprofile.com/#organisatie",
+            "name": "Arcana Profile",
+            "url": "https://arcanaprofile.com/",
+            "logo": "https://arcanaprofile.com/favicon.svg"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://arcanaprofile.com/#website",
+            "url": "https://arcanaprofile.com/",
+            "name": "Arcana Profile",
+            "inLanguage": "nl-NL",
+            "publisher": { "@id": "https://arcanaprofile.com/#organisatie" },
+            "description": "Gratis persoonlijkheidstest van 120 vragen met een uitgebreid, herleidbaar persoonlijk rapport."
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://arcanaprofile.com/#app",
+            "name": "Arcana Profile",
+            "url": "https://arcanaprofile.com/",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "Any",
+            "browserRequirements": "Vereist JavaScript",
+            "isAccessibleForFree": true,
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+            "inLanguage": "nl-NL",
+            "publisher": { "@id": "https://arcanaprofile.com/#organisatie" },
+            "audience": {
+              "@type": "Audience",
+              "audienceType": "Volwassenen die zichzelf willen onderzoeken"
+            },
+            "about": [
+              { "@type": "Thing", "name": "Zelfreflectie" },
+              { "@type": "Thing", "name": "Persoonlijkheid" }
+            ],
+            "dateModified": "2026-09-23",
+            "description": "Arcana Profile is een zelfreflectie-instrument: 120 vragen in vier vraagsoorten worden omgerekend naar 30 eigenschappen en 12 hoofddimensies, en daaruit volgt een persoonlijk rapport van 33 hoofdstukken. Elke uitspraak in het rapport is herleidbaar naar een gemeten score. Alle gegevens blijven in de browser van de gebruiker. Het is geen diagnose- of selectie-instrument.",
+            "featureList": [
+              "120 vragen in vier vraagsoorten",
+              "30 gemeten eigenschappen en 12 hoofddimensies",
+              "Rapport van 33 hoofdstukken en ruim 5.700 woorden",
+              "Scorewiel, sterke punten, valkuilen en spanningsvelden",
+              "Actieplan van vier weken",
+              "Opslaan als PDF, printen of downloaden",
+              "Geen account, geen server: alles blijft lokaal"
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://arcanaprofile.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Hoe lang duurt de test?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ongeveer 20 tot 25 minuten voor 120 vragen. De eerste 72 zijn korte stellingen en gaan het snelst; de laatste 48 zijn afwisselender. Je kunt tussendoor pauzeren: je voortgang blijft in je browser bewaard."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wat kost het?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Niets. Je krijgt het volledige rapport van alle 33 hoofdstukken, zonder betaalmuur en zonder account."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Wat gebeurt er met mijn antwoorden?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Die blijven in de opslag van je eigen browser. Er is geen server waar ze naartoe gaan en geen account waarin ze bewaard worden. Wis je je browsergegevens of klik je op \"Antwoorden wissen\", dan zijn ze definitief weg."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is dit wetenschappelijk gevalideerd?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nee, en dat zeggen we liever eerlijk. Dit is een reflectie-instrument, geen gevalideerde psychologische test. De vragen en berekeningen zijn zorgvuldig opgebouwd en volledig herleidbaar, maar er is geen normgroep en geen validatiestudie."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is dit hetzelfde als MBTI, DISC of Insights?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nee. Die systemen delen je in bij een vast type. Hier wordt per eigenschap een score berekend en staat die score in je rapport; het archetype is niet meer dan een samenvattende leeswijzer daarover. Waar het archetype en je eigen score elkaar tegenspreken, gaat je score voor."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Kan ik dit gebruiken om iemand aan te nemen of te beoordelen?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nee. Het is niet gemaakt of getoetst voor selectie, beoordeling of welke beslissing over iemand anders dan ook. Gebruik het alleen voor jezelf, of samen met iemand die er vrijwillig aan meedoet."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Krijg ik hetzelfde rapport als iemand anders met dezelfde uitslag?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Niet helemaal. De teksten kennen meerdere gelijkwaardige formuleringen, en welke je krijgt hangt af van je specifieke antwoordenpatroon — niet alleen van je scores. Twee mensen met vergelijkbare uitslagen lezen dus niet hetzelfde stuk tekst."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Kan ik mijn rapport bewaren?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ja. Je kunt het opslaan als PDF, printen, of downloaden als tekstbestand. Het staat verder alleen in deze browser, en wij hebben geen kopie. Eén hoofdstuk kun je apart opslaan om door te sturen naar iemand die dichtbij staat."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Waarom is dit gratis? Waar verdienen jullie aan?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nergens aan. Er is geen betaalmuur, geen advertentie, geen nieuwsbrief en geen doorverkoop van gegevens — dat laatste kan ook niet, want er komen geen gegevens bij ons binnen. Dit is gebouwd omdat het gebouwd moest worden."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/index-CS-lk6i-.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-Bh1tDfsg.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-Clmkw7gY.js">
+    <link rel="stylesheet" crossorigin href="/assets/style-CCco_1JQ.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin="" href="/assets/bodoni-moda-600-basis-TnjqLEJn.woff2">
+  </head>
+  <body>
+    <div id="root">
+      <!-- Statische inhoud voor zoekmachines en bezoekers zonder JavaScript;
+           wordt vervangen zodra de app laadt. -->
+      <div style="max-width:640px;margin:0 auto;padding:48px 24px;font-family:Georgia,serif;color:var(--boot-ink)">
+        <h1 style="font-size:2.2rem;margin-bottom:8px">Arcana Profile</h1>
+        <p style="font-size:1.1rem;color:var(--boot-ink-soft)">
+          Een persoonlijkheidstest met een rapport dat zich laat narekenen.
+        </p>
+        <p>
+          Je beantwoordt 120 vragen in vier vraagsoorten. Die worden omgerekend naar scores op 30
+          eigenschappen en 12 hoofddimensies: je innerlijke motor, sociale energie, denkstijl, emotionele
+          gevoeligheid, controle en zekerheid, conflictstijl, zelfbeeld, schaduwkant, relatiepatroon,
+          werkstijl, stressreactie en groeipad.
+        </p>
+        <p>
+          Daaruit volgt een persoonlijk rapport van 33 hoofdstukken en ruim 5.700 woorden, met je sterke
+          punten, je valkuilen, je stresspatroon, je spanningsvelden en een actieplan van vier weken. Elke
+          uitspraak is herleidbaar naar een gemeten score.
+        </p>
+        <p>
+          Gratis, zonder account. Je antwoorden en je rapport blijven in de opslag van je eigen browser en
+          worden niet naar een server gestuurd. Arcana Profile is bedoeld voor zelfreflectie: het is geen
+          medisch of psychologisch diagnose-instrument en niet geschikt voor selectie of beoordeling van
+          anderen.
+        </p>
+        <p><em>De website wordt geladen…</em></p>
+      </div>
+    </div>
+    <noscript>
+      <p style="text-align:center;font-family:sans-serif">
+        Arcana Profile heeft JavaScript nodig om de vragenlijst te draaien. Zet JavaScript aan in je browser.
+      </p>
+    </noscript>
+  </body>
+</html>
