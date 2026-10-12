@@ -38,3 +38,5 @@ arcana-mirror-hostinger/
 # Gegenereerd door scripts/generate-seo-files.mjs bij elke build
 public/robots.txt
 public/sitemap.xml
+*.git-live-index
+.git-live-index

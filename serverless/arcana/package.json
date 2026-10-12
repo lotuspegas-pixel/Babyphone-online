@@ -12,7 +12,8 @@
     "sample": "vitest run --dir src/dev --exclude '' -t 'voorbeeldrapport'",
     "overlap": "vitest run --dir src/dev --exclude '' -t 'tekstoverlap' --reporter=verbose",
     "preview": "vite preview",
-    "check:domains": "node scripts/check-domains.mjs dist"
+    "check:domains": "node scripts/check-domains.mjs dist",
+    "publiceer": "npm run build && node scripts/publiceer.mjs"
   },
   "dependencies": {
     "@pdf-lib/fontkit": "^1.1.1",
